@@ -14,6 +14,7 @@ closed set — more may follow.
 | **Editor's Note** | Regular, Italic | @blkgrlco | **Secondary/supporting thumbnail text** beneath Advercase's headline, confirmed 2026-09-11 — mirrors the TAN Memories/Perfectly Nineties split on @blkgrlcotoo. |
 | **TAN Memories** | Regular, Italic | @blkgrlcotoo | **Thumbnail headline font** (Advercase's role for @blkgrlco), confirmed 2026-09-11. |
 | **Perfectly Nineties** | Regular, Italic | @blkgrlcotoo | Secondary/accent use, confirmed 2026-09-11. |
+| **Eighties Comeback** | 35 weights/widths × Regular+Italic (70 files) | @uglyinbetween | **Thumbnail headline font**, confirmed 2026-09-11 — stated directly as "for uglyinbetween thumbnails." Supersedes Garamond Italic in that specific role only; Garamond Italic/Helvetica Neue Light otherwise still stands. See `brands/uglyinbetween.md`. |
 
 ## Unassigned — in the library, not yet locked to a brand
 

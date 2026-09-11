@@ -87,7 +87,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Editor's Hand** (handwritten captions/quotes only) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
 | @blkgrlcotoo | **TAN Memories** (thumbnail headline font) + **Perfectly Nineties** (secondary/accent), confirmed 2026-09-11 | Fully resolved — no open items on this brand's typography. |
-| @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body) | Pre-existing, locked. |
+| @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body); **thumbnail headline role superseded 2026-09-11 by Eighties Comeback** (stated directly as "for uglyinbetween thumbnails") | Garamond/Helvetica Neue pre-existing, locked. Eighties Comeback replaces the thumbnail-headline role specifically — flagged as a deliberate change to a previously locked font, not silently swapped. |
 
 ## Confirmed brand palettes
 

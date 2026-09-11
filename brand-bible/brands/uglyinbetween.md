@@ -69,6 +69,15 @@ Bible doc's more dramatic style; don't drift back toward that register.
   journals.
 - Palette: deep aubergine `#3A2E39` + faded terracotta `#DDBEA9`.
 - Type: Garamond Italic headlines / Helvetica Neue Light body.
+- **Thumbnail headline font superseded 2026-09-11: Eighties Comeback**
+  (licensed serif, 35 weights/widths × Regular+Italic — files at
+  `assets/fonts/uglyinbetween/EightiesComebackFont/`), stated directly as
+  "for uglyinbetween thumbnails." Replaces Garamond Italic specifically
+  **for thumbnail headlines** — noting the supersession explicitly since
+  Garamond Italic was previously locked for that exact role, rather than
+  silently swapping it. Garamond Italic / Helvetica Neue Light presumably
+  still governs other typographic contexts unless told otherwise — only
+  its thumbnail-headline role is replaced.
 - If a trending thumbnail convention conflicts with this raw B&W aesthetic
   (e.g. a trending bright/saturated style), flag it and let her decide —
   don't quietly override the brand identity to chase what's trending.
