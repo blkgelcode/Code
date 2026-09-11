@@ -135,7 +135,8 @@ palette existed.
 - Aesthetic: clean, minimalistic, contemporary, soft organic shapes.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
   display/title-card type), **Editor's Hand** (handwritten captions/quotes,
-  Regular weight only).
+  Regular weight only). Font files stored at
+  `assets/fonts/blkgrlco/`. Full studio font inventory: `../FONT_LIBRARY.md`.
 - **Confirmed 2026-09-11: Advercase is the thumbnail font.** One font, per
   the studio-wide "no AI thumbnails, pick one font and stay consistent"
   rule — use Advercase for thumbnail headline text going forward, not

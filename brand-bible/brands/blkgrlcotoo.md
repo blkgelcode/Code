@@ -15,6 +15,16 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
   weekday capture window. This is the one BLKGRLCO brand exempt from the
   weekday-opportunistic-capture rhythm that governs the other two.
 
+## Typography
+
+**No font locked yet** — the one remaining visual-identity gap for this
+brand (palette, LUTs, and composition rules are all confirmed). Three
+unassigned fonts in the studio library are plausible candidates — Editor's
+Note (clean editorial serif), Perfectly Nineties (nostalgic serif), and
+Seriously Nostalgic (nostalgic serif, large family with condensed widths)
+— see `../FONT_LIBRARY.md`. Plausible, not confirmed; don't use one for
+production thumbnails until she picks.
+
 ## Visual Identity / Brand Palette
 
 **Locked 2026-09-11** (coolors.co/palette/284376-e58e47-d9d1c7-ca5278-6177a8):
