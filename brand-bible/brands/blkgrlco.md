@@ -140,11 +140,7 @@ voice/persona/content imitation)*
 - See `../../growth/SEO_GUIDE.md` for shared voice rules and title/
   description/hashtag workflow.
 
-## Visual & Content References (2026-09-11, unlabeled — assumed @blkgrlco)
-
-No brand/platform was stated for this batch; assumed @blkgrlco since every
-image maps to one of its lanes/pillars rather than travel or the podcast —
-flagging the assumption rather than silently filing it.
+## Visual & Content References (2026-09-11, confirmed @blkgrlco visual identity)
 
 - **Real content example (HEALTHY lane):** a Stories-style screenshot of a
   home Pilates session with the TV playing the actual "Pilates by Izzy"
