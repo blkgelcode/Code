@@ -1,119 +1,178 @@
-# Style Guide — Visual, Editing, Color, Thumbnail
+# Style Guide — Cross-Brand Editorial Toolkit
 
-This file is built by analyzing real examples (videos, footage, thumbnails,
-graphics you provide) — it is intentionally empty of specifics until that
-happens. Filling it in with invented defaults would make future content
-generic instead of recognizably yours. Each section below defines *what to
-track*; entries get added only from actual examples or your explicit
-approval.
+Editing/visual rules that apply across BLKGRLCO Studios. Brand-specific
+visual identity (palette, type, locked templates, per-series specifics)
+lives in each brand file under `brands/` — this file is the shared toolkit
+underneath all three, not a replacement for them. When a brand file's rule
+conflicts with something general here, the brand file wins for that brand.
 
-## How this gets filled in
-
-When you share an example, the response follows this structure (see
-`agents/AGENTS.md` §"When examples are shared" pattern):
-- **Style observations** — what was detected
-- **Brand rules** — what should become permanent (this file)
-- **Editing rules** / **Visual rules** / **Audio rules** / **Storytelling rules**
-- **What to replicate** — the strongest elements
-- **What to avoid** — elements that weakened it
-- **Confidence** — High / Medium / Low
-
-A rule only gets promoted into this document once, either because you
-approved it explicitly or it showed up consistently across multiple
-examples — never from a single one-off decision.
+A rule gets added here only once approved explicitly or confirmed across
+multiple examples — see `CREATIVE_MEMORY.md` for the corrections/ingestion
+log this is built from.
 
 ---
 
-## Editing Style Bible
+## Documentarian Rule & the Explainer Exception
 
-*Confirmed 2026-09-11 from `source/blkgrlco-editing-standing-rules.md`.*
+The governing philosophy across all three brands: **open mid-action, end
+cold, name the specific activity — never the vague vibe.**
 
-| Attribute | Rule |
+| Rule | Detail |
 |---|---|
-| Overall style | Documentarian: open mid-action, end cold. No filler sign-offs — except "bye bye," which always stays. |
-| Cutting frequency | Every clip in a montage must move the story forward — cut any shot that just sits on a state already shown. |
-| Cut placement (daily vlogs) | Every cut lands on a body movement, never on her repositioning the camera. Check the head of every clip before cutting — she often starts talking 1–2s in; cutting from 0:00 buries the first line in silence. |
-| Use of silence | **Project-dependent, not universal:** talking-head/explainer videos and daily vlogs → cut ALL dead air, ums, false starts, repeated/re-said phrases (keep one clean instance). *The Ugly In Between* → do NOT streamline; keep pauses, sighs, voice cracks — the raw pacing is the point. |
-| Flub-take marker | A take where the transcript shows "lululu" / "la la la" / similar is her in-take flub marker — cut that take. |
-| B-roll placement | Any talking-head segment over 20 seconds needs B-roll cut over it. Routine/step segments hold 2.5–3.5s per shot (sub-second is too fast to read). |
-| Montage content | Show a routine's real steps in order (e.g. opening the bottle → pouring → drinking → taking the meds) — not a generic scene-detection montage. |
-| Transitional footage | **Never cut straight from talking in one location to talking in another** (e.g. house → gym) — that's disconnected clips, not a story. Shoot/cut in the actual transition (walking out, car, driving, arriving). Test: *if you only listened, without watching, could you tell a transition happened?* If not, the transition is missing. Confirmed 2026-09-11 from vlog feedback. |
-| Pattern interrupts | Every 2–3 min in long-form: text pop-ups, quick graphics, humor cards. |
-| Retention structure (long-form) | 3–4 clip "coming up" preview — think **movie trailer**, not a full intro — right after the cold open/title card; mid-video retention tease around 8–10 min; target 12–14 min runtime — past that, needs retention hooks to earn the length. |
-| Openings | Never "hey guys, welcome back" — open on a question, bold statement, or preview of what's coming. Daily vlogs specifically open on "good morning," letting that sentence finish before cutting away. |
-| Personality moments | Keep them — brain freeze, complaining through a workout, reactions. Don't cut for pacing at the expense of these. |
-| Chapters | Always included. |
-| Text/caption style | Bold, plain white captions. No decorative elements (no trend-text, stickers, borders) unless shown in a reference. |
-| Label cards | On every scene change. House style: Arial Rounded Bold ~170pt, RGB(168,177,24), lowercase, centered on a 1920x1080 transparent canvas → `assets/cards/l_<name>.png`. |
+| Sign-off | No filler sign-offs — except "bye bye," which always stays. |
+| Silence — default | **Documentarian rule:** keep pauses, sighs, dead air where they carry emotional truth. |
+| Silence — explainer exception | For pure talking-head/explainer content, cut ALL dead air and streamline hard — a deliberate departure from the documentarian rule, "the best beat of talking videos." |
+| Silence — @uglyinbetween | **Fully exempt from the explainer exception.** Never streamline the podcast's silence — see `brands/uglyinbetween.md`. This is the one brand where the documentarian rule has no exception. |
+| Flub-take marker | A "lululu" sound on camera (may transcribe as "la, la, la") = cut that take. |
+| Montage rule | Every clip in a montage must move the story forward — cut any shot that just sits on a state already shown. |
+| Progression montages | Build in escalating steps, intercut with movement/dance rather than sitting static (e.g. chore montages). |
+| Transitional footage | Never cut straight from talking in one location to talking in another — shoot/cut the actual transition (walking out, car, driving, arriving). Test: *if you only listened, without watching, could you tell a transition happened?* |
 | Music | Chosen before shooting, not added in post. |
-| Sound effects / graphics | Used for pattern interrupts (see above); no other SFX rules confirmed yet. |
-| Reframing | Reframe/center her face in CapCut *after* the LUT is applied — never bake reframing into un-graded footage. |
-| Shorts delivery | Always deliver a Shorts cut under 3:00 alongside the master — a condensed version of the whole vlog, not one segment stretched out. |
-| Skipped footage | Corrupt files and accidental-trigger clips get skipped outright, with the skipped files named in the report. |
-| Speed ramps / slow motion / freeze frames | `[NEEDS INPUT]` — not covered by current standing rules. |
 
-## Color Grading Bible
+## The 7 Narrative Cuts (Tim Runia reference — universal toolkit)
+
+Reference-only until applied to an actual edit. Per-brand fit noted in each
+brand file's "Editorial Frameworks" section.
+
+1. **Flow Cut** — cut on matching motion/direction; makes a cut invisible
+   by continuing movement across it. *(Fits @blkgrlcotoo transit footage.)*
+2. **Smash Cut** — abrupt tonal contrast; gut-punch moment or reset.
+   *(Fits @uglyinbetween, used sparingly.)*
+3. **Jump Cut** — same static angle, rapid cuts trimming dead air, synced
+   to music beats.
+4. **Action Cut** — cut hidden inside ongoing physical motion; nearly
+   invisible.
+5. **Wide → Medium → Close** — shot-size hierarchy, establish then narrow
+   focus. *(Standard for @blkgrlcotoo's new-location establishing shots.)*
+6. **Match Cut** — visual symmetry between two different shots, a
+   poetic/thematic link. *(Fits @uglyinbetween's surface-vs-underneath
+   thesis.)*
+7. **Rhythm/Speed Shifts** — alternate rapid-fire short cuts with long
+   lingering shots to modulate emotional tension. *(Fits @uglyinbetween.)*
+
+Supporting production details (secondary, for later title-card graphics):
+- Chapter/section title cards: bold sans-serif, warm color-blocked
+  background, quick zoom-in + lens-blur pop, paired with a deep
+  whoosh/bass-hit sound.
+- Every cut style pairs with a distinct SFX (film-reel clack for montages,
+  paper-swoosh for graphic pop-ins, an abrupt full-silence cut for the
+  Smash Cut, rhythmic taps synced to percussion for Jump Cuts).
+- Subtle 8–10% punch-in zooms on talking-head footage during key emphasis
+  lines — a lighter-weight alternative to a full angle change, worth
+  considering for explainer segments.
+
+## Graphics / Pop-Up / SFX Reference (Yale Jeannette — reference only, not yet applied)
+
+**Fit:** @blkgrlco and @blkgrlcotoo shorts/explainer-style content.
+**Not a fit:** @uglyinbetween — opposite of its one-take documentarian rule.
+Nothing here is locked in yet; flag when ready to actually build a
+BLKGRLCO-specific graphic pack, and build it in the relevant brand's own
+palette, not Yale's beige/brown.
+
+Her visual style (technique reference only, not to copy 1:1): warm neutral
+palette (cream/ivory/butter yellow/caramel/espresso/white); font stack of
+bold rounded display + script accent + handwritten secondary + clean sans
+body. Recurring frames: Mac Finder/desktop UI, Photo Booth window, camcorder
+viewfinder ([REC]/battery icon/corner brackets), retro digital camera
+viewfinder, receipt-printer graphic, notebook/grid-paper elements, retro
+film-grain border.
+
+**Transferable pop-up/graphic techniques:**
+1. Staggered word pop-ups — words land one at a time in sync with speech,
+   each with a pop/snap sound. CapCut: text layer per word/phrase, "Pop
+   Up"/"Zoom In" in-animation at 0.1–0.2s, timed to voice.
+2. App-notification-style card — small UI card slides/pops onto frame with
+   a whoosh.
+3. Object dispensed into frame — static graphic on top layer, content layer
+   masked behind and keyframed to slide out over 1–2s.
+4. Framed cutout window — talking-head/screen-recording footage on one
+   track, frame graphic with transparent cutout on track above.
+5. Section-divider title cards — background graphic + centered bold title +
+   small decorative icons, marks chapter changes.
+
+**SFX logic (worth adopting regardless of visual style):**
+- Every on-screen text pop gets a pop/click/tap sound — never silent.
+- Camera-shutter/flash sound on snapshot-style cuts or freeze-frames.
+- Paper-tear sound specifically for a wipe transition.
+- Soft whoosh on fast slides, zooms, or panel reveals.
+- Mouse-click sound on any mock-UI interaction.
+- Rule of thumb: **no graphic or transition should be silent.**
+
+**Transitions:** paper-tear wipe (center-out); jump cut + punch zoom
+(110–120% snap on key phrase); smooth ease-in zoom toward cursor during
+screen recordings; white flash/snap on screenshot or camera-switch moments.
+
+**Workflow to replicate:** design overlays/cards/frames in Canva at
+1920×1080 (or 1080×1920 vertical), export as transparent PNGs. Layer:
+bottom = main footage/background pattern; middle = cutout subject/screen
+recording; top = transparent graphic/text overlays. Pacing rule: a visual
+change roughly every 3–5 seconds. Every graphic entrance gets a matching
+low-volume SFX.
+
+## Technical & Delivery Specs (default across brands, unless a brand's own file overrides)
 
 | Attribute | Rule |
 |---|---|
-| Camera / codec | DJI Osmo Pocket 3, shot in D-Log M. |
-| LUT | Apply "DJI OSMO Pocket 3 D-Log M to Rec.709" — **do not trust the file's own tag**, DJI mis-tags D-Log M footage as bt709. |
+| Camera / codec | DJI Osmo Pocket 3, D-Log M. |
+| LUT | Apply "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage. |
-| Exposure / Contrast / Highlights / Shadows / Saturation / Palette / Mood | `[NEEDS INPUT]` — not specified beyond the LUT itself; any further look is an **approximation** until confirmed against a graded reference clip. |
-| Skin-tone treatment | Priority: natural, never distorted — standard rule, not project-specific. |
-
-## Delivery & Technical Specs
-
-| Attribute | Rule |
-|---|---|
 | Frame / aspect | True vertical 1080x1920. Never pillarboxed landscape. |
 | Editor | CapCut (primary). |
-| Broken/unimportable footage | Drop into a Canva design, export back out as MP4 — the re-encode fixes files that fail direct import/transcription. |
+| Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 — fixes files that fail direct import/transcription. |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video. |
-| Storage — secondary | Google Drive (backup only — large-file downloads stall, T7 is the reliable path). |
+| Storage — secondary | Google Drive (backup only). |
+| Skin-tone treatment | Natural, never distorted. Standard rule, not project-specific. |
+| Exposure/contrast/highlights/shadows/saturation/mood beyond the LUT | `[NEEDS INPUT]` — approximation only until confirmed against a graded reference clip. |
 
-## Thumbnail Style Rules
+`@uglyinbetween` has its own production approach (one-take, minimal music,
+batch-record, same outfit for continuity) — see `brands/uglyinbetween.md`;
+the vertical/LUT specs above describe the other two brands' shooting style,
+not necessarily the podcast's.
 
-Two confirmed rules, from vlog feedback (2026-09-11): **titles must be
-specific and viewer-focused, not generic**, and:
+## Thumbnail Workflow (all brands)
 
-> **No AI-generated thumbnails.** Even AI thumbnails that "don't look
-> terrible" are recognizable as AI-made, and cost clicks from viewers who
-> notice and skip them on sight.
+Two required inputs before starting: (1) what the video is actually about,
+(2) reference examples for the style to emulate. Don't skip either.
 
-| Attribute | Rule |
-|---|---|
-| Thumbnail creation method | Hand-designed, not AI-generated. Non-negotiable. |
-| Typography (font/size/placement) | Pick **one font** and stick to it across thumbnails; format consistently rather than varying per video. Let the look evolve deliberately over time, not video-to-video. Exact font/size/placement: `[NEEDS INPUT]`. |
-| Typical facial expression range | `[NEEDS INPUT]` |
-| Composition pattern | `[NEEDS INPUT]` |
-| Max word count | `[NEEDS INPUT]` — recommend ≤4 words as a starting default |
-| Color treatment | `[NEEDS INPUT]` |
-| Recurring props/backgrounds | `[NEEDS INPUT]` |
-| Shot planning | Shots needed for the thumbnail should be decided **before filming**, alongside the shot list — not found/cropped after the fact. |
+1. **Research the topic** — what's working right now for this specific
+   niche (not generic "good thumbnail" advice); if the video is about a
+   real place/event/thing, research it for accuracy; note what's overused
+   in the niche.
+2. **Study her reference examples** — extract mechanics (composition,
+   color grading/contrast, text treatment, facial expression style, focal
+   object beyond the face). Name back what's being pulled from the
+   reference before using it.
+3. **Match to brand visual identity** (see the relevant `brands/*.md` for
+   palette/motifs). If a trending convention conflicts with a brand's
+   locked visual identity, flag it and let her decide — don't quietly
+   override.
+4. **Composition rules:** face centered and clearly readable at small
+   size; every element earns its place, no clutter; don't duplicate the
+   video's title phrase on the thumbnail — split the information.
+5. **Technical specs:** YouTube 1280×720; TikTok/IG cover matches vertical
+   1080×1920 delivery. Check legibility at actual small/mobile scale
+   before calling it done.
 
-## Templates & Formats — governing rule
+**Non-negotiable (confirmed 2026-09-11):** no AI-generated thumbnails —
+even ones that "don't look terrible" read as AI-made and cost clicks. Pick
+one font per brand and stay consistent; let the look evolve deliberately,
+not per-video. Shots needed for the thumbnail get decided before filming,
+alongside the shot list.
 
-**Match the reference example exactly.** No improvised structural or
-decorative elements (trend-text, stickers, borders) unless they appear in
-the reference. If a format hasn't been shown yet, ask for the reference
-first rather than guessing — this applies to every visual agent (Thumbnail,
-Video Editor, Color Grading), not just one template.
+**Title/thumbnail split rule (all brands):** the two assets never spend
+themselves on the same phrase — split the hook so each carries a different
+piece (e.g. thumbnail: "NOT A VISION BOARD" full-width type → title: "Hot.
+Healthy. Happy. My Actual 90-Day Plan").
 
-### Locked template: Vertical Daily-Vlog Grid
-4-panel edge-to-edge stacked timestamp grid (6AM / 12PM / 6PM / 10PM), bold
-plain white captions, no decorative elements.
+Workflow: get topic/brand/series → research topic + study references →
+propose 2–3 concept directions in words first → flag any conflicts →
+produce at correct spec.
 
-## Brand Signature Elements (recognizable without seeing the username)
+## Where brand-specific detail lives instead of here
 
-| Element | Rule |
-|---|---|
-| Intro style | `[NEEDS INPUT]` |
-| Outro style | `[NEEDS INPUT]` |
-| Catchphrases | `[NEEDS INPUT]` |
-| Recurring transitions | `[NEEDS INPUT]` |
-| Fonts | `[NEEDS INPUT]` |
-| Colors | `[NEEDS INPUT]` |
-| Recurring sound effects / music cues | `[NEEDS INPUT]` |
-| Caption style | `[NEEDS INPUT]` |
-| Thumbnail composition pattern | `[NEEDS INPUT]` |
+- @blkgrlco's daily-vlog editing standard, label-card spec, and locked
+  4-panel grid template → `brands/blkgrlco.md`.
+- @blkgrlcotoo's palette policy (ask per-trip, don't invent) →
+  `brands/blkgrlcotoo.md`.
+- @uglyinbetween's full visual identity (B&W portraiture, aubergine/
+  terracotta palette, Garamond/Helvetica type) → `brands/uglyinbetween.md`.

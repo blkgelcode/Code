@@ -1,39 +1,47 @@
 # Monetization Strategy
 
-Built with long-term audience trust as the constraint, not an afterthought.
-Monetization never overrides brand identity or audience trust.
+## Status: not an active priority (confirmed 2026-09)
 
-## Revenue stream candidates
+A monetization target ("monetized on YouTube by Feb 2027") was briefly set
+in 2026-09 and dropped the same day, after the real gap became clear (120
+subs / 28 minutes of watch time vs. the 1,000 subs / 8,000 watch-hour
+threshold). The studio's actual goal is consistency, storytelling craft,
+and making content she loves — chasing that number was judged a distraction
+from becoming a better, more consistent creator. See
+`../brand-bible/BRAND_BIBLE.md` §9.
+
+**Do not resurrect monetization as an active target or steer content,
+format, or cadence decisions toward it unless Omnia explicitly asks.** This
+file stays as reference material for if/when that changes — it is not a
+current plan.
+
+## Revenue stream candidates (reference only, not active)
 
 | Stream | Fit notes |
 |---|---|
-| Ad revenue | Passive, scales with reach; low trust risk. |
-| Sponsorships / brand partnerships | Screen every offer against brand-fit filter below before accepting. |
+| Ad revenue | Passive, scales with reach; low trust risk. Currently far from platform thresholds on @blkgrlco; @blkgrlcotoo and @uglyinbetween have no posting history yet. |
+| Sponsorships / brand partnerships | Screen every offer against the brand-fit filter below before accepting, whenever this becomes relevant. |
 | Affiliate marketing | Only for products genuinely used/endorsed. |
-| Digital products | Natural once Authority/Education content pillar has proven demand. |
-| Services | Fits if the brand's expertise is the product. |
-| Memberships / community | Fits once a Community funnel stage exists with real engagement. |
-| Merchandise | Fits once brand signature elements (Style Guide) are established enough to put on a product. |
+| Digital products | Would fit @blkgrlco once its Authority/Education content has proven organic demand. |
+| Services | Fits if her expertise (documentarian storytelling, personal-growth framework) becomes the product. |
+| Memberships / community | Would fit once a real engaged community exists. |
+| Merchandise | Would fit once brand signature visual elements are more established across the three brands. |
 
-`[NEEDS INPUT]` — which of these are actually relevant depends on the niche
-and stage; this table is a menu, not a plan, until the brand basics are set.
+## Brand-fit filter for sponsorships (apply if/when this becomes relevant)
 
-## Brand-fit filter for sponsorships
-
-Before accepting any partnership, check:
-1. Does this align with the audience's actual interests/problems (Brand
-   Bible §2)?
+1. Does this align with the audience's actual interests/problems?
 2. Does it fit brand values/voice, or would it feel like an ad break?
 3. Would this specific piece of content still get made if there were no
    sponsor?
 4. Is the disclosure clear and honest?
 
-If any of these fail, flag it rather than proceeding — a short-term deal
-that costs audience trust is a bad trade against the sustainable-growth
-objective.
+If any of these fail, flag it rather than proceeding.
 
-## Sequencing
+## Sustainability philosophy (from the growth reference material, applies regardless of monetization timing)
 
-Monetization opportunities should follow proven content-pillar demand, not
-lead it — building an audience first, then monetizing what they've already
-shown they want, keeps the trust intact.
+Don't change what you talk about — evolve how you talk about it. Connect at
+a human level rather than from "authority." Platform-value tension noted
+for later reference: YouTube > Instagram > TikTok for monetization value,
+per the studio's "Let's Get Monetized" reference doc — relevant to
+@blkgrlco specifically (the channel with real history), not yet actioned
+for the other two brands.

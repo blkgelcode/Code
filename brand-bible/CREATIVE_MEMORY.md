@@ -14,7 +14,8 @@ Otherwise it stays logged here as project-specific context.
 ## Source documents ingested
 | Date | Document | Status |
 |---|---|---|
-| 2026-09-11 | `source/blkgrlco-editing-standing-rules.md` (BLKGRLCO Studios editing standing rules) | Merged as approved rules — see `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `BRAND_BIBLE.md` §1/§3, `agents/PRODUCTION_WORKFLOW.md`. Provided directly as standing rules, not inferred, so treated as permanent rather than tentative. |
+| 2026-09-11 | `source/blkgrlco-editing-standing-rules.md` (BLKGRLCO Studios editing standing rules) | Merged as approved rules — now scoped to `brand-bible/brands/blkgrlco.md` (daily-vlog editing standard) and `STYLE_GUIDE.md` (cross-brand technical specs). Superseded the earlier single-brand model of this repo — BLKGRLCO Studios is three brands, not one; see below. |
+| 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 
 ## Corrections log
 *(mistake → correction → date. Referenced before every new piece of content so it isn't repeated.)*
@@ -53,6 +54,23 @@ doesn't always script the voiceover beforehand — writes it after, to match
 what was actually shot; deliberately leaves some stretches un-narrated
 (ambiance/ASMR) rather than voicing over everything. Medium confidence —
 watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
+
+## Retired — never use again
+
+| Retired name/term | Replaced by | Brand |
+|---|---|---|
+| "The Becoming" | HOTTER, HEALTHIER, HAPPIER (HHH) | @blkgrlco |
+| "Young Hot & Outside" | "Young & Outside in [Location]" | @blkgrlcotoo |
+| "Fuck It Book It" / "STAMPED" | "Young & Outside in [Location]" (via "Young Hot & Outside") | @blkgrlcotoo |
+| "comment your own rule" (CTA) | "make your own Pin Board" | @blkgrlco (90-Day HHH Run) |
+| #stamped, #fuckitbookit, #younghotandoutside (hashtags) | current brand/series hashtags | @blkgrlcotoo |
+
+## Scrapped decisions (kept for context — do not resurrect without her explicit ask)
+
+- **"Monetized on YouTube by Feb 2027"** — set 2026-09, scrapped the same
+  day after seeing the real gap (120 subs / 28 min watch time vs. 1,000
+  subs / 8,000 watch-hours). Replaced by: consistency, craft, content she
+  loves is the actual goal. See `BRAND_BIBLE.md` §9.
 
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |

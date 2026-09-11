@@ -4,6 +4,13 @@ Copy this template each week once there's enough published content and
 analytics history to fill it with real findings (not before — an empty
 report with invented numbers is worse than no report).
 
+**Framing:** this feeds the Sunday "reflect" step of the Plan → Film → Edit
+→ Upload → Reflect pipeline. The studio's actual goal is consistency and
+craft, not growth (`../brand-bible/BRAND_BIBLE.md` §9) — so read every
+section below as creative feedback, not a growth scorecard. "Worst
+performing" is about what to improve creatively, not what to cut for
+underperforming.
+
 Date range: `[YYYY-MM-DD]` to `[YYYY-MM-DD]`
 
 1. **Best-performing content** — what, and by which metric

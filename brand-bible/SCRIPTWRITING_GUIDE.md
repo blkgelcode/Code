@@ -1,50 +1,48 @@
 # Scriptwriting Guide
 
-Governs every script the Scriptwriting Agent produces. Defers to Voice/Tone
-in `brand-bible/BRAND_BIBLE.md` §1.
+Cross-brand voice rules. Each brand also has its own voice specifics — see
+the link-out table at the bottom.
 
-## Non-negotiables
+## Non-negotiables (all brands)
 
-- Sounds like a real person talking, not generic AI copy or a corporate brand
-  (unless a specific piece explicitly calls for a more formal register).
-- Conversational language, no unnecessary filler.
+- Concrete and countable over vague. "3 workouts this week," not "getting
+  healthier." If a specific number/detail is genuinely hers to supply and
+  it's not available, leave a flagged blank — don't invent a placeholder
+  stat.
+- No filler, no generic creator-speak ("you won't believe," "this changed
+  my life," "must watch"). If a line could be pasted under anyone's video,
+  cut it.
+- Comfortable with real, specific personal detail — don't sanitize it into
+  something vaguer for "broad appeal." The honesty is the point.
 - Every section has a purpose — cut anything that doesn't earn its place.
-- CTA is natural, tied to what the viewer just got value from — not bolted on.
-- **Opens:** never "hey guys, welcome back." Open on a question, a bold
-  statement, or a preview of what's coming — mid-action, documentarian
-  style. Daily vlogs specifically open on "good morning."
-- **Closes:** end cold, no filler sign-off — except "bye bye," which always
-  stays. It's the one warmth beat kept in an otherwise no-filler style.
-- **Titles:** specific and viewer-focused, never generic.
+- CTA is natural, tied to what the viewer just got value from.
+- Flag it rather than resolve it if a line would contradict something
+  already locked (a title convention, a CTA, a series name) — don't
+  quietly pick a side.
+
+## Opens & closes (documentarian rule)
+
+- Never "hey guys, welcome back." Open on a question, a bold statement, or
+  a preview of what's coming — mid-action, documentarian style.
+- @blkgrlco daily vlogs specifically open on "good morning," letting that
+  sentence finish before cutting away.
+- End cold, no filler sign-off — except "bye bye," which always stays.
+- Titles: specific and viewer-focused, never generic.
 - Long-form talking-head sections get trimmed to essentials — the audience
-  wants the chaos/payoff, not the full logistics.
+  wants the payoff, not the full logistics.
 
-*Confirmed 2026-09-11 from `source/blkgrlco-editing-standing-rules.md`.*
+## Per-brand voice
 
-## Long-form structure
+| Brand | Voice specifics | Full detail |
+|---|---|---|
+| @blkgrlco | Empowering, authentic, aspirational; warm/relatable/inspiring tone. Locked opener style: declarative present-tense ("I'm hot... so I need to beautymaxx") — echo where it fits naturally, don't force it into every line. | `brands/blkgrlco.md` |
+| @blkgrlcotoo | No dedicated voice doc yet beyond the shared rules above — inherits studio defaults. | `brands/blkgrlcotoo.md` |
+| @uglyinbetween | **Friend-talking-to-a-friend — not therapist-voice, not authoritative, not overwritten/literary.** This is a deliberate correction away from the original Bible doc's more dramatic style; don't drift back toward it. | `brands/uglyinbetween.md` |
 
-Cold open → Hook → Context → Problem → Story → Escalation → Key information
-→ Pattern interrupt(s) → Payoff → Conclusion → CTA.
+## How this system talks to her (not to the audience — to Omnia directly)
 
-Retention tools to use deliberately, not by default: curiosity, open loops
-with payoffs, pattern interrupts, emotional connection, natural pacing.
-
-## Deliverable alongside every script
-
-- Suggested B-roll
-- On-screen text
-- Visuals
-- Sound effects
-- Music changes
-- Zooms / camera changes
-- Graphics
-- Screen recordings
-- Archival footage
-- Transitions
-
-## What's known about voice so far
-
-`[NEEDS INPUT]` — nothing yet. Once 2–3 real scripts or transcripts are
-shared, this section gets populated with actual phrasing patterns,
-sentence-length tendencies, recurring words/phrases to use, and words/phrases
-to avoid — pulled from your material, not invented.
+- Short and direct, no preamble.
+- Given a one-line correction, apply it exactly and move on — don't
+  re-explain the change back.
+- If new copy conflicts with a locked decision, say so and let her decide
+  rather than silently picking a side.

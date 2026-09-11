@@ -1,111 +1,157 @@
-# Brand Bible
+# Brand Bible — BLKGRLCO Studios
 
-Source of truth for identity, audience, and content pillars. Every other
-guide in this repo defers to this one. Update this file only when a pattern
-is confirmed across multiple examples, or you explicitly approve a rule —
-never from a single one-off decision (see `CREATIVE_MEMORY.md`).
+Studio-level source of truth. Covers the creator, cross-brand identity,
+production reality, tools, and the studio's actual goal. Each of the three
+brands has its own file with brand-specific identity, series, visuals, and
+SEO — this file is the shared layer underneath all three, not a replacement
+for them.
 
-Status legend: `[NEEDS INPUT]` = no real information yet, placeholder only.
-`[ASSUMPTION]` = a reasonable default that should be confirmed or overridden.
+Status legend: `[NEEDS INPUT]` = still genuinely unknown. `[ASSUMPTION]` = a
+default that should be confirmed. Everything else below is confirmed from
+source material (see `source/`), ingested 2026-09-11.
 
 ---
 
-## 1. Brand Identity
+## 1. Studio & Creator
 
 | Field | Value |
 |---|---|
-| Brand name | BLKGRLCO Studios |
-| Mission | `[NEEDS INPUT]` — what change do you want to make in your audience's life? |
-| Vision | `[NEEDS INPUT]` — what does this brand look like at scale? |
-| Values | Authenticity over polish; real detail over production value |
-| Personality | Documentarian, raw, unfiltered — confirmed from editing standing rules |
-| Voice | `[NEEDS INPUT]` for spoken/written voice specifics — pending script/transcript examples |
-| Tone | Flexes by series: streamlined/high-energy for talking-head & daily vlogs, deliberately raw/unproduced for *The Ugly In Between* |
-| Point of view | Real, specific detail beats production polish; the audience wants the chaos/payoff, not the full logistics |
-| Brand promise | `[NEEDS INPUT]` |
-| Unique signature | "Bye bye" as a fixed, kept sign-off — the one non-negotiable warmth beat in an otherwise no-filler documentarian style |
-| What makes this different | `[NEEDS INPUT]` — vs. the 3–5 closest competitors/creators |
+| Studio name | BLKGRLCO Studios |
+| Creator | Omnia Koumi |
+| Day job | Gate/customer service/cargo agent, United Ground Express, MEM (Memphis Airport). Mon–Fri 3pm–12am — shapes both scheduling and content (gate agent shifts, standby travel). |
+| Background | Prior hospitality: river cruising (Viking, American Queen), Alaska expedition work (UnCruise). |
+| Creative self-identity | Documentarian. |
+| Core rule, every channel | Open mid-action, end cold, name the specific activity — never the vague vibe. Authenticity and specificity over polish. |
 
-*Confirmed 2026-09-11 from `brand-bible/source/blkgrlco-editing-standing-rules.md` — these are standing rules provided directly, not inferred, so they're merged as approved rather than tentative. See that file for the full source.*
+## 2. The Three Brands
 
-## 2. Audience
+One creator, three distinct brands — each with its own audience, voice, and
+visual identity. Don't average them into one generic "BLKGRLCO style."
 
-### Primary audience
-- Age range: `[NEEDS INPUT]`
-- Interests: `[NEEDS INPUT]`
-- Problems / pain points: `[NEEDS INPUT]`
-- Desires / aspirations: `[NEEDS INPUT]`
-- Questions they're asking: `[NEEDS INPUT]`
-- Objections (why they'd hesitate to trust/follow you): `[NEEDS INPUT]`
-- Emotional triggers: `[NEEDS INPUT]`
-- Content they already consume: `[NEEDS INPUT]`
-- Creators they already follow: `[NEEDS INPUT]`
-- Language they naturally use (their words, not marketing words): `[NEEDS INPUT]`
+| Brand | Handle | Format | Full detail |
+|---|---|---|---|
+| Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form | `brands/blkgrlco.md` |
+| Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming | `brands/blkgrlcotoo.md` |
+| The Ugly In Between | @uglyinbetween | Podcast, one-take documentarian | `brands/uglyinbetween.md` |
 
-### Secondary audience
-`[NEEDS INPUT]`
+**Confirm brand + platform before producing anything** — pillars, voice,
+hashtag tiers, and title conventions all differ by brand.
 
-**Rule:** these profiles must be built from actual audience behavior
-(comments, DMs, analytics, search data) as it becomes available — not
-assumed demographics. Until real data exists, any persona work here is
-a hypothesis to be tested, not a fact.
+## 3. Cross-Brand Identity (from @blkgrlco's brand identity doc — applies as the studio's foundational ethos, most directly to @blkgrlco)
 
-**Confirmed insight (2026-09-11, vlog feedback):** viewers increasingly
-favor vlogs built around one central, focused topic over broad, unfocused
-ones — reinforces the pillar structure in §3 over open-ended daily "yapping."
+| Field | Value |
+|---|---|
+| Mission | Celebrate the resilience, creativity, and self-discovery of Black women; empower intentional living through community connection, mental wellness, and a balanced life. |
+| Motto | Be Free, Be Kind, Be Well. |
+| Core values | Resilience, Intentional Living, Self-Care, Creativity, Community Connection, Kindness, Authenticity. |
+| Voice | Empowering, authentic, aspirational. |
+| Tone | Warm, relatable, inspiring — storytelling, connection, reflection. |
 
-## 3. Content Pillars
+## 4. Audience
 
-Four recurring series are confirmed from the editing standing rules; pillar
-strategy fields beyond format/pacing still need input.
+| Field | Value |
+|---|---|
+| Demographic | Black women, ages 25–40. |
+| Priorities | Personal growth, intentional living, self-care, exploration. |
+| Psychographic | Creative professionals, entrepreneurs, community-focused individuals seeking empowerment, authenticity, adventure. |
 
-### Pillar: Daily Vlogs
-- **Format:** vertical 1080x1920, routine/day-in-the-life
-- **Recurring series:** locked 4-panel timestamp-grid template (6AM/12PM/6PM/10PM)
-- **Editing standard:** set on "vlog four" — see `STYLE_GUIDE.md`
-- **Purpose / target audience / monetization:** `[NEEDS INPUT]`
+This is confirmed for @blkgrlco specifically (its brand identity doc's
+stated target). @blkgrlcotoo and @uglyinbetween don't have their own stated
+demographic yet — reasonable to assume overlap given one creator, but not
+confirmed; don't presume identical targeting without checking.
 
-### Pillar: 90-Day HHH Run
-- **Format:** vertical, challenge/series structure
-- **Reference standard:** "Day1of90" — later days match its cut/pacing
-- **Purpose / topic categories / what "HHH" stands for:** `[NEEDS INPUT]` — don't guess at the acronym or the challenge's premise, ask directly
+## 5. Cross-Brand Creative Philosophy
 
-### Pillar: The Ugly In Between
-- **Format:** raw, deliberately unproduced pacing — pauses, sighs, voice cracks kept in
-- **Purpose:** vulnerability/authenticity, explicit exception to the "cut all dead air" rule elsewhere
-- **Target audience / topic categories:** `[NEEDS INPUT]`
+- Open mid-action, end cold, no filler sign-offs — except "bye bye," which
+  always stays.
+- Music chosen before shooting, not added in post.
+- Prioritize specific, real detail over production polish.
+- Comfortable with real, specific personal detail — don't sanitize for
+  "broad appeal." The honesty is the point.
+- Every clip in a montage must move the story forward — cut any shot that
+  just sits on a state already shown.
+- Full editing/visual toolkit (documentarian rule, explainer exception, the
+  7 Narrative Cuts, graphics/SFX reference, per-brand fit) lives in
+  `STYLE_GUIDE.md`.
 
-### Pillar: Long-form YouTube Vlogs / Talking-head Explainers
-- **Format:** 12–14 min target runtime, retention-hook-driven pacing, chapters always
-- **Purpose:** `[NEEDS INPUT]` — but audience appetite is confirmed as "chaos/payoff," not full logistics
-- **Topic categories / search opportunities:** `[NEEDS INPUT]`
+## 6. Production Reality
 
-**Rule:** content ideas that don't map to one of these pillars get flagged by
-the Content Strategist agent rather than produced by default — this is what
-keeps the calendar from becoming random. New pillars only get added here
-once a format is actually shown, not guessed at (per the standing "ask for
-the reference first" rule).
+- Solo creator, full-time job Mon–Fri 3pm–12am.
+- Weekday mornings = opportunistic capture only.
+- Saturday = batch film day.
+- Sunday = edit/upload/reflect/plan.
+- @blkgrlcotoo (travel) is the one exception — filmed only on vacation
+  days/weekends off, never squeezed into the weekday rhythm.
+- Pipeline: **Plan → Film → Edit → Upload → Reflect** (full detail,
+  shot-list framework, and scene structure in
+  `../agents/PRODUCTION_WORKFLOW.md`).
+
+## 7. System of Record
+
+- **Notion** — Studios Hub (one page per channel), Content Calendar DB,
+  Idea Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
+  `3c77c3ea-6a8c-81bd-aabb-cb4244d033d3`.
+- **Samsung T7 SSD** — raw footage, `project hhh` folder, one subfolder
+  per video. The reliable path.
+- **Google Drive** — backup/transfer only; chokes on large files.
+
+## 8. Connected Tools & Publishing
+
+- **Metricool** — connected to @blkgrlco (Instagram, Pinterest, TikTok,
+  YouTube). The account with real posting history and real analytics.
+- **vidIQ** — connected to @blkgrlcotoo's YouTube (brand new, no content
+  yet as of last check) — usable for general/competitor research, not yet
+  for own-channel analytics.
+- **Nothing auto-publishes.** Every script, edit, caption, thumbnail, and
+  scheduled post — including anything queued in Metricool — goes through
+  Omnia for approval before it goes out.
+- No live YouTube algorithm/analytics access exists in this toolkit —
+  research is grounded in live web search only; say so rather than
+  overclaiming.
+- Competitor benchmarking: no fixed list — find comparable creators in
+  personal-development / travel / healing-podcast spaces as needed.
+
+## 9. Studio-Level Goal — read this before making any strategy recommendation
+
+**The actual goal is consistency, storytelling craft, and putting out
+content she loves — regardless of analytics performance. Not subs,
+watch-hours, or monetization.**
+
+A monetization target ("monetized on YouTube by Feb 2027") was briefly set
+2026-09 and dropped the same day, after the real gap became clear (120
+subs / 28 min watch time vs. the 1,000 subs / 8,000 watch-hour bar).
+Chasing that number was judged a distraction from becoming a better, more
+consistent creator. **Do not resurrect this as an active target or steer
+content decisions toward it** — kept here as context only.
+
+Practical implication: format/cadence/topic decisions optimize for creative
+quality and consistency, not CTR, watch-hour accumulation, or monetization
+thresholds. See `../growth/MONETIZATION_STRATEGY.md` and
+`../growth/ANALYTICS_SYSTEM.md` — both are written around this constraint.
+
+## 10. How This System Talks to Her
+
+- Short and direct, no preamble.
+- Given a one-line correction, apply it exactly and move on — don't
+  re-explain the change back.
+- Flag contradictions with a locked brand/visual/naming decision rather
+  than silently resolving them — let her decide.
 
 ---
 
-## Open questions (highest-value, ask once)
+## Open questions
 
-Editing/production rules are now confirmed (see `STYLE_GUIDE.md` and
-`agents/PRODUCTION_WORKFLOW.md`). What's still missing is the strategy layer
-— why each pillar exists and who it's for — which editing rules alone can't
-answer:
-
-1. **What is "HHH"?** — the 90-Day HHH Run and the T7 folder naming
-   ("project hhh") both use this, but the premise/meaning isn't stated
-   anywhere in the standing rules. Needed before that pillar's purpose/audience
-   can be filled in.
-2. **Platform priority** — daily vlogs and the 90-Day Run are vertical
-   (TikTok/Reels/Shorts-shaped); long-form is YouTube. Is YouTube + one
-   short-form platform the actual priority, or are all of them active?
-3. **Examples of thumbnails, titles, or scripts/transcripts** — the editing
-   rules cover cut/pacing/visual style thoroughly but say nothing about
-   spoken voice, thumbnails, or SEO — those sections are still generic.
-4. **Competitors** — 3–5 creators/brands you're positioned against or
-   inspired by, and what you want to do differently from them.
-5. **Monetization priority** — is this brand-building first (audience before
-   revenue), or does it need to monetize on a specific timeline?
+1. **"Travel" as a pillar vs. @blkgrlcotoo as its own brand** — the
+   @blkgrlco brand-identity doc lists Travel as one of @blkgrlco's own four
+   content pillars, while @blkgrlcotoo exists as a fully separate travel
+   brand. Not resolved as a conflict yet (see `brands/blkgrlco.md`) — worth
+   confirming whether that pillar line is stale or intentional overlap.
+2. **@blkgrlcotoo / @uglyinbetween audience specifics** — only @blkgrlco
+   has a stated demographic/psychographic; the other two brands' audience
+   profiles are inferred, not confirmed.
+3. **@blkgrlcotoo visual palette** — explicitly not locked yet; per brand
+   file, ask per-trip rather than default to a generic look.
+4. **Competitor list** — no fixed creators named for any of the three
+   brands yet.
+5. **"Aurelia Gray" / "Rachel McDermott"** — aesthetic references used for
+   @blkgrlco with unconfirmed real handles.

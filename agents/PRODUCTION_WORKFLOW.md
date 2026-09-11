@@ -65,22 +65,60 @@ once without a stated strategic reason.
 Score each candidate idea 1–5 on: audience relevance, demand, search
 opportunity, trend potential, originality, competition level (lower is
 better), story potential, retention potential, production difficulty (lower
-is better), monetization potential, brand alignment. State the total and the
-reasoning — this is a decision aid, not a hard cutoff.
+is better), and brand alignment. State the total and the reasoning — this
+is a decision aid, not a hard cutoff.
 
-## Technical & storage notes (BLKGRLCO)
+**Deliberately excludes monetization potential** — the studio's actual goal
+is consistency and craft, not growth/revenue (see
+`brand-bible/BRAND_BIBLE.md` §9). Weighting ideas by monetization potential
+would work against that on every decision, not just the big ones.
 
+## Shot-list framework (BLKGRLCO Studios)
+
+Shorthand: **EW** (Establishing Wide), **WS** (Wide Shot), **MS** (Medium
+Shot), **CU** (Close Up), **AM** (Action/Movement), **OS** (Overhead Shot),
+**ECU** (Extreme Close-Up).
+
+Scene structure: Intro → Key Scene 1 through 6 → Closing thoughts/Outro.
+Each scene: FILMED checkbox, reference photo, B-ROLL IDEAS, SCRIPT lines
+tagged by shot type. Shots needed for the thumbnail get decided at this
+stage too, alongside the shot list — not found/cropped after filming.
+
+Pipeline: **Plan → Film → Edit → Upload → Reflect** (this maps onto the
+13-step pipeline above: Plan = steps 1–3 + visual/audio/color planning,
+Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
+= the Sunday post-mortem — what worked, what to improve, next goals — feeds
+`growth/WEEKLY_REPORT_TEMPLATE.md`).
+
+## Production reality & schedule
+
+- Solo creator with a full-time job (Mon–Fri 3pm–12am).
+- Weekday mornings = opportunistic capture only.
+- Saturday = batch film day.
+- Sunday = edit/upload/reflect/plan.
+- @blkgrlcotoo (travel) is the one exception — filmed only on vacation
+  days/weekends off, never squeezed into the weekday rhythm.
+
+## Technical & storage notes (BLKGRLCO Studios, all brands unless noted)
+
+- **System of record: Notion** — Studios Hub, Content Calendar DB, Idea
+  Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
+  `3c77c3ea-6a8c-81bd-aabb-cb4244d033d3`.
 - Source footage and project folders: Samsung T7 SSD, `project hhh` folder,
   one subfolder per video. Google Drive is backup-only (large downloads
   stall there).
 - Camera: DJI Osmo Pocket 3, D-Log M — apply the correct LUT rather than
-  trusting the file's own (mis-tagged) color-space metadata.
+  trusting the file's own (mis-tagged) color-space metadata. (@blkgrlco /
+  @blkgrlcotoo shooting style — @uglyinbetween has its own production
+  approach, see `brand-bible/brands/uglyinbetween.md`.)
 - Editor: CapCut.
 - Footage that won't import/transcribe: round-trip through a Canva export
   to MP4 before retrying.
+- **Publishing approval:** nothing auto-publishes for any brand. Every
+  script, edit, caption, thumbnail, and scheduled post — including
+  anything queued in Metricool — goes through Omnia for approval first.
 
-Full detail in `brand-bible/source/blkgrlco-editing-standing-rules.md` and
-`brand-bible/STYLE_GUIDE.md`.
+Full detail in `brand-bible/source/` and `brand-bible/STYLE_GUIDE.md`.
 
 ## Competitor intelligence
 

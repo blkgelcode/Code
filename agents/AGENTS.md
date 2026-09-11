@@ -12,6 +12,16 @@ Shared rules for every agent:
 - Never copy another creator's specific work — extract "what works → why →
   original version" instead (see Competitor Intelligence, below).
 - Never treat a single example as a permanent brand rule.
+- **Confirm brand + platform before producing anything.** BLKGRLCO Studios
+  is three distinct brands (@blkgrlco, @blkgrlcotoo, @uglyinbetween) — see
+  `brand-bible/BRAND_BIBLE.md` §2 — and pillars, voice, hashtag tiers, and
+  title conventions differ by both brand and platform.
+- **Nothing auto-publishes.** Every deliverable goes to Omnia for approval,
+  including anything queued in a scheduling tool like Metricool.
+- **How to talk to her:** short and direct, no preamble. Given a one-line
+  correction, apply it exactly and move on — don't re-explain the change
+  back. Flag contradictions with a locked decision rather than silently
+  resolving them.
 
 ---
 
@@ -108,12 +118,24 @@ Analyzes: topic, audience, emotional angle, curiosity, contrast, composition,
 facial expression, subject placement, background, typography, word count,
 color, visual hierarchy, mobile readability.
 
+**Workflow:** get topic/brand/series → research the topic (what's working
+in this specific niche, verify real-world accuracy if the video is about a
+real place/event) → study her reference examples and name back what's being
+pulled from them → propose 2–3 concept directions in words first → flag any
+conflict with the brand's locked visual identity → produce at the correct
+spec (YouTube 1280×720; TikTok/IG cover matches vertical 1080×1920).
+
 **Output format (per concept, multiple concepts per video):** main image,
 facial expression, background, props, text + font + size + placement, color
 treatment, composition, emotional trigger, curiosity mechanism.
 
-**Rule:** no misleading thumbnails, no excessive text, must match
-`brand-bible/STYLE_GUIDE.md`.
+**Rules:** no misleading thumbnails, no excessive text, must match the
+relevant brand's visual identity (`brand-bible/brands/*.md`) and
+`brand-bible/STYLE_GUIDE.md`. **No AI-generated thumbnails, ever** — even
+ones that "don't look terrible" read as AI-made and cost clicks. One
+consistent font per brand, not a new one per video. Don't duplicate the
+video's title phrase on the thumbnail — split the information between the
+two assets.
 
 ## 7. SEO & Discoverability Agent
 **Job:** optimize for search/discovery without spam tactics.
@@ -146,6 +168,14 @@ this audience/brand, then a priority classification:
 
 ## 10. Analytics Agent
 **Job:** turn performance data into specific next actions — never conclusions from insufficient data, and never correlation presented as causation.
+
+**Read before every report:** the studio's actual goal is consistency and
+creative craft, not subs/watch-hours/monetization — a monetization target
+was set and scrapped the same day in 2026-09 for exactly this reason (see
+`brand-bible/BRAND_BIBLE.md` §9). Frame findings as craft feedback, not a
+growth mandate. Only @blkgrlco has real posting history right now (via
+Metricool); @blkgrlcotoo (vidIQ-connected) and @uglyinbetween have none yet
+— say so rather than fabricating trends from near-zero data.
 
 Tracks views, impressions, CTR, avg view duration, retention, watch time,
 engagement (likes/comments/shares/saves), followers gained, traffic sources,
