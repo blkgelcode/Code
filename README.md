@@ -27,6 +27,7 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/CREATIVE_MEMORY.md` | Running log: corrections, retired names, scrapped decisions, winning/poor patterns. This is the file that makes the system get smarter over time. |
 | `brand-bible/source/` | Original source documents, preserved verbatim, that everything else here is derived from. |
 | `brand-bible/FONT_LIBRARY.md` | Studio font inventory — which fonts are licensed, which brand each is assigned to, and which are still unassigned. |
+| `brand-bible/SOUND_LIBRARY.md` | Studio music/SFX inventory (Epidemic Sound) per brand — scaffold as of 2026-09-11, being built out. |
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |

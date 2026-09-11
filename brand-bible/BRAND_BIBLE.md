@@ -102,6 +102,8 @@ confirmed; don't presume identical targeting without checking.
 - **vidIQ** — connected to @blkgrlcotoo's YouTube (brand new, no content
   yet as of last check) — usable for general/competitor research, not yet
   for own-channel analytics.
+- **Epidemic Sound** — music/SFX licensing, confirmed in use 2026-09-11.
+  See `SOUND_LIBRARY.md` for the actual per-brand track/SFX inventory.
 - **Nothing auto-publishes.** Every script, edit, caption, thumbnail, and
   scheduled post — including anything queued in Metricool — goes through
   Omnia for approval before it goes out.
