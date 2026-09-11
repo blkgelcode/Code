@@ -96,7 +96,7 @@ open up?"
 
 - **System of record: Notion** — Studios Hub (one page per channel),
   Content Calendar DB, Idea Bank DB. *"If it's not in Notion, it's not real
-  yet."* Hub page ID: `3c77c3ea-6a8c-81bd-aabb-cb4244d033d3`.
+  yet."* Hub page ID: `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36`.
 - Every scheduled item maps to: a brand, a pillar/lane, a platform, and a
   production step owner.
 - **Calendar decisions optimize for consistency and creative quality, not

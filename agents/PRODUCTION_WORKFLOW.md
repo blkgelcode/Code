@@ -103,7 +103,8 @@ Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
 
 - **System of record: Notion** — Studios Hub, Content Calendar DB, Idea
   Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
-  `3c77c3ea-6a8c-81bd-aabb-cb4244d033d3`.
+  `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36`. Content Calendar data source:
+  `collection://385c26ae-18f0-4b17-887e-ee4943716796`.
 - Source footage and project folders: Samsung T7 SSD, `project hhh` folder,
   one subfolder per video. Google Drive is backup-only (large downloads
   stall there).

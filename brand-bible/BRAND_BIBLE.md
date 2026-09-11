@@ -90,7 +90,9 @@ confirmed; don't presume identical targeting without checking.
 
 - **Notion** — Studios Hub (one page per channel), Content Calendar DB,
   Idea Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
-  `3c77c3ea-6a8c-81bd-aabb-cb4244d033d3`.
+  `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36` — corrected 2026-09-11; the ID
+  originally recorded in the source doc (`...aabb-cb4244d033d3`) actually
+  resolves to a single Content Calendar entry, not the hub page itself.
 - **Samsung T7 SSD** — raw footage, `project hhh` folder, one subfolder
   per video. The reliable path.
 - **Google Drive** — backup/transfer only; chokes on large files.
