@@ -131,6 +131,43 @@ found on TikTok/Instagram/YouTube for any of them, consistent with
 @uglyinbetween having zero live content, but the Glow Up video's status
 wasn't otherwise resolved.
 
+## Notion reorganization pass (2026-09-11)
+
+Explored the full Studios Hub (previously only partially captured in this
+repo — the Hub page has a large, already-sophisticated production
+toolkit: shift-aware Plan→Film→Edit→Upload→Reflect scheduling, 10+
+editorial reference frameworks, an HTML toolkit of 6 external Claude
+Artifacts, Feed Preview galleries, and in-progress scheduling-tool setup
+for Clem + Metricool + Plann). This is not a system that needed a ground-up
+rebuild — found and fixed specific gaps instead:
+
+**Fixed directly in Notion:**
+- Created 9 missing Content Calendar rows for @uglyinbetween Season 1
+  Episodes 2–10 — the Idea Bank had these fully titled/sequenced/noted
+  with Status "In Calendar," but the Content Calendar itself only had a
+  generic "Episode 1" row. Used real titles/hook patterns/notes from Idea
+  Bank; left Publish Date blank since her own notes say "exact date TBD"
+  — not inventing a schedule for her.
+- Flagged (not deleted, no delete tool available) a completely empty
+  stray Content Calendar row.
+- Flagged a likely-stale duplicate in Idea Bank: a generic "Episode 2"
+  entry that predates the resolved "Burden of the First Born Girl" title.
+
+**Not touched, flagged for her decision:**
+- **Three parallel scheduling tools** (Plann — manual copy-paste view
+  already built; Clem — paid auto-poster, she was starting a trial as of
+  Aug 31; Metricool — now confirmed connected on all 3 brands) with no
+  decision yet on which is the actual source of truth. The Hub page
+  itself already flags this as unresolved — a real decision point, not
+  something to pick silently.
+- The existing "Episode 1" Content Calendar row's Name doesn't match its
+  resolved title ("Starting Scaries — Permission To Not Have It Figured
+  Out") — left as-is rather than renaming unilaterally.
+- No relation property exists linking Idea Bank ↔ Content Calendar (would
+  prevent this exact gap from recurring) — flagged as a suggestion; adding
+  a new database property needs a schema-edit tool this session doesn't
+  have loaded.
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|
