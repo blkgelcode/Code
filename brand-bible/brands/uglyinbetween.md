@@ -96,6 +96,14 @@ Bible doc's more dramatic style; don't drift back toward that register.
   is; follow with real specifics; end with the sign-off line where the
   format calls for it.
 
+## Connected Tools
+
+- **Metricool connected as of 2026-09-10** (id 6918899) — Instagram,
+  TikTok, YouTube. Brand new: no published content found on any of those
+  three networks as of a 2026-09-11 check — consistent with the podcast
+  not having launched yet (Launch Photos and the Podcast Intro Video are
+  both still "Planned" in the Notion Content Calendar).
+
 ## Growth/Monetization Reference — Applicability
 Not directly relevant to this brand's format (the growth reference material
 is framed around @blkgrlco specifically). The sustainability philosophy —

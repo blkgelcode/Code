@@ -217,7 +217,14 @@ voice/persona/content imitation)*
   content. Technique reference only.
 
 ## Connected Tools
-- **Metricool** — connected here (owner: blktrvler@gmail.com); linked to
-  Instagram, Pinterest, TikTok, and YouTube (@blkgrlco: 120 subs / 4
-  videos as of connection). This is the account with real posting history.
+- **Metricool** — connected here (id 4359163, owner: blktrvler@gmail.com);
+  linked to Instagram, Pinterest, TikTok, and YouTube (@blkgrlco: 120 subs
+  / 4 videos as of original connection). This is the account with real
+  posting history. As of 2026-09-11, live TikTok posts confirmed: the
+  90-Day HHH Run explainer (published 2026-09-06) and Day 1 of 90 / Weekly
+  Vlog 1 (published 2026-09-08) — both now marked Published in the Notion
+  Content Calendar with corrected dates. Two more TikToks (Day 2 of 90,
+  and a skincare/immunity-juice/evening-check-in short) are live but have
+  no matching Content Calendar entry — likely daily-shorts content the
+  calendar doesn't track at that granularity.
 - vidIQ is **not** connected here (it's pointed at @blkgrlcotoo).

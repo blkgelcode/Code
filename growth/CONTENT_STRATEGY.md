@@ -88,9 +88,9 @@ open up?"
 
 | Brand | Platforms | Notes |
 |---|---|---|
-| @blkgrlco | YouTube, Instagram, TikTok, Pinterest | Only brand with real posting history (via Metricool: 120 subs / 4 videos as of connection). |
-| @blkgrlcotoo | YouTube (vidIQ-connected, brand new — 0 videos as of last check) | No Instagram connected yet. |
-| @uglyinbetween | `[NEEDS INPUT]` — no connected tool yet. | |
+| @blkgrlco | YouTube, Instagram, TikTok, Pinterest | Only brand with real posting history (Metricool: 120 subs / 4 videos at connection; 4 confirmed TikTok posts as of 2026-09-11). |
+| @blkgrlcotoo | YouTube (vidIQ + Metricool connected, brand new — no published content on any network yet as of 2026-09-11) | |
+| @uglyinbetween | YouTube/Instagram/TikTok (Metricool connected 2026-09-10, brand new — no published content yet) | |
 
 ## Content calendar framework
 

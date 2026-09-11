@@ -146,8 +146,9 @@ specific creator's thumbnail or video 1:1.
   trend data, competitor tracking) are usable for general/competitor
   research, but own-channel analytics won't reflect real content until
   something is published.
-- **Metricool is not connected to this brand** (it's connected to
-  @blkgrlco).
+- **Metricool connected as of 2026-09-10** (id 6918875) — Instagram,
+  TikTok, YouTube. Brand new: no published content found on any of those
+  three networks as of a 2026-09-11 check.
 
 ## Growth/Monetization Reference — Applicability
 The studio's monetization reference material is framed around @blkgrlco

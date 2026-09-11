@@ -104,6 +104,33 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | 2026-09-11 | Transcript of TikTok clip "v15044gf0000d8slninog65gq077jn50" — "Cut Theory Part 3" (sound design) by creator Arthur | Resolves one of the 5 originally-unwatchable TikTok clips flagged earlier. Applied directly into `STYLE_GUIDE.md` (new Sound Design Toolkit section) and `SOUND_LIBRARY.md` (SFX-as-a-set rule, music editing technique notes). The other 4 clips from that original batch remain unresolved. |
 | 2026-09-11 | Pinterest "BeautyPlus moodboard" — graphic element library screenshots (digicam frames, webcore/iOS UI, outer frame objects, fruit cutouts, paper cutouts) | **Medium confidence** — stated as "elements I want on hand" (real intent, not passive inspiration), but not yet applied to specific content. Logged into `STYLE_GUIDE.md`'s Graphics/Pop-Up/SFX Reference section. Connects to the existing camcorder-viewfinder and mock-UI SFX rules, and adds more evidence toward the still-open sticker/decorative-element question for @blkgrlcotoo. |
 
+## Notion Content Calendar cross-referenced with Metricool (2026-09-11)
+
+Live check: Metricool now shows all three brands connected (as of
+2026-09-10, previously only @blkgrlco was documented). Found 4 published
+TikTok posts on @blkgrlco, zero published content yet on @blkgrlcotoo or
+@uglyinbetween across any network.
+
+Updated directly in Notion (not just documented here):
+- "Hot. Healthy. Happy. My Actual 90-Day Plan" → Status: Published,
+  Publish Date corrected to 2026-09-06 (was planned for 09-05).
+- "Day 1 of 90: Hot Healthy Happy Challenge (Weekly Vlog 1)" → Status:
+  Published, Publish Date corrected to 2026-09-08 (was planned for 09-06).
+
+**Not added to the calendar, flagged instead:** 2 published TikToks with no
+matching calendar entry (a "Day 2 of 90" post and a skincare/immunity-
+juice/evening-check-in short, both 2026-09-08/09) — likely daily-shorts
+content the calendar doesn't track at that granularity. Didn't add them as
+new rows without asking, since that changes what the calendar is scoped to
+track.
+
+**Also unconfirmed:** whether the 6 other Aug 31–Sept 6 calendar items
+(Launch Photos, Podcast Intro Video, Episode 1 for @uglyinbetween; Glow Up
+video for @blkgrlco) have actually gone out — no matching published content
+found on TikTok/Instagram/YouTube for any of them, consistent with
+@uglyinbetween having zero live content, but the Glow Up video's status
+wasn't otherwise resolved.
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|

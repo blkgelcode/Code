@@ -99,8 +99,12 @@ confirmed; don't presume identical targeting without checking.
 
 ## 8. Connected Tools & Publishing
 
-- **Metricool** — connected to @blkgrlco (Instagram, Pinterest, TikTok,
-  YouTube). The account with real posting history and real analytics.
+- **Metricool** — connected to **all three brands** as of 2026-09-10:
+  @blkgrlco (id 4359163; Instagram, Pinterest, TikTok, YouTube — the
+  account with real posting history), @blkgrlcotoo (id 6918875; Instagram,
+  TikTok, YouTube), @uglyinbetween (id 6918899; Instagram, TikTok,
+  YouTube). Previously only @blkgrlco was connected — corrected 2026-09-11
+  after a live check.
 - **vidIQ** — connected to @blkgrlcotoo's YouTube (brand new, no content
   yet as of last check) — usable for general/competitor research, not yet
   for own-channel analytics.
