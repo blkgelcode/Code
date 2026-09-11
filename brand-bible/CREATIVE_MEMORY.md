@@ -153,13 +153,11 @@ rebuild — found and fixed specific gaps instead:
 - Flagged a likely-stale duplicate in Idea Bank: a generic "Episode 2"
   entry that predates the resolved "Burden of the First Born Girl" title.
 
+**Resolved 2026-09-11 (see below):** the three-way Plann/Clem/Metricool
+scheduling question — Omnia confirmed Metricool as the sole publishing
+tool going forward.
+
 **Not touched, flagged for her decision:**
-- **Three parallel scheduling tools** (Plann — manual copy-paste view
-  already built; Clem — paid auto-poster, she was starting a trial as of
-  Aug 31; Metricool — now confirmed connected on all 3 brands) with no
-  decision yet on which is the actual source of truth. The Hub page
-  itself already flags this as unresolved — a real decision point, not
-  something to pick silently.
 - The existing "Episode 1" Content Calendar row's Name doesn't match its
   resolved title ("Starting Scaries — Permission To Not Have It Figured
   Out") — left as-is rather than renaming unilaterally.
@@ -226,9 +224,19 @@ straight-count formula) is a pre-existing discrepancy in her own plan, not
 introduced by this pass — noted directly on the new Day 90 daily-short
 entry's Notes field.
 
-**Not yet done (still owed from the earlier "Sure"):** a recommendation on
-which of Plann / Clem / Metricool should be the scheduling source of truth
-— she approved taking a pass at this, follow-up analysis still pending.
+## Scheduling source of truth: Metricool (confirmed 2026-09-11)
+
+Omnia confirmed directly: **Metricool will be the only app used for
+publishing.** This resolves the three-way Plann/Clem/Metricool question
+flagged during the Notion reorganization pass above. Recommendation given
+before her confirmation: Metricool was the only one of the three actually
+connected across all three brands, and its draft → review → approve flow
+(`createScheduledPostForReview` / `sendScheduledPostForReview`) already
+matches the standing rule that nothing posts without her sign-off — no
+reason to maintain Plann's manual view or Clem's paid trial in parallel.
+Updated `BRAND_BIBLE.md` §8 to state this as a locked rule, not an open
+question. Plann and Clem are retired from the publishing workflow; nothing
+else in this repo depended on either, so no further cleanup needed.
 
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
