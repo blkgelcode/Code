@@ -134,11 +134,14 @@ palette existed.
 - Typography: modern serif for titles/branding, clean sans-serif for body.
 - Aesthetic: clean, minimalistic, contemporary, soft organic shapes.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
-  display/title-card type), **Editor's Hand** (handwritten captions/quotes,
-  Regular weight only), **Editor's Note** (clean editorial serif —
-  confirmed for this brand 2026-09-11, specific use not yet specified).
+  thumbnail headline font), **Editor's Hand** (handwritten
+  captions/quotes, Regular weight only), **Editor's Note** (clean
+  editorial serif — **secondary/supporting thumbnail text**, beneath
+  Advercase's headline; confirmed 2026-09-11, mirrors the TAN
+  Memories/Perfectly Nineties primary+secondary split on @blkgrlcotoo).
   Font files stored at `assets/fonts/blkgrlco/`. Full studio font
-  inventory: `../FONT_LIBRARY.md`.
+  inventory: `../FONT_LIBRARY.md`. No open items on this brand's
+  typography.
 - **Confirmed 2026-09-11: Advercase is the thumbnail font.** One font, per
   the studio-wide "no AI thumbnails, pick one font and stay consistent"
   rule — use Advercase for thumbnail headline text going forward, not

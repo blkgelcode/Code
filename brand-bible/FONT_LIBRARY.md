@@ -11,7 +11,7 @@ closed set — more may follow.
 |---|---|---|---|
 | **Advercase** | Regular, Bold, Italic, BoldItalic | @blkgrlco | **Thumbnail headline font**, per `brands/blkgrlco.md`. |
 | **Editor's Hand** | Regular only | @blkgrlco | Handwritten captions/quotes only — not thumbnails. |
-| **Editor's Note** | Regular, Italic | @blkgrlco | Confirmed 2026-09-11 — **specific use not yet specified** (clean editorial serif; doesn't replace Advercase as the thumbnail font unless she says so). |
+| **Editor's Note** | Regular, Italic | @blkgrlco | **Secondary/supporting thumbnail text** beneath Advercase's headline, confirmed 2026-09-11 — mirrors the TAN Memories/Perfectly Nineties split on @blkgrlcotoo. |
 | **TAN Memories** | Regular, Italic | @blkgrlcotoo | **Thumbnail headline font** (Advercase's role for @blkgrlco), confirmed 2026-09-11. |
 | **Perfectly Nineties** | Regular, Italic | @blkgrlcotoo | Secondary/accent use, confirmed 2026-09-11. |
 

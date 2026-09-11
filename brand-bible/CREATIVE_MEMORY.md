@@ -85,7 +85,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Thumbnail font | Locked |
 |---|---|---|
-| @blkgrlco | **Advercase** (thumbnails); Editor's Hand (handwritten captions/quotes only); **Editor's Note** added 2026-09-11, specific use not yet specified | 2026-09-11, confirmed directly. |
+| @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Editor's Hand** (handwritten captions/quotes only) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
 | @blkgrlcotoo | **TAN Memories** (thumbnail headline font) + **Perfectly Nineties** (secondary/accent), confirmed 2026-09-11 | Fully resolved — no open items on this brand's typography. |
 | @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body) | Pre-existing, locked. |
 
