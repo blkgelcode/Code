@@ -109,6 +109,34 @@ recording; top = transparent graphic/text overlays. Pacing rule: a visual
 change roughly every 3–5 seconds. Every graphic entrance gets a matching
 low-volume SFX.
 
+### Element library (Pinterest reference, "creative elements," 2026-09-11)
+
+Stated as "elements I want on hand" — a real intended asset library, not
+passive inspiration, though nothing here is applied to a specific piece of
+content yet. Medium confidence; same fit rule as the rest of this
+section — **@blkgrlco/@blkgrlcotoo, not @uglyinbetween.** Categories seen
+(numbered 02–06 in the source board; a "01" category exists but wasn't
+captured):
+
+- **02. Digicam** — empty-screen digital camera frame cutouts (Sony,
+  Olympus, orange point-and-shoot, etc.) for the "photo shown inside a
+  retro camera screen" device — same family as the camcorder-viewfinder
+  motif already noted above from the Yale Jeannette reference.
+- **03. Webcore** — iOS UI element screenshots (Reminders widget, Weather
+  widget, AirPods connect, text-selection/copy menu, folder icon, Clock
+  app) — same family as the "mock-UI interaction" SFX rule above (mouse-
+  click sound on buttons/checkmarks).
+- **04. Outer frame** — container/frame objects (open suitcase interior,
+  heart-shaped tin, tin box, wicker basket, cafeteria tray, plastic
+  basket) — likely for "item in a container" graphic compositions.
+- **05. Fruits** — fruit cutout stickers (kiwi, blueberries, dragonfruit,
+  cherries, oranges) — decorative element set.
+- **06. Paper cutouts** — torn-paper handwritten notes, heart doodles, a
+  newspaper-cutout heart — reinforces the glossy-sticker/decorative
+  direction flagged as an open question for @blkgrlcotoo in
+  `brands/blkgrlcotoo.md` (more evidence she's drawn to this, still not a
+  locked decision on any specific asset).
+
 ## Technical & Delivery Specs (default across brands, unless a brand's own file overrides)
 
 | Attribute | Rule |

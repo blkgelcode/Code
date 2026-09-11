@@ -98,6 +98,11 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | @blkgrlco | `#F0DAC2` cream, `#B68A71` tan, `#B4AD7F` sage-tan, `#636407` moss olive, `#A8B118` olive-chartreuse, `#EBB9BA` blush, `#8C0532` wine, `#49001B` oxblood, `#2E1500` espresso | 2026-09-11, confirmed directly (color-generator screenshot) — supersedes the PDF's named colors and the earlier proposed-hex guesses. `#A8B118` matches the already-locked label-card color exactly. |
 | @uglyinbetween | `#3A2E39` aubergine, `#DDBEA9` terracotta | Pre-existing, locked. |
 
+## Source documents ingested (continued)
+| Date | Document | Status |
+|---|---|---|
+| 2026-09-11 | Pinterest "BeautyPlus moodboard" — graphic element library screenshots (digicam frames, webcore/iOS UI, outer frame objects, fruit cutouts, paper cutouts) | **Medium confidence** — stated as "elements I want on hand" (real intent, not passive inspiration), but not yet applied to specific content. Logged into `STYLE_GUIDE.md`'s Graphics/Pop-Up/SFX Reference section. Connects to the existing camcorder-viewfinder and mock-UI SFX rules, and adds more evidence toward the still-open sticker/decorative-element question for @blkgrlcotoo. |
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|
