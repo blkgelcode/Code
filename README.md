@@ -30,6 +30,7 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/SOUND_LIBRARY.md` | Studio music/SFX inventory (Epidemic Sound) per brand — scaffold as of 2026-09-11, being built out. |
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
+| `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
 | `growth/ANALYTICS_SYSTEM.md` | What gets tracked, connected tools, and — critically — what analytics are *for* here (see below). |
