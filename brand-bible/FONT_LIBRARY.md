@@ -12,25 +12,23 @@ closed set — more may follow.
 | **Advercase** | Regular, Bold, Italic, BoldItalic | @blkgrlco | **Thumbnail headline font**, per `brands/blkgrlco.md`. |
 | **Editor's Hand** | Regular only | @blkgrlco | Handwritten captions/quotes only — not thumbnails. |
 | **Editor's Note** | Regular, Italic | @blkgrlco | Confirmed 2026-09-11 — **specific use not yet specified** (clean editorial serif; doesn't replace Advercase as the thumbnail font unless she says so). |
+| **TAN Memories** | Regular, Italic | @blkgrlcotoo | Confirmed 2026-09-11 — **which of these two fonts is the primary thumbnail font (vs. a secondary/accent use) not yet specified.** |
+| **Perfectly Nineties** | Regular, Italic | @blkgrlcotoo | Confirmed 2026-09-11 — same open question as TAN Memories above. |
 
 ## Unassigned — in the library, not yet locked to a brand
 
 | Font | Style | Weights available |
 |---|---|---|
-| **Perfectly Nineties** | Nostalgic serif | Regular, Italic |
 | **Seriously Nostalgic** | Nostalgic serif (large family) | Regular + Condensed/SemiCond/ExtraCond/UltraCond, each with a "Fn" (fine?) variant and italics — most versatile of the three |
-| **TAN Memories** | Bold, rounded vintage/nostalgic display serif (TAN Type Co.) | Regular, Italic |
 | **Hello Scratchy** | Scratchy hand-drawn doodle/texture font, 3-layer build (Solid/Outlines/Doodles — stack for a hand-drawn sticker effect) | Solid, Outlines, Doodles |
 
-**Open item:** @blkgrlcotoo is still the one brand with no font locked (see
-`brands/blkgrlcotoo.md`). The nostalgic-serif cluster — Perfectly Nineties,
-Seriously Nostalgic, and TAN Memories — would all
-fit the elegant/nostalgic serif thumbnail titles seen in the @blkgrlcotoo
-Pinterest reference board (e.g. "Edinburgh," "Florence.," "Paris diaries").
-Hello Scratchy reads differently — a playful doodle/annotation style that
-could fit the object-label callout graphics also noted in that same
-reference board (hand-drawn-style connector lines/labels), or @blkgrlco's
-Creativity-pillar content. All plausible, none confirmed — not assigning
-without her say-so, same standard as the Advercase confirmation. Worth
-asking directly: is one of these meant for @blkgrlcotoo (or elsewhere), or
-are they just in the library for future use?
+**Open item:** @blkgrlcotoo now has two fonts (TAN Memories, Perfectly
+Nineties) but no stated division of labor between them — worth confirming
+which is the primary thumbnail headline font (Advercase's role for
+@blkgrlco) versus a secondary/accent use, so future thumbnails don't mix
+them inconsistently. Seriously Nostalgic remains an unassigned third
+option in the same nostalgic-serif family if needed. Hello Scratchy reads
+differently — a playful doodle/annotation style that could fit the
+object-label callout graphics noted in the @blkgrlcotoo Pinterest
+reference board, or @blkgrlco's Creativity-pillar content. Not assigning
+either without her say-so.

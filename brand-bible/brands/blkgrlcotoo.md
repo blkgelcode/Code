@@ -17,13 +17,14 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
 
 ## Typography
 
-**No font locked yet** — the one remaining visual-identity gap for this
-brand (palette, LUTs, and composition rules are all confirmed). Three
-unassigned fonts in the studio library are plausible candidates — Editor's
-Note (clean editorial serif), Perfectly Nineties (nostalgic serif), and
-Seriously Nostalgic (nostalgic serif, large family with condensed widths)
-— see `../FONT_LIBRARY.md`. Plausible, not confirmed; don't use one for
-production thumbnails until she picks.
+**Confirmed 2026-09-11: TAN Memories and Perfectly Nineties** (both
+nostalgic serifs, Regular + Italic each). Font files at
+`assets/fonts/blkgrlcotoo/`. Full studio inventory: `../FONT_LIBRARY.md`.
+
+**Open:** which of the two is the primary thumbnail headline font (the
+role Advercase plays for @blkgrlco) versus a secondary/accent use — not
+specified yet. Don't mix them inconsistently across thumbnails until
+that's settled.
 
 ## Visual Identity / Brand Palette
 
