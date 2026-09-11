@@ -238,6 +238,36 @@ Updated `BRAND_BIBLE.md` §8 to state this as a locked rule, not an open
 question. Plann and Clem are retired from the publishing workflow; nothing
 else in this repo depended on either, so no further cleanup needed.
 
+## Notion page decluttering pass (2026-09-11)
+
+Omnia: "too cluttered, I have to scroll so far down to get to the actual
+information." Diagnosed by fetching the Hub and all 3 channel pages: the
+live Content Calendar/Idea Bank trackers were buried under weeks of
+accumulated reference material (production workflow write-ups, script
+templates, SEO frameworks, editorial technique notes) on every page.
+Confirmed approach with Omnia via AskUserQuestion: move the trackers to
+the top of each page rather than splitting into sub-pages or just adding
+navigation.
+
+**Restructured (content reordered, nothing deleted):**
+- **Hub:** moved Channels / Trackers / Feed Preview from near the bottom
+  to right after "Who this is for" — now the first thing visible after the
+  intro. Also consolidated the stale "Auto-Posting Setup — Clem" +
+  "Manual Scheduling — Metricool" sections (which still described a
+  three-way undecided Plann/Clem/Metricool comparison) into one short
+  "Publishing — Metricool (confirmed 2026-09-11)" callout, matching the
+  now-resolved decision above.
+- **@blkgrlco, @blkgrlcotoo, @uglyinbetween:** moved each page's "Tracked
+  here" database section from the bottom to right after the intro callout.
+  Reference material (weekly content model, series frameworks, script
+  templates, brand palettes, SEO notes) now follows below the trackers
+  instead of preceding them.
+
+No content was deleted — this was purely a reorder + one stale-content
+consolidation, done via `notion-update-page` (`update_content`, exact
+search/replace on the existing markdown) rather than a full rewrite, to
+minimize risk of losing anything.
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|
