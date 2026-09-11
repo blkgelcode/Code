@@ -109,6 +109,21 @@ silently merged into one strategy.
 - Logo: modern, bold, lowercase text — `blkgrlco.`
 - Palette: sage green, terracotta, warm beige, pastel gold, deep clay
   orange.
+
+  **Proposed hex matches — not yet confirmed.** The brand-identity PDF
+  names these colors but gives no hex values, and there's no coolors.co
+  link like @blkgrlcotoo's. These are reasonable design matches for the
+  named colors, not a locked palette — confirm or replace with exact
+  values (a link, like the blkgrlcotoo one, would let me lock this the
+  same way):
+
+  | Swatch | Hex (proposed) | Named color |
+  |---|---|---|
+  | 🟢 | `#9CAF88` | Sage green |
+  | 🟠 | `#E2725B` | Terracotta |
+  | ⬜ | `#D8C3A5` | Warm beige |
+  | 🟡 | `#E6BE8A` | Pastel gold |
+  | 🟤 | `#B5651D` | Deep clay orange |
 - Typography: modern serif for titles/branding, clean sans-serif for body.
 - Aesthetic: clean, minimalistic, contemporary, soft organic shapes.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
