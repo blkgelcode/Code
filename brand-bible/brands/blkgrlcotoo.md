@@ -91,19 +91,18 @@ specific creator's thumbnail or video 1:1.
    | `709to709_160T_x65_Clean_White.cube` | 160T — tungsten-balanced (brighter tungsten), no grain |
    | `709to709_160T_x65_Film_White.cube` | 160T — tungsten-balanced, with film grain/halation |
 
-   **Reading of the naming convention is inferred from standard film-stock
-   terminology (250D/500T/160T = ISO + daylight/tungsten balance, matching
-   Kodak Vision3 stock names; Clean/Film = grain on or off) — not confirmed
-   from her directly. Flagging rather than presenting as certain.**
+   **Confirmed 2026-09-11: it's a lighting-condition kit — pick per
+   shoot, not one universal file.** Selection logic:
+   - Daylight/outdoor → `250D`
+   - Interior/low light, tungsten → `500T`
+   - Interior, brighter tungsten → `160T`
 
-   **Open question:** she said "this LUT for all videos" (singular) while
-   sending five files that read as a lighting-condition set (pick by
-   daylight vs. tungsten, brighter vs. dimmer) plus a grain preference
-   (Clean vs. Film) — not literally one universal file. Needs confirming:
-   is this a condition-based kit (pick per shoot), or is one specific file
-   meant to be the actual single default? If it's the kit, which is default
-   when conditions are mixed/ambiguous, and is Clean or Film the standing
-   grain preference?
+   The condition→ISO mapping above follows standard film-stock convention
+   (matching Kodak Vision3 naming) — confirmed that it's a condition-based
+   kit, but the specific per-condition assignment is still my inference,
+   not verified line-by-line. **Still open:** whether Clean or Film (grain)
+   is the standing preference, or if that's also a per-shoot creative call
+   like the ISO/balance choice.
 
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new

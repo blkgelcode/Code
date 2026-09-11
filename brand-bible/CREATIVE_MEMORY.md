@@ -79,7 +79,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Files | Notes |
 |---|---|---|
-| @blkgrlcotoo | 5 files, `brands/assets/blkgrlcotoo-luts/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. Reads as a lighting-condition kit (daylight vs. tungsten, grain on/off), not one universal file — open question on selection logic logged in `brands/blkgrlcotoo.md`. |
+| @blkgrlcotoo | 5 files, `brands/assets/blkgrlcotoo-luts/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. Clean-vs-Film (grain) preference still open. |
 
 ## Confirmed brand fonts
 
