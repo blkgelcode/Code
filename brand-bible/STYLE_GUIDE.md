@@ -114,9 +114,15 @@ low-volume SFX.
 Stated as "elements I want on hand" — a real intended asset library, not
 passive inspiration, though nothing here is applied to a specific piece of
 content yet. Medium confidence; same fit rule as the rest of this
-section — **@blkgrlco/@blkgrlcotoo, not @uglyinbetween.** Categories seen
-(numbered 02–06 in the source board; a "01" category exists but wasn't
-captured):
+section — **@blkgrlco/@blkgrlcotoo, not @uglyinbetween.**
+
+**Sourcing (confirmed 2026-09-11): these and similar elements are directly
+searchable/available in Canva** — no separate asset acquisition needed,
+just search by category/keyword when building a graphic (e.g. "digital
+camera frame," "fruit cutout sticker," "torn paper note").
+
+Categories seen (numbered 02–06 in the source board; a "01" category
+exists but wasn't captured):
 
 - **02. Digicam** — empty-screen digital camera frame cutouts (Sony,
   Olympus, orange point-and-shoot, etc.) for the "photo shown inside a
