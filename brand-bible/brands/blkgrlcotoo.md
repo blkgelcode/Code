@@ -21,10 +21,9 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
 nostalgic serifs, Regular + Italic each). Font files at
 `assets/fonts/blkgrlcotoo/`. Full studio inventory: `../FONT_LIBRARY.md`.
 
-**Open:** which of the two is the primary thumbnail headline font (the
-role Advercase plays for @blkgrlco) versus a secondary/accent use — not
-specified yet. Don't mix them inconsistently across thumbnails until
-that's settled.
+**Confirmed 2026-09-11: TAN Memories is the thumbnail headline font**
+(Advercase's role for @blkgrlco). Perfectly Nineties is secondary/accent
+use. No open items on this brand's typography.
 
 ## Visual Identity / Brand Palette
 
