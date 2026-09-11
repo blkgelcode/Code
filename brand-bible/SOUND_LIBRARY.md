@@ -27,6 +27,29 @@ Status: scaffold only as of 2026-09-11 — nothing populated yet.
 | @blkgrlcotoo | Object-label callouts, transitions, graphic pop-ins | `[NEEDS INPUT]` | The Yale Jeannette SFX logic (pop/click on text, camera-shutter on freeze-frames, paper-tear on wipes, whoosh on slides, mouse-click on mock-UI) is the rulebook — this table is where the actual licensed sound for each becomes concrete. |
 | @uglyinbetween | `[NEEDS INPUT]` | — | Not a stated fit for the Yale Jeannette SFX-heavy style (see `STYLE_GUIDE.md`) — if this brand uses SFX at all, it's likely sparse/different in kind, not the same picks as the other two brands. |
 
+## SFX reference clips (2026-09-11)
+
+4 reference video clips stored at `brands/assets/sfx-reference/` — "sound
+effects I want to have on hand." A 5th upload was an exact byte-for-byte
+duplicate of clip 3 (same source TikTok video, re-uploaded) and wasn't
+stored separately.
+
+**I can't identify what's in these** — this session has no video/audio
+playback capability (no ffmpeg or similar available, and installing one is
+blocked by the sandbox's network policy), so these are stored as opaque
+reference files, not analyzed. Need a short description of each (what the
+actual sound is) before they can be turned into real Epidemic Sound
+picks or added to the per-brand tables above:
+
+| File | Source | What it is |
+|---|---|---|
+| `clip-1-1cbf2c9b.mp4` | TikTok | `[NEEDS DESCRIPTION]` |
+| `clip-2-988c9b4a.mp4` | TikTok | `[NEEDS DESCRIPTION]` |
+| `clip-3-83926a7c.mp4` | TikTok (uploaded twice, deduped) | `[NEEDS DESCRIPTION]` |
+| `clip-4-5e6079d8.mov` | Local export (not a TikTok download — different filename pattern, likely her own extracted/edited clip) | `[NEEDS DESCRIPTION]` |
+
+Also unconfirmed: which brand(s) these apply to — not stated.
+
 ## Connected tool
 
 **Epidemic Sound** — confirmed in use as of 2026-09-11. Not yet documented
