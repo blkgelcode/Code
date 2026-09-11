@@ -24,6 +24,41 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
   and readable, no clutter, don't duplicate the title phrase, correct
   platform specs).
 
+### Visual reference board (Pinterest "blkgrlcotoo visual identity," 2026-09-11)
+Inspiration/technique board, not her own footage — treat as candidate
+direction, not a locked look. Confidence: Medium. Recurring techniques
+worth carrying forward once confirmed:
+- **"What I wore / where I went / what I got"** — a 3-beat recap structure
+  (outfit shot → location shot → food/product flat-lay, each with a plain
+  lowercase caption). Concrete, reusable format for day-out content.
+- **Overhead/flat-lay (OS) shots** for food and lifestyle moments —
+  reinforces the existing OS shorthand in the shot-list framework.
+- **Object-label callout graphics** — bounding-box-style call-outs with
+  connector lines pointing at specific outfit/food items in a frame or
+  thumbnail (seen on both an outfit breakdown and a Ghana thumbnail).
+- **Route/connector annotation lines** on thumbnails, linking a title to
+  specific food items shown (seen on a Hà Nội thumbnail).
+- **Google Maps / ratings-screenshot inserts** as a visual element —
+  documents the actual restaurant/location, fits the documentarian
+  specificity ethos well.
+- **Nested camera-viewfinder framing** (content shown inside a retro digital
+  camera's screen) — same family as the camcorder-viewfinder motif already
+  noted in the Yale Jeannette graphics reference in `../STYLE_GUIDE.md`.
+- **Photo-booth filmstrip collage** as a recap/transition layout.
+- Thumbnail convention observed across many sampled travel channels: bold
+  script or bold sans location-name title + a 2–4 photo collage (food,
+  place, one personality/portrait shot).
+
+**Flagged, not adopted:** the board also leans heavily on glossy 3D
+Canva stickers/embellishments (balloon letters, enamel-pin-style icons).
+That's a live open question, not a decision — ask before using decorative
+sticker elements on any @blkgrlcotoo asset, since nothing like that is
+locked in yet.
+
+**Caution:** this board samples many other creators' actual videos/thumbnails.
+Extract technique only (framing, structure, graphic device) — never copy a
+specific creator's thumbnail or video 1:1.
+
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new
   location.
