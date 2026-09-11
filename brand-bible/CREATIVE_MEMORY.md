@@ -85,7 +85,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Thumbnail font | Locked |
 |---|---|---|
-| @blkgrlco | **Advercase** (Editor's Hand stays scoped to handwritten captions/quotes only) | 2026-09-11, confirmed directly. |
+| @blkgrlco | **Advercase** (thumbnails); Editor's Hand (handwritten captions/quotes only); **Editor's Note** added 2026-09-11, specific use not yet specified | 2026-09-11, confirmed directly. |
 | @blkgrlcotoo | `[NEEDS INPUT]` — 3 candidates in the library (Editor's Note, Perfectly Nineties, Seriously Nostalgic), not confirmed | Still the one open item blocking a fully-specified thumbnail workflow. |
 | @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body) | Pre-existing, locked. |
 

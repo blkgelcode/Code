@@ -11,20 +11,20 @@ closed set — more may follow.
 |---|---|---|---|
 | **Advercase** | Regular, Bold, Italic, BoldItalic | @blkgrlco | **Thumbnail headline font**, per `brands/blkgrlco.md`. |
 | **Editor's Hand** | Regular only | @blkgrlco | Handwritten captions/quotes only — not thumbnails. |
+| **Editor's Note** | Regular, Italic | @blkgrlco | Confirmed 2026-09-11 — **specific use not yet specified** (clean editorial serif; doesn't replace Advercase as the thumbnail font unless she says so). |
 
 ## Unassigned — in the library, not yet locked to a brand
 
 | Font | Style | Weights available |
 |---|---|---|
-| **Editor's Note** | Clean editorial serif | Regular, Italic |
 | **Perfectly Nineties** | Nostalgic serif | Regular, Italic |
 | **Seriously Nostalgic** | Nostalgic serif (large family) | Regular + Condensed/SemiCond/ExtraCond/UltraCond, each with a "Fn" (fine?) variant and italics — most versatile of the three |
 | **TAN Memories** | Bold, rounded vintage/nostalgic display serif (TAN Type Co.) | Regular, Italic |
 | **Hello Scratchy** | Scratchy hand-drawn doodle/texture font, 3-layer build (Solid/Outlines/Doodles — stack for a hand-drawn sticker effect) | Solid, Outlines, Doodles |
 
 **Open item:** @blkgrlcotoo is still the one brand with no font locked (see
-`brands/blkgrlcotoo.md`). The nostalgic-serif cluster — Editor's Note,
-Perfectly Nineties, Seriously Nostalgic, and now TAN Memories — would all
+`brands/blkgrlcotoo.md`). The nostalgic-serif cluster — Perfectly Nineties,
+Seriously Nostalgic, and TAN Memories — would all
 fit the elegant/nostalgic serif thumbnail titles seen in the @blkgrlcotoo
 Pinterest reference board (e.g. "Edinburgh," "Florence.," "Paris diaries").
 Hello Scratchy reads differently — a playful doodle/annotation style that
