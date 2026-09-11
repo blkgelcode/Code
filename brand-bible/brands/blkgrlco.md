@@ -140,6 +140,40 @@ voice/persona/content imitation)*
 - See `../../growth/SEO_GUIDE.md` for shared voice rules and title/
   description/hashtag workflow.
 
+## Visual & Content References (2026-09-11, unlabeled — assumed @blkgrlco)
+
+No brand/platform was stated for this batch; assumed @blkgrlco since every
+image maps to one of its lanes/pillars rather than travel or the podcast —
+flagging the assumption rather than silently filing it.
+
+- **Real content example (HEALTHY lane):** a Stories-style screenshot of a
+  home Pilates session with the TV playing the actual "Pilates by Izzy"
+  video being followed. Good live confirmation of the "name the specific
+  activity, never the vague vibe" rule — worth this concrete, not "getting
+  healthy." Caption style here: white serif text, bottom placement — this
+  reads as a **casual Story caption**, not the locked daily-vlog label-card
+  spec (Arial Rounded Bold, olive green, lowercase) — don't conflate the
+  two; different context.
+- **HOT/HEALTHY glow-up moodboard** (Pinterest, attributed to the BLKGRLCO
+  account itself — stronger signal than a generic inspo board, but still
+  curated reference imagery, not her own body/footage): glossy nude lips,
+  sculpted collarbone/back, toned abs, natural curly hair, glossy natural
+  nails, bright smile. Confirms the "glow up" keyword (already in
+  `../../growth/SEO_GUIDE.md`) with a concrete visual mood — Medium
+  confidence, not a locked look.
+- **Creativity-pillar moodboard:** podcasting/mic setup, vinyl/record
+  shopping, painting, sketchbook, dance studio mirror, a sign reading "YOU
+  ARE WAY TOO CREATIVE FOR A 9 TO 5." That last one lands close to her
+  actual life (day job vs. creative studio) — worth flagging as a genuine
+  personal-story angle/hook, not just an aesthetic reference.
+- **Quote-card reference:** bold black sans headline + small-caps justified
+  body copy on cream ("Girl, be too much."). Matches the brand voice
+  (empowering, authentic, aspirational) closely — candidate template for
+  carousel/quote posts, not yet built or locked.
+- **Photographic reference:** a glam, motion-blurred night portrait —
+  long-exposure blur aesthetic, likely for HOT-lane or personal-highlight
+  content. Technique reference only.
+
 ## Connected Tools
 - **Metricool** — connected here (owner: blktrvler@gmail.com); linked to
   Instagram, Pinterest, TikTok, and YouTube (@blkgrlco: 120 subs / 4
