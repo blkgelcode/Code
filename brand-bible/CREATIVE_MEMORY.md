@@ -168,6 +168,44 @@ rebuild — found and fixed specific gaps instead:
   a new database property needs a schema-edit tool this session doesn't
   have loaded.
 
+## @blkgrlco 90-Day HHH Run — Content Calendar backfill + placeholders (2026-09-11)
+
+Omnia confirmed she'll be posting 90 daily vertical reels/shorts for
+@blkgrlco's "Hot. Healthy. Happy." 90-Day Run (project hhh — one per day,
+TikTok, Content Type "Short-Form Cutdown"). Instruction: add the
+already-published orphan videos to the Content Calendar, and create a page
+for every future/upcoming daily short.
+
+**Added to Content Calendar (published, real Metricool data):**
+- "Day 2 of 90..." — published 2026-09-08, caption/hashtags/URL pulled from
+  Metricool, Status Published.
+- "Day 3 of 90: Morning Skincare..." — published 2026-09-09, same treatment.
+
+**Day-numbering ambiguity surfaced and resolved via AskUserQuestion:**
+Her Weekly Vlog day-labels (8, 15, 22, 29, 36, 43, 50, 57, 64, 71, 78) match
+a straight elapsed-day count from Day 1 = 2026-09-06. But the finale is
+separately labeled "Day 90 of 90" despite landing on elapsed Day 85 by
+strict count, and her own "Day 2" TikTok caption (published Sept 8, which
+is elapsed Day 3) already runs a day behind strict count by Day 2–3 — i.e.
+her informal day-counting has its own internal drift, not fully consistent
+with a fixed formula. **Approved approach: straight daily count** (Day N =
+2026-09-06 + N−1, no skips) for dating new placeholder pages only —
+explicitly flagged provisional/easy to bulk-adjust later, not a claim about
+her real cadence.
+
+**Created 69 placeholder Content Calendar pages** — Day 5 through Day 84 of
+90 (skipping dates already occupied by a Weekly Vlog entry: Days 8, 15, 22,
+29, 36, 43, 50, 57, 64, 71, 78; and skipping Sept 6/8/9, already covered by
+existing entries). Each page: Channel @blkgrlco, Content Type "Short-Form
+Cutdown", Status "Idea", Platforms [TikTok], computed Publish Date, and a
+Notes field spelling out the provisional/estimated nature of the label so
+it's never mistaken for a confirmed schedule. Dates run 2026-09-10 through
+2026-11-28.
+
+**Not yet done (still owed from the same "Sure"):** a recommendation on
+which of Plann / Clem / Metricool should be the scheduling source of truth
+— she approved taking a pass at this, follow-up analysis still pending.
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|
