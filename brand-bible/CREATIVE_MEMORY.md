@@ -79,7 +79,8 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Files | Notes |
 |---|---|---|
-| @blkgrlcotoo | 5 files, `brands/assets/blkgrlcotoo-luts/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
+| @blkgrlcotoo | 5 files, `brands/assets/luts/blkgrlcotoo/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
+| @blkgrlco | "The Everyday LUT" (Nicholas Di Giugno / ToldbyNick), `brands/assets/luts/blkgrlco/` | 2026-09-11, stated as "the secondary [pass]." Single-file creative grade, applied after the D-Log M→Rec.709 conversion — same two-step structure as @blkgrlcotoo. Fully resolved, no selection logic needed (one file, not a kit). |
 
 ## Confirmed brand fonts
 

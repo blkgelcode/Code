@@ -91,7 +91,7 @@ specific creator's thumbnail or video 1:1.
 2. **Creative grade (confirmed 2026-09-11, @blkgrlcotoo-specific):** one of
    five Rec.709→Rec.709 film-emulation LUTs, applied on top of step 1's
    output — not a replacement for it. Files stored at
-   `assets/blkgrlcotoo-luts/` (DaVinci Resolve-generated, 65-point 3D LUTs):
+   `assets/luts/blkgrlcotoo/` (DaVinci Resolve-generated, 65-point 3D LUTs):
 
    | File | Reads as (Kodak Vision3-style naming) |
    |---|---|

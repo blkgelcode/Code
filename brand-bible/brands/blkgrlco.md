@@ -93,6 +93,20 @@ silently merged into one strategy.
 - Broken footage: round-trip through a Canva export to MP4.
 - Storage: Samsung T7 SSD, `project hhh` folder, one subfolder per video.
 
+## Color Grading — creative pass
+
+**Two-step pipeline, same structure as @blkgrlcotoo — don't conflate the
+steps:**
+1. Technical conversion (above): D-Log M → Rec.709.
+2. **Creative grade (confirmed 2026-09-11): "The Everyday LUT"** by
+   Nicholas Di Giugno (ToldbyNick) — a third-party commercial LUT, applied
+   *after* step 1's output, per the vendor's own instructions (base
+   corrections → conversion LUT → The Everyday LUT → finishing
+   grade/black-levels last). Stated as **the secondary** pass — i.e. this
+   is step 2 of the pipeline, not a second option among choices (it's a
+   single file, no selection logic needed like the @blkgrlcotoo kit). File
+   + vendor how-to-use guide stored at `assets/luts/blkgrlco/`.
+
 ## Editorial Frameworks That Apply Here
 - **Real-Time Timestamp Cutdown** — rapid micro-cuts stamped with real
   clock time, used for shorts.
