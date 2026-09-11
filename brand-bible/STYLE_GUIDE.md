@@ -37,8 +37,9 @@ examples — never from a single one-off decision.
 | Flub-take marker | A take where the transcript shows "lululu" / "la la la" / similar is her in-take flub marker — cut that take. |
 | B-roll placement | Any talking-head segment over 20 seconds needs B-roll cut over it. Routine/step segments hold 2.5–3.5s per shot (sub-second is too fast to read). |
 | Montage content | Show a routine's real steps in order (e.g. opening the bottle → pouring → drinking → taking the meds) — not a generic scene-detection montage. |
+| Transitional footage | **Never cut straight from talking in one location to talking in another** (e.g. house → gym) — that's disconnected clips, not a story. Shoot/cut in the actual transition (walking out, car, driving, arriving). Test: *if you only listened, without watching, could you tell a transition happened?* If not, the transition is missing. Confirmed 2026-09-11 from vlog feedback. |
 | Pattern interrupts | Every 2–3 min in long-form: text pop-ups, quick graphics, humor cards. |
-| Retention structure (long-form) | 3–4 clip "coming up" preview right after the cold open/title card; mid-video retention tease around 8–10 min; target 12–14 min runtime — past that, needs retention hooks to earn the length. |
+| Retention structure (long-form) | 3–4 clip "coming up" preview — think **movie trailer**, not a full intro — right after the cold open/title card; mid-video retention tease around 8–10 min; target 12–14 min runtime — past that, needs retention hooks to earn the length. |
 | Openings | Never "hey guys, welcome back" — open on a question, bold statement, or preview of what's coming. Daily vlogs specifically open on "good morning," letting that sentence finish before cutting away. |
 | Personality moments | Keep them — brain freeze, complaining through a workout, reactions. Don't cut for pacing at the expense of these. |
 | Chapters | Always included. |
@@ -73,18 +74,23 @@ examples — never from a single one-off decision.
 
 ## Thumbnail Style Rules
 
-`[NEEDS INPUT]` — no thumbnail examples yet. One confirmed rule that applies
-here as much as to templates: **titles must be specific and viewer-focused,
-not generic.**
+Two confirmed rules, from vlog feedback (2026-09-11): **titles must be
+specific and viewer-focused, not generic**, and:
+
+> **No AI-generated thumbnails.** Even AI thumbnails that "don't look
+> terrible" are recognizable as AI-made, and cost clicks from viewers who
+> notice and skip them on sight.
 
 | Attribute | Rule |
 |---|---|
+| Thumbnail creation method | Hand-designed, not AI-generated. Non-negotiable. |
+| Typography (font/size/placement) | Pick **one font** and stick to it across thumbnails; format consistently rather than varying per video. Let the look evolve deliberately over time, not video-to-video. Exact font/size/placement: `[NEEDS INPUT]`. |
 | Typical facial expression range | `[NEEDS INPUT]` |
 | Composition pattern | `[NEEDS INPUT]` |
-| Typography (font/size/placement) | `[NEEDS INPUT]` |
 | Max word count | `[NEEDS INPUT]` — recommend ≤4 words as a starting default |
 | Color treatment | `[NEEDS INPUT]` |
 | Recurring props/backgrounds | `[NEEDS INPUT]` |
+| Shot planning | Shots needed for the thumbnail should be decided **before filming**, alongside the shot list — not found/cropped after the fact. |
 
 ## Templates & Formats — governing rule
 

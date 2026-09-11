@@ -50,6 +50,10 @@ Status legend: `[NEEDS INPUT]` = no real information yet, placeholder only.
 assumed demographics. Until real data exists, any persona work here is
 a hypothesis to be tested, not a fact.
 
+**Confirmed insight (2026-09-11, vlog feedback):** viewers increasingly
+favor vlogs built around one central, focused topic over broad, unfocused
+ones — reinforces the pillar structure in §3 over open-ended daily "yapping."
+
 ## 3. Content Pillars
 
 Four recurring series are confirmed from the editing standing rules; pillar

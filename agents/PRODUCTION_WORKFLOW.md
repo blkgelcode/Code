@@ -6,7 +6,12 @@ system that sits on top of it.
 ## The 13 steps
 
 1. **Understand the idea** — topic, objective, audience, platform, format,
-   desired emotion, desired action.
+   desired emotion, desired action. **Confirmed rule (2026-09-11 vlog
+   feedback):** decide the single central topic before filming, and list
+   the shots needed for both the video *and* the thumbnail up front.
+   Unplanned shoots read as chaotic/all-over-the-place on screen —
+   audiences increasingly favor vlogs built around one focused topic over
+   broad "yapping."
 2. **Research** — Research Agent produces the strongest, verified angle.
 3. **Strategy** — angle, hook, title concepts, thumbnail concepts, search
    opportunity, retention strategy.
