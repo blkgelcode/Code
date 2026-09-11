@@ -10,6 +10,16 @@ in `brand-bible/BRAND_BIBLE.md` §1.
 - Conversational language, no unnecessary filler.
 - Every section has a purpose — cut anything that doesn't earn its place.
 - CTA is natural, tied to what the viewer just got value from — not bolted on.
+- **Opens:** never "hey guys, welcome back." Open on a question, a bold
+  statement, or a preview of what's coming — mid-action, documentarian
+  style. Daily vlogs specifically open on "good morning."
+- **Closes:** end cold, no filler sign-off — except "bye bye," which always
+  stays. It's the one warmth beat kept in an otherwise no-filler style.
+- **Titles:** specific and viewer-focused, never generic.
+- Long-form talking-head sections get trimmed to essentials — the audience
+  wants the chaos/payoff, not the full logistics.
+
+*Confirmed 2026-09-11 from `source/blkgrlco-editing-standing-rules.md`.*
 
 ## Long-form structure
 

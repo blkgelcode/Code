@@ -25,16 +25,16 @@ every piece of content gets better because of everything made before it.
 
 ## Current status
 
-**This is a scaffold, not a finished Brand Bible.** No brand examples (videos,
-scripts, thumbnails, colors, analytics) have been provided yet, so every file
-below contains a working framework with explicit `[NEEDS INPUT]` markers
-instead of invented specifics. Nothing here should be treated as your actual
-brand rules until real examples are analyzed and the placeholders are
-replaced — that's the fastest way to make this system say something generic
-that isn't really your voice.
+**Brand name:** BLKGRLCO Studios. Editing/production rules are confirmed from
+`brand-bible/source/blkgrlco-editing-standing-rules.md` (preserved verbatim
+there; merged into `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, and
+`BRAND_BIBLE.md` §1/§3). Four content pillars are identified: Daily Vlogs,
+90-Day HHH Run, The Ugly In Between, and Long-form YouTube/Talking-head.
 
-See the open questions at the bottom of `brand-bible/BRAND_BIBLE.md` for the
-highest-value information needed to make this real.
+Still generic / `[NEEDS INPUT]`: spoken voice specifics, thumbnails, SEO,
+audience profile, competitors, monetization plan, and what "HHH" actually
+stands for. See the open questions at the bottom of
+`brand-bible/BRAND_BIBLE.md`.
 
 ## How to use this system going forward
 

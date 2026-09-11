@@ -21,6 +21,11 @@ system that sits on top of it.
 11. **Repurposing** — platform-specific derivative content
     (`growth/CONTENT_STRATEGY.md`).
 12. **Quality control** — Content QC Agent checklist against Brand Bible.
+    For BLKGRLCO edits specifically: before finalizing any master, run the
+    pre-flight check (`_tools/preflight.py`) and report the results —
+    verify every standing rule in `brand-bible/source/blkgrlco-editing-standing-rules.md`
+    is met and every correction given during the session actually landed.
+    An edit isn't done until it passes.
 13. **Final approval** — human sign-off before anything publishes, unless
     autonomous publishing has been explicitly authorized for that content
     type.
@@ -57,6 +62,20 @@ opportunity, trend potential, originality, competition level (lower is
 better), story potential, retention potential, production difficulty (lower
 is better), monetization potential, brand alignment. State the total and the
 reasoning — this is a decision aid, not a hard cutoff.
+
+## Technical & storage notes (BLKGRLCO)
+
+- Source footage and project folders: Samsung T7 SSD, `project hhh` folder,
+  one subfolder per video. Google Drive is backup-only (large downloads
+  stall there).
+- Camera: DJI Osmo Pocket 3, D-Log M — apply the correct LUT rather than
+  trusting the file's own (mis-tagged) color-space metadata.
+- Editor: CapCut.
+- Footage that won't import/transcribe: round-trip through a Canva export
+  to MP4 before retrying.
+
+Full detail in `brand-bible/source/blkgrlco-editing-standing-rules.md` and
+`brand-bible/STYLE_GUIDE.md`.
 
 ## Competitor intelligence
 

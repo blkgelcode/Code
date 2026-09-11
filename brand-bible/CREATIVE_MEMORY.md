@@ -11,10 +11,15 @@ Otherwise it stays logged here as project-specific context.
 
 ---
 
+## Source documents ingested
+| Date | Document | Status |
+|---|---|---|
+| 2026-09-11 | `source/blkgrlco-editing-standing-rules.md` (BLKGRLCO Studios editing standing rules) | Merged as approved rules — see `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `BRAND_BIBLE.md` §1/§3, `agents/PRODUCTION_WORKFLOW.md`. Provided directly as standing rules, not inferred, so treated as permanent rather than tentative. |
+
 ## Corrections log
 *(mistake → correction → date. Referenced before every new piece of content so it isn't repeated.)*
 
-- `[none yet]`
+- `[none yet — standing rules above were provided pre-emptively, not as a correction to prior work]`
 
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |

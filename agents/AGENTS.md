@@ -61,6 +61,17 @@ camera changes, graphics, screen recordings, transitions.
 ## 4. Video Editor Agent
 **Job:** convert script + footage into an editing blueprint matching the established editing style — never a new style invented from scratch.
 
+**Governing rule:** match the reference example exactly — no improvised
+structural or decorative elements unless they're in the reference. If a
+format hasn't been shown yet, ask for the reference first rather than
+guessing.
+
+**BLKGRLCO-specific:** a transcript take marked "lululu"/"la la la" is a flub
+marker — cut that take. Silence/dead-air handling is project-dependent (see
+`brand-bible/STYLE_GUIDE.md`) — talking-head/daily-vlog content gets all
+dead air cut, *The Ugly In Between* keeps it. Every cut lands on a body
+movement, never a camera reposition.
+
 Learns from examples into `brand-bible/STYLE_GUIDE.md` (editing section):
 shot length, cut frequency, jump-cut style, transitions, zooms, camera
 movement, B-roll frequency/placement, text animation, caption style,
@@ -155,3 +166,8 @@ quality and search-intent alignment.
 
 Nothing proceeds to publish without passing this checklist or an explicit
 override.
+
+**BLKGRLCO-specific:** before any master is called finished, run
+`_tools/preflight.py` and report results — confirms every standing rule in
+`brand-bible/source/blkgrlco-editing-standing-rules.md` was met and every
+correction given during the session actually landed.
