@@ -9,6 +9,14 @@ or you give a correction.
 approve it explicitly or it's confirmed across ≥2–3 independent examples.
 Otherwise it stays logged here as project-specific context.
 
+**Standing workflow rule (confirmed 2026-09-11):** whenever a new
+editing-relevant rule gets locked anywhere in `brand-bible/` (technical
+specs, per-brand editing standards, fonts, palettes, color grading, sound
+design, thumbnail workflow), regenerate `agents/EDITOR_AGENT_PROMPT.md`
+from the updated source docs and re-send it — don't wait to be asked.
+Non-editing rules (SEO, monetization, analytics, general strategy) don't
+need this, since that prompt is scoped to editing only.
+
 ---
 
 ## Source documents ingested
