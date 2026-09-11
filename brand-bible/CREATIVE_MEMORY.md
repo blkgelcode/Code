@@ -75,6 +75,14 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
   subs / 8,000 watch-hours). Replaced by: consistency, craft, content she
   loves is the actual goal. See `BRAND_BIBLE.md` §9.
 
+## Confirmed brand fonts
+
+| Brand | Thumbnail font | Locked |
+|---|---|---|
+| @blkgrlco | **Advercase** (Editor's Hand stays scoped to handwritten captions/quotes only) | 2026-09-11, confirmed directly. |
+| @blkgrlcotoo | `[NEEDS INPUT]` | Still the one open item blocking a fully-specified thumbnail workflow. |
+| @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body) | Pre-existing, locked. |
+
 ## Confirmed brand palettes
 
 | Brand | Palette | Locked |

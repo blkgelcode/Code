@@ -136,6 +136,10 @@ palette existed.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
   display/title-card type), **Editor's Hand** (handwritten captions/quotes,
   Regular weight only).
+- **Confirmed 2026-09-11: Advercase is the thumbnail font.** One font, per
+  the studio-wide "no AI thumbnails, pick one font and stay consistent"
+  rule — use Advercase for thumbnail headline text going forward, not
+  Editor's Hand (that stays scoped to handwritten captions/quotes).
 
 ## Verified Creator References
 *(structural technique only — framing, pacing, narration style — never
