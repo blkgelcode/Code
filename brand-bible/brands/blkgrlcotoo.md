@@ -16,13 +16,26 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
   weekday-opportunistic-capture rhythm that governs the other two.
 
 ## Visual Identity / Brand Palette
-- **No fixed palette locked yet.** Pull color direction from the actual
-  destination/footage — don't default to a generic travel-thumbnail
-  teal-and-orange grade. Ask if a look hasn't been set for a given trip
-  rather than inventing one.
-- Otherwise follows studio-wide thumbnail composition rules (face centered
-  and readable, no clutter, don't duplicate the title phrase, correct
-  platform specs).
+
+**Locked 2026-09-11** (coolors.co/palette/284376-e58e47-d9d1c7-ca5278-6177a8):
+
+| Swatch | Hex | Description |
+|---|---|---|
+| ⬛ | `#284376` | Deep navy blue |
+| 🟧 | `#E58E47` | Warm marigold/orange |
+| ⬜ | `#D9D1C7` | Warm sand/greige |
+| 🟪 | `#CA5278` | Raspberry pink |
+| 🟦 | `#6177A8` | Dusty periwinkle blue |
+
+This supersedes the earlier "no fixed palette locked yet, pull from
+destination footage" placeholder — this is now the standing @blkgrlcotoo
+palette for thumbnails, graphics, and title cards. Still pull specific
+color *grading* from the actual destination/footage per shoot; this
+palette governs graphic elements (thumbnails, text, overlays), not a
+mandate to color-grade every location's footage identically.
+Otherwise follows studio-wide thumbnail composition rules (face centered
+and readable, no clutter, don't duplicate the title phrase, correct
+platform specs).
 
 ### Visual reference board (Pinterest "blkgrlcotoo visual identity," 2026-09-11)
 Inspiration/technique board, not her own footage — treat as candidate

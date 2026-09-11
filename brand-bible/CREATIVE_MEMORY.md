@@ -75,6 +75,14 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
   subs / 8,000 watch-hours). Replaced by: consistency, craft, content she
   loves is the actual goal. See `BRAND_BIBLE.md` §9.
 
+## Confirmed brand palettes
+
+| Brand | Palette | Locked |
+|---|---|---|
+| @blkgrlcotoo | `#284376` navy, `#E58E47` marigold, `#D9D1C7` sand, `#CA5278` raspberry, `#6177A8` periwinkle | 2026-09-11, via coolors.co link — explicit, high confidence, supersedes the earlier "no palette locked" placeholder. |
+| @blkgrlco | sage green, terracotta, warm beige, pastel gold, deep clay orange (from brand-identity PDF) | Pre-existing. |
+| @uglyinbetween | `#3A2E39` aubergine, `#DDBEA9` terracotta | Pre-existing, locked. |
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|

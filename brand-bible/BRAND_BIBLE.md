@@ -149,9 +149,7 @@ thresholds. See `../growth/MONETIZATION_STRATEGY.md` and
 2. **@blkgrlcotoo / @uglyinbetween audience specifics** — only @blkgrlco
    has a stated demographic/psychographic; the other two brands' audience
    profiles are inferred, not confirmed.
-3. **@blkgrlcotoo visual palette** — explicitly not locked yet; per brand
-   file, ask per-trip rather than default to a generic look.
-4. **Competitor list** — no fixed creators named for any of the three
+3. **Competitor list** — no fixed creators named for any of the three
    brands yet.
-5. **"Aurelia Gray" / "Rachel McDermott"** — aesthetic references used for
+4. **"Aurelia Gray" / "Rachel McDermott"** — aesthetic references used for
    @blkgrlco with unconfirmed real handles.

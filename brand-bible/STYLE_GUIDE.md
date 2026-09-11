@@ -172,7 +172,7 @@ produce at correct spec.
 
 - @blkgrlco's daily-vlog editing standard, label-card spec, and locked
   4-panel grid template → `brands/blkgrlco.md`.
-- @blkgrlcotoo's palette policy (ask per-trip, don't invent) →
+- @blkgrlcotoo's locked palette (navy/marigold/sand/raspberry/periwinkle) →
   `brands/blkgrlcotoo.md`.
 - @uglyinbetween's full visual identity (B&W portraiture, aubergine/
   terracotta palette, Garamond/Helvetica type) → `brands/uglyinbetween.md`.
