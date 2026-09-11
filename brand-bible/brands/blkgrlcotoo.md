@@ -72,6 +72,39 @@ locked in yet.
 Extract technique only (framing, structure, graphic device) — never copy a
 specific creator's thumbnail or video 1:1.
 
+## Color Grading
+
+**Two-step pipeline — don't conflate the steps:**
+1. Technical conversion (cross-brand default, `../STYLE_GUIDE.md`): DJI
+   Osmo Pocket 3 D-Log M footage → "DJI OSMO Pocket 3 D-Log M to Rec.709"
+   LUT. This gets footage to a clean Rec.709 starting point.
+2. **Creative grade (confirmed 2026-09-11, @blkgrlcotoo-specific):** one of
+   five Rec.709→Rec.709 film-emulation LUTs, applied on top of step 1's
+   output — not a replacement for it. Files stored at
+   `assets/blkgrlcotoo-luts/` (DaVinci Resolve-generated, 65-point 3D LUTs):
+
+   | File | Reads as (Kodak Vision3-style naming) |
+   |---|---|
+   | `709to709_250D_x65_Clean_White.cube` | 250D — daylight-balanced, no grain |
+   | `709to709_500T_x65_Clean_White.cube` | 500T — tungsten-balanced (low light/interior), no grain |
+   | `709to709_500T_x65_Film_White.cube` | 500T — tungsten-balanced, with film grain/halation |
+   | `709to709_160T_x65_Clean_White.cube` | 160T — tungsten-balanced (brighter tungsten), no grain |
+   | `709to709_160T_x65_Film_White.cube` | 160T — tungsten-balanced, with film grain/halation |
+
+   **Reading of the naming convention is inferred from standard film-stock
+   terminology (250D/500T/160T = ISO + daylight/tungsten balance, matching
+   Kodak Vision3 stock names; Clean/Film = grain on or off) — not confirmed
+   from her directly. Flagging rather than presenting as certain.**
+
+   **Open question:** she said "this LUT for all videos" (singular) while
+   sending five files that read as a lighting-condition set (pick by
+   daylight vs. tungsten, brighter vs. dimmer) plus a grain preference
+   (Clean vs. Film) — not literally one universal file. Needs confirming:
+   is this a condition-based kit (pick per shoot), or is one specific file
+   meant to be the actual single default? If it's the kit, which is default
+   when conditions are mixed/ambiguous, and is Clean or Film the standing
+   grain preference?
+
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new
   location.

@@ -75,6 +75,12 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
   subs / 8,000 watch-hours). Replaced by: consistency, craft, content she
   loves is the actual goal. See `BRAND_BIBLE.md` §9.
 
+## Confirmed brand LUTs
+
+| Brand | Files | Notes |
+|---|---|---|
+| @blkgrlcotoo | 5 files, `brands/assets/blkgrlcotoo-luts/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. Reads as a lighting-condition kit (daylight vs. tungsten, grain on/off), not one universal file — open question on selection logic logged in `brands/blkgrlcotoo.md`. |
+
 ## Confirmed brand fonts
 
 | Brand | Thumbnail font | Locked |
