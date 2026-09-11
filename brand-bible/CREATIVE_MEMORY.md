@@ -80,7 +80,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | Brand | Palette | Locked |
 |---|---|---|
 | @blkgrlcotoo | `#284376` navy, `#E58E47` marigold, `#D9D1C7` sand, `#CA5278` raspberry, `#6177A8` periwinkle | 2026-09-11, via coolors.co link — explicit, high confidence, supersedes the earlier "no palette locked" placeholder. |
-| @blkgrlco | Named colors from PDF: sage green, terracotta, warm beige, pastel gold, deep clay orange. Proposed hex: `#9CAF88` / `#E2725B` / `#D8C3A5` / `#E6BE8A` / `#B5651D`. | **Not confirmed** — hex values are my proposed matches for the named colors, not sourced from her. Flag until she confirms or sends exact values/a link. |
+| @blkgrlco | `#F0DAC2` cream, `#B68A71` tan, `#B4AD7F` sage-tan, `#636407` moss olive, `#A8B118` olive-chartreuse, `#EBB9BA` blush, `#8C0532` wine, `#49001B` oxblood, `#2E1500` espresso | 2026-09-11, confirmed directly (color-generator screenshot) — supersedes the PDF's named colors and the earlier proposed-hex guesses. `#A8B118` matches the already-locked label-card color exactly. |
 | @uglyinbetween | `#3A2E39` aubergine, `#DDBEA9` terracotta | Pre-existing, locked. |
 
 ## Winning patterns

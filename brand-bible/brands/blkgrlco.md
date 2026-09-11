@@ -107,23 +107,30 @@ silently merged into one strategy.
 
 ## Visual Identity
 - Logo: modern, bold, lowercase text — `blkgrlco.`
-- Palette: sage green, terracotta, warm beige, pastel gold, deep clay
-  orange.
 
-  **Proposed hex matches — not yet confirmed.** The brand-identity PDF
-  names these colors but gives no hex values, and there's no coolors.co
-  link like @blkgrlcotoo's. These are reasonable design matches for the
-  named colors, not a locked palette — confirm or replace with exact
-  values (a link, like the blkgrlcotoo one, would let me lock this the
-  same way):
+### Palette — locked 2026-09-11
 
-  | Swatch | Hex (proposed) | Named color |
-  |---|---|---|
-  | 🟢 | `#9CAF88` | Sage green |
-  | 🟠 | `#E2725B` | Terracotta |
-  | ⬜ | `#D8C3A5` | Warm beige |
-  | 🟡 | `#E6BE8A` | Pastel gold |
-  | 🟤 | `#B5651D` | Deep clay orange |
+Confirmed directly (color-generator screenshot). This **supersedes** both
+the PDF's named-color description (sage green/terracotta/warm beige/pastel
+gold/deep clay orange) and the earlier proposed-hex guesses — those are
+superseded, not parallel options.
+
+| Swatch | Hex | Description |
+|---|---|---|
+| 🟨 | `#F0DAC2` | Warm cream / pale peach |
+| 🟫 | `#B68A71` | Warm tan |
+| 🟩 | `#B4AD7F` | Sage/olive tan |
+| 🟩 | `#636407` | Dark moss olive |
+| 🟩 | `#A8B118` | Olive-chartreuse |
+| 🩷 | `#EBB9BA` | Blush pink |
+| 🟥 | `#8C0532` | Deep berry/wine |
+| 🟥 | `#49001B` | Oxblood maroon |
+| ⬛ | `#2E1500` | Near-black espresso brown |
+
+**Consistency check:** `#A8B118` is an exact match to the label-card color
+already locked in the Daily Vlog Editing Standard above (RGB(168,177,24) =
+`#A8B118`) — good confirmation the two were already aligned before this
+palette existed.
 - Typography: modern serif for titles/branding, clean sans-serif for body.
 - Aesthetic: clean, minimalistic, contemporary, soft organic shapes.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
