@@ -25,6 +25,13 @@ Bible doc's more dramatic style; don't drift back toward that register.
 - Minimal-to-no music.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
+- **Physical set/studio reference (2026-09-11):** warm neutral, cozy
+  environment — cream/oatmeal boucle bean bags, small wood side tables, a
+  single warm-toned directional studio light, minimal styling (two mugs,
+  one mic on a stand). This describes the **recording space only** — final
+  visual output still gets the locked B&W high-contrast treatment below;
+  the room's actual color doesn't change that. Confirmed scope: studio/set
+  inspiration only, not a format or palette change.
 - **Documentarian rule applies fully and without exception here** — this
   brand is explicitly exempt from the talking-head explainer exception
   (cut-all-dead-air) used on the other two brands. Never streamline this
