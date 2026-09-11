@@ -202,7 +202,31 @@ Notes field spelling out the provisional/estimated nature of the label so
 it's never mistaken for a confirmed schedule. Dates run 2026-09-10 through
 2026-11-28.
 
-**Not yet done (still owed from the same "Sure"):** a recommendation on
+**Follow-up (2026-09-11, same day):** Omnia clarified the run's real
+structure — 13 weeks of long-form progress reports + 90 daily short-form
+vlogs of her completing her daily goals, as two distinct, parallel content
+types (not one subsuming the other). Verified via SQL query against the
+Content Calendar that the **13 long-form entries already fully exist**
+(Weekly Vlog 1–13, dated 2026-09-08 through 2026-11-29) — no gap there.
+The daily-short list, however, was missing a short-form entry for every day
+that already had a long-form recap (Day 1, 8, 15, 22, 29, 36, 43, 50, 57,
+64, 71, 78, 90), since the original 69-page batch skipped those dates
+assuming the weekly recap covered them. Added **13 new daily-short pages**
+for those days, dated to match their already-existing, real weekly-vlog
+dates (not invented dates) — e.g. Day 8 daily short uses Weekly Vlog 2's
+real 2026-09-13 date. Named with a "(Daily Short)" suffix to disambiguate
+from the same-day-same-label long-form entry.
+
+Day 4 remains intentionally absent from the daily-short list: its calendar
+slot (2026-09-09) is already occupied by the real, Metricool-sourced "Day 3"
+entry, so adding a separate "Day 4" would double-book a date that's already
+covered by actual published content. Flagged rather than silently
+resolved. The Day 90 finale's date (2026-11-29, elapsed Day 85 under the
+straight-count formula) is a pre-existing discrepancy in her own plan, not
+introduced by this pass — noted directly on the new Day 90 daily-short
+entry's Notes field.
+
+**Not yet done (still owed from the earlier "Sure"):** a recommendation on
 which of Plann / Clem / Metricool should be the scheduling source of truth
 — she approved taking a pass at this, follow-up analysis still pending.
 
