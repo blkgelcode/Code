@@ -61,6 +61,29 @@ Supporting production details (secondary, for later title-card graphics):
   lines — a lighter-weight alternative to a full angle change, worth
   considering for explainer segments.
 
+## Sound Design Toolkit (Arthur — "Cut Theory" Part 3, reference confirmed 2026-09-11)
+
+Confirmed as a technique source to apply, not just reference — this
+resolves one of the earlier unwatchable TikTok clips (transcript supplied).
+Fit: @blkgrlco/@blkgrlcotoo primarily — @uglyinbetween's minimal-to-no-
+music, one-take approach means beat-syncing and layered transition SFX
+don't really apply there.
+
+1. **Edit to the beat.** Use a beat-detection plugin that auto-marks beats
+   directly on the timeline, then cut to those markers. Named in the
+   source as "Brinkly.io" — **name/spelling unverified**, transcribed via
+   auto-transcription; confirm the actual tool before relying on it.
+2. **De-esser-as-ducking for voiceover.** Instead of just lowering music
+   under a voiceover, apply a de-esser effect to the music and curve the
+   graph so it carves out a frequency "pocket" the voiceover sits in,
+   rather than a flat volume drop.
+3. **Vary repeated SFX instead of stacking identical ones.** For a beat
+   that needs multiple transition sounds (e.g. a whoosh), don't stack 3
+   of the same sound — layer *different* variations at different
+   registers (a low hit, a mid whoosh, a high texture). Changes what gets
+   sourced for `SOUND_LIBRARY.md`: transition SFX should be picked as a
+   registered set (low/mid/high), not a single sound reused.
+
 ## Graphics / Pop-Up / SFX Reference (Yale Jeannette — reference only, not yet applied)
 
 **Fit:** @blkgrlco and @blkgrlcotoo shorts/explainer-style content.

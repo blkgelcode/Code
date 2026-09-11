@@ -11,6 +11,15 @@ Status: scaffold only as of 2026-09-11 — nothing populated yet.
 
 ---
 
+## Music editing technique (confirmed 2026-09-11, Arthur's Cut Theory)
+
+- **Edit to the beat** — use a beat-detection plugin to mark beats on the
+  timeline, cut to those markers. Tool named in source as "Brinkly.io,"
+  unverified spelling — confirm before relying on it.
+- **De-esser-as-ducking for voiceover** — instead of a flat volume drop,
+  apply a de-esser to the music track and curve it to carve a frequency
+  pocket the voiceover sits in.
+
 ## Music
 
 | Brand | Mood/direction | Confirmed tracks | Notes |
@@ -21,9 +30,15 @@ Status: scaffold only as of 2026-09-11 — nothing populated yet.
 
 ## Sound Effects
 
+**Rule (confirmed 2026-09-11, Arthur's Cut Theory):** don't pick one sound
+per transition type and reuse it — pick a *set* of variations at different
+registers (low hit / mid whoosh / high texture) so repeated transitions
+don't stack identical SFX. Applies to whooshes and similar transition
+sounds especially. See `STYLE_GUIDE.md`.
+
 | Brand | Use case | Confirmed SFX | Notes |
 |---|---|---|---|
-| @blkgrlco | Label-card pops, pattern interrupts, transitions | `[NEEDS INPUT]` | Cross-ref the SFX-per-cut-style table in `STYLE_GUIDE.md` (film-reel clack for montages, paper-swoosh for graphic pop-ins, abrupt silence for Smash Cut, rhythmic taps for Jump Cuts) — specific Epidemic Sound picks for each go here once chosen. |
+| @blkgrlco | Label-card pops, pattern interrupts, transitions | `[NEEDS INPUT]` | Cross-ref the SFX-per-cut-style table in `STYLE_GUIDE.md` (film-reel clack for montages, paper-swoosh for graphic pop-ins, abrupt silence for Smash Cut, rhythmic taps for Jump Cuts) — specific Epidemic Sound picks for each go here once chosen, as a low/mid/high set where it's a repeated transition sound. |
 | @blkgrlcotoo | Object-label callouts, transitions, graphic pop-ins | `[NEEDS INPUT]` | The Yale Jeannette SFX logic (pop/click on text, camera-shutter on freeze-frames, paper-tear on wipes, whoosh on slides, mouse-click on mock-UI) is the rulebook — this table is where the actual licensed sound for each becomes concrete. |
 | @uglyinbetween | `[NEEDS INPUT]` | — | Not a stated fit for the Yale Jeannette SFX-heavy style (see `STYLE_GUIDE.md`) — if this brand uses SFX at all, it's likely sparse/different in kind, not the same picks as the other two brands. |
 

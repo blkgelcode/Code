@@ -101,6 +101,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 ## Source documents ingested (continued)
 | Date | Document | Status |
 |---|---|---|
+| 2026-09-11 | Transcript of TikTok clip "v15044gf0000d8slninog65gq077jn50" — "Cut Theory Part 3" (sound design) by creator Arthur | Resolves one of the 5 originally-unwatchable TikTok clips flagged earlier. Applied directly into `STYLE_GUIDE.md` (new Sound Design Toolkit section) and `SOUND_LIBRARY.md` (SFX-as-a-set rule, music editing technique notes). The other 4 clips from that original batch remain unresolved. |
 | 2026-09-11 | Pinterest "BeautyPlus moodboard" — graphic element library screenshots (digicam frames, webcore/iOS UI, outer frame objects, fruit cutouts, paper cutouts) | **Medium confidence** — stated as "elements I want on hand" (real intent, not passive inspiration), but not yet applied to specific content. Logged into `STYLE_GUIDE.md`'s Graphics/Pop-Up/SFX Reference section. Connects to the existing camcorder-viewfinder and mock-UI SFX rules, and adds more evidence toward the still-open sticker/decorative-element question for @blkgrlcotoo. |
 
 ## Winning patterns
