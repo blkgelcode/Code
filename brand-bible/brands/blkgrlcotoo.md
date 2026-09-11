@@ -100,9 +100,9 @@ specific creator's thumbnail or video 1:1.
    The condition→ISO mapping above follows standard film-stock convention
    (matching Kodak Vision3 naming) — confirmed that it's a condition-based
    kit, but the specific per-condition assignment is still my inference,
-   not verified line-by-line. **Still open:** whether Clean or Film (grain)
-   is the standing preference, or if that's also a per-shoot creative call
-   like the ISO/balance choice.
+   not verified line-by-line. **Confirmed 2026-09-11: Clean vs. Film
+   (grain) is a per-shoot creative call, not a standing preference** — pick
+   whichever suits that video, same as the ISO/balance choice.
 
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new
