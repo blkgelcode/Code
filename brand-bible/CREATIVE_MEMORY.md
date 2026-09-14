@@ -276,6 +276,58 @@ consolidation, done via `notion-update-page` (`update_content`, exact
 search/replace on the existing markdown) rather than a full rewrite, to
 minimize risk of losing anything.
 
+## @blkgrlcotoo editing direction locked (2026-09-14)
+
+Direction received for how a @blkgrlcotoo travel edit should *feel*,
+explicitly framed as "the agent should edit, not invent the creative
+direction." Treated as an explicit approval (per the rule at the top of
+this file) rather than a candidate, and written into
+`brands/blkgrlcotoo.md` § Editing Feel, with a ready-to-paste companion
+prompt at `../agents/BLKGRLCOTOO_EDITOR_PROMPT.md` and a condensed block
+added to the @blkgrlcotoo section of `../agents/EDITOR_AGENT_PROMPT.md`
+(recompiled 2026-09-14 under the standing auto-refresh habit).
+
+**The thesis:** a video postcard sent to a close friend — not a travel
+vlog, tourism spot, influencer montage, or polished cinematic travel ad.
+Success condition is "I was supposed to be there," then "I'm going."
+Supporting rules: personal over perfect (imperfect framing stays in),
+mixed media as first-class material (photos, screenshots, maps, menus,
+tickets), memory-flip pacing instead of a beautiful-shot montage,
+emotional rather than chronological order, annotation-scale typography,
+collage that breathes, natural sound preserved as storytelling, and
+grading for the place rather than a preset.
+
+**Promoted, not invented:** this direction confirms most of the
+2026-09-11 Pinterest-board techniques that were logged at Medium
+confidence as candidates — 3-beat "what I wore / where I went / what I
+got," overhead flat-lays, object-label callouts, Maps/ratings-screenshot
+inserts, photo-booth filmstrip collage, camera-viewfinder framing. Those
+are now usable layout vocabulary. **The glossy 3D Canva
+sticker/embellishment direction stays unadopted** — the direction doesn't
+mention it either way, so the existing flag stands.
+
+**Three apparent conflicts, resolved as complementary rather than by
+deleting either side** (documented in both new files so a future refresh
+doesn't "fix" one):
+1. "Don't overuse transitions" vs. "no graphic or transition should be
+   silent" — different subjects. Use few transition effects; the ones used
+   still carry sound.
+2. "Don't organize chronologically" vs. "cut the actual transition between
+   locations" — also different subjects. Reorder the day freely; the
+   movement between two adjacent talking moments still has to be on
+   screen.
+3. "Not aggressively graded / nostalgic and filmic" — this is the intent
+   behind the locked five-LUT film-emulation kit, not permission to skip
+   the two-step pipeline and hand-grade.
+
+**Open item raised by this direction:** the journal-annotation look
+implies a handwritten hand, but no handwritten font is licensed to
+@blkgrlcotoo (`Editor's Hand` is @blkgrlco's; `Hello Scratchy` is
+unassigned). Interim rule written into both files: annotation text is set
+in TAN Memories / Perfectly Nineties, small and lowercase, with the
+journal feeling carried by scale, placement and restraint — ask before
+substituting a script lookalike.
+
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |
 |---|---|---|---|
