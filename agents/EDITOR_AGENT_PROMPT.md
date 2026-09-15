@@ -5,7 +5,13 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-09-11.
+2026-09-14.
+
+**Companion file:** `BLKGRLCOTOO_EDITOR_PROMPT.md` carries the @blkgrlcotoo
+creative direction (the *feel* of a travel edit — pacing, mixed media,
+collage, natural sound, annotation typography). Paste both when the
+editing agent is working on @blkgrlcotoo; this file alone gives it the
+specs without the feeling.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -254,6 +260,41 @@ the weekday-opportunistic-capture rhythm).
 
 **Editorial frameworks that apply:** Wide → Medium → Close for new-location
 establishing shots; Flow Cut for transit/movement footage.
+
+**Editing feel (confirmed 2026-09-14)** — full direction in
+`BLKGRLCOTOO_EDITOR_PROMPT.md`, condensed here:
+
+- A @blkgrlcotoo edit is a **video postcard sent to a close friend** —
+  not a travel vlog, tourism spot, influencer montage, or polished
+  cinematic travel ad. Target feeling: "I was supposed to be there," then
+  "I'm going."
+- **Personal over perfect** — handheld motion, imperfect framing and quick
+  moments stay in when they make it feel authentic.
+- **Mixed media, not just footage** — photos, screenshots, maps, menus,
+  tickets/receipts and location info are first-class material.
+- **Memory-flip pacing** — moment → detail → environment → person →
+  unexpected detail → photo → movement → location → atmosphere. Varied
+  shot lengths; few transition effects (cuts, movement and sound carry
+  them instead).
+- **Emotional order, not chronological** — but the documentarian rule
+  still holds: the movement between two adjacent talking moments has to be
+  on screen.
+- **Annotation-scale typography** — TAN Memories / Perfectly Nineties,
+  small and lowercase, like margin notes in a travel journal. No giant
+  titles, heavy text animation, or corporate type. No handwritten font is
+  licensed to this brand — ask before substituting one.
+- **Collage that breathes** — layered scrapbook pages alternating with
+  full-screen immersive footage; not every frame a collage. Established
+  layouts: 3-beat "what I wore / where I went / what I got," overhead
+  flat-lays, object-label callouts, Maps/ratings-screenshot inserts,
+  photo-booth filmstrip, nested camera-viewfinder framing.
+- **Natural sound as storytelling** — street ambience, airport
+  announcements, restaurant noise, trains, laughter. Music must not erase
+  the experience of being there.
+- **Grade for the place, not the preset** — natural skin tones, filmic and
+  slightly nostalgic; no crushed blacks, extreme HDR, heavy teal/orange or
+  influencer presets. Produced via the two-step LUT pipeline above, not by
+  hand-grading to taste.
 
 **Fonts:** **TAN Memories** = thumbnail headline font (Advercase's role for
 @blkgrlco). **Perfectly Nineties** = secondary/accent use.

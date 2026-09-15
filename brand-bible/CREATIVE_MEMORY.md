@@ -27,6 +27,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
+| 2026-09-15 | `source/blkgrlco-yap-batch-01.md` (Yap batch 01 filming sheet) | Adopted as a new @blkgrlco format — one-take, no-methods-no-tips talking-to-camera shorts for TikTok/IG. Written into `../growth/CONTENT_STRATEGY.md` with the batch-01 hook list. Also carries a sharper audience definition (tried the methods, couldn't stick) than the channel-wide demographic. Three conflicts with locked rules flagged, not resolved: Poppins captions, the `/Volumes/T7/@blkgrlco/yaps/` path, and phone-shot footage vs. the Pocket 3 D-Log grade pipeline. |
 
 ## Corrections log
 *(mistake → correction → date. Referenced before every new piece of content so it isn't repeated.)*
@@ -275,6 +276,90 @@ No content was deleted — this was purely a reorder + one stale-content
 consolidation, done via `notion-update-page` (`update_content`, exact
 search/replace on the existing markdown) rather than a full rewrite, to
 minimize risk of losing anything.
+
+## @blkgrlcotoo editing direction locked (2026-09-14)
+
+Direction received for how a @blkgrlcotoo travel edit should *feel*,
+explicitly framed as "the agent should edit, not invent the creative
+direction." Treated as an explicit approval (per the rule at the top of
+this file) rather than a candidate, and written into
+`brands/blkgrlcotoo.md` § Editing Feel, with a ready-to-paste companion
+prompt at `../agents/BLKGRLCOTOO_EDITOR_PROMPT.md` and a condensed block
+added to the @blkgrlcotoo section of `../agents/EDITOR_AGENT_PROMPT.md`
+(recompiled 2026-09-14 under the standing auto-refresh habit).
+
+**The thesis:** a video postcard sent to a close friend — not a travel
+vlog, tourism spot, influencer montage, or polished cinematic travel ad.
+Success condition is "I was supposed to be there," then "I'm going."
+Supporting rules: personal over perfect (imperfect framing stays in),
+mixed media as first-class material (photos, screenshots, maps, menus,
+tickets), memory-flip pacing instead of a beautiful-shot montage,
+emotional rather than chronological order, annotation-scale typography,
+collage that breathes, natural sound preserved as storytelling, and
+grading for the place rather than a preset.
+
+**Promoted, not invented:** this direction confirms most of the
+2026-09-11 Pinterest-board techniques that were logged at Medium
+confidence as candidates — 3-beat "what I wore / where I went / what I
+got," overhead flat-lays, object-label callouts, Maps/ratings-screenshot
+inserts, photo-booth filmstrip collage, camera-viewfinder framing. Those
+are now usable layout vocabulary. **The glossy 3D Canva
+sticker/embellishment direction stays unadopted** — the direction doesn't
+mention it either way, so the existing flag stands.
+
+**Three apparent conflicts, resolved as complementary rather than by
+deleting either side** (documented in both new files so a future refresh
+doesn't "fix" one):
+1. "Don't overuse transitions" vs. "no graphic or transition should be
+   silent" — different subjects. Use few transition effects; the ones used
+   still carry sound.
+2. "Don't organize chronologically" vs. "cut the actual transition between
+   locations" — also different subjects. Reorder the day freely; the
+   movement between two adjacent talking moments still has to be on
+   screen.
+3. "Not aggressively graded / nostalgic and filmic" — this is the intent
+   behind the locked five-LUT film-emulation kit, not permission to skip
+   the two-step pipeline and hand-grade.
+
+**Open item raised by this direction:** the journal-annotation look
+implies a handwritten hand, but no handwritten font is licensed to
+@blkgrlcotoo (`Editor's Hand` is @blkgrlco's; `Hello Scratchy` is
+unassigned). Interim rule written into both files: annotation text is set
+in TAN Memories / Perfectly Nineties, small and lowercase, with the
+journal feeling carried by scale, placement and restraint — ask before
+substituting a script lookalike.
+
+## New @blkgrlco format: Yaps (2026-09-15)
+
+Filming sheet for "Yap batch 01" received and adopted into
+`../growth/CONTENT_STRATEGY.md`; source preserved verbatim at
+`source/blkgrlco-yap-batch-01.md`.
+
+One take, straight to camera, vertical, TikTok + Instagram. Hook first,
+then three prompts talked through in her own words — prompts, not a script,
+and takes are not redone for delivery because the edit cuts every pause and
+um. Sits alongside the daily shorts and the Sunday long-form as a third
+@blkgrlco format.
+
+**Two things here are new information, not just a new format:**
+- **A sharper audience definition than the channel-wide demographic:** the
+  viewer who tried the methods, couldn't stick, is ready to commit, and
+  needs someone to go along with. Filmed as if FaceTiming her. This is more
+  specific than "Black women 25–40 prioritizing personal growth" in
+  `brands/blkgrlco.md` and is worth carrying into hooks and copy beyond
+  yaps.
+- **"No methods, no tips."** The format explicitly refuses to teach — it
+  demonstrates. All five batch-01 hooks are a miss, a delay, or a failure
+  said out loud, which is the same honesty spine as the weekly vlog's
+  "wins and losses included."
+
+Logged as adopted rather than candidate: this was given as direction, not
+as a reference board. **Three conflicts with locked rules were flagged in
+the strategy doc rather than resolved** — the sheet's Poppins caption font
+(not in `FONT_LIBRARY.md`; @blkgrlco's locked caption face is Editor's
+Hand), the `/Volumes/T7/@blkgrlco/yaps/00_raw/` path sitting outside the
+locked `project hhh` tree, and "phone or Pocket 3" when the locked grade
+pipeline assumes Pocket 3 D-Log M.
 
 ## Winning patterns
 | Type | What worked | Why (if known) | Confidence |

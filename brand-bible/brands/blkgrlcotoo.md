@@ -72,6 +72,9 @@ worth carrying forward once confirmed:
   script or bold sans location-name title + a 2–4 photo collage (food,
   place, one personality/portrait shot).
 
+**Status as of 2026-09-14:** everything in the list above is now confirmed
+as usable layout vocabulary for this brand — see § Editing Feel.
+
 **Flagged, not adopted:** the board also leans heavily on glossy 3D
 Canva stickers/embellishments (balloon letters, enamel-pin-style icons).
 That's a live open question, not a decision — ask before using decorative
@@ -113,6 +116,83 @@ specific creator's thumbnail or video 1:1.
    not verified line-by-line. **Confirmed 2026-09-11: Clean vs. Film
    (grain) is a per-shoot creative call, not a standing preference** — pick
    whichever suits that video, same as the ISO/balance choice.
+
+## Editing Feel
+
+**Confirmed 2026-09-14 — the governing creative direction for this
+brand's edits.** Compiled as a ready-to-paste agent prompt at
+`../../agents/BLKGRLCOTOO_EDITOR_PROMPT.md`; refresh that file whenever
+anything here changes.
+
+**Thesis:** a @blkgrlcotoo edit is a *video postcard sent to a close
+friend*, not a travel vlog, tourism spot, influencer montage, or polished
+cinematic travel ad. The viewer should finish it thinking "I'm booking
+that flight, and this is my itinerary" — and, more importantly, "I was
+supposed to be there."
+
+- **Personal over perfect.** Slight camera movement, handheld motion,
+  quick moments and unexpected framing stay in when they make the video
+  feel authentic. Imperfection is the point; polish is the failure mode.
+- **Mixed media, not just footage.** Photographs, screenshots, maps,
+  menus, tickets/receipts, location info and close-up details are
+  first-class material alongside video — the diary feeling comes from
+  mixing forms of visual information, not from better clips.
+- **Memory-flip pacing.** Not "beautiful shot → beautiful shot → beautiful
+  shot." The rhythm runs moment → detail → environment → person →
+  unexpected detail → photo → movement → location → atmosphere, with shot
+  lengths varying naturally: quicker where the destination's energy calls
+  for it, slower where a place needs absorbing. Few transition effects —
+  cuts, movement, sound and visual relationships carry most transitions.
+- **Emotional order, not chronological order.** Organize around the story
+  of the day, answering: where am I, what am I doing, what caught my
+  attention, what did this place feel like, what would make my friend want
+  to come here. Practical info lands naturally where it exists; it never
+  becomes a guide unless asked. **This does not relax the documentarian
+  transition rule** — reorder the day freely, but the movement between two
+  adjacent talking moments still has to be on screen.
+- **Annotation-scale typography.** Text reads like notes written into a
+  travel journal — destination, date, neighborhood, restaurant, time,
+  coordinates, short observations, tiny captions, itinerary details. No
+  giant YouTube-style titles, generic travel graphics, heavy text
+  animation, or corporate typography.
+- **Collage that breathes.** Layered scrapbook pages (photos, video
+  frames, screenshots, maps, small labels, location markers, tickets,
+  menus, decorative marks) alternating with full-screen immersive footage
+  — not every frame a collage.
+- **Natural sound as storytelling.** Music never erases the experience of
+  being there: footsteps, airport announcements, traffic, restaurant
+  noise, conversation, ocean, trains, doors, laughter, street ambience get
+  preserved and used. The viewer should periodically feel like they're
+  standing beside her. (Studio rules still apply on top: music is chosen
+  before shooting; any graphic/transition effect used carries a sound —
+  an argument for fewer effects, not silent ones.)
+- **Grade for the place, not the preset.** Natural skin tones, the
+  destination still looking like itself, a filmic/tactile/slightly
+  nostalgic image. Explicitly avoid excessive saturation, crushed blacks,
+  plastic skin, extreme HDR, heavy teal/orange, and "travel influencer"
+  presets. This is the intent *behind* the five-LUT kit above, not a
+  licence to skip the two-step pipeline.
+- **References inform, never get copied.** Reference images/videos are the
+  primary source for composition, graphic treatment, collage language,
+  pacing, typography behavior and texture — extract the principle,
+  translate it into an original @blkgrlcotoo language, never reproduce a
+  specific creator's work.
+
+**Promoted by this direction:** the Pinterest-board techniques listed
+earlier on this page —
+3-beat "what I wore / where I went / what I got," overhead flat-lays,
+object-label callouts, Google Maps/ratings-screenshot inserts, photo-booth
+filmstrip collage, nested camera-viewfinder framing — are now confirmed as
+usable layouts for this brand rather than candidate direction. The glossy
+3D Canva sticker/embellishment direction stays **flagged and unadopted**;
+it isn't mentioned in this direction either way.
+
+**Open item:** the journal-annotation look implies a handwritten hand, but
+no handwritten font is licensed to @blkgrlcotoo — `Editor's Hand` is
+assigned to @blkgrlco and `Hello Scratchy` is unassigned (see
+`../FONT_LIBRARY.md`). Until that's decided, annotation text is set in TAN
+Memories / Perfectly Nineties, small and lowercase, with the journal
+feeling carried by scale, placement and restraint.
 
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new

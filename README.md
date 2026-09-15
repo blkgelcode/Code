@@ -31,6 +31,7 @@ every piece of content gets better because of everything made before it.
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
+| `agents/BLKGRLCOTOO_EDITOR_PROMPT.md` | Companion prompt for the editing agent when it's working on @blkgrlcotoo — the *feel* of a travel edit (video-postcard thesis, memory-flip pacing, mixed media/collage, natural sound, annotation typography). Paste alongside `EDITOR_AGENT_PROMPT.md`, not instead of it. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
 | `growth/ANALYTICS_SYSTEM.md` | What gets tracked, connected tools, and — critically — what analytics are *for* here (see below). |
