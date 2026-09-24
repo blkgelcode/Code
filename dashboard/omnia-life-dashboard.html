@@ -188,14 +188,6 @@ a{color:inherit}
 .item .meta{grid-column:2;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
 .stagesel{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:1px 22px 1px 9px;font-size:11px;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 11px) 55%,calc(100% - 7px) 55%;background-size:4px 4px;background-repeat:no-repeat}
 .stagesel.over{border-color:var(--wine);color:var(--wine)}
-.conflicts{border:1px solid var(--wine);background:var(--wine-soft);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
-.conflicts .lbl{color:var(--wine)}
-.cf{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:7px 0;border-top:1px solid color-mix(in srgb,var(--wine) 25%,transparent);font-size:12.5px}
-.cf:first-of-type{border-top:0}
-.cf .t{flex:1 1 220px;min-width:0}
-.cf .t small{display:block;color:var(--ink-2)}
-.cf .acts{display:flex;gap:6px}
-
 /* HHH */
 .hhh{display:flex;flex-direction:column;gap:12px}
 .hcat h3{margin:0 0 2px;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
@@ -303,18 +295,14 @@ const SHIFT = [15, 24];      // Mon–Fri 3pm–12am
 const CAPTURE = [8, 14];     // weekday mornings, before the shift
 const TZ = "America/Chicago";
 
-const SERVER = { notion: "Notion", gcal: "Google Calendar", metricool: "Metricool Social Media Management" };
-const CONTENT_DS = "collection://385c26ae-18f0-4b17-887e-ee4943716796";
-const IDEAS_DS = "collection://d537171d-8136-4da1-ae12-988f3e58f752";
+const SERVER = { gcal: "Google Calendar", metricool: "Metricool Social Media Management" };
 const BRANDS = {
   "@blkgrlco":      { cls: "b1", pill: "@blkgrlco", title: "@blkgrlco", sub: "Hot · Healthy · Happy · 90-Day HHH Run", metricool: "4359163" },
   "@blkgrlcotoo":   { cls: "b2", pill: "@blkgrlcotoo", title: "@blkgrlcotoo", sub: "Young & Outside · Scent Passport", metricool: "6918875" },
-  "@uglyinbetween": { cls: "b3", pill: "Podcast", title: "I Wish Someone Had Told Me", sub: "Podcast · @uglyinbetween in Notion", metricool: "6918899" },
+  "@uglyinbetween": { cls: "b3", pill: "Podcast", title: "I Wish Someone Had Told Me", sub: "Podcast · @uglyinbetween", metricool: "6918899" },
 };
 const FOCUS_TAGS = [["@blkgrlco","b1","@blkgrlco"],["@blkgrlcotoo","b2","@blkgrlcotoo"],["@uglyinbetween","b3","Podcast"],["life","b0","Life"]];
 const STAGES = ["Idea", "Scripted", "Filmed", "Edited", "Posted"];
-const FROM_NOTION = { Idea: "Idea", Planned: "Scripted", Filmed: "Filmed", Editing: "Edited", Scheduled: "Edited", Published: "Posted" };
-const TO_NOTION = { Idea: "Idea", Scripted: "Planned", Filmed: "Filmed", Edited: "Editing", Posted: "Published" };
 const HHH_SUGGEST = {
   Hot: ["Morning skincare", "Evening routine", "Hair day / wash day"],
   Healthy: ["Lift", "Meal prep", "Meds on time", "Morning juice"],
@@ -364,12 +352,12 @@ function hhhWeekKeys() {
   while (w <= WEEK0()) { keys.push("hhh-" + ymd(w)); w = addDays(w, 7); }
   return keys;
 }
-const allKeys = () => ["focus-" + TODAY(), "health-" + WEEKKEY(), "fund", "pins-" + TODAY().slice(0, 7), "yearly", "overrides", "shots", ...hhhWeekKeys()];
+const allKeys = () => ["focus-" + TODAY(), "health-" + WEEKKEY(), "fund", "pins-" + TODAY().slice(0, 7), "yearly", "pipeline", "ideas", "shots", ...hhhWeekKeys()];
 
 /* ============ SYNCED DATA ============ */
-const cache = lsGet("cache") || {};   // {content, ideas, events, posts, at:{notion,gcal,metricool}, syncedAt}
+const cache = lsGet("cache") || {};   // {events, posts, at:{gcal,metricool}, syncedAt}
 cache.at = cache.at || {};
-const status = { notion: "idle", gcal: "idle", metricool: "idle" };
+const status = { gcal: "idle", metricool: "idle" };
 const errors = {};
 const saveCache = () => lsSet("cache", cache);
 
@@ -401,23 +389,6 @@ async function callRead(server, tool, input) {
 }
 const asObj = p => typeof p === "string" ? (() => { try { return JSON.parse(p); } catch { return {}; } })() : (p || {});
 
-async function syncNotion() {
-  const since = ymd(addDays(NOW, -40));
-  const [content, ideas] = await Promise.all([
-    callRead(SERVER.notion, "notion-query-data-sources", { data: {
-      data_source_urls: [CONTENT_DS],
-      query: `SELECT url, Name, Channel, Status, "Content Type" AS type, "date:Publish Date:start" AS publish, Platforms FROM "${CONTENT_DS}" WHERE Status IS NULL OR Status != 'Published' OR date("date:Publish Date:start") >= date(?) ORDER BY "date:Publish Date:start"`,
-      params: [since] } }),
-    callRead(SERVER.notion, "notion-query-data-sources", { data: {
-      data_source_urls: [IDEAS_DS],
-      query: `SELECT url, Idea, Channel, Status, createdTime FROM "${IDEAS_DS}" ORDER BY createdTime DESC LIMIT 5` } }),
-  ]);
-  cache.content = (asObj(content).results || []).map(r => ({
-    url: r.url, name: r.Name || "Untitled", channel: r.Channel || "", status: r.Status || "Idea",
-    type: r.type || "", publish: r.publish ? String(r.publish).slice(0, 10) : "",
-  }));
-  cache.ideas = (asObj(ideas).results || []).map(r => ({ url: r.url, idea: r.Idea || "Untitled", channel: r.Channel || "", status: r.Status || "", created: r.createdTime || "" }));
-}
 function calRange() {
   const first = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
   const gridStart = monday(first);
@@ -438,7 +409,8 @@ async function syncCalendar() {
   }).filter(ev => ev.start);
 }
 async function syncMetricool() {
-  const from = WEEK0(), to = addDays(NOW, 35);
+  const m1 = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
+  const from = WEEK0() < m1 ? WEEK0() : m1, to = addDays(NOW, 35);
   const off = -new Date().getTimezoneOffset(), sign = off >= 0 ? "+" : "-";
   const iso = d => `${ymd(d)}T00:00:00${sign}${pad(Math.floor(Math.abs(off) / 60))}:${pad(Math.abs(off) % 60)}`;
   const out = [];
@@ -451,7 +423,6 @@ async function syncMetricool() {
         channel: ch, when: post.publicationDate?.dateTime || "", title,
         published: provs.some(x => /PUBLISHED/i.test(x.status || "")),
         networks: provs.map(x => x.network),
-        dayLabel: (String(post.youtubeData?.title || "") + " " + (post.pinterestData?.pinTitle || "") + " " + (post.text || "")).match(/day\s*(\d{1,2})\s*of\s*90/i)?.[1] || null,
       });
     }
   }));
@@ -460,7 +431,7 @@ async function syncMetricool() {
 async function syncAll() {
   NOW = new Date();
   if (!mcp) { renderSync(); return; }
-  const jobs = { notion: syncNotion, gcal: syncCalendar, metricool: syncMetricool };
+  const jobs = { gcal: syncCalendar, metricool: syncMetricool };
   for (const k in jobs) status[k] = "busy";
   renderSync();
   await Promise.all(Object.entries(jobs).map(async ([k, fn]) => {
@@ -479,49 +450,25 @@ async function syncAll() {
 }
 
 /* ============ DERIVED ============ */
-const overrides = () => store.get("overrides", { map: {}, dismissed: {} });
-function effStage(row) { const o = overrides().map[row.url]; return o ? o.stage : FROM_NOTION[row.status] || "Idea"; }
-const pageId = url => (String(url).match(/([0-9a-f]{32})/i) || [])[1];
-
-function conflicts() {
-  const out = [], ov = overrides(), rows = cache.content || [];
-  const byUrl = Object.fromEntries(rows.map(r => [r.url, r]));
-  for (const [url, o] of Object.entries(ov.map)) {
-    const r = byUrl[url]; if (!r) continue;
-    const ns = FROM_NOTION[r.status] || "Idea";
-    if (ns === o.stage) { delete ov.map[url]; store.save("overrides"); continue; }
-    out.push({ kind: "stage", url, row: r, mine: o.stage, notion: ns, notionRaw: r.status });
-  }
-  // Metricool shows a post live that Notion hasn't marked Published
-  for (const p of (cache.posts || [])) {
-    if (!p.published || !p.dayLabel) continue;
-    const re = new RegExp(`day\\s*${p.dayLabel}\\s*of\\s*90`, "i");
-    const r = rows.find(r => r.channel === p.channel && re.test(r.name) && !/weekly vlog/i.test(r.name));
-    if (!r || r.status === "Published" || ov.dismissed[r.url + "|posted"] || ov.map[r.url]) continue;
-    if (out.some(c => c.url === r.url)) continue;
-    out.push({ kind: "posted", url: r.url, row: r, post: p });
-  }
-  return out;
-}
-function weekContent() {
+const pipeline = () => store.get("pipeline", { items: [] });
+const ideasBank = () => store.get("ideas", { items: [] });
+const byDate = (a, b) => (a.date || "9999").localeCompare(b.date || "9999") || a.created - b.created;
+function weekPosts() {
   const s = WEEKKEY(), e = ymd(addDays(WEEK0(), 6));
-  return (cache.content || []).filter(r => r.publish && r.publish >= s && r.publish <= e);
+  return (cache.posts || []).filter(p => p.when.slice(0, 10) >= s && p.when.slice(0, 10) <= e);
 }
 function postsThisWeek() {
-  const s = WEEKKEY(), e = ymd(addDays(WEEK0(), 6));
-  const posts = (cache.posts || []).filter(p => p.when.slice(0, 10) >= s && p.when.slice(0, 10) <= e);
-  const shipped = posts.filter(p => p.published);
-  const planned = Math.max(weekContent().length, posts.length);
+  const posts = weekPosts(), shipped = posts.filter(p => p.published);
   const by = {};
-  for (const ch in BRANDS) by[ch] = { shipped: shipped.filter(p => p.channel === ch).length, planned: Math.max(weekContent().filter(r => r.channel === ch).length, posts.filter(p => p.channel === ch).length) };
-  return { shipped: shipped.length, planned, by };
+  for (const ch in BRANDS) by[ch] = { shipped: shipped.filter(p => p.channel === ch).length, planned: posts.filter(p => p.channel === ch).length };
+  return { shipped: shipped.length, planned: posts.length, by };
 }
 function nextUpload(ch) {
   const nowIso = ymd(NOW) + "T" + pad(NOW.getHours()) + ":" + pad(NOW.getMinutes());
   const p = (cache.posts || []).find(p => p.channel === ch && !p.published && p.when >= nowIso);
   if (p) return { date: parseD(p.when), time: p.when.length > 10 ? new Date(p.when) : null, title: p.title, src: "Metricool" };
-  const r = (cache.content || []).find(r => r.channel === ch && r.publish && r.publish >= TODAY() && r.status !== "Published");
-  if (r) return { date: parseD(r.publish), title: r.name, src: "Notion", url: r.url };
+  const it = pipeline().items.filter(i => i.brand === ch && i.stage !== "Posted" && i.date && i.date >= TODAY()).sort(byDate)[0];
+  if (it) return { date: parseD(it.date), title: it.title, src: "your pipeline" };
   return null;
 }
 
@@ -530,7 +477,7 @@ function renderHeader() {
   $("#today-date").innerHTML = `<b>${fmt(NOW, { weekday: "long" })}</b>${fmt(NOW, { month: "long", day: "numeric", year: "numeric" })}`;
 }
 function renderSync() {
-  const names = { notion: "Notion", gcal: "Google Calendar", metricool: "Metricool" };
+  const names = { gcal: "Google Calendar", metricool: "Metricool" };
   const ago = cache.syncedAt ? new Date(cache.syncedAt) : null;
   const last = ago ? (ymd(ago) === TODAY() ? fmtTime(ago) : fmt(ago, { month: "short", day: "numeric" }) + ", " + fmtTime(ago)) : "never";
   const busy = Object.values(status).some(s => s === "busy");
@@ -603,7 +550,10 @@ function eventsOn(dayStr) {
     return ymd(new Date(ev.start)) === dayStr;
   });
 }
-const contentOn = dayStr => (cache.content || []).filter(r => r.publish === dayStr);
+const contentOn = dayStr => [
+  ...(cache.posts || []).filter(p => p.when.slice(0, 10) === dayStr).map(p => ({ channel: p.channel, name: p.title })),
+  ...pipeline().items.filter(i => i.date === dayStr && i.stage !== "Posted").map(i => ({ channel: i.brand, name: i.title })),
+];
 function renderCalendar() {
   const tabs = [["today", calDay === TODAY() ? "Today" : fmt(parseD(calDay), { month: "short", day: "numeric" })], ["week", "Week"], ["month", "Month"]];
   let body = "";
@@ -691,44 +641,42 @@ function renderFocus() {
 }
 
 /* ============ RENDER: pipeline ============ */
+let pipeOpen = null;
 function renderPipeline() {
-  const rows = cache.content || [];
-  const cf = conflicts();
+  const items = pipeline().items;
   const month = TODAY().slice(0, 7);
   const brandCards = Object.entries(BRANDS).map(([ch, b]) => {
-    const mine = rows.filter(r => r.channel === ch);
+    const mine = items.filter(i => i.brand === ch);
     const counts = Object.fromEntries(STAGES.map(s => [s, 0]));
-    for (const r of mine) { const s = effStage(r); if (s === "Posted" && !(r.publish || "").startsWith(month)) continue; counts[s]++; }
+    for (const i of mine) if (i.stage !== "Posted") counts[i.stage]++;
+    counts.Posted = (cache.posts || []).filter(p => p.channel === ch && p.published && p.when.startsWith(month)).length;
     const nx = nextUpload(ch);
-    const moving = mine.filter(r => ["Scripted", "Filmed", "Edited"].includes(effStage(r)));
-    const upcomingIdeas = mine.filter(r => effStage(r) === "Idea" && r.publish && r.publish >= TODAY()).slice(0, Math.max(0, 4 - moving.length));
-    const list = [...moving, ...upcomingIdeas].slice(0, 6);
+    const list = mine.filter(i => i.stage !== "Posted").sort(byDate);
     return `<div class="brand">
       <div><span class="pill ${b.cls}">${b.pill}</span></div>
       <div><h3>${esc(b.title)}</h3><div class="sub">${esc(b.sub)}</div></div>
       <div class="next"><div class="when">Next upload${nx ? " · " + fmt(nx.date, { weekday: "short", month: "short", day: "numeric" }) + (nx.time ? " · " + fmtTime(nx.time) : "") : ""}</div>
-        <div class="what">${nx ? esc(nx.title) + ` <span class="stale">(${nx.src})</span>` : "Nothing scheduled yet"}</div></div>
+        <div class="what">${nx ? esc(nx.title) + ` <span class="stale">(${nx.src})</span>` : "Nothing scheduled in Metricool yet"}</div></div>
       <div class="stages">${STAGES.map(s => `<div class="stg ${counts[s] && s !== "Idea" && s !== "Posted" ? "hot" : ""}"><b class="tnum">${counts[s]}</b><span>${s}</span></div>`).join("")}</div>
-      <div class="flow">Idea → Scripted → Filmed → Edited → Posted <span class="stale">(posted = this month)</span></div>
-      <div>${list.map(r => pipeItem(r)).join("") || `<div class="empty">Nothing in motion.</div>`}</div>
+      <div class="flow">Idea → Scripted → Filmed → Edited → Posted <span class="stale">(posted = live in Metricool this month)</span></div>
+      <div>${list.map(pipeItem).join("") || `<div class="empty">Nothing in motion. Add what you're working on.</div>`}</div>
+      ${pipeOpen === ch ? `<form class="addrow" data-form="pipe" data-brand="${ch}">
+          <input class="field" id="pipe-title-${b.cls}" placeholder="Title" autocomplete="off" required>
+          <select class="field" id="pipe-stage-${b.cls}" aria-label="Stage">${STAGES.slice(0, 4).map(s => `<option>${s}</option>`).join("")}</select>
+          <input class="field tnum" id="pipe-date-${b.cls}" type="date" aria-label="Planned upload date">
+          <button class="btn solid">Add</button></form>`
+        : `<button class="btn" data-act="pipe-open" data-v="${ch}">+ Add item</button>`}
     </div>`;
   }).join("");
-  const cfHtml = cf.length ? `<div class="conflicts"><div class="lbl">⚑ Dashboard and Notion disagree · Notion stays the source of truth</div>
-    ${cf.map(c => c.kind === "stage" ? `<div class="cf"><span class="flag">⚑ Conflict</span><div class="t">${esc(c.row.name)}<small>Dashboard: ${c.mine} · Notion: ${esc(c.notionRaw)}</small></div>
-      <div class="acts"><button class="btn wine" data-act="cf-push" data-url="${esc(c.url)}" data-v="${TO_NOTION[c.mine]}">Send to Notion</button><button class="btn" data-act="cf-drop" data-url="${esc(c.url)}">Use Notion's</button></div></div>`
-    : `<div class="cf"><span class="flag">⚑ Conflict</span><div class="t">${esc(c.row.name)}<small>Metricool: posted ${fmt(new Date(c.post.when), { month: "short", day: "numeric" })} · Notion: ${esc(c.row.status)}</small></div>
-      <div class="acts"><button class="btn wine" data-act="cf-push" data-url="${esc(c.url)}" data-v="Published">Mark Published in Notion</button><button class="btn" data-act="cf-dismiss" data-url="${esc(c.url)}">Leave it</button></div></div>`).join("")}</div>` : "";
-  const stale = !cache.content ? `<div class="empty">Waiting for the first Notion sync.</div>` : "";
-  $("#c-pipe").innerHTML = `<div class="chead"><h2>Studio pipeline</h2><span class="sub">From the Notion Content Calendar${cache.at.notion ? " · " + fmtTime(new Date(cache.at.notion)) : ""}</span></div>
-    ${cfHtml}${stale}<div class="brands">${brandCards}</div>`;
+  $("#c-pipe").innerHTML = `<div class="chead"><h2>Studio pipeline</h2><span class="sub">Stages kept here · uploads from Metricool${cache.at.metricool ? " · " + fmtTime(new Date(cache.at.metricool)) : ""}</span></div>
+    <div class="brands">${brandCards}</div>`;
 }
-function pipeItem(r) {
-  const st = effStage(r), over = !!overrides().map[r.url];
-  const d = r.publish ? parseD(r.publish) : null;
+function pipeItem(i) {
+  const d = i.date ? parseD(i.date) : null;
   return `<div class="item"><div class="d">${d ? `${fmt(d, { month: "short" })}<b>${d.getDate()}</b>` : "—"}</div>
-    <a class="nm" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>
-    <div class="meta"><select class="stagesel ${over ? "over" : ""}" data-act="stage" data-url="${esc(r.url)}" aria-label="Stage">${STAGES.map(s => `<option ${s === st ? "selected" : ""}>${s}</option>`).join("")}</select>
-    ${over ? `<span class="flag">⚑ Notion: ${esc(r.status)}</span>` : ""}${r.status === "Scheduled" ? `<span class="pill b0">Scheduled</span>` : ""}</div></div>`;
+    <span class="nm">${esc(i.title)}</span>
+    <div class="meta"><select class="stagesel" data-act="stage" data-id="${i.id}" aria-label="Stage">${STAGES.map(s => `<option ${s === i.stage ? "selected" : ""}>${s}</option>`).join("")}</select>
+    <button class="x" data-act="pipe-rm" data-id="${i.id}" aria-label="Remove">×</button></div></div>`;
 }
 
 /* ============ RENDER: HHH ============ */
@@ -797,16 +745,16 @@ function renderHealth() {
 function nextSaturday() { const d = new Date(NOW); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7)); return d; }
 function renderShots() {
   const sh = store.get("shots", { done: {}, notes: {} });
-  const filmed = (cache.content || []).filter(r => effStage(r) === "Filmed");
+  const filmed = pipeline().items.filter(i => i.stage === "Filmed").map(i => ({ url: i.id, name: i.title, channel: i.brand }));
   const open = filmed.filter(r => !sh.done[r.url]);
   const closed = filmed.filter(r => sh.done[r.url]);
   $("#c-shots").innerHTML = `<div class="chead"><h2>Saturday shot list</h2><span class="lbl">${fmt(nextSaturday(), { weekday: "short", month: "short", day: "numeric" })}</span></div>
     <div class="sub">Built from Filmed items still missing footage. Tick one when the footage is complete.</div>
     <div class="rows">${open.map(r => `<div class="shot">
-        <input type="checkbox" class="check" id="sh-${pageId(r.url)}" data-act="shot-done" data-url="${esc(r.url)}" aria-label="Footage complete">
-        <label for="sh-${pageId(r.url)}"><span class="pill ${BRANDS[r.channel]?.cls || "b0"}">${BRANDS[r.channel]?.pill || "—"}</span> ${esc(r.name)}</label>
-        <input class="field" id="shn-${pageId(r.url)}" data-act="shot-note" data-url="${esc(r.url)}" placeholder="What's missing? (b-roll, close-ups, VO…)" value="${esc(sh.notes[r.url] || "")}">
-      </div>`).join("") || `<div class="empty">${cache.content ? "No Filmed items are waiting on footage. Move an item to Filmed in the pipeline and it lands here." : "Waiting for the first Notion sync."}</div>`}</div>
+        <input type="checkbox" class="check" id="sh-${r.url}" data-act="shot-done" data-url="${esc(r.url)}" aria-label="Footage complete">
+        <label for="sh-${r.url}"><span class="pill ${BRANDS[r.channel]?.cls || "b0"}">${BRANDS[r.channel]?.pill || "—"}</span> ${esc(r.name)}</label>
+        <input class="field" id="shn-${r.url}" data-act="shot-note" data-url="${esc(r.url)}" placeholder="What's missing? (b-roll, close-ups, VO…)" value="${esc(sh.notes[r.url] || "")}">
+      </div>`).join("") || `<div class="empty">No Filmed items are waiting on footage. Set an item to Filmed in the pipeline and it lands here.</div>`}</div>
     ${closed.length ? `<div class="stale">${closed.length} filmed item${closed.length > 1 ? "s" : ""} marked complete · <button class="linkbtn" data-act="shot-reset">Put them back</button></div>` : ""}`;
 }
 
@@ -853,11 +801,16 @@ async function uploadPin(file) {
 
 /* ============ RENDER: ideas ============ */
 function renderIdeas() {
-  const ideas = cache.ideas || [];
+  const ideas = [...ideasBank().items].sort((a, b) => b.created - a.created).slice(0, 5);
   $("#c-ideas").innerHTML = `<div class="chead"><h2>Idea Bank</h2><span class="lbl">5 newest</span></div>
-    <div>${ideas.map(i => `<div class="idea"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.idea)}</a>
-      <div class="meta">${BRANDS[i.channel] ? `<span class="pill ${BRANDS[i.channel].cls}">${BRANDS[i.channel].pill}</span>` : ""}${i.status ? `<span>${esc(i.status)}</span>` : ""}${i.created ? `<span>· ${fmt(new Date(i.created.replace(" ", "T")), { month: "short", day: "numeric" })}</span>` : ""}</div></div>`).join("")
-      || `<div class="empty">${cache.at.notion ? "No ideas in the bank yet." : "Waiting for the first Notion sync."}</div>`}</div>`;
+    <div>${ideas.map(i => `<div class="idea"><span class="nm" style="font-family:var(--serif);font-size:18px;line-height:1.15">${esc(i.text)}</span>
+      <div class="meta">${BRANDS[i.brand] ? `<span class="pill ${BRANDS[i.brand].cls}">${BRANDS[i.brand].pill}</span>` : ""}<span>${fmt(new Date(i.created), { month: "short", day: "numeric" })}</span>
+      <button class="linkbtn" data-act="idea-move" data-id="${i.id}">Move to pipeline</button><button class="linkbtn" data-act="idea-rm" data-id="${i.id}">Remove</button></div></div>`).join("")
+      || `<div class="empty">Drop ideas here the moment they show up.</div>`}</div>
+    <form class="addrow" data-form="idea">
+      <input class="field" id="idea-text" placeholder="New idea" autocomplete="off" required>
+      <select class="field" id="idea-brand" aria-label="Brand">${Object.entries(BRANDS).map(([k, b]) => `<option value="${k}">${b.pill}</option>`).join("")}</select>
+      <button class="btn solid">Add</button></form>`;
 }
 
 function renderAll() { renderHeader(); renderSync(); renderStats(); renderCalendar(); renderFocus(); renderPipeline(); renderHHH(); renderHealth(); renderShots(); renderPins(); renderIdeas(); }
@@ -867,23 +820,6 @@ function $(s) { return document.querySelector(s); }
 let toastT;
 function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
 function findGoal(id) { for (const k of hhhWeekKeys()) { const g = store.get(k, { goals: [] }).goals.find(g => g.id === id); if (g) return [k, g]; } return []; }
-
-async function pushToNotion(url, notionStatus, btn) {
-  if (!mcp) return toast("Notion isn't reachable from this view.");
-  const id = pageId(url); if (!id) return;
-  btn && (btn.disabled = true, btn.textContent = "Sending…");
-  try {
-    await mcp.callTool(SERVER.notion, "notion-update-page", { page_id: id, command: "update_properties", properties: { Status: notionStatus } });
-    const ov = overrides(); delete ov.map[url]; store.save("overrides");
-    const r = (cache.content || []).find(r => r.url === url); if (r) r.status = notionStatus;
-    saveCache(); toast("Notion updated to " + notionStatus + ".");
-    renderAll();
-    try { await syncNotion(); cache.at.notion = Date.now(); saveCache(); renderAll(); } catch {}
-  } catch (e) {
-    toast(errText(e, "Notion") + " Notion wasn't changed as far as the page can tell. Check it before trying again.");
-    btn && (btn.disabled = false, btn.textContent = "Send to Notion");
-  }
-}
 
 document.addEventListener("click", e => {
   const el = e.target.closest("[data-act]"); if (!el) return;
@@ -909,9 +845,14 @@ document.addEventListener("click", e => {
     f.saved = a === "fund-add" ? f.saved + v : v; f.log.push({ date: TODAY(), [a === "fund-add" ? "add" : "set"]: v });
     store.save("fund"); renderStats(); toast(a === "fund-add" ? `Added ${money(v)}.` : `Balance set to ${money(v)}.`);
   }
-  else if (a === "cf-push") pushToNotion(el.dataset.url, el.dataset.v, el);
-  else if (a === "cf-drop") { const ov = overrides(); delete ov.map[el.dataset.url]; store.save("overrides"); renderPipeline(); renderShots(); }
-  else if (a === "cf-dismiss") { const ov = overrides(); ov.dismissed[el.dataset.url + "|posted"] = TODAY(); store.save("overrides"); renderPipeline(); }
+  else if (a === "pipe-open") { pipeOpen = el.dataset.v; renderPipeline(); document.querySelector(`[data-form="pipe"] input`)?.focus(); }
+  else if (a === "pipe-rm") { const p = pipeline(); p.items = p.items.filter(i => i.id !== el.dataset.id); store.save("pipeline"); renderPipeline(); renderShots(); renderCalendar(); }
+  else if (a === "idea-rm") { const b = ideasBank(); b.items = b.items.filter(i => i.id !== el.dataset.id); store.save("ideas"); renderIdeas(); }
+  else if (a === "idea-move") {
+    const b = ideasBank(), it = b.items.find(i => i.id === el.dataset.id); if (!it) return;
+    pipeline().items.push({ id: uid(), brand: it.brand, title: it.text, stage: "Idea", date: "", created: Date.now() });
+    b.items = b.items.filter(i => i.id !== it.id); store.save("pipeline"); store.save("ideas"); renderIdeas(); renderPipeline(); toast("Moved to the pipeline as an Idea.");
+  }
   else if (a === "shot-reset") { const sh = store.get("shots", { done: {}, notes: {} }); sh.done = {}; store.save("shots"); renderShots(); }
   else if (a === "pin-add") $("#pin-file").click();
   else if (a === "pin-rm") {
@@ -929,10 +870,10 @@ document.addEventListener("change", e => {
   if (a === "focus-done") { const f = store.get("focus-" + TODAY(), { items: [] }); const it = f.items.find(i => i.id === el.dataset.id); if (it) { it.done = el.checked; store.save("focus-" + TODAY()); renderFocus(); } }
   else if (a === "year-done") { const y = store.get("yearly", { items: [] }); const it = y.items.find(i => i.id === el.dataset.id); if (it) { it.done = el.checked; store.save("yearly"); renderPins(); } }
   else if (a === "stage") {
-    const url = el.dataset.url, r = (cache.content || []).find(r => r.url === url); if (!r) return;
-    const ov = overrides(), ns = FROM_NOTION[r.status] || "Idea";
-    if (el.value === ns) delete ov.map[url]; else ov.map[url] = { stage: el.value, basedOn: r.status, at: Date.now() };
-    store.save("overrides"); renderPipeline(); renderShots();
+    const it = pipeline().items.find(i => i.id === el.dataset.id); if (!it) return;
+    it.stage = el.value; store.save("pipeline");
+    if (it.stage === "Posted") toast("Marked Posted. It leaves the list; Metricool counts what went live.");
+    renderPipeline(); renderShots(); renderCalendar();
   }
   else if (a === "shot-done") { const sh = store.get("shots", { done: {}, notes: {} }); sh.done[el.dataset.url] = el.checked; store.save("shots"); setTimeout(renderShots, 250); }
   else if (a === "shot-note") { const sh = store.get("shots", { done: {}, notes: {} }); sh.notes[el.dataset.url] = el.value.trim(); store.save("shots"); }
@@ -959,6 +900,15 @@ document.addEventListener("submit", e => {
   } else if (form === "hhh") {
     const text = $("#hhh-text").value.trim(); if (!text) return;
     addGoal($("#hhh-cat").value, text, parseInt($("#hhh-target").value, 10) || 1); $("#hhh-text")?.focus();
+  } else if (form === "pipe") {
+    const ch = e.target.dataset.brand, c = BRANDS[ch].cls;
+    const title = $("#pipe-title-" + c).value.trim(); if (!title) return;
+    pipeline().items.push({ id: uid(), brand: ch, title, stage: $("#pipe-stage-" + c).value, date: $("#pipe-date-" + c).value || "", created: Date.now() });
+    store.save("pipeline"); renderPipeline(); renderShots(); renderCalendar(); $("#pipe-title-" + c)?.focus();
+  } else if (form === "idea") {
+    const text = $("#idea-text").value.trim(); if (!text) return;
+    ideasBank().items.push({ id: uid(), text, brand: $("#idea-brand").value, created: Date.now() });
+    store.save("ideas"); renderIdeas(); $("#idea-text")?.focus();
   } else if (form === "year") {
     const text = $("#year-text").value.trim(); if (!text) return;
     const y = store.get("yearly", { items: [] }); y.items.push({ id: uid(), text, done: false }); store.save("yearly"); renderPins(); $("#year-text")?.focus();
