@@ -7,7 +7,7 @@ three-brand creative studio:
 
 | Brand | Handle | Format |
 |---|---|---|
-| Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
+| Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + monthly long-form recap |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
 | The Ugly In Between | @uglyinbetween | Podcast, one-take documentarian |
 

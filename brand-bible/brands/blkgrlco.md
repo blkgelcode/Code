@@ -58,8 +58,8 @@ silently merged into one strategy.
 - Four pillars: Mental, Physical, Spiritual, Emotional.
 - Device: dream-state future-self framing.
 
-### Weekly Vlogs
-- Hot/Healthy/Happy segments rotate weekly.
+### Monthly Vlog (formerly Weekly Vlogs)
+- The long-form HHH recap is monthly as of 2026-09-24 (was weekly). Hot/Healthy/Happy segments cover the whole month; every missed goal is named on camera.
 
 ## Daily Vlog Editing Standard
 *(Set on "vlog four," applies to every edit from here on — confirmed
