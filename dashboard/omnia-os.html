@@ -1031,7 +1031,7 @@ function pageMoney() {
     </section>` : "";
   const bud = m.budget;
   const budgetCard = bud ? (() => {
-    const groups = ["Needs", "Studio", "Wants", "Savings"];
+    const groups = ["Needs", "Debt", "Studio", "Wants", "Savings"].filter(g => bud.lines.some(l => l.group === g));
     const billsLine = bud.lines.find(l => l.bills);
     const realBills = (m.bills || []).reduce((a, b) => a + b.amount, 0);
     const total = bud.lines.reduce((a, l) => a + l.amount, 0);
