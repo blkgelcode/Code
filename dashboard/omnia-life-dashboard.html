@@ -338,6 +338,7 @@ let db = null, assets = null, mcp = null;
 const store = {
   get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
   save(key) {
+    if (key === "pipeline") { mem[key].updatedAt = Date.now(); mem[key].source = "dashboard"; }
     lsSet(key, mem[key]);
     if (db) db.doc("dash/" + key).set(mem[key]).catch(e => toast("Couldn't save that change: " + (e.message || e.code) + ". It's kept on this device."));
   },
@@ -431,6 +432,7 @@ async function syncMetricool() {
 }
 async function syncAll() {
   NOW = new Date();
+  if (db) { await store.load(allKeys()); renderAll(); }
   if (!mcp) { renderSync(); return; }
   const jobs = { gcal: syncCalendar, metricool: syncMetricool };
   for (const k in jobs) status[k] = "busy";
@@ -670,7 +672,12 @@ function renderPipeline() {
         : `<button class="btn" data-act="pipe-open" data-v="${ch}">+ Add item</button>`}
     </div>`;
   }).join("");
-  $("#c-pipe").innerHTML = `<div class="chead"><h2>Studio pipeline</h2><span class="sub">Stages kept here · uploads from Metricool${cache.at.metricool ? " · " + fmtTime(new Date(cache.at.metricool)) : ""}</span></div>
+  const pl = pipeline(), up = pl.updatedAt ? new Date(pl.updatedAt) : null;
+  const ageH = up ? (Date.now() - up) / 36e5 : null;
+  const upTxt = up ? (ymd(up) === TODAY() ? "today " + fmtTime(up) : fmt(up, { weekday: "short", month: "short", day: "numeric" }) + " " + fmtTime(up)) : "never";
+  const src = pl.source === "dashboard" ? "you, on this page" : pl.source || "editing session";
+  $("#c-pipe").innerHTML = `<div class="chead"><h2>Studio pipeline</h2><span class="sub">Stages updated ${upTxt} by ${esc(src)} · uploads from Metricool</span></div>
+    ${ageH !== null && ageH > 36 ? `<div class="calnote bad">The pipeline hasn't been updated in ${Math.round(ageH / 24)} days. Ask the editing session to send today's status.</div>` : ""}
     <div class="brands">${brandCards}</div>`;
 }
 function pipeItem(i) {
@@ -922,7 +929,17 @@ document.addEventListener("submit", e => {
 let mcpResolved = false;
 const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
 renderAll();
-use("db").then(async d => { db = d; if (db) { await store.load(allKeys()); renderAll(); } });
+use("db").then(async d => {
+  db = d; if (!db) return;
+  await store.load(allKeys()); renderAll();
+  // The editing session writes dash/pipeline and dash/shots directly; pick those up while the page is open.
+  for (const k of ["pipeline", "shots"]) db.doc("dash/" + k).onSnapshot(snap => {
+    if (!snap.exists || snap.metadata.hasPendingWrites) return;
+    const data = snap.data();
+    if (JSON.stringify(data) === JSON.stringify(mem[k])) return;
+    mem[k] = data; lsSet(k, data); renderPipeline(); renderShots(); renderCalendar();
+  }, () => {});
+});
 use("assets").then(a => { assets = a; renderPins(); });
 use("mcp").then(m => { mcp = m; mcpResolved = true; renderSync(); renderPins(); if (mcp) syncAll(); });
 setTimeout(() => { if (!mcpResolved) { mcpResolved = true; renderSync(); renderPins(); } }, 11000);
