@@ -1,29 +1,33 @@
-# Feeding the dashboard's Studio pipeline
+# Feeding Omnia OS's Studio board
 
-The dashboard (https://claude.ai/artifact/2nYPtipRhUARqzfpsiwdze) keeps its
-pipeline and shot list in the artifact's own database, not in Notion. Any
+Omnia OS (https://claude.ai/artifact/PJMgHgWkjLs5XJQBZZTTgV) keeps its Studio
+board in the artifact's own database, not in Notion. (The earlier dashboard at
+https://claude.ai/artifact/2nYPtipRhUARqzfpsiwdze is superseded.) Any
 Claude Code session signed in as Omnia can write to it with the
 `ArtifactData` tool (load it with ToolSearch `select:ArtifactData`). The page
 re-reads these documents on every open, on "Sync now", and live while it is
 open.
 
-Write two documents in collection `dash` with action `set`. Read each one
+Write one document in collection `os` with action `set`. Read each one
 first (`get`) and pass its `version` as `if_version`, so an edit Omnia made on
 the page is not overwritten.
 
-## `dash/pipeline`
+## `os/studio`
 
 ```json
 {
   "updatedAt": 1758700000000,
   "source": "editing session",
-  "items": [
+  "cards": [
     {
       "id": "p-day18",
       "brand": "@blkgrlco",
       "title": "Day 18 of 90 vlog",
       "stage": "Edited",
-      "date": "2026-09-24",
+      "due": "2026-09-24",
+      "platform": "TikTok · Reels · Shorts",
+      "footage": "T7 SSD",
+      "script": "https://docs.google.com/…",
       "note": "All 9 sections built, no master yet. Left: cards, bleep, level, punch-ins, music, copy.",
       "created": 1758700000000
     }
@@ -32,27 +36,20 @@ the page is not overwritten.
 ```
 
 - `brand`: `@blkgrlco`, `@blkgrlcotoo` or `@uglyinbetween` (shown as "Podcast").
-- `stage`: `Idea`, `Scripted` (planned/written), `Filmed` (shot, no edit
-  started), `Edited` (cut in progress, or master delivered but not scheduled),
-  `Posted`.
+- `stage`: `Idea`, `Scripted`, `Shot list` (needs shooting), `Filmed` (shot, no
+  edit started), `Edited` (cut in progress or master delivered), `Scheduled`
+  (queued in Metricool), `Posted`.
+- `footage`: `missing`, `Drive`, `T7 SSD` or `have`. `missing` puts the card on
+  the Saturday shot list flag.
 - One item per piece of content that is not yet live. Drop items once they
   are published; Metricool supplies the Posted count.
 - Keep `id` stable from day to day so shot-list ticks survive.
-- `date` is the planned upload date (`YYYY-MM-DD`) or `""`.
+- `due` is the planned upload date (`YYYY-MM-DD`) or `""`.
 - `updatedAt` (epoch ms) and `source` drive the "Stages updated … by …" line;
   the page warns when `updatedAt` is older than 36 hours.
 
-## `dash/shots`
-
-```json
-{
-  "done":  { "p-houston": true },
-  "notes": { "p-houston": "All footage is on the T7; it needs an edit, not more filming." }
-}
-```
-
-Only `Filmed` items appear on the Saturday shot list. `done: true` means the
-footage is complete.
+Cards Omnia edits on the page carry the same ids, so read the current
+document and merge rather than replacing wholesale.
 
 ## If the write is refused
 
