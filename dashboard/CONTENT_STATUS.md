@@ -8,7 +8,7 @@ Claude Code session signed in as Omnia can write to it with the
 re-reads these documents on every open, on "Sync now", and live while it is
 open.
 
-Write one document in collection `os` with action `set`. Read each one
+Write one document in collection `os` with action `set`. Read it
 first (`get`) and pass its `version` as `if_version`, so an edit Omnia made on
 the page is not overwritten.
 
@@ -45,8 +45,8 @@ the page is not overwritten.
   are published; Metricool supplies the Posted count.
 - Keep `id` stable from day to day so shot-list ticks survive.
 - `due` is the planned upload date (`YYYY-MM-DD`) or `""`.
-- `updatedAt` (epoch ms) and `source` drive the "Stages updated … by …" line;
-  the page warns when `updatedAt` is older than 36 hours.
+- `updatedAt` (epoch ms) and `source` record when and where the board was last
+  written.
 
 Cards Omnia edits on the page carry the same ids, so read the current
 document and merge rather than replacing wholesale.
