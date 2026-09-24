@@ -5,6 +5,11 @@ description: Double-check the Omnia OS dashboard (dashboard/omnia-os.html) for e
 
 # /check-dashboard
 
+This check also runs automatically: a project PreToolUse hook
+(`.claude/settings.json` → `dashboard/check-hook.js`) runs it before the
+Artifact tool publishes `dashboard/omnia-os.html` and blocks the publish if
+it fails. Run the command by hand when asked or after edits.
+
 Run the checker and act on what it says.
 
 1. Run `node dashboard/check.js` from the repo root. If it reports that
