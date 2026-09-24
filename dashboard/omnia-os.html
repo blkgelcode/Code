@@ -404,7 +404,8 @@ const mem = {};
 let db = null, assets = null, mcp = null, sample = null, perms = null, capsResolved = false;
 let sampleTools = null;   // null = unknown, true/false once limits() answers
 let sampleState = "unknown";  // permissions state for "sample"
-let abortAsk = null, lastAskError = "";
+let abortAsk = null, lastAskError = "", consentStuck = false;
+const PAGE_URL = "https://claude.ai/artifact/PJMgHgWkjLs5XJQBZZTTgV";
 const store = {
   get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
   save(key) {
@@ -614,15 +615,18 @@ async function refreshSampleState() {
 }
 async function enableClaude() {
   if (!perms) return toast("This view can't ask Claude. Open the link in a browser on your phone or computer.");
+  const before = sampleState;
   const r = await perms.request(["sample"]).catch(() => ({}));
   sampleState = r.sample || sampleState;
+  if (sampleState === "prompt" && before === "prompt") { consentStuck = true; render(); return; }
   if (sampleState === "granted" && !sample) sample = await use("sample");
   await refreshSampleState(); render();
   if (sampleState === "granted") { toast("Claude is on."); maybeBrief(); } else if (sampleState === "denied") toast("You declined. Reload the page to be asked again.");
 }
 function sampleErrText(e) {
   switch (e?.code) {
-    case "not_granted": return "You haven't allowed this page to ask Claude. Tap Enable Claude above.";
+    case "not_granted": consentStuck = sampleState !== "denied"; return "This page hasn't been allowed to ask Claude. If no permission box appeared, open the link in Safari (Copy link above) and allow it there.";
+    case "upstream_error": consentStuck = true; return "The permission box didn't open in this view. Open the link in Safari, allow Claude once, and it stays allowed.";
     case "sampling_disabled": return "Claude isn't available on this account.";
     case "tools_unavailable": return "This view can't run page actions, so I answered without them. Open the link in a browser for logging and planning.";
     case "capability_disabled": case "capability_removed": case "not_declared": return "Claude can't run in this view. Open the link in a browser on your phone or computer.";
@@ -632,7 +636,7 @@ function sampleErrText(e) {
     case "empty_completion": return "Claude came back empty. Try again with more detail.";
     case "cancelled": return "Stopped.";
     case "prompt_too_large": return "That's too much context for one question. Ask something narrower.";
-    default: return "Something went wrong (" + (e?.code || "unknown") + "): " + (e?.message || "").slice(0, 160);
+    default: consentStuck = sampleState !== "granted"; return "Something went wrong (" + (e?.code || "unknown") + "): " + (e?.message || "").slice(0, 160) + (sampleState !== "granted" ? " — try opening the link in Safari and allowing Claude there." : "");
   }
 }
 async function ask(text, opts = {}) {
@@ -734,6 +738,9 @@ function renderHead() {
     : sampleState === "granted" ? "" : sampleState === "denied" ? `<button class="chip" style="border-color:var(--wine);color:var(--wine)" data-act="enable-claude">Claude was declined · reload to allow</button>`
     : `<button class="chip" style="background:var(--wine);color:#fff;border-color:var(--wine)" data-act="enable-claude">Enable Claude</button>`;
   $("#chips").innerHTML = gate + chips.map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("");
+  const stuck = $("#consent-help");
+  if (stuck) stuck.remove();
+  if (consentStuck && sampleState !== "granted") $("#chips").insertAdjacentHTML("afterend", `<div class="notice wine" id="consent-help" style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="flex:1 1 200px">The "allow Claude" box isn't opening in this app. Open this page in Safari or Chrome once, tap Enable Claude there, and it stays allowed for that browser.</span><button class="btn sm wine" data-act="copy-link">Copy link</button><a class="btn sm" href="${PAGE_URL}" target="_blank" rel="noopener">Open in browser</a></div>`);
   $("#askbtn").textContent = asking ? "■" : "↑"; $("#askbtn").disabled = false; $("#askbtn").setAttribute("aria-label", asking ? "Stop" : "Send");
 }
 function renderConnect() {
@@ -1067,6 +1074,7 @@ document.addEventListener("click", e => {
     case "tab": setTab(v); break;
     case "sync": syncAll(); break;
     case "enable-claude": enableClaude(); break;
+    case "copy-link": (navigator.clipboard?.writeText(PAGE_URL) || Promise.reject()).then(() => toast("Link copied. Paste it in Safari.")).catch(() => { const i = document.createElement("input"); i.value = PAGE_URL; document.body.appendChild(i); i.select(); try { document.execCommand("copy"); toast("Link copied. Paste it in Safari."); } catch { toast(PAGE_URL); } i.remove(); }); break;
     case "ask": setTab("today"); ask(v); break;
     case "clear-thread": thread.length = 0; previews = previews.filter(p => p.state === "pending"); renderThread(); break;
     case "rebrief": { const b = store.get("brief-" + TODAY(), {}); b.json = null; maybeBrief(true); toast("Rewriting…"); break; }
