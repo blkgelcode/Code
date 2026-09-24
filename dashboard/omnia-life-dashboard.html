@@ -1,0 +1,978 @@
+<title>Omnia's Life Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F8EDE1; --card:#FFFBF6; --card-2:#F6EADC; --ink:#2E1500; --ink-2:#6B5140; --ink-3:#9A8574;
+  --line:#EAD9C6; --sage:#B4AD7F; --sage-ink:#6F6A3E; --blush:#EBB9BA; --blush-ink:#8E4B4D;
+  --tan:#B68A71; --tan-ink:#7A523C; --wine:#8C0532; --wine-soft:#F3D9DF;
+  --shift:#E3DAD0; --shift-ink:#7C6E62; --focus:#8C0532;
+  --serif:"Cormorant Garamond","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#1D140E; --card:#281C14; --card-2:#31231A; --ink:#F4E6D6; --ink-2:#CDB7A2; --ink-3:#9C8674;
+    --line:#3F2E22; --sage:#A39C6E; --sage-ink:#D3CC9C; --blush:#C98F90; --blush-ink:#F1C4C5;
+    --tan:#B68A71; --tan-ink:#E3BFA8; --wine:#D4476E; --wine-soft:#4A1B28;
+    --shift:#3A2C22; --shift-ink:#B8A493; --focus:#EBB9BA;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#1D140E; --card:#281C14; --card-2:#31231A; --ink:#F4E6D6; --ink-2:#CDB7A2; --ink-3:#9C8674;
+  --line:#3F2E22; --sage:#A39C6E; --sage-ink:#D3CC9C; --blush:#C98F90; --blush-ink:#F1C4C5;
+  --tan:#B68A71; --tan-ink:#E3BFA8; --wine:#D4476E; --wine-soft:#4A1B28;
+  --shift:#3A2C22; --shift-ink:#B8A493; --focus:#EBB9BA;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* header */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.head h1{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(34px,6vw,52px);line-height:1;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.head .date{text-align:right;font-family:var(--serif);font-size:20px;line-height:1.15}
+.head .date b{display:block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.syncbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 0 18px;font-size:12px;color:var(--ink-2)}
+.src{display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
+.dot.ok{background:var(--sage)} .dot.bad{background:var(--wine)} .dot.busy{background:var(--tan);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.dot.busy{animation:none}}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:500}
+.btn:hover{border-color:var(--tan)}
+.btn.solid{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.btn.wine{background:var(--wine);color:#fff;border-color:var(--wine)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.syncbar .btn{margin-left:auto}
+.notice{font-size:12px;color:var(--wine);background:var(--wine-soft);border-radius:10px;padding:8px 12px;margin:-6px 0 14px}
+
+/* stat tiles */
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stats > :first-child{grid-column:span 2}
+@media (min-width:720px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.stats > :first-child{grid-column:auto}}
+@media (min-width:1080px){.stats{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.big{font-family:var(--serif);font-size:32px;font-weight:600;line-height:1}
+.big small{font-size:18px;color:var(--ink-3);font-weight:500}
+.sub{font-size:12px;color:var(--ink-2)}
+.ringrow{display:flex;align-items:center;gap:14px}
+.ring{flex:none}
+.ring .track{stroke:var(--line)} .ring .val{stroke:var(--wine)}
+.bar{height:5px;border-radius:5px;background:var(--line);overflow:hidden;position:relative}
+.bar > i{display:block;height:100%;border-radius:5px;background:var(--sage)}
+.bar.tan > i{background:var(--tan)} .bar.blush > i{background:var(--blush)} .bar.wine > i{background:var(--wine)}
+.minibars{display:grid;grid-template-columns:auto 1fr auto;gap:3px 8px;align-items:center;font-size:11px;color:var(--ink-2)}
+.weekdots{display:flex;gap:5px}
+.weekdots span{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--sage);display:grid;place-items:center;font-size:8px;color:var(--ink-3)}
+.weekdots span.on{background:var(--sage);color:var(--card)}
+.weekdots span.today{outline:1.5px solid var(--ink);outline-offset:1px}
+.fundbar{position:relative;height:6px;border-radius:6px;background:var(--line)}
+.fundbar i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--tan)}
+.fundbar b{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--ink)}
+.fundedit{display:flex;gap:6px;margin-top:2px}
+.fundedit input{width:0;flex:1;min-width:0}
+
+/* card grid */
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+@media (min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span2,.span3{grid-column:span 2}}
+@media (min-width:1080px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.span3{grid-column:span 3}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card h2{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1.05;margin:0}
+.chead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.foot{border-top:1px solid var(--line);padding-top:10px;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-2)}
+.empty{font-size:13px;color:var(--ink-3);padding:6px 0}
+.hr{height:1px;background:var(--line);border:0;margin:2px 0}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 9px;font-size:11px;font-weight:500;white-space:nowrap;line-height:18px}
+.b1{background:var(--blush);color:#4A1F21} .b2{background:var(--sage);color:#2F2C12} .b3{background:var(--tan);color:#2E1500} .b0{background:var(--card-2);color:var(--ink-2);border:1px solid var(--line)}
+.flag{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600;color:#fff;background:var(--wine);white-space:nowrap}
+.tag-miss{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--wine);border:1px solid var(--wine);border-radius:999px;padding:0 7px;white-space:nowrap}
+
+/* inputs */
+.field{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 10px;font-size:13px;min-width:0}
+.field:focus{border-color:var(--tan)}
+.addrow{display:flex;flex-wrap:wrap;gap:6px}
+.addrow .field{flex:1 1 140px}
+.addrow select.field{flex:0 1 auto}
+.addrow input[type=number].field{flex:0 0 64px}
+.check{appearance:none;width:18px;height:18px;border:1.5px solid var(--ink-3);border-radius:5px;flex:none;cursor:pointer;display:grid;place-items:center;margin:0;background:var(--card)}
+.check:checked{background:var(--sage);border-color:var(--sage)}
+.check:checked::after{content:"";width:5px;height:9px;border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.rows{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);min-width:0}
+.row:last-child{border-bottom:0}
+.row .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.row.done .t{color:var(--ink-3);text-decoration:line-through}
+.x{border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.x:hover{color:var(--wine)}
+
+/* tabs */
+.tabs{display:inline-flex;background:var(--card-2);border-radius:999px;padding:3px;gap:2px}
+.tabs button{border:0;background:none;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-2)}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(46,21,0,.12)}
+
+/* calendar: day */
+.daytitle{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.daytitle .theme{font-family:var(--serif);font-style:italic;font-size:19px}
+.tl{position:relative;margin-left:44px;border-left:1px solid var(--line)}
+.tl .hr-l{position:absolute;left:-44px;width:38px;text-align:right;font-size:10px;color:var(--ink-3);transform:translateY(-6px)}
+.tl .hr-g{position:absolute;left:0;right:0;border-top:1px dashed var(--line)}
+.blk{position:absolute;left:6px;right:6px;border-radius:10px;padding:5px 9px;font-size:11.5px;overflow:hidden}
+.blk.shift{background:var(--shift);color:var(--shift-ink);background-image:repeating-linear-gradient(135deg,transparent 0 7px,rgba(124,110,98,.08) 7px 14px)}
+.blk.capture{background:color-mix(in srgb,var(--sage) 28%,transparent);color:var(--sage-ink);border:1px dashed var(--sage)}
+.blk.batch{background:color-mix(in srgb,var(--blush) 40%,transparent);color:var(--blush-ink);border:1px dashed var(--blush)}
+.blk.sunday{background:color-mix(in srgb,var(--tan) 28%,transparent);color:var(--tan-ink);border:1px dashed var(--tan)}
+.blk.ev{left:28%;right:6px;background:var(--card);border:1px solid var(--ink);color:var(--ink);box-shadow:0 2px 6px rgba(46,21,0,.12);z-index:2}
+.blk b{font-weight:600;display:block}
+.allday{display:flex;flex-wrap:wrap;gap:6px}
+.evchip{border:1px solid var(--ink);border-radius:8px;padding:2px 8px;font-size:12px;background:var(--card)}
+/* calendar: week */
+.wk{display:flex;flex-direction:column}
+.wkrow{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.wkrow:last-child{border-bottom:0}
+.wkrow.today .wkd b{color:var(--wine)}
+.wkd{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em}
+.wkd b{display:block;font-family:var(--serif);font-size:24px;line-height:1;color:var(--ink);letter-spacing:0}
+.wkbody{display:flex;flex-direction:column;gap:5px;min-width:0}
+.plan{font-size:12px;color:var(--ink-2)}
+.plan .shiftpill{background:var(--shift);color:var(--shift-ink);border-radius:6px;padding:0 6px;font-size:11px}
+.wkitems{display:flex;flex-wrap:wrap;gap:5px}
+/* calendar: month */
+.mo{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.mo .dh{font-size:10px;text-align:center;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase;padding-bottom:2px}
+.mc{border-radius:10px;background:var(--card-2);min-height:62px;padding:5px;display:flex;flex-direction:column;gap:3px;cursor:pointer;border:1px solid transparent;text-align:left}
+.mc.out{opacity:.35}
+.mc.today{border-color:var(--wine)}
+.mc .n{font-size:12px;font-weight:600}
+.mc .ty{height:3px;border-radius:3px;background:var(--shift)}
+.mc .ty.sat{background:var(--blush)} .mc .ty.sun{background:var(--tan)}
+.mc .dots{display:flex;flex-wrap:wrap;gap:2px}
+.mc .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink)}
+.mc .dots i.c1{background:var(--blush-ink)} .mc .dots i.c2{background:var(--sage-ink)} .mc .dots i.c3{background:var(--tan-ink)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--ink-3)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:14px;height:4px;border-radius:3px;display:inline-block}
+.calnote{font-size:12px;color:var(--ink-2);background:var(--card-2);border-radius:10px;padding:8px 10px}
+.calnote.bad{color:var(--wine);background:var(--wine-soft)}
+
+/* pipeline */
+.brands{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:900px){.brands{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.brand{border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--bg);min-width:0}
+.brand h3{margin:0;font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.1}
+.next{border-left:3px solid var(--tan);padding:2px 0 2px 10px}
+.next .when{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.next .what{font-size:13px;overflow-wrap:anywhere}
+.stages{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}
+.stg{text-align:center;padding:6px 0 5px;border-radius:8px;background:var(--card)}
+.stg b{display:block;font-family:var(--serif);font-size:20px;line-height:1}
+.stg span{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.stg.hot{background:color-mix(in srgb,var(--sage) 30%,var(--card))}
+.flow{font-size:10px;color:var(--ink-3);text-align:center;letter-spacing:.06em}
+.item{display:grid;grid-template-columns:42px 1fr;gap:4px 8px;padding:7px 0;border-top:1px solid var(--line);align-items:start}
+.item .d{font-size:11px;color:var(--ink-3);line-height:1.3;padding-top:2px}
+.item .d b{display:block;font-size:14px;color:var(--ink);font-family:var(--serif)}
+.item .nm{font-size:12.5px;overflow-wrap:anywhere;text-decoration:none}
+.item .nm:hover{text-decoration:underline}
+.item .meta{grid-column:2;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.stagesel{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:1px 22px 1px 9px;font-size:11px;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 11px) 55%,calc(100% - 7px) 55%;background-size:4px 4px;background-repeat:no-repeat}
+.stagesel.over{border-color:var(--wine);color:var(--wine)}
+.conflicts{border:1px solid var(--wine);background:var(--wine-soft);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.conflicts .lbl{color:var(--wine)}
+.cf{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:7px 0;border-top:1px solid color-mix(in srgb,var(--wine) 25%,transparent);font-size:12.5px}
+.cf:first-of-type{border-top:0}
+.cf .t{flex:1 1 220px;min-width:0}
+.cf .t small{display:block;color:var(--ink-2)}
+.cf .acts{display:flex;gap:6px}
+
+/* HHH */
+.hhh{display:flex;flex-direction:column;gap:12px}
+.hcat h3{margin:0 0 2px;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.hcat h3 small{font-family:var(--sans);font-style:normal;font-size:11px;color:var(--ink-3);font-weight:500}
+.goal{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border-bottom:0}
+.goal .t{font-size:13px;overflow-wrap:anywhere}
+.goal.hit .t::after{content:" ✓";color:var(--sage-ink);font-weight:600}
+.goal.missed .t{text-decoration:line-through;text-decoration-color:var(--wine);color:var(--wine)}
+.goal .bar{grid-column:1/-1}
+.goal.missed .bar > i{background:var(--wine)}
+.ctr{display:flex;align-items:center;gap:4px}
+.ctr button{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;line-height:1}
+.ctr span{font-size:12px;min-width:34px;text-align:center}
+.goal .gfoot{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.linkbtn{border:0;background:none;padding:0;font-size:11px;color:var(--ink-3);cursor:pointer;text-decoration:underline}
+.owed{background:var(--card-2);border-radius:12px;padding:8px 12px}
+.owed .goal .t{font-size:12.5px}
+.sugg{display:flex;flex-wrap:wrap;gap:5px}
+.sugg button{border:1px dashed var(--ink-3);background:none;border-radius:999px;padding:2px 9px;font-size:11.5px;cursor:pointer;color:var(--ink-2)}
+
+/* health */
+.hwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.hwk button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:6px 0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--ink-3)}
+.hwk button i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--sage)}
+.hwk button.on i{background:var(--sage)}
+.hwk button.today{border-color:var(--ink)}
+.metric{display:flex;flex-direction:column;gap:5px}
+.metric .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.metric .top input{width:84px;text-align:right}
+.band{position:relative;height:7px;border-radius:7px;background:var(--line)}
+.band .zone{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--sage) 45%,transparent);border-radius:7px}
+.band .mk{position:absolute;top:-3px;width:3px;height:13px;border-radius:2px;background:var(--ink)}
+.kv{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2)}
+
+/* shot list */
+.shot{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.shot:last-child{border-bottom:0}
+.shot .field{grid-column:2;font-size:12px;padding:5px 8px}
+
+/* pin board */
+.pins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.pins{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px){.pins{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pin{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:14px;overflow:hidden;background:var(--card-2);border:1px solid var(--line)}
+.pin img{width:100%;height:100%;object-fit:cover;display:block}
+.pin .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;background:linear-gradient(transparent,rgba(46,21,0,.72));color:#FFF6EC;font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.1}
+.pin .cap input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,246,236,.4);color:#FFF6EC;font:inherit;padding:2px 0}
+.pin .cap input::placeholder{color:rgba(255,246,236,.7)}
+.pin .rm{position:absolute;top:6px;right:6px;border:0;border-radius:999px;background:rgba(46,21,0,.55);color:#fff;font-size:11px;padding:2px 8px;cursor:pointer}
+.pin.add{display:grid;place-items:center;border:1.5px dashed var(--ink-3);background:none;cursor:pointer;color:var(--ink-2);font-size:12px;text-align:center;padding:10px}
+.pin.add.drag{border-color:var(--wine);color:var(--wine)}
+.pin.ph{display:grid;place-items:center;color:var(--ink-3);font-family:var(--serif);font-style:italic;font-size:15px;border-style:dashed}
+
+/* ideas */
+.idea{display:flex;flex-direction:column;gap:3px;padding:9px 0;border-bottom:1px solid var(--line)}
+.idea:last-child{border-bottom:0}
+.idea a{font-family:var(--serif);font-size:18px;line-height:1.15;text-decoration:none}
+.idea a:hover{text-decoration:underline}
+.idea .meta{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--ink-3);flex-wrap:wrap}
+
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--card);padding:8px 16px;border-radius:999px;font-size:12.5px;z-index:9;max-width:calc(100% - 32px)}
+.stale{font-size:11px;color:var(--ink-3)}
+</style>
+
+<div class="wrap">
+  <header class="head">
+    <h1>Omnia's Life Dashboard</h1>
+    <div class="date" id="today-date"></div>
+  </header>
+  <div class="syncbar" id="syncbar"></div>
+  <div id="page-notice"></div>
+
+  <section class="stats" aria-label="This week at a glance">
+    <div class="tile" id="t-run"></div>
+    <div class="tile" id="t-hhh"></div>
+    <div class="tile" id="t-posts"></div>
+    <div class="tile" id="t-work"></div>
+    <div class="tile" id="t-fund"></div>
+  </section>
+
+  <main class="grid">
+    <section class="card span2" id="c-cal"></section>
+    <section class="card" id="c-focus"></section>
+    <section class="card span3" id="c-pipe"></section>
+    <section class="card" id="c-hhh"></section>
+    <section class="card" id="c-health"></section>
+    <section class="card" id="c-shots"></section>
+    <section class="card span2" id="c-pins"></section>
+    <section class="card" id="c-ideas"></section>
+  </main>
+</div>
+<div class="toast" id="toast" hidden></div>
+<input type="file" id="pin-file" accept="image/*" hidden>
+
+<script>
+/* ============ CONFIG ============ */
+// Day 1 of the 90-Day HHH Run. Change this if the run restarts.
+const START_DATE = "2026-09-06";
+const RUN_DAYS = 90;
+const FUND_GOAL = 3000, FUND_STRETCH = 5000, FUND_DEADLINE = "2026-12-31";
+const WORKOUT_TARGET = 4;
+const PROTEIN = [160, 165], CALORIES = [2300, 2400];
+const SHIFT = [15, 24];      // Mon–Fri 3pm–12am
+const CAPTURE = [8, 14];     // weekday mornings, before the shift
+const TZ = "America/Chicago";
+
+const SERVER = { notion: "Notion", gcal: "Google Calendar", metricool: "Metricool Social Media Management" };
+const CONTENT_DS = "collection://385c26ae-18f0-4b17-887e-ee4943716796";
+const IDEAS_DS = "collection://d537171d-8136-4da1-ae12-988f3e58f752";
+const BRANDS = {
+  "@blkgrlco":      { cls: "b1", pill: "@blkgrlco", title: "@blkgrlco", sub: "Hot · Healthy · Happy · 90-Day HHH Run", metricool: "4359163" },
+  "@blkgrlcotoo":   { cls: "b2", pill: "@blkgrlcotoo", title: "@blkgrlcotoo", sub: "Young & Outside · Scent Passport", metricool: "6918875" },
+  "@uglyinbetween": { cls: "b3", pill: "Podcast", title: "I Wish Someone Had Told Me", sub: "Podcast · @uglyinbetween in Notion", metricool: "6918899" },
+};
+const FOCUS_TAGS = [["@blkgrlco","b1","@blkgrlco"],["@blkgrlcotoo","b2","@blkgrlcotoo"],["@uglyinbetween","b3","Podcast"],["life","b0","Life"]];
+const STAGES = ["Idea", "Scripted", "Filmed", "Edited", "Posted"];
+const FROM_NOTION = { Idea: "Idea", Planned: "Scripted", Filmed: "Filmed", Editing: "Edited", Scheduled: "Edited", Published: "Posted" };
+const TO_NOTION = { Idea: "Idea", Scripted: "Planned", Filmed: "Filmed", Edited: "Editing", Posted: "Published" };
+const HHH_SUGGEST = {
+  Hot: ["Morning skincare", "Evening routine", "Hair day / wash day"],
+  Healthy: ["Lift", "Meal prep", "Meds on time", "Morning juice"],
+  Happy: ["Therapy", "Call someone I love", "Read before bed"],
+};
+
+/* ============ DATES ============ */
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parseD = s => { const [y, m, d] = s.slice(0, 10).split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const monday = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); const w = (x.getDay() + 6) % 7; return addDays(x, -w); };
+const dayDiff = (a, b) => Math.round((parseD(ymd(b)) - parseD(ymd(a))) / 864e5);
+const fmt = (d, o) => d.toLocaleDateString("en-US", o);
+const fmtTime = d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(":00", "").replace(" ", "").toLowerCase();
+const hourLabel = h => h === 0 || h === 24 ? "12a" : h === 12 ? "12p" : h < 12 ? h + "a" : (h - 12) + "p";
+const money = n => "$" + Math.round(n).toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+let NOW = new Date();
+const TODAY = () => ymd(NOW);
+const WEEK0 = () => monday(NOW);
+const WEEKKEY = () => ymd(WEEK0());
+
+/* ============ STORAGE (db, with a local mirror) ============ */
+const LS = "omnia-dash:";
+const lsGet = k => { try { const v = localStorage.getItem(LS + k); return v ? JSON.parse(v) : null; } catch { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch {} };
+const mem = {};
+let db = null, assets = null, mcp = null;
+const store = {
+  get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
+  save(key) {
+    lsSet(key, mem[key]);
+    if (db) db.doc("dash/" + key).set(mem[key]).catch(e => toast("Couldn't save that change: " + (e.message || e.code) + ". It's kept on this device."));
+  },
+  async load(keys) {
+    if (!db) return;
+    await Promise.all(keys.map(async k => {
+      try { const s = await db.doc("dash/" + k).get(); if (s.exists) { mem[k] = s.data(); lsSet(k, mem[k]); } } catch {}
+    }));
+  },
+};
+function hhhWeekKeys() {
+  const keys = []; let w = monday(parseD(START_DATE));
+  while (w <= WEEK0()) { keys.push("hhh-" + ymd(w)); w = addDays(w, 7); }
+  return keys;
+}
+const allKeys = () => ["focus-" + TODAY(), "health-" + WEEKKEY(), "fund", "pins-" + TODAY().slice(0, 7), "yearly", "overrides", "shots", ...hhhWeekKeys()];
+
+/* ============ SYNCED DATA ============ */
+const cache = lsGet("cache") || {};   // {content, ideas, events, posts, at:{notion,gcal,metricool}, syncedAt}
+cache.at = cache.at || {};
+const status = { notion: "idle", gcal: "idle", metricool: "idle" };
+const errors = {};
+const saveCache = () => lsSet("cache", cache);
+
+function errText(e, name) {
+  const msg = String(e?.message || "");
+  switch (e?.code) {
+    case "needs_reauth": return `Reconnect ${name} in claude.ai Settings → Connectors.`;
+    case "server_not_connected": return `Add ${name} in claude.ai Settings → Connectors.`;
+    case "selection_required": return `Pick which ${name} connection this page should use when claude.ai asks.`;
+    case "not_in_manifest": return `${name} is switched off for this page.`;
+    case "blocked_by_policy": case "approval_required": return `Your workspace settings block ${name} here.`;
+    case "server_unavailable": return `${name} didn't answer. Try Sync now in a minute.`;
+    case "not_granted": case "capability_disabled": case "capability_removed": return `Live sync isn't available in this view.`;
+    case "tool_error":
+      if (/scope/i.test(msg)) return `${name} is connected without permission to read your calendar. Reconnect it in claude.ai Settings → Connectors and allow calendar access.`;
+      return `${name} returned an error: ${msg.slice(0, 140)}`;
+    default: return `${name} sync failed${msg ? ": " + msg.slice(0, 140) : "."}`;
+  }
+}
+async function callRead(server, tool, input) {
+  try { return (await mcp.callTool(server, tool, input)).payload; }
+  catch (e) {
+    if (e?.retryable) {
+      await new Promise(r => setTimeout(r, Math.min(e.retryAfterMs || 0, 8000) + 800 + Math.random() * 1200));
+      return (await mcp.callTool(server, tool, input)).payload;
+    }
+    throw e;
+  }
+}
+const asObj = p => typeof p === "string" ? (() => { try { return JSON.parse(p); } catch { return {}; } })() : (p || {});
+
+async function syncNotion() {
+  const since = ymd(addDays(NOW, -40));
+  const [content, ideas] = await Promise.all([
+    callRead(SERVER.notion, "notion-query-data-sources", { data: {
+      data_source_urls: [CONTENT_DS],
+      query: `SELECT url, Name, Channel, Status, "Content Type" AS type, "date:Publish Date:start" AS publish, Platforms FROM "${CONTENT_DS}" WHERE Status IS NULL OR Status != 'Published' OR date("date:Publish Date:start") >= date(?) ORDER BY "date:Publish Date:start"`,
+      params: [since] } }),
+    callRead(SERVER.notion, "notion-query-data-sources", { data: {
+      data_source_urls: [IDEAS_DS],
+      query: `SELECT url, Idea, Channel, Status, createdTime FROM "${IDEAS_DS}" ORDER BY createdTime DESC LIMIT 5` } }),
+  ]);
+  cache.content = (asObj(content).results || []).map(r => ({
+    url: r.url, name: r.Name || "Untitled", channel: r.Channel || "", status: r.Status || "Idea",
+    type: r.type || "", publish: r.publish ? String(r.publish).slice(0, 10) : "",
+  }));
+  cache.ideas = (asObj(ideas).results || []).map(r => ({ url: r.url, idea: r.Idea || "Untitled", channel: r.Channel || "", status: r.Status || "", created: r.createdTime || "" }));
+}
+function calRange() {
+  const first = new Date(NOW.getFullYear(), NOW.getMonth(), 1);
+  const gridStart = monday(first);
+  const gridEnd = addDays(gridStart, 42);
+  const start = WEEK0() < gridStart ? WEEK0() : gridStart;
+  const wkEnd = addDays(WEEK0(), 7);
+  const end = wkEnd > gridEnd ? wkEnd : gridEnd;
+  return [start, end];
+}
+async function syncCalendar() {
+  const [s, e] = calRange();
+  const p = asObj(await callRead(SERVER.gcal, "list_events", { startTime: s.toISOString(), endTime: e.toISOString(), orderBy: "startTime", timeZone: TZ, pageSize: 250 }));
+  const list = Array.isArray(p) ? p : (p.events || p.items || p.data || []);
+  cache.events = list.map(ev => {
+    const st = ev.start?.dateTime || ev.start?.date || ev.startTime || ev.start || "";
+    const en = ev.end?.dateTime || ev.end?.date || ev.endTime || ev.end || "";
+    return { title: ev.summary || ev.title || "(busy)", start: String(st), end: String(en), allDay: String(st).length <= 10 };
+  }).filter(ev => ev.start);
+}
+async function syncMetricool() {
+  const from = WEEK0(), to = addDays(NOW, 35);
+  const off = -new Date().getTimezoneOffset(), sign = off >= 0 ? "+" : "-";
+  const iso = d => `${ymd(d)}T00:00:00${sign}${pad(Math.floor(Math.abs(off) / 60))}:${pad(Math.abs(off) % 60)}`;
+  const out = [];
+  await Promise.all(Object.entries(BRANDS).map(async ([ch, b]) => {
+    const p = asObj(await callRead(SERVER.metricool, "getScheduledPosts", { brandId: b.metricool, fromDate: iso(from), toDate: iso(to), timezone: TZ }));
+    for (const post of (p.data || [])) {
+      const provs = post.providers || [];
+      const title = post.youtubeData?.title || post.pinterestData?.pinTitle || String(post.text || "").split("\n")[0].slice(0, 90);
+      out.push({
+        channel: ch, when: post.publicationDate?.dateTime || "", title,
+        published: provs.some(x => /PUBLISHED/i.test(x.status || "")),
+        networks: provs.map(x => x.network),
+        dayLabel: (String(post.youtubeData?.title || "") + " " + (post.pinterestData?.pinTitle || "") + " " + (post.text || "")).match(/day\s*(\d{1,2})\s*of\s*90/i)?.[1] || null,
+      });
+    }
+  }));
+  cache.posts = out.sort((a, b) => a.when.localeCompare(b.when));
+}
+async function syncAll() {
+  NOW = new Date();
+  if (!mcp) { renderSync(); return; }
+  const jobs = { notion: syncNotion, gcal: syncCalendar, metricool: syncMetricool };
+  for (const k in jobs) status[k] = "busy";
+  renderSync();
+  await Promise.all(Object.entries(jobs).map(async ([k, fn]) => {
+    try { await fn(); status[k] = "ok"; delete errors[k]; cache.at[k] = Date.now(); }
+    catch (e) {
+      status[k] = "bad"; errors[k] = errText(e, SERVER[k]);
+      if (["needs_reauth", "server_not_connected", "not_in_manifest", "blocked_by_policy"].includes(e?.code)) {
+        if (k === "gcal") cache.events = [];
+        if (k === "metricool") cache.posts = [];
+      }
+    }
+  }));
+  if (Object.values(status).some(s => s === "ok")) cache.syncedAt = Date.now();
+  saveCache();
+  renderAll();
+}
+
+/* ============ DERIVED ============ */
+const overrides = () => store.get("overrides", { map: {}, dismissed: {} });
+function effStage(row) { const o = overrides().map[row.url]; return o ? o.stage : FROM_NOTION[row.status] || "Idea"; }
+const pageId = url => (String(url).match(/([0-9a-f]{32})/i) || [])[1];
+
+function conflicts() {
+  const out = [], ov = overrides(), rows = cache.content || [];
+  const byUrl = Object.fromEntries(rows.map(r => [r.url, r]));
+  for (const [url, o] of Object.entries(ov.map)) {
+    const r = byUrl[url]; if (!r) continue;
+    const ns = FROM_NOTION[r.status] || "Idea";
+    if (ns === o.stage) { delete ov.map[url]; store.save("overrides"); continue; }
+    out.push({ kind: "stage", url, row: r, mine: o.stage, notion: ns, notionRaw: r.status });
+  }
+  // Metricool shows a post live that Notion hasn't marked Published
+  for (const p of (cache.posts || [])) {
+    if (!p.published || !p.dayLabel) continue;
+    const re = new RegExp(`day\\s*${p.dayLabel}\\s*of\\s*90`, "i");
+    const r = rows.find(r => r.channel === p.channel && re.test(r.name) && !/weekly vlog/i.test(r.name));
+    if (!r || r.status === "Published" || ov.dismissed[r.url + "|posted"] || ov.map[r.url]) continue;
+    if (out.some(c => c.url === r.url)) continue;
+    out.push({ kind: "posted", url: r.url, row: r, post: p });
+  }
+  return out;
+}
+function weekContent() {
+  const s = WEEKKEY(), e = ymd(addDays(WEEK0(), 6));
+  return (cache.content || []).filter(r => r.publish && r.publish >= s && r.publish <= e);
+}
+function postsThisWeek() {
+  const s = WEEKKEY(), e = ymd(addDays(WEEK0(), 6));
+  const posts = (cache.posts || []).filter(p => p.when.slice(0, 10) >= s && p.when.slice(0, 10) <= e);
+  const shipped = posts.filter(p => p.published);
+  const planned = Math.max(weekContent().length, posts.length);
+  const by = {};
+  for (const ch in BRANDS) by[ch] = { shipped: shipped.filter(p => p.channel === ch).length, planned: Math.max(weekContent().filter(r => r.channel === ch).length, posts.filter(p => p.channel === ch).length) };
+  return { shipped: shipped.length, planned, by };
+}
+function nextUpload(ch) {
+  const nowIso = ymd(NOW) + "T" + pad(NOW.getHours()) + ":" + pad(NOW.getMinutes());
+  const p = (cache.posts || []).find(p => p.channel === ch && !p.published && p.when >= nowIso);
+  if (p) return { date: parseD(p.when), time: p.when.length > 10 ? new Date(p.when) : null, title: p.title, src: "Metricool" };
+  const r = (cache.content || []).find(r => r.channel === ch && r.publish && r.publish >= TODAY() && r.status !== "Published");
+  if (r) return { date: parseD(r.publish), title: r.name, src: "Notion", url: r.url };
+  return null;
+}
+
+/* ============ RENDER: header + sync ============ */
+function renderHeader() {
+  $("#today-date").innerHTML = `<b>${fmt(NOW, { weekday: "long" })}</b>${fmt(NOW, { month: "long", day: "numeric", year: "numeric" })}`;
+}
+function renderSync() {
+  const names = { notion: "Notion", gcal: "Google Calendar", metricool: "Metricool" };
+  const ago = cache.syncedAt ? new Date(cache.syncedAt) : null;
+  const last = ago ? (ymd(ago) === TODAY() ? fmtTime(ago) : fmt(ago, { month: "short", day: "numeric" }) + ", " + fmtTime(ago)) : "never";
+  const busy = Object.values(status).some(s => s === "busy");
+  $("#syncbar").innerHTML = `<span class="tnum">Last synced <b>${last}</b></span>` +
+    Object.keys(names).map(k => `<span class="src" title="${esc(errors[k] || "")}"><i class="dot ${status[k]}"></i>${names[k]}</span>`).join("") +
+    `<button class="btn solid" data-act="sync" ${busy || !mcp ? "disabled" : ""}>${busy ? "Syncing…" : "Sync now"}</button>`;
+  const msgs = Object.values(errors);
+  if (!mcp && mcpResolved) msgs.unshift("Live sync isn't available in this view, so you're seeing the last synced data.");
+  $("#page-notice").innerHTML = msgs.length ? `<div class="notice">${msgs.map(esc).join("<br>")}</div>` : "";
+}
+
+/* ============ RENDER: stat tiles ============ */
+function renderStats() {
+  // 1. Run
+  const day = dayDiff(parseD(START_DATE), NOW) + 1;
+  const dClamped = Math.max(0, Math.min(RUN_DAYS, day));
+  const C = 2 * Math.PI * 30, frac = dClamped / RUN_DAYS;
+  const end = addDays(parseD(START_DATE), RUN_DAYS - 1);
+  $("#t-run").innerHTML = `<div class="lbl">90-Day HHH Run</div>
+    <div class="ringrow">
+      <svg class="ring" width="72" height="72" viewBox="0 0 72 72" aria-hidden="true">
+        <circle class="track" cx="36" cy="36" r="30" fill="none" stroke-width="6"/>
+        <circle class="val" cx="36" cy="36" r="30" fill="none" stroke-width="6" stroke-linecap="round"
+          stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - frac)}" transform="rotate(-90 36 36)"/>
+        <text x="36" y="41" text-anchor="middle" font-size="15" font-weight="600" fill="currentColor" font-family="Inter,system-ui,sans-serif">${Math.round(frac * 100)}%</text>
+      </svg>
+      <div>${day < 1 ? `<div class="big">Starts</div><div class="sub">${fmt(parseD(START_DATE), { month: "short", day: "numeric" })}</div>`
+        : day > RUN_DAYS ? `<div class="big">Done</div><div class="sub">All 90 days</div>`
+        : `<div class="big tnum">Day ${day} <small>of 90</small></div><div class="sub">${RUN_DAYS - day} to go · finale ${fmt(end, { month: "short", day: "numeric" })}</div>`}</div>
+    </div>`;
+  // 2. HHH score
+  const goals = store.get("hhh-" + WEEKKEY(), { goals: [] }).goals;
+  const hit = goals.filter(g => g.count >= g.target).length;
+  const cats = ["Hot", "Healthy", "Happy"].map(c => { const gs = goals.filter(g => g.cat === c); return [c, gs.filter(g => g.count >= g.target).length, gs.length]; });
+  $("#t-hhh").innerHTML = `<div class="lbl">HHH this week</div>
+    <div class="big tnum">${hit} <small>/ ${goals.length} goals hit</small></div>
+    <div class="minibars">${cats.map(([c, h, n], i) => `<span>${c}</span><div class="bar ${["blush", "", "tan"][i]}"><i style="width:${n ? h / n * 100 : 0}%"></i></div><span class="tnum">${h}/${n}</span>`).join("")}</div>`;
+  // 3. Posts
+  const ps = postsThisWeek();
+  $("#t-posts").innerHTML = `<div class="lbl">Posts shipped this week</div>
+    <div class="big tnum">${ps.shipped} <small>/ ${ps.planned} planned</small></div>
+    <div class="bar"><i style="width:${ps.planned ? Math.min(100, ps.shipped / ps.planned * 100) : 0}%"></i></div>
+    <div class="sub">${Object.entries(ps.by).map(([ch, v]) => `<span class="pill ${BRANDS[ch].cls}">${BRANDS[ch].pill} ${v.shipped}/${v.planned}</span>`).join(" ")}</div>`;
+  // 4. Workouts
+  const h = store.get("health-" + WEEKKEY(), { days: {} });
+  const lifts = Object.values(h.days).filter(d => d.lift).length;
+  $("#t-work").innerHTML = `<div class="lbl">Workouts this week</div>
+    <div class="big tnum">${lifts} <small>/ ${WORKOUT_TARGET}</small></div>
+    <div class="weekdots" aria-label="Lift days">${[0,1,2,3,4,5,6].map(i => { const d = ymd(addDays(WEEK0(), i)); return `<span class="${h.days[d]?.lift ? "on" : ""} ${d === TODAY() ? "today" : ""}">${"MTWTFSS"[i]}</span>`; }).join("")}</div>
+    <div class="sub">${lifts >= WORKOUT_TARGET ? "Week's lifts done." : lifts >= 3 ? "In range. One more for 4." : `${3 - lifts} more to reach 3`}</div>`;
+  // 5. Fund
+  const f = store.get("fund", { saved: 0, log: [] });
+  const weeksLeft = Math.max(1, Math.ceil(dayDiff(NOW, parseD(FUND_DEADLINE)) / 7));
+  const need = Math.max(0, FUND_GOAL - f.saved);
+  $("#t-fund").innerHTML = `<div class="lbl">Departure Fund</div>
+    <div class="big tnum">${money(f.saved)} <small>/ ${money(FUND_GOAL)}</small></div>
+    <div class="fundbar" title="Stretch goal ${money(FUND_STRETCH)}"><i style="width:${Math.min(100, f.saved / FUND_STRETCH * 100)}%"></i><b style="left:${FUND_GOAL / FUND_STRETCH * 100}%"></b></div>
+    <div class="sub tnum">${need ? `${money(need / weeksLeft)}/week to Dec 31 · stretch ${money(FUND_STRETCH)}` : f.saved >= FUND_STRETCH ? "Stretch goal hit." : `Goal hit. ${money(FUND_STRETCH - f.saved)} to stretch.`}</div>
+    <div class="fundedit"><input class="field tnum" id="fund-amt" type="number" inputmode="decimal" placeholder="$" aria-label="Amount">
+      <button class="btn" data-act="fund-add">Add</button><button class="btn" data-act="fund-set" title="Replace the balance">Set</button></div>`;
+}
+
+/* ============ RENDER: calendar ============ */
+let calTab = lsGet("calTab") || "today";
+let calDay = TODAY();
+function dayType(d) { const w = d.getDay(); return w === 6 ? "sat" : w === 0 ? "sun" : "work"; }
+function eventsOn(dayStr) {
+  return (cache.events || []).filter(ev => {
+    if (ev.allDay) { const s = ev.start.slice(0, 10), e = (ev.end || ev.start).slice(0, 10); return dayStr >= s && (dayStr < e || dayStr === s); }
+    return ymd(new Date(ev.start)) === dayStr;
+  });
+}
+const contentOn = dayStr => (cache.content || []).filter(r => r.publish === dayStr);
+function renderCalendar() {
+  const tabs = [["today", calDay === TODAY() ? "Today" : fmt(parseD(calDay), { month: "short", day: "numeric" })], ["week", "Week"], ["month", "Month"]];
+  let body = "";
+  const note = errors.gcal ? `<div class="calnote bad">${esc(errors.gcal)} Your shift and filming plan still show below.</div>` : "";
+  if (calTab === "today") body = calDayView(parseD(calDay));
+  else if (calTab === "week") body = calWeekView();
+  else body = calMonthView();
+  $("#c-cal").innerHTML = `<div class="chead"><h2>Calendar</h2>
+    <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${calTab === k}" data-act="caltab" data-v="${k}">${l}</button>`).join("")}</div></div>
+    ${note}${body}
+    <div class="legend"><span><i style="background:var(--shift)"></i>Work shift</span><span><i style="background:var(--sage)"></i>Capture window</span><span><i style="background:var(--blush)"></i>Batch film day</span><span><i style="background:var(--tan)"></i>Edit · Upload · Reflect · Plan</span><span><i style="background:var(--ink)"></i>Google Calendar</span></div>`;
+}
+function calDayView(d) {
+  const ds = ymd(d), t = dayType(d);
+  const H0 = 6, H1 = 24, PX = 28, top = h => (h - H0) * PX;
+  const theme = t === "work" ? "Capture in the morning, shift at 3" : t === "sat" ? "Batch film day" : "Edit · Upload · Reflect · Plan";
+  let blocks = "";
+  if (t === "work") {
+    blocks += `<div class="blk capture" style="top:${top(CAPTURE[0])}px;height:${(CAPTURE[1] - CAPTURE[0]) * PX - 4}px"><b>Capture window</b>Film b-roll, talking heads, the day's short</div>`;
+    blocks += `<div class="blk shift" style="top:${top(SHIFT[0])}px;height:${(SHIFT[1] - SHIFT[0]) * PX - 2}px"><b>Work · Ground ops</b>3pm – 12am</div>`;
+  } else if (t === "sat") {
+    blocks += `<div class="blk batch" style="top:${top(9)}px;height:${9 * PX - 4}px"><b>Batch film day</b>Work the shot list · film the week's shorts</div>`;
+  } else {
+    blocks += `<div class="blk sunday" style="top:${top(9)}px;height:${10 * PX - 4}px"><b>Edit · Upload · Reflect · Plan</b>Weekly vlog edit · queue in Metricool · Sunday post-mortem</div>`;
+  }
+  const evs = eventsOn(ds);
+  const timed = evs.filter(e => !e.allDay), allday = evs.filter(e => e.allDay);
+  for (const ev of timed) {
+    const s = new Date(ev.start), e = ev.end ? new Date(ev.end) : new Date(+s + 36e5);
+    const sh = Math.max(H0, s.getHours() + s.getMinutes() / 60), eh = Math.min(H1, ymd(e) !== ds ? 24 : e.getHours() + e.getMinutes() / 60);
+    if (eh <= H0) continue;
+    blocks += `<div class="blk ev" style="top:${top(sh)}px;height:${Math.max(22, (eh - sh) * PX - 2)}px"><b>${esc(ev.title)}</b>${fmtTime(s)} – ${fmtTime(e)}</div>`;
+  }
+  let grid = "";
+  for (let h = H0; h <= H1; h += 2) grid += `<div class="hr-l" style="top:${top(h)}px">${hourLabel(h)}</div><div class="hr-g" style="top:${top(h)}px"></div>`;
+  const posting = contentOn(ds);
+  return `<div class="daytitle"><span class="lbl">${fmt(d, { weekday: "long", month: "long", day: "numeric" })}</span><span class="theme">${theme}</span></div>
+    ${allday.length || posting.length ? `<div class="allday">${allday.map(e => `<span class="evchip">${esc(e.title)}</span>`).join("")}${posting.map(r => `<span class="pill ${BRANDS[r.channel]?.cls || "b0"}" title="Posting">↑ ${esc(r.name)}</span>`).join("")}</div>` : ""}
+    <div class="tl" style="height:${(H1 - H0) * PX}px">${grid}${blocks}</div>`;
+}
+function calWeekView() {
+  let rows = "";
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(WEEK0(), i), ds = ymd(d), t = dayType(d);
+    const plan = t === "work" ? `Capture window AM · <span class="shiftpill">Shift 3p–12a</span>` : t === "sat" ? `<span class="pill b1">Batch film day</span>` : `<span class="pill b3">Edit · Upload · Reflect · Plan</span>`;
+    const evs = eventsOn(ds).map(e => `<span class="evchip">${e.allDay ? "" : fmtTime(new Date(e.start)) + " "}${esc(e.title)}</span>`).join("");
+    const posts = contentOn(ds).map(r => `<span class="pill ${BRANDS[r.channel]?.cls || "b0"}">↑ ${esc(r.name.length > 42 ? r.name.slice(0, 40) + "…" : r.name)}</span>`).join("");
+    rows += `<div class="wkrow ${ds === TODAY() ? "today" : ""}" data-act="pickday" data-v="${ds}" role="button" tabindex="0">
+      <div class="wkd">${fmt(d, { weekday: "short" })}<b>${d.getDate()}</b></div>
+      <div class="wkbody"><div class="plan">${plan}</div>${evs || posts ? `<div class="wkitems">${evs}${posts}</div>` : ""}</div></div>`;
+  }
+  return `<div class="wk">${rows}</div>`;
+}
+function calMonthView() {
+  const first = new Date(NOW.getFullYear(), NOW.getMonth(), 1), start = monday(first);
+  let cells = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<div class="dh">${d}</div>`).join("");
+  for (let i = 0; i < 42; i++) {
+    const d = addDays(start, i), ds = ymd(d), t = dayType(d);
+    if (i >= 35 && d.getMonth() !== NOW.getMonth()) break;
+    const dots = eventsOn(ds).map(() => `<i></i>`).join("") + contentOn(ds).map(r => `<i class="c${(BRANDS[r.channel]?.cls || "b0").slice(1)}"></i>`).join("");
+    cells += `<button class="mc ${d.getMonth() !== NOW.getMonth() ? "out" : ""} ${ds === TODAY() ? "today" : ""}" data-act="pickday" data-v="${ds}" aria-label="${fmt(d, { weekday: "long", month: "long", day: "numeric" })}">
+      <span class="n">${d.getDate()}</span><span class="ty ${t}"></span><span class="dots">${dots}</span></button>`;
+  }
+  return `<div class="lbl">${fmt(NOW, { month: "long", year: "numeric" })}</div><div class="mo">${cells}</div>`;
+}
+
+/* ============ RENDER: focus ============ */
+function renderFocus() {
+  const f = store.get("focus-" + TODAY(), { items: [] });
+  const tag = k => FOCUS_TAGS.find(t => t[0] === k) || FOCUS_TAGS[3];
+  const rows = f.items.map(it => `<div class="row ${it.done ? "done" : ""}">
+      <input type="checkbox" class="check" id="fc-${it.id}" data-act="focus-done" data-id="${it.id}" ${it.done ? "checked" : ""} aria-label="Done">
+      <label class="t" for="fc-${it.id}">${esc(it.text)}</label>
+      <span class="pill ${tag(it.brand)[1]}">${tag(it.brand)[2]}</span>
+      <button class="x" data-act="focus-rm" data-id="${it.id}" aria-label="Remove">×</button></div>`).join("");
+  const full = f.items.length >= 3;
+  $("#c-focus").innerHTML = `<div class="chead"><h2>Today's focus</h2><span class="lbl tnum">${f.items.length} / 3</span></div>
+    <div class="rows">${rows || `<div class="empty">Nothing set yet. Pick the three that move today.</div>`}</div>
+    ${full ? `<div class="sub">Three set. Finish one before adding another.</div>` :
+    `<form class="addrow" data-form="focus">
+      <input class="field" id="focus-text" placeholder="Priority" autocomplete="off" required>
+      <select class="field" id="focus-brand" aria-label="Brand">${FOCUS_TAGS.map(t => `<option value="${t[0]}">${t[2]}</option>`).join("")}</select>
+      <button class="btn solid">Add</button></form>`}
+    <div class="foot">Three priorities, never ten.</div>`;
+}
+
+/* ============ RENDER: pipeline ============ */
+function renderPipeline() {
+  const rows = cache.content || [];
+  const cf = conflicts();
+  const month = TODAY().slice(0, 7);
+  const brandCards = Object.entries(BRANDS).map(([ch, b]) => {
+    const mine = rows.filter(r => r.channel === ch);
+    const counts = Object.fromEntries(STAGES.map(s => [s, 0]));
+    for (const r of mine) { const s = effStage(r); if (s === "Posted" && !(r.publish || "").startsWith(month)) continue; counts[s]++; }
+    const nx = nextUpload(ch);
+    const moving = mine.filter(r => ["Scripted", "Filmed", "Edited"].includes(effStage(r)));
+    const upcomingIdeas = mine.filter(r => effStage(r) === "Idea" && r.publish && r.publish >= TODAY()).slice(0, Math.max(0, 4 - moving.length));
+    const list = [...moving, ...upcomingIdeas].slice(0, 6);
+    return `<div class="brand">
+      <div><span class="pill ${b.cls}">${b.pill}</span></div>
+      <div><h3>${esc(b.title)}</h3><div class="sub">${esc(b.sub)}</div></div>
+      <div class="next"><div class="when">Next upload${nx ? " · " + fmt(nx.date, { weekday: "short", month: "short", day: "numeric" }) + (nx.time ? " · " + fmtTime(nx.time) : "") : ""}</div>
+        <div class="what">${nx ? esc(nx.title) + ` <span class="stale">(${nx.src})</span>` : "Nothing scheduled yet"}</div></div>
+      <div class="stages">${STAGES.map(s => `<div class="stg ${counts[s] && s !== "Idea" && s !== "Posted" ? "hot" : ""}"><b class="tnum">${counts[s]}</b><span>${s}</span></div>`).join("")}</div>
+      <div class="flow">Idea → Scripted → Filmed → Edited → Posted <span class="stale">(posted = this month)</span></div>
+      <div>${list.map(r => pipeItem(r)).join("") || `<div class="empty">Nothing in motion.</div>`}</div>
+    </div>`;
+  }).join("");
+  const cfHtml = cf.length ? `<div class="conflicts"><div class="lbl">⚑ Dashboard and Notion disagree · Notion stays the source of truth</div>
+    ${cf.map(c => c.kind === "stage" ? `<div class="cf"><span class="flag">⚑ Conflict</span><div class="t">${esc(c.row.name)}<small>Dashboard: ${c.mine} · Notion: ${esc(c.notionRaw)}</small></div>
+      <div class="acts"><button class="btn wine" data-act="cf-push" data-url="${esc(c.url)}" data-v="${TO_NOTION[c.mine]}">Send to Notion</button><button class="btn" data-act="cf-drop" data-url="${esc(c.url)}">Use Notion's</button></div></div>`
+    : `<div class="cf"><span class="flag">⚑ Conflict</span><div class="t">${esc(c.row.name)}<small>Metricool: posted ${fmt(new Date(c.post.when), { month: "short", day: "numeric" })} · Notion: ${esc(c.row.status)}</small></div>
+      <div class="acts"><button class="btn wine" data-act="cf-push" data-url="${esc(c.url)}" data-v="Published">Mark Published in Notion</button><button class="btn" data-act="cf-dismiss" data-url="${esc(c.url)}">Leave it</button></div></div>`).join("")}</div>` : "";
+  const stale = !cache.content ? `<div class="empty">Waiting for the first Notion sync.</div>` : "";
+  $("#c-pipe").innerHTML = `<div class="chead"><h2>Studio pipeline</h2><span class="sub">From the Notion Content Calendar${cache.at.notion ? " · " + fmtTime(new Date(cache.at.notion)) : ""}</span></div>
+    ${cfHtml}${stale}<div class="brands">${brandCards}</div>`;
+}
+function pipeItem(r) {
+  const st = effStage(r), over = !!overrides().map[r.url];
+  const d = r.publish ? parseD(r.publish) : null;
+  return `<div class="item"><div class="d">${d ? `${fmt(d, { month: "short" })}<b>${d.getDate()}</b>` : "—"}</div>
+    <a class="nm" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>
+    <div class="meta"><select class="stagesel ${over ? "over" : ""}" data-act="stage" data-url="${esc(r.url)}" aria-label="Stage">${STAGES.map(s => `<option ${s === st ? "selected" : ""}>${s}</option>`).join("")}</select>
+    ${over ? `<span class="flag">⚑ Notion: ${esc(r.status)}</span>` : ""}${r.status === "Scheduled" ? `<span class="pill b0">Scheduled</span>` : ""}</div></div>`;
+}
+
+/* ============ RENDER: HHH ============ */
+function renderHHH() {
+  const wk = store.get("hhh-" + WEEKKEY(), { goals: [] });
+  const lastDay = ymd(addDays(WEEK0(), 6));
+  const cats = ["Hot", "Healthy", "Happy"].map(cat => {
+    const gs = wk.goals.filter(g => g.cat === cat);
+    const hit = gs.filter(g => g.count >= g.target).length;
+    const unused = HHH_SUGGEST[cat].filter(s => !gs.some(g => g.text.toLowerCase() === s.toLowerCase()));
+    return `<div class="hcat"><h3>${cat}<small class="tnum">${hit}/${gs.length} hit</small></h3>
+      ${gs.map(g => goalRow(g, true)).join("")}
+      ${!gs.length ? `<div class="sugg">${unused.map(s => `<button data-act="hhh-sugg" data-cat="${cat}" data-v="${esc(s)}">+ ${esc(s)}</button>`).join("")}</div>` : ""}</div>`;
+  }).join("");
+  // Past weeks: missed goals stay on the board
+  const owed = [];
+  for (const k of hhhWeekKeys()) {
+    if (k === "hhh-" + WEEKKEY()) continue;
+    const w = store.get(k, { goals: [] });
+    for (const g of w.goals) if (g.missed || g.count < g.target) owed.push({ ...g, wk: k.slice(4) });
+  }
+  $("#c-hhh").innerHTML = `<div class="chead"><h2>HHH tracker</h2><span class="sub">Week of ${fmt(WEEK0(), { month: "short", day: "numeric" })}</span></div>
+    <div class="hhh">${cats}</div>
+    <form class="addrow" data-form="hhh">
+      <select class="field" id="hhh-cat" aria-label="Category"><option>Hot</option><option>Healthy</option><option>Happy</option></select>
+      <input class="field" id="hhh-text" placeholder="Countable goal" autocomplete="off" required>
+      <input class="field tnum" id="hhh-target" type="number" min="1" max="21" value="3" aria-label="Times this week">
+      <button class="btn solid">Add</button></form>
+    ${owed.length ? `<div class="owed"><div class="lbl">Missed in earlier weeks</div>${owed.map(g => `<div class="goal missed"><div class="t">${esc(g.text)}</div><span class="stale tnum">${g.count}/${g.target} · wk ${fmt(parseD(g.wk), { month: "short", day: "numeric" })}</span><div class="gfoot"><span class="tag-miss">Name it on camera</span></div></div>`).join("")}</div>` : ""}
+    <div class="stale">Goals can't be deleted. A missed goal stays here until you talk about it. Goals close out ${fmt(parseD(lastDay), { weekday: "long" })}.</div>`;
+}
+function goalRow(g, live) {
+  const hit = g.count >= g.target, missed = g.missed && !hit;
+  return `<div class="goal ${hit ? "hit" : ""} ${missed ? "missed" : ""}">
+    <div class="t">${esc(g.text)}</div>
+    <div class="ctr"><button data-act="hhh-dec" data-id="${g.id}" aria-label="One less">−</button><span class="tnum">${g.count}/${g.target}</span><button data-act="hhh-inc" data-id="${g.id}" aria-label="One more">+</button></div>
+    <div class="bar"><i style="width:${Math.min(100, g.count / g.target * 100)}%"></i></div>
+    ${!hit ? `<div class="gfoot">${missed ? `<span class="tag-miss">Name it on camera</span>` : ""}<button class="linkbtn" data-act="hhh-miss" data-id="${g.id}">${missed ? "Undo missed" : "Mark missed"}</button></div>` : ""}
+  </div>`;
+}
+
+/* ============ RENDER: health ============ */
+function renderHealth() {
+  const h = store.get("health-" + WEEKKEY(), { days: {} });
+  const td = h.days[TODAY()] || {};
+  const lifts = Object.values(h.days).filter(d => d.lift).length;
+  const logged = Object.values(h.days).filter(d => d.protein);
+  const avgP = logged.length ? logged.reduce((a, d) => a + d.protein, 0) / logged.length : 0;
+  const loggedC = Object.values(h.days).filter(d => d.cal);
+  const avgC = loggedC.length ? loggedC.reduce((a, d) => a + d.cal, 0) / loggedC.length : 0;
+  const band = (v, lo, hi, max) => `<div class="band"><span class="zone" style="left:${lo / max * 100}%;width:${(hi - lo) / max * 100}%"></span>${v ? `<span class="mk" style="left:calc(${Math.min(100, v / max * 100)}% - 1.5px)"></span>` : ""}</div>`;
+  $("#c-health").innerHTML = `<div class="chead"><h2>Healthy stats</h2><span class="lbl tnum">${lifts} lifts · target 3–4</span></div>
+    <div class="hwk">${[0,1,2,3,4,5,6].map(i => { const d = addDays(WEEK0(), i), ds = ymd(d); return `<button class="${h.days[ds]?.lift ? "on" : ""} ${ds === TODAY() ? "today" : ""}" data-act="lift" data-v="${ds}" aria-pressed="${!!h.days[ds]?.lift}" aria-label="Lifted ${fmt(d, { weekday: "long" })}">${fmt(d, { weekday: "narrow" })}<i></i></button>`; }).join("")}</div>
+    <div class="sub">Tap a day when you lift.</div>
+    <hr class="hr">
+    <div class="metric"><div class="top"><span class="lbl">Protein today</span><span><input class="field tnum" id="h-protein" type="number" inputmode="numeric" placeholder="0" value="${td.protein || ""}" aria-label="Protein grams"> g</span></div>
+      ${band(td.protein, PROTEIN[0], PROTEIN[1], 200)}<div class="kv"><span>Target ${PROTEIN[0]}–${PROTEIN[1]}g</span><span class="tnum">${td.protein ? (td.protein >= PROTEIN[0] ? "Hit" : PROTEIN[0] - td.protein + "g to go") : "Not logged"}</span></div></div>
+    <div class="metric"><div class="top"><span class="lbl">Calories today</span><span><input class="field tnum" id="h-cal" type="number" inputmode="numeric" placeholder="0" value="${td.cal || ""}" aria-label="Calories"></span></div>
+      ${band(td.cal, CALORIES[0], CALORIES[1], 3000)}<div class="kv"><span>Target ~${CALORIES[0].toLocaleString()}–${CALORIES[1].toLocaleString()}</span><span class="tnum">${td.cal ? (td.cal > CALORIES[1] ? td.cal - CALORIES[1] + " over" : td.cal >= CALORIES[0] ? "In range" : CALORIES[0] - td.cal + " to go") : "Not logged"}</span></div></div>
+    <hr class="hr">
+    <div class="kv tnum"><span>Week avg protein</span><span>${avgP ? Math.round(avgP) + "g" : "—"}</span></div>
+    <div class="kv tnum"><span>Week avg calories</span><span>${avgC ? Math.round(avgC).toLocaleString() : "—"}</span></div>`;
+}
+
+/* ============ RENDER: shot list ============ */
+function nextSaturday() { const d = new Date(NOW); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7)); return d; }
+function renderShots() {
+  const sh = store.get("shots", { done: {}, notes: {} });
+  const filmed = (cache.content || []).filter(r => effStage(r) === "Filmed");
+  const open = filmed.filter(r => !sh.done[r.url]);
+  const closed = filmed.filter(r => sh.done[r.url]);
+  $("#c-shots").innerHTML = `<div class="chead"><h2>Saturday shot list</h2><span class="lbl">${fmt(nextSaturday(), { weekday: "short", month: "short", day: "numeric" })}</span></div>
+    <div class="sub">Built from Filmed items still missing footage. Tick one when the footage is complete.</div>
+    <div class="rows">${open.map(r => `<div class="shot">
+        <input type="checkbox" class="check" id="sh-${pageId(r.url)}" data-act="shot-done" data-url="${esc(r.url)}" aria-label="Footage complete">
+        <label for="sh-${pageId(r.url)}"><span class="pill ${BRANDS[r.channel]?.cls || "b0"}">${BRANDS[r.channel]?.pill || "—"}</span> ${esc(r.name)}</label>
+        <input class="field" id="shn-${pageId(r.url)}" data-act="shot-note" data-url="${esc(r.url)}" placeholder="What's missing? (b-roll, close-ups, VO…)" value="${esc(sh.notes[r.url] || "")}">
+      </div>`).join("") || `<div class="empty">${cache.content ? "No Filmed items are waiting on footage. Move an item to Filmed in the pipeline and it lands here." : "Waiting for the first Notion sync."}</div>`}</div>
+    ${closed.length ? `<div class="stale">${closed.length} filmed item${closed.length > 1 ? "s" : ""} marked complete · <button class="linkbtn" data-act="shot-reset">Put them back</button></div>` : ""}`;
+}
+
+/* ============ RENDER: pin board ============ */
+let pinConfirm = null;
+function renderPins() {
+  const mk = TODAY().slice(0, 7);
+  const p = store.get("pins-" + mk, { items: [] });
+  const y = store.get("yearly", { items: [] });
+  const tiles = p.items.map(it => `<figure class="pin" style="margin:0">
+      <img src="/_blob/${esc(it.assetId)}" alt="${esc(it.caption || "Pin Board photo")}" loading="lazy">
+      <button class="rm" data-act="pin-rm" data-id="${it.id}">${pinConfirm === it.id ? "Tap to remove" : "Remove"}</button>
+      <figcaption class="cap"><input id="pc-${it.id}" data-act="pin-cap" data-id="${it.id}" value="${esc(it.caption || "")}" placeholder="Name this goal"></figcaption></figure>`).join("");
+  const addTile = assets ? `<button class="pin add" data-act="pin-add" id="pin-drop">+ Add photo<br><span class="stale">or drop an image here</span></button>`
+    : `<div class="pin ph">${mcpResolved ? "Photo uploads open for the page owner" : "Loading…"}</div>`;
+  const fillers = Math.max(0, 3 - p.items.length);
+  $("#c-pins").innerHTML = `<div class="chead"><h2>Pin Board</h2><span class="lbl">${fmt(NOW, { month: "long" })} goals</span></div>
+    <div class="pins">${tiles}${addTile}${Array.from({ length: fillers }, () => `<div class="pin ph">Goal</div>`).join("")}</div>
+    <hr class="hr">
+    <div class="chead"><span class="lbl">${NOW.getFullYear()} goals</span><span class="lbl tnum">${y.items.filter(i => i.done).length}/${y.items.length}</span></div>
+    <div class="rows">${y.items.map(it => `<div class="row ${it.done ? "done" : ""}"><input type="checkbox" class="check" id="yg-${it.id}" data-act="year-done" data-id="${it.id}" ${it.done ? "checked" : ""}><label class="t" for="yg-${it.id}">${esc(it.text)}</label><button class="x" data-act="year-rm" data-id="${it.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">Add the goals this year is for.</div>`}</div>
+    <form class="addrow" data-form="year"><input class="field" id="year-text" placeholder="Yearly goal" autocomplete="off" required><button class="btn solid">Add</button></form>
+    <div class="foot">Make your own Pin Board.</div>`;
+  const drop = $("#pin-drop");
+  if (drop) {
+    drop.ondragover = e => { e.preventDefault(); drop.classList.add("drag"); };
+    drop.ondragleave = () => drop.classList.remove("drag");
+    drop.ondrop = e => { e.preventDefault(); drop.classList.remove("drag"); const f = e.dataTransfer.files?.[0]; if (f) uploadPin(f); };
+  }
+}
+async function uploadPin(file) {
+  if (!assets) return;
+  if (!/^image\//.test(file.type)) return toast("That file isn't an image.");
+  toast("Uploading…");
+  try {
+    const r = await assets.upload(file);
+    const p = store.get("pins-" + TODAY().slice(0, 7), { items: [] });
+    p.items.push({ id: uid(), assetId: r.id, caption: "" });
+    store.save("pins-" + TODAY().slice(0, 7)); renderPins(); toast("Added to your Pin Board.");
+  } catch (e) {
+    toast(e.code === "too_large" ? "That photo is over 20 MB. Try a smaller one." : e.code === "unsupported_type" ? "That image type isn't supported. Try a JPG or PNG." : "Upload failed: " + (e.message || e.code));
+  }
+}
+
+/* ============ RENDER: ideas ============ */
+function renderIdeas() {
+  const ideas = cache.ideas || [];
+  $("#c-ideas").innerHTML = `<div class="chead"><h2>Idea Bank</h2><span class="lbl">5 newest</span></div>
+    <div>${ideas.map(i => `<div class="idea"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.idea)}</a>
+      <div class="meta">${BRANDS[i.channel] ? `<span class="pill ${BRANDS[i.channel].cls}">${BRANDS[i.channel].pill}</span>` : ""}${i.status ? `<span>${esc(i.status)}</span>` : ""}${i.created ? `<span>· ${fmt(new Date(i.created.replace(" ", "T")), { month: "short", day: "numeric" })}</span>` : ""}</div></div>`).join("")
+      || `<div class="empty">${cache.at.notion ? "No ideas in the bank yet." : "Waiting for the first Notion sync."}</div>`}</div>`;
+}
+
+function renderAll() { renderHeader(); renderSync(); renderStats(); renderCalendar(); renderFocus(); renderPipeline(); renderHHH(); renderHealth(); renderShots(); renderPins(); renderIdeas(); }
+
+/* ============ ACTIONS ============ */
+function $(s) { return document.querySelector(s); }
+let toastT;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
+function findGoal(id) { for (const k of hhhWeekKeys()) { const g = store.get(k, { goals: [] }).goals.find(g => g.id === id); if (g) return [k, g]; } return []; }
+
+async function pushToNotion(url, notionStatus, btn) {
+  if (!mcp) return toast("Notion isn't reachable from this view.");
+  const id = pageId(url); if (!id) return;
+  btn && (btn.disabled = true, btn.textContent = "Sending…");
+  try {
+    await mcp.callTool(SERVER.notion, "notion-update-page", { page_id: id, command: "update_properties", properties: { Status: notionStatus } });
+    const ov = overrides(); delete ov.map[url]; store.save("overrides");
+    const r = (cache.content || []).find(r => r.url === url); if (r) r.status = notionStatus;
+    saveCache(); toast("Notion updated to " + notionStatus + ".");
+    renderAll();
+    try { await syncNotion(); cache.at.notion = Date.now(); saveCache(); renderAll(); } catch {}
+  } catch (e) {
+    toast(errText(e, "Notion") + " Notion wasn't changed as far as the page can tell. Check it before trying again.");
+    btn && (btn.disabled = false, btn.textContent = "Send to Notion");
+  }
+}
+
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]"); if (!el) return;
+  const a = el.dataset.act;
+  if (el.tagName === "INPUT" || el.tagName === "SELECT") return; // handled on change
+  if (a === "sync") syncAll();
+  else if (a === "caltab") { calTab = el.dataset.v; if (calTab === "today") calDay = TODAY(); lsSet("calTab", calTab); renderCalendar(); }
+  else if (a === "pickday") { calDay = el.dataset.v; calTab = "today"; renderCalendar(); }
+  else if (a === "focus-rm") { const f = store.get("focus-" + TODAY(), { items: [] }); f.items = f.items.filter(i => i.id !== el.dataset.id); store.save("focus-" + TODAY()); renderFocus(); }
+  else if (a === "hhh-inc" || a === "hhh-dec") {
+    const [k, g] = findGoal(el.dataset.id); if (!g) return;
+    g.count = Math.max(0, g.count + (a === "hhh-inc" ? 1 : -1)); store.save(k); renderHHH(); renderStats();
+  }
+  else if (a === "hhh-miss") { const [k, g] = findGoal(el.dataset.id); if (!g) return; g.missed = !g.missed; store.save(k); renderHHH(); }
+  else if (a === "hhh-sugg") addGoal(el.dataset.cat, el.dataset.v, el.dataset.v === "Lift" ? WORKOUT_TARGET : /skincare|routine|meds|juice/i.test(el.dataset.v) ? 7 : 1);
+  else if (a === "lift") {
+    const k = "health-" + WEEKKEY(), h = store.get(k, { days: {} }); const d = h.days[el.dataset.v] || (h.days[el.dataset.v] = {});
+    d.lift = !d.lift; store.save(k); renderHealth(); renderStats();
+  }
+  else if (a === "fund-add" || a === "fund-set") {
+    const v = parseFloat($("#fund-amt").value); if (!isFinite(v)) return toast("Enter an amount first.");
+    const f = store.get("fund", { saved: 0, log: [] });
+    f.saved = a === "fund-add" ? f.saved + v : v; f.log.push({ date: TODAY(), [a === "fund-add" ? "add" : "set"]: v });
+    store.save("fund"); renderStats(); toast(a === "fund-add" ? `Added ${money(v)}.` : `Balance set to ${money(v)}.`);
+  }
+  else if (a === "cf-push") pushToNotion(el.dataset.url, el.dataset.v, el);
+  else if (a === "cf-drop") { const ov = overrides(); delete ov.map[el.dataset.url]; store.save("overrides"); renderPipeline(); renderShots(); }
+  else if (a === "cf-dismiss") { const ov = overrides(); ov.dismissed[el.dataset.url + "|posted"] = TODAY(); store.save("overrides"); renderPipeline(); }
+  else if (a === "shot-reset") { const sh = store.get("shots", { done: {}, notes: {} }); sh.done = {}; store.save("shots"); renderShots(); }
+  else if (a === "pin-add") $("#pin-file").click();
+  else if (a === "pin-rm") {
+    const id = el.dataset.id;
+    if (pinConfirm !== id) { pinConfirm = id; renderPins(); setTimeout(() => { if (pinConfirm === id) { pinConfirm = null; renderPins(); } }, 4000); return; }
+    const k = "pins-" + TODAY().slice(0, 7), p = store.get(k, { items: [] }); const it = p.items.find(i => i.id === id);
+    p.items = p.items.filter(i => i.id !== id); store.save(k); pinConfirm = null; renderPins();
+    if (it && assets) assets.delete(it.assetId).catch(() => {});
+  }
+  else if (a === "year-rm") { const y = store.get("yearly", { items: [] }); y.items = y.items.filter(i => i.id !== el.dataset.id); store.save("yearly"); renderPins(); }
+});
+document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches(".wkrow")) { e.preventDefault(); e.target.click(); } });
+document.addEventListener("change", e => {
+  const el = e.target, a = el.dataset.act;
+  if (a === "focus-done") { const f = store.get("focus-" + TODAY(), { items: [] }); const it = f.items.find(i => i.id === el.dataset.id); if (it) { it.done = el.checked; store.save("focus-" + TODAY()); renderFocus(); } }
+  else if (a === "year-done") { const y = store.get("yearly", { items: [] }); const it = y.items.find(i => i.id === el.dataset.id); if (it) { it.done = el.checked; store.save("yearly"); renderPins(); } }
+  else if (a === "stage") {
+    const url = el.dataset.url, r = (cache.content || []).find(r => r.url === url); if (!r) return;
+    const ov = overrides(), ns = FROM_NOTION[r.status] || "Idea";
+    if (el.value === ns) delete ov.map[url]; else ov.map[url] = { stage: el.value, basedOn: r.status, at: Date.now() };
+    store.save("overrides"); renderPipeline(); renderShots();
+  }
+  else if (a === "shot-done") { const sh = store.get("shots", { done: {}, notes: {} }); sh.done[el.dataset.url] = el.checked; store.save("shots"); setTimeout(renderShots, 250); }
+  else if (a === "shot-note") { const sh = store.get("shots", { done: {}, notes: {} }); sh.notes[el.dataset.url] = el.value.trim(); store.save("shots"); }
+  else if (a === "pin-cap") { const k = "pins-" + TODAY().slice(0, 7), p = store.get(k, { items: [] }); const it = p.items.find(i => i.id === el.dataset.id); if (it) { it.caption = el.value.trim(); store.save(k); } }
+  else if (el.id === "h-protein" || el.id === "h-cal") {
+    const k = "health-" + WEEKKEY(), h = store.get(k, { days: {} }); const d = h.days[TODAY()] || (h.days[TODAY()] = {});
+    const v = parseInt(el.value, 10); d[el.id === "h-protein" ? "protein" : "cal"] = isFinite(v) && v > 0 ? v : 0;
+    store.save(k); renderHealth();
+  }
+  else if (el.id === "pin-file") { const f = el.files?.[0]; el.value = ""; if (f) uploadPin(f); }
+});
+function addGoal(cat, text, target) {
+  const k = "hhh-" + WEEKKEY(), w = store.get(k, { goals: [] });
+  w.goals.push({ id: uid(), cat, text: text.trim(), target: Math.max(1, target | 0), count: 0, missed: false, added: TODAY() });
+  store.save(k); renderHHH(); renderStats();
+}
+document.addEventListener("submit", e => {
+  const form = e.target.dataset.form; if (!form) return;
+  e.preventDefault();
+  if (form === "focus") {
+    const f = store.get("focus-" + TODAY(), { items: [] }); const text = $("#focus-text").value.trim();
+    if (!text || f.items.length >= 3) return;
+    f.items.push({ id: uid(), text, brand: $("#focus-brand").value, done: false }); store.save("focus-" + TODAY()); renderFocus(); $("#focus-text")?.focus();
+  } else if (form === "hhh") {
+    const text = $("#hhh-text").value.trim(); if (!text) return;
+    addGoal($("#hhh-cat").value, text, parseInt($("#hhh-target").value, 10) || 1); $("#hhh-text")?.focus();
+  } else if (form === "year") {
+    const text = $("#year-text").value.trim(); if (!text) return;
+    const y = store.get("yearly", { items: [] }); y.items.push({ id: uid(), text, done: false }); store.save("yearly"); renderPins(); $("#year-text")?.focus();
+  }
+});
+
+/* ============ BOOT ============ */
+let mcpResolved = false;
+const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+renderAll();
+use("db").then(async d => { db = d; if (db) { await store.load(allKeys()); renderAll(); } });
+use("assets").then(a => { assets = a; renderPins(); });
+use("mcp").then(m => { mcp = m; mcpResolved = true; renderSync(); renderPins(); if (mcp) syncAll(); });
+setTimeout(() => { if (!mcpResolved) { mcpResolved = true; renderSync(); renderPins(); } }, 11000);
+// Roll over at midnight so "today" stays true on a page left open
+setInterval(() => { const was = TODAY(); NOW = new Date(); if (TODAY() !== was) { calDay = TODAY(); store.load(allKeys()).then(renderAll); } }, 60000);
+</script>
