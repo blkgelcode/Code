@@ -404,7 +404,7 @@ const mem = {};
 let db = null, assets = null, mcp = null, sample = null, perms = null, capsResolved = false;
 let sampleTools = null;   // null = unknown, true/false once limits() answers
 let sampleState = "unknown";  // permissions state for "sample"
-let abortAsk = null;
+let abortAsk = null, lastAskError = "";
 const store = {
   get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
   save(key) {
@@ -658,6 +658,7 @@ async function ask(text, opts = {}) {
   } catch (e) {
     live.thinking = false;
     live.content = (e?.text ? e.text + "\n\n" : "") + sampleErrText(e);
+    lastAskError = (e?.code || "unknown") + (e?.message ? ": " + String(e.message).slice(0, 120) : ""); toast(sampleErrText(e));
     if (e?.code === "not_granted") sampleState = "denied";
   }
   abortAsk = null; asking = false; renderThread(); render();
@@ -738,7 +739,8 @@ function renderHead() {
 function renderConnect() {
   const names = { gcal: "Calendar", gmail: "Gmail", drive: "Drive", metricool: "Metricool" };
   const html = `<div class="connect">${Object.keys(names).map(k => `<span class="src ${status[k]}" title="${esc(errors[k] || "")}"><i class="dot ${status[k]}"></i>${status[k] === "bad" ? esc(errors[k]) : names[k]}${cache.at[k] && status[k] !== "bad" ? ` <span class="stale tnum">${fmtTime(new Date(cache.at[k]))}</span>` : ""}</span>`).join("")}
-    <button class="btn sm" data-act="sync" ${syncing || !mcp ? "disabled" : ""}>${syncing ? "Syncing…" : "Sync now"}</button>${!mcp && capsResolved ? `<span class="stale">Connectors aren't available in this view; showing the last synced data.</span>` : ""}</div>`;
+    <button class="btn sm" data-act="sync" ${syncing || !mcp ? "disabled" : ""}>${syncing ? "Syncing…" : "Sync now"}</button>
+    <span class="src" title="Assistant status"><i class="dot ${!capsResolved ? "busy" : sample && sampleState === "granted" ? "ok" : sample ? "" : "bad"}"></i>Claude: ${!capsResolved ? "loading" : !sample ? "not available in this view" : sampleState === "granted" ? (sampleTools === false ? "on, text only" : "on") : sampleState === "denied" ? "declined" : "needs your OK"}${lastAskError ? ` · last error ${esc(lastAskError)}` : ""}</span>${!mcp && capsResolved ? `<span class="stale">Connectors aren't available in this view; showing the last synced data.</span>` : ""}</div>`;
   const el = $("#connectbar"); if (el) el.innerHTML = html;
 }
 function renderThread() {
