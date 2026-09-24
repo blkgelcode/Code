@@ -401,7 +401,10 @@ const LS = "omnia-os:";
 const lsGet = k => { try { const v = localStorage.getItem(LS + k); return v ? JSON.parse(v) : null; } catch { return null; } };
 const lsSet = (k, v) => { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch {} };
 const mem = {};
-let db = null, assets = null, mcp = null, sample = null, capsResolved = false;
+let db = null, assets = null, mcp = null, sample = null, perms = null, capsResolved = false;
+let sampleTools = null;   // null = unknown, true/false once limits() answers
+let sampleState = "unknown";  // permissions state for "sample"
+let abortAsk = null;
 const store = {
   get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
   save(key) {
@@ -605,36 +608,69 @@ function pageTools() {
     t("saveOutline", "Save a Weekly Vlog cold-open outline onto the week.", { text: { type: "string" } }, ["text"], ({ text }) => { const r = store.get("reviews", { weeks: {} }); r.outlines = r.outlines || {}; r.outlines[WEEKKEY()] = { text, at: Date.now() }; store.save("reviews"); render(); return { ok: true }; }),
   ];
 }
+async function refreshSampleState() {
+  try { sampleState = perms ? await perms.state("sample").catch(() => "unavailable") : (sample ? "granted" : "unavailable"); } catch { sampleState = "unavailable"; }
+  if (sample && sampleTools === null) { try { const l = await sample.limits(); sampleTools = !!l.tools; } catch { sampleTools = false; } }
+}
+async function enableClaude() {
+  if (!perms) return toast("This view can't ask Claude. Open the link in a browser on your phone or computer.");
+  const r = await perms.request(["sample"]).catch(() => ({}));
+  sampleState = r.sample || sampleState;
+  if (sampleState === "granted" && !sample) sample = await use("sample");
+  await refreshSampleState(); render();
+  if (sampleState === "granted") { toast("Claude is on."); maybeBrief(); } else if (sampleState === "denied") toast("You declined. Reload the page to be asked again.");
+}
+function sampleErrText(e) {
+  switch (e?.code) {
+    case "not_granted": return "You haven't allowed this page to ask Claude. Tap Enable Claude above.";
+    case "sampling_disabled": return "Claude isn't available on this account.";
+    case "tools_unavailable": return "This view can't run page actions, so I answered without them. Open the link in a browser for logging and planning.";
+    case "capability_disabled": case "capability_removed": case "not_declared": return "Claude can't run in this view. Open the link in a browser on your phone or computer.";
+    case "session_expired": return "Your Claude sign-in expired. Sign in again and reload.";
+    case "rate_limited": return "Claude is rate-limited right now. Give it a minute.";
+    case "refused": return "Claude declined that one. Rephrase it.";
+    case "empty_completion": return "Claude came back empty. Try again with more detail.";
+    case "cancelled": return "Stopped.";
+    case "prompt_too_large": return "That's too much context for one question. Ask something narrower.";
+    default: return "Something went wrong (" + (e?.code || "unknown") + "): " + (e?.message || "").slice(0, 160);
+  }
+}
 async function ask(text, opts = {}) {
   if (!text?.trim() || asking) return;
-  if (!sample) { thread.push({ role: "user", content: text }, { role: "assistant", content: "The assistant isn't available in this view. I can still keep your logs and flags, but I can't think with you here." }); renderThread(); return; }
-  asking = true; $("#askbtn").disabled = true;
   if (!opts.hidden) thread.push({ role: "user", content: text });
+  if (!sample) { thread.push({ role: "assistant", content: capsResolved ? "Claude isn't running in this view. Open the link in Safari or Chrome (not inside another app) and tap Enable Claude." : "Still loading. Try again in a second." }); renderThread(); return; }
+  asking = true; renderHead();
   const live = { role: "assistant", content: "", tools: [], thinking: true }; thread.push(live); renderThread();
   const turns = thread.filter(m => !m.thinking && m.role).slice(-12).map(m => ({ role: m.role, content: m.content }));
   if (opts.hidden) turns.push({ role: "user", content: text });
-  turns[0] = { role: "user", content: `${SYSTEM}\n\nCURRENT STATE\n${contextBlock()}\n\n---\n${turns[0].content}` };
   if (turns[0].role !== "user") turns.unshift({ role: "user", content: "(context)" });
+  const noTools = sampleTools === false;
+  turns[0] = { role: "user", content: `${SYSTEM}\n\nCURRENT STATE\n${contextBlock()}\n${noTools ? "\nNOTE: page tools are NOT available in this view. Answer in text; when she asks you to log or move something, give her the exact change to make on the page instead of claiming you did it." : ""}\n---\n${turns[0].content}` };
   const tools = pageTools().map(tl => ({ ...tl, execute: (input, ctx) => { live.tools.push(tl.name); renderThread(); return tl.execute(input, ctx); } }));
+  abortAsk = new AbortController();
+  const run = withTools => sample(turns, { ...(withTools ? { tools } : { cache: false }), signal: abortAsk.signal, modelTier: opts.tier || "default", onText: ({ text }) => { live.content = text; live.thinking = false; renderThread(); } });
   try {
-    const r = await sample(turns, { tools, cache: false, modelTier: opts.tier || "default", onText: ({ text }) => { live.content = text; live.thinking = false; renderThread(); } });
+    let r;
+    try { r = await run(!noTools); }
+    catch (e) { if (e?.code === "tools_unavailable") { sampleTools = false; live.note = sampleErrText(e); r = await run(false); } else throw e; }
     live.content = r.text || "(done)"; live.thinking = false;
     if (opts.onDone) opts.onDone(r.text);
   } catch (e) {
     live.thinking = false;
-    live.content = e.code === "not_granted" || e.code === "sampling_disabled" ? "You haven't allowed this page to ask Claude yet. Tap the ask bar again and allow it." : e.code === "rate_limited" ? "Give me a minute; I'm rate-limited." : "Something went wrong: " + (e.message || e.code) + (e.text ? "\n\n" + e.text : "");
+    live.content = (e?.text ? e.text + "\n\n" : "") + sampleErrText(e);
+    if (e?.code === "not_granted") sampleState = "denied";
   }
-  asking = false; $("#askbtn").disabled = false; renderThread(); render();
+  abortAsk = null; asking = false; renderThread(); render();
 }
 async function maybeBrief(force) {
   const k = "brief-" + TODAY(), b = store.get(k, { text: "", json: null });
   if (b.json && !force) return;
-  if (!sample) return;
+  if (!sample || sampleState === "denied") return;
   try {
     const prompt = `${SYSTEM}\n\nCURRENT STATE\n${contextBlock()}\n\nWrite today's morning brief as JSON only: {"priorities":[{"text":"...","brand":"@blkgrlco|@blkgrlcotoo|@uglyinbetween|life"}], "coaching":"one direct sentence, honest, not cheerleading"}. Exactly 3 priorities; the first is always today's Day ${runDay()} of 90 video (film it in the capture window, or finish and schedule it). Base the other two on what's actually due, slipping, or flagged. Keep each under 12 words.`;
     const j = await sample.json(prompt, { modelTier: "default", cache: false });
     if (j && Array.isArray(j.priorities)) { b.json = { priorities: j.priorities.slice(0, 3), coaching: j.coaching || "" }; b.at = Date.now(); store.save(k); renderPage(); }
-  } catch (e) { if (e.code !== "not_granted") console.warn(e); }
+  } catch (e) { if (e.code === "not_granted") sampleState = "denied"; else console.warn(e); renderPage(); }
 }
 
 /* preview actions (outside apps) */
@@ -693,7 +729,11 @@ function renderHead() {
     : tab === "studio" ? ["Draft 3 titles for today's HHH vlog", "What's blocking the Turkey edit?", "Move the Turkey edit to Sunday"]
     : tab === "hhh" ? ["Set this week's HHH goals with me", "Which goals am I about to miss?", "What do I name on camera this week?"]
     : ["I only have 45 minutes before work, what should I film?", "What did I miss this week?", "Draft 3 titles for today's HHH vlog", "Log: lifted legs, 150g protein", "Put $700 in the Departure Fund"];
-  $("#chips").innerHTML = chips.map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("");
+  const gate = !capsResolved ? "" : !sample ? `<button class="chip" style="border-color:var(--wine);color:var(--wine)" data-act="enable-claude">Claude isn't running here · tap for help</button>`
+    : sampleState === "granted" ? "" : sampleState === "denied" ? `<button class="chip" style="border-color:var(--wine);color:var(--wine)" data-act="enable-claude">Claude was declined · reload to allow</button>`
+    : `<button class="chip" style="background:var(--wine);color:#fff;border-color:var(--wine)" data-act="enable-claude">Enable Claude</button>`;
+  $("#chips").innerHTML = gate + chips.map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#askbtn").textContent = asking ? "■" : "↑"; $("#askbtn").disabled = false; $("#askbtn").setAttribute("aria-label", asking ? "Stop" : "Send");
 }
 function renderConnect() {
   const names = { gcal: "Calendar", gmail: "Gmail", drive: "Drive", metricool: "Metricool" };
@@ -704,14 +744,14 @@ function renderConnect() {
 function renderThread() {
   const el = $("#thread");
   if (!thread.length && !previews.length) { el.innerHTML = ""; return; }
-  el.innerHTML = thread.map(m => `<div class="msg ${m.role === "user" ? "user" : "ai"} ${m.thinking ? "thinking" : ""}">${m.thinking && !m.content ? "Thinking…" : esc(m.content)}${m.tools?.length ? `<div class="tools">${[...new Set(m.tools)].map(t => `<span>✓ ${t}</span>`).join("")}</div>` : ""}</div>`).join("")
+  el.innerHTML = thread.map(m => `<div class="msg ${m.role === "user" ? "user" : "ai"} ${m.thinking ? "thinking" : ""}">${m.thinking && !m.content ? "Thinking… first answers can take up to a minute. Tap ■ to stop." : esc(m.content)}${m.note ? `<div class="stale" style="margin-top:6px">${esc(m.note)}</div>` : ""}${m.tools?.length ? `<div class="tools">${[...new Set(m.tools)].map(t => `<span>✓ ${t}</span>`).join("")}</div>` : ""}</div>`).join("")
     + previews.map(p => p.kind === "event" ? `<div class="preview ${p.state}"><div class="lbl">Google Calendar · ${p.state === "done" ? "added" : p.state === "cancelled" ? "cancelled" : "needs your OK"}</div><h4>${esc(p.title)}</h4>
         ${p.state === "pending" ? `<div class="kv"><b>Date</b><input data-pf="date" data-id="${p.id}" type="date" value="${esc(p.date)}"><b>Start</b><input data-pf="start" data-id="${p.id}" type="time" value="${esc(p.start)}"><b>End</b><input data-pf="end" data-id="${p.id}" type="time" value="${esc(p.end)}"><b>Notes</b><input data-pf="notes" data-id="${p.id}" value="${esc(p.notes)}"></div>
         <div class="acts"><button class="btn solid" data-act="pv-ok" data-id="${p.id}">Confirm</button><button class="btn" data-act="pv-cancel" data-id="${p.id}">Cancel</button></div>` : `<div class="sub">${fmt(parseD(p.date), { weekday: "short", month: "short", day: "numeric" })} · ${p.start}–${p.end}${p.result ? ` · <a href="${esc(p.result)}" target="_blank" rel="noopener">open</a>` : ""}</div>`}</div>`
       : `<div class="preview ${p.state}"><div class="lbl">Gmail draft · ${p.state === "done" ? "saved to Drafts" : p.state === "cancelled" ? "cancelled" : "needs your OK · nothing is sent"}</div><h4>${esc(p.subject)}</h4>
         ${p.state === "pending" ? `<div class="kv"><b>To</b><input data-pf="to" data-id="${p.id}" value="${esc(p.to)}" placeholder="address"><b>Subject</b><input data-pf="subject" data-id="${p.id}" value="${esc(p.subject)}"></div><textarea data-pf="body" data-id="${p.id}" rows="6">${esc(p.body)}</textarea>
         <div class="acts"><button class="btn solid" data-act="pv-ok" data-id="${p.id}">Save draft</button><button class="btn" data-act="pv-cancel" data-id="${p.id}">Cancel</button></div>` : `<div class="sub">${p.result ? `<a href="${esc(p.result)}" target="_blank" rel="noopener">Open in Gmail</a>` : esc(p.body.slice(0, 120))}</div>`}</div>`).join("")
-    + (thread.length ? `<div class="threadbar"><span>${sample ? "Claude answers here. It only changes outside apps after you confirm." : ""}</span><button class="linkbtn" data-act="clear-thread">Clear</button></div>` : "");
+    + (thread.length ? `<div class="threadbar"><span>${sample ? (sampleTools === false ? "Claude answers in text here; page actions need a browser view." : "Claude answers here. It only changes outside apps after you confirm.") : ""}</span><button class="linkbtn" data-act="clear-thread">Clear</button></div>` : "");
   const last = el.lastElementChild; if (asking && last) el.querySelector(".msg:last-of-type")?.scrollIntoView({ block: "nearest" });
 }
 
@@ -1024,6 +1064,7 @@ document.addEventListener("click", e => {
   switch (a) {
     case "tab": setTab(v); break;
     case "sync": syncAll(); break;
+    case "enable-claude": enableClaude(); break;
     case "ask": setTab("today"); ask(v); break;
     case "clear-thread": thread.length = 0; previews = previews.filter(p => p.state === "pending"); renderThread(); break;
     case "rebrief": { const b = store.get("brief-" + TODAY(), {}); b.json = null; maybeBrief(true); toast("Rewriting…"); break; }
@@ -1096,13 +1137,14 @@ document.addEventListener("submit", e => {
   else if (form === "trip-item") { const tr = travel().trips.find(t => t.id === f.dataset.trip); const inp = f.querySelector("input"); if (tr && inp.value.trim()) { tr[f.dataset.kind].push({ id: uid(), text: inp.value.trim(), done: false }); store.save("travel"); render(); } }
   else if (form === "trip") { const d = Object.fromEntries(new FormData(f).entries()); travel().trips.push({ id: uid(), name: d.name.trim(), start: d.start, end: d.end, vacation: !!d.vacation, packing: [], filming: [], standby: "" }); store.save("travel"); render(); }
 });
-$("#askform").addEventListener("submit", e => { e.preventDefault(); const v = $("#askin").value.trim(); if (!v) return; $("#askin").value = ""; setTab("today"); ask(v); });
+$("#askform").addEventListener("submit", e => { e.preventDefault(); if (asking) { abortAsk?.abort(); return; } const v = $("#askin").value.trim(); if (!v) return; $("#askin").value = ""; setTab("today"); ask(v); });
 
 /* ═══════════ BOOT ═══════════ */
 const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
 render();
-Promise.all([use("db"), use("assets"), use("mcp"), use("sample")]).then(async ([d, a, m, s]) => {
-  db = d; assets = a; mcp = m; sample = s; capsResolved = true;
+Promise.all([use("db"), use("assets"), use("mcp"), use("sample"), use("permissions")]).then(async ([d, a, m, s, pm]) => {
+  db = d; assets = a; mcp = m; sample = s; perms = pm; capsResolved = true;
+  await refreshSampleState();
   if (db) { await store.load(allKeys()); for (const k of ["studio", "tasks", "shots"]) db.doc("os/" + k).onSnapshot(snap => { if (!snap.exists || snap.metadata.hasPendingWrites) return; const data = snap.data(); if (JSON.stringify(data) !== JSON.stringify(mem[k])) { mem[k] = data; lsSet(k, data); render(); } }, () => {}); }
   render();
   if (mcp) syncAll(true); else maybeBrief();
