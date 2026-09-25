@@ -70,6 +70,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Retired name/term | Replaced by | Brand |
 |---|---|---|
+| "Weekly Vlog" (weekly long-form HHH recap) | Monthly Vlog — the recap is monthly as of 2026-09-24; daily shorts unchanged | @blkgrlco |
 | "The Becoming" | HOTTER, HEALTHIER, HAPPIER (HHH) | @blkgrlco |
 | "Young Hot & Outside" | "Young & Outside in [Location]" | @blkgrlcotoo |
 | "Fuck It Book It" / "STAMPED" | "Young & Outside in [Location]" (via "Young Hot & Outside") | @blkgrlcotoo |

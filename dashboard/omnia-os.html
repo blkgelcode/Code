@@ -1,0 +1,1257 @@
+<title>Omnia OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F4F4F6; --cream:#ECECF1; --card:#FFFFFF; --card-2:#F4F4F6; --ink:#111114; --ink-2:#5F5F66; --ink-3:#9A9AA3;
+  --line:#E7E7EC; --sage:#3AA76D; --sage-ink:#1F7A4B; --blush:#E8607A; --blush-ink:#B3304C; --tan:#D08A3B; --tan-ink:#9A5F1E;
+  --wine:#8C0532; --wine-soft:#FBE8EE; --ox:#49001B; --shift:#EBEBEF; --shift-ink:#6E6E76; --focus:#8C0532;
+  --shadow:0 1px 2px rgba(17,17,20,.04),0 8px 24px rgba(17,17,20,.06);
+  --serif:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:20px; --nav-h:64px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E0E10; --cream:#1A1A1E; --card:#18181C; --card-2:#222226; --ink:#F2F2F5; --ink-2:#A9A9B3; --ink-3:#6F6F79;
+    --line:#2A2A30; --sage:#4CC287; --sage-ink:#7BD9A8; --blush:#F07B92; --blush-ink:#F5A3B3; --tan:#E39B4C; --tan-ink:#F0BF86;
+    --wine:#E24B77; --wine-soft:#3A1220; --ox:#F5B8CB; --shift:#232328; --shift-ink:#9A9AA5; --focus:#F07B92;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E0E10; --cream:#1A1A1E; --card:#18181C; --card-2:#222226; --ink:#F2F2F5; --ink-2:#A9A9B3; --ink-3:#6F6F79;
+  --line:#2A2A30; --sage:#4CC287; --sage-ink:#7BD9A8; --blush:#F07B92; --blush-ink:#F5A3B3; --tan:#E39B4C; --tan-ink:#F0BF86;
+  --wine:#E24B77; --wine-soft:#3A1220; --ox:#F5B8CB; --shift:#232328; --shift-ink:#9A9AA5; --focus:#F07B92;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+.tnum{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* shell */
+.shell{display:grid;grid-template-columns:1fr;min-height:100%}
+.side{display:none}
+.main{min-width:0;padding-inline:16px;padding-block:14px calc(var(--nav-h) + 24px + env(safe-area-inset-bottom,0px))}
+@media (min-width:900px){
+  .shell{grid-template-columns:200px minmax(0,1fr)}
+  .side{display:flex;flex-direction:column;gap:4px;padding:26px 14px;background:var(--card-2);position:sticky;top:0;height:100vh}
+  .main{padding-inline:32px;padding-block:22px 48px;max-width:1240px}
+  .bottomnav{display:none}
+}
+.side .brandmark{font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1;margin:4px 8px 18px}
+.navbtn{display:flex;align-items:center;gap:10px;border:0;background:none;border-radius:12px;padding:9px 10px;text-align:left;cursor:pointer;color:var(--ink-2);font-weight:500}
+.navbtn[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.navbtn .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-left:auto}
+.navbtn .badge{margin-left:auto;background:var(--wine);color:#fff;border-radius:999px;font-size:10px;padding:1px 7px;font-weight:600}
+.bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(8,1fr);background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.bottomnav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9.5px;color:var(--ink-3);padding:4px 0;cursor:pointer;position:relative;letter-spacing:.02em}
+.bottomnav button[aria-selected=true]{color:var(--wine);font-weight:600}
+.bottomnav button i{width:26px;height:22px;display:grid;place-items:center;font-size:12px;font-weight:700;letter-spacing:-.02em;line-height:1;border-radius:7px;font-style:normal}
+.bottomnav button[aria-selected=true] i{background:var(--wine);color:#fff}
+.bottomnav button .badge{position:absolute;top:0;right:calc(50% - 18px);background:var(--wine);color:#fff;border-radius:999px;font-size:9px;padding:0 5px;font-weight:600}
+
+/* header + ask */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:6px 20px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.head h1{font-weight:700;font-size:clamp(30px,6.5vw,40px);line-height:1;margin:0;letter-spacing:-.03em}
+.head .meta{text-align:right;font-size:15px;font-weight:500;line-height:1.2;color:var(--ink-2)}
+.head .meta b{display:block;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.head .meta .day{color:var(--wine);font-weight:600}
+.askwrap{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--bg);padding:10px 0 12px;margin:0 0 6px}
+.ask{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid transparent;border-radius:999px;padding:6px 6px 6px 16px;box-shadow:var(--shadow)}
+.ask input{flex:1;min-width:0;border:0;background:none;font-size:15px;padding:6px 0}
+.ask input::placeholder{color:var(--ink-3);font-size:15px}
+.ask button{border:0;background:var(--wine);color:var(--card);border-radius:999px;width:38px;height:38px;cursor:pointer;flex:none;font-size:16px}
+.ask button[disabled]{opacity:.4;cursor:not-allowed}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 0;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 11px;font-size:11.5px;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--tan)}
+
+/* assistant thread */
+.thread{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.msg{max-width:100%;border-radius:16px;padding:10px 14px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:var(--wine);color:#fff;border-bottom-right-radius:6px;max-width:85%}
+.msg.ai{align-self:stretch;background:var(--card);box-shadow:var(--shadow);border-bottom-left-radius:6px}
+.msg.ai.thinking{color:var(--ink-3)}
+.msg .tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.msg .tools span{font-size:10.5px;background:var(--card-2);border-radius:999px;padding:1px 8px;color:var(--ink-2)}
+.threadbar{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;color:var(--ink-3)}
+.preview{border:1.5px solid var(--wine);background:var(--card);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.preview .lbl{color:var(--wine)}
+.preview h4{margin:0;font-size:16px;font-weight:600;line-height:1.2}
+.preview .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px}
+.preview .kv b{font-weight:500;color:var(--ink-3)}
+.preview textarea,.preview input{width:100%;border:1px solid var(--line);border-radius:10px;padding:6px 9px;background:var(--bg);font-size:13px}
+.preview .acts{display:flex;gap:6px;flex-wrap:wrap}
+.preview.done{border-color:var(--sage);opacity:.85}
+.preview.cancelled{border-color:var(--line);opacity:.6}
+
+/* generic */
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
+@media (min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span2{grid-column:span 2}}
+@media (min-width:1180px){.grid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g3 .span3{grid-column:span 3}}
+.card{background:var(--card);border:1px solid transparent;box-shadow:var(--shadow);border-radius:var(--r);padding:16px 16px 14px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.card h2{font-size:19px;font-weight:600;line-height:1.1;margin:0;letter-spacing:-.02em}
+.chead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.lbl{font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.sub{font-size:12px;color:var(--ink-2)}
+.stale{font-size:11px;color:var(--ink-3)}
+.empty{font-size:13px;color:var(--ink-3);padding:4px 0}
+.hr{height:1px;background:var(--line);border:0;margin:0}
+.big{font-size:30px;font-weight:700;line-height:1;letter-spacing:-.03em}
+.big small{font-size:15px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;cursor:pointer;font-size:12px;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--tan)}
+.btn.solid{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.wine{background:var(--wine);color:#fff;border-color:var(--wine)}
+.btn.ghost{background:none}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:3px 9px;font-size:11px}
+.linkbtn{border:0;background:none;padding:0;font-size:11.5px;color:var(--ink-3);cursor:pointer;text-decoration:underline}
+.field{border:1px solid transparent;background:var(--card-2);border-radius:12px;padding:7px 10px;font-size:13px;min-width:0}
+.field:focus{border-color:var(--wine);background:var(--card)}
+textarea.field{resize:vertical;min-height:70px;width:100%}
+.addrow{display:flex;flex-wrap:wrap;gap:6px}
+.addrow .field{flex:1 1 140px}
+.addrow select.field,.addrow input[type=date].field,.addrow input[type=number].field{flex:0 1 auto}
+.check{appearance:none;width:18px;height:18px;border:1.5px solid var(--ink-3);border-radius:5px;flex:none;cursor:pointer;display:grid;place-items:center;margin:0;background:var(--card)}
+.check:checked{background:var(--sage);border-color:var(--sage)}
+.check:checked::after{content:"";width:5px;height:9px;border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.rows{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);min-width:0}
+.row:last-child{border-bottom:0}
+.row .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.row .t small{display:block;font-size:11px;color:var(--ink-3)}
+.row.done .t{color:var(--ink-3);text-decoration:line-through}
+.x{border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px}
+.x:hover{color:var(--wine)}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:500;white-space:nowrap;line-height:17px}
+.b1{background:color-mix(in srgb,var(--blush) 16%,transparent);color:var(--blush-ink)} .b2{background:color-mix(in srgb,var(--sage) 16%,transparent);color:var(--sage-ink)} .b3{background:color-mix(in srgb,var(--tan) 18%,transparent);color:var(--tan-ink)} .b0{background:var(--card-2);color:var(--ink-2)}
+.lHot{background:color-mix(in srgb,var(--blush) 16%,transparent);color:var(--blush-ink)} .lHealthy{background:color-mix(in srgb,var(--sage) 16%,transparent);color:var(--sage-ink)} .lHappy{background:color-mix(in srgb,var(--tan) 18%,transparent);color:var(--tan-ink)}
+.bar{height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar > i{display:block;height:100%;border-radius:5px;background:var(--sage)}
+.bar.tan > i{background:var(--tan)} .bar.blush > i{background:var(--blush)} .bar.wine > i{background:var(--wine)}
+.tabs{display:inline-flex;background:var(--cream);border-radius:999px;padding:3px;gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:none;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:500;cursor:pointer;color:var(--ink-2);white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(17,17,20,.12)}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--card);padding:8px 16px;border-radius:999px;font-size:12.5px;z-index:30;max-width:calc(100% - 32px)}
+@media (min-width:900px){.toast{bottom:22px}}
+.notice{font-size:12px;color:var(--ink-2);background:var(--card-2);border-radius:10px;padding:8px 12px}
+.notice.wine{color:var(--wine);background:var(--wine-soft)}
+.connect{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11.5px;color:var(--ink-3)}
+.connect .src{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:var(--card)}
+.connect .src.bad{border-color:var(--wine);color:var(--wine)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ink-3)}
+.dot.ok{background:var(--sage)} .dot.bad{background:var(--wine)} .dot.busy{background:var(--tan);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+/* flags */
+.flag{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid color-mix(in srgb,var(--wine) 22%,transparent)}
+.flag:last-child{border-bottom:0}
+.flag .fi{flex:none;width:8px;height:8px;border-radius:50%;background:var(--wine);margin-top:6px}
+.flag .ft{flex:1;min-width:0;font-size:13px;color:var(--ink)}
+.flag .ft small{display:block;color:var(--ink-2);font-size:11.5px}
+.flagcard{border-color:transparent;box-shadow:var(--shadow),inset 4px 0 0 var(--wine)}
+.flagcard h2{color:var(--wine)}
+
+/* brief */
+
+.brief .kvs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.kv-t{background:var(--card-2);border-radius:14px;padding:10px 12px;min-width:0}
+.kv-t b{display:block;font-size:clamp(15px,4.6vw,20px);font-weight:700;line-height:1.05;letter-spacing:-.03em;white-space:nowrap}
+.kv-t span{font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.prio{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.prio:last-child{border-bottom:0}
+.prio .n{font-size:12px;font-weight:700;color:#fff;background:var(--wine);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none}
+.coach{border-left:3px solid var(--wine);padding:4px 0 4px 12px;font-size:15px;font-weight:500;line-height:1.4}
+.routines{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.routines{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.routine{border:1px solid transparent;border-radius:16px;padding:12px 14px;background:var(--card-2);cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px}
+.routine:hover{border-color:var(--tan)}
+.routine b{font-size:14px;font-weight:600;line-height:1.2}
+.routine span{font-size:11px;color:var(--ink-3)}
+.routine.hot{border-color:var(--wine);background:var(--wine-soft)}
+
+/* timeline */
+.tl{position:relative;margin-left:42px;border-left:1px solid var(--line)}
+.tl .hl{position:absolute;left:-42px;width:36px;text-align:right;font-size:10px;color:var(--ink-3);transform:translateY(-6px)}
+.tl .hg{position:absolute;left:0;right:0;border-top:1px dashed var(--line)}
+.blk{position:absolute;left:6px;right:6px;border-radius:10px;padding:5px 9px;font-size:11.5px;overflow:hidden}
+.blk b{font-weight:600;display:block}
+.blk.shift{background:var(--shift);color:var(--shift-ink)}
+.blk.capture{background:color-mix(in srgb,var(--sage) 12%,transparent);color:var(--sage-ink);border:1px solid color-mix(in srgb,var(--sage) 35%,transparent)}
+.blk.batch{background:color-mix(in srgb,var(--blush) 12%,transparent);color:var(--blush-ink);border:1px solid color-mix(in srgb,var(--blush) 35%,transparent)}
+.blk.sunday{background:color-mix(in srgb,var(--tan) 14%,transparent);color:var(--tan-ink);border:1px solid color-mix(in srgb,var(--tan) 35%,transparent)}
+.blk.ev{left:30%;background:var(--card);border:1px solid var(--line);z-index:2;box-shadow:var(--shadow)}
+.blk.ev.conflict{border-color:var(--wine);color:var(--wine)}
+.blk.now{left:0;right:0;border-top:1.5px solid var(--wine);padding:0;border-radius:0;z-index:3}
+.blk.now::before{content:"";position:absolute;left:-4px;top:-4px;width:7px;height:7px;border-radius:50%;background:var(--wine)}
+
+/* week */
+.wkgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+@media (min-width:900px){.wkgrid{grid-template-columns:repeat(7,minmax(0,1fr))}}
+.wkday{background:var(--card);border:1px solid transparent;box-shadow:var(--shadow);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:120px;min-width:0}
+.wkday.today{border-color:var(--wine)}
+.wkday.over{background:var(--card-2);border-style:dashed}
+.wkday .dh{display:flex;justify-content:space-between;align-items:baseline}
+.wkday .dh b{font-size:22px;font-weight:700;line-height:1;letter-spacing:-.03em}
+.wkday .dh span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.wkday .type{font-size:10.5px;border-radius:6px;padding:2px 7px;align-self:flex-start}
+.type.work{background:var(--shift);color:var(--shift-ink)} .type.sat{background:color-mix(in srgb,var(--blush) 16%,transparent);color:var(--blush-ink)} .type.sun{background:color-mix(in srgb,var(--tan) 18%,transparent);color:var(--tan-ink)} .type.vac{background:color-mix(in srgb,var(--sage) 16%,transparent);color:var(--sage-ink)}
+.wi{display:flex;gap:6px;align-items:flex-start;border-radius:10px;padding:6px 8px;font-size:11.5px;background:var(--card-2);border:0;cursor:grab;min-width:0;line-height:1.3}
+.wi:active{cursor:grabbing}
+.wi i{flex:none;width:4px;align-self:stretch;border-radius:3px;background:var(--ink-3)}
+.wi.b1 i{background:var(--blush)} .wi.b2 i{background:var(--sage)} .wi.b3 i{background:var(--tan)} .wi.body i{background:var(--sage-ink)} .wi.life i{background:var(--ink-3)} .wi.cal i{background:var(--ink)}
+.wi .t{flex:1;min-width:0;overflow-wrap:anywhere}
+.wi.done .t{text-decoration:line-through;color:var(--ink-3)}
+.wi .mv{border:0;background:none;color:var(--ink-3);cursor:pointer;padding:0 2px;font-size:12px}
+.wi.dragging{opacity:.4}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--ink-3)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:12px;height:4px;border-radius:3px;display:inline-block}
+
+/* studio kanban */
+.kan{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.col{flex:0 0 200px;background:var(--card-2);border:1px solid transparent;border-radius:14px;padding:9px;display:flex;flex-direction:column;gap:6px;min-height:110px;scroll-snap-align:start}
+.col.over{border-style:dashed;border-color:var(--tan)}
+.col h4{margin:0;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between}
+.kc{background:var(--card);border:1px solid transparent;box-shadow:0 1px 3px rgba(17,17,20,.08);border-radius:12px;padding:8px 9px;font-size:12.5px;display:flex;flex-direction:column;gap:4px;cursor:grab}
+.kc .t{font-weight:500;overflow-wrap:anywhere}
+.kc .m{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:10.5px;color:var(--ink-3)}
+.kc .m a{text-decoration:none;border-bottom:1px dotted var(--ink-3)}
+.kc.overdue{border-color:var(--wine)}
+.kc .mv{align-self:flex-end;border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:11px;padding:0}
+.brandtabs{display:flex;gap:6px;flex-wrap:wrap}
+.detail{position:fixed;inset:0;background:rgba(46,21,0,.35);z-index:40;display:grid;place-items:end center;padding:0}
+@media (min-width:720px){.detail{place-items:center;padding:20px}}
+.sheet{background:var(--card);border-radius:22px 22px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));width:100%;max-width:560px;max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
+@media (min-width:720px){.sheet{border-radius:22px}}
+.sheet h3{margin:0;font-size:20px;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+.sheet .frm{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheet .frm .full{grid-column:1/-1}
+.sheet label{display:flex;flex-direction:column;gap:3px;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.sheet label .field{width:100%;text-transform:none;letter-spacing:0;font-size:13px}
+.upcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.upcal .dh{font-size:9.5px;text-align:center;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase}
+.uc{border-radius:9px;background:var(--card-2);min-height:48px;padding:4px;font-size:11px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.uc.out{opacity:.35} .uc.today{outline:1.5px solid var(--wine)}
+.uc .dots{display:flex;flex-wrap:wrap;gap:2px}
+.uc .dots i{width:6px;height:6px;border-radius:50%}
+.uc .dots i.b1{background:var(--blush-ink)} .uc .dots i.b2{background:var(--sage-ink)} .uc .dots i.b3{background:var(--tan-ink)} .uc .dots i.live{outline:1.5px solid var(--ink);outline-offset:1px}
+
+/* HHH */
+.ringrow{display:flex;align-items:center;gap:14px}
+.ring .track{stroke:var(--line)} .ring .val{stroke:var(--wine)}
+.goal{display:grid;grid-template-columns:1fr auto;gap:4px 8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.goal:last-child{border-bottom:0}
+.goal .t{font-size:13px;overflow-wrap:anywhere}
+.goal.hit .t::after{content:" ✓";color:var(--sage-ink);font-weight:600}
+.goal.missed .t{text-decoration:line-through;text-decoration-color:var(--wine);color:var(--wine)}
+.goal .bar{grid-column:1/-1}
+.goal.missed .bar > i{background:var(--wine)}
+.goal .gfoot{grid-column:1/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ctr{display:flex;align-items:center;gap:4px}
+.ctr button{width:24px;height:24px;border-radius:50%;border:0;background:var(--card-2);cursor:pointer;line-height:1}
+.ctr span{font-size:12px;min-width:34px;text-align:center}
+.tag-miss{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--wine);border:1px solid var(--wine);border-radius:999px;padding:0 7px;white-space:nowrap}
+.streak{display:flex;gap:3px;flex-wrap:wrap}
+.streak i{width:10px;height:10px;border-radius:3px;background:var(--line)}
+.streak i.on{background:var(--sage)} .streak i.miss{background:var(--wine)} .streak i.today{outline:1.5px solid var(--ink);outline-offset:1px}
+.pins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.pins{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px){.pins{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pin{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:14px;overflow:hidden;background:var(--card-2);border:1px solid var(--line)}
+.pin img{width:100%;height:100%;object-fit:cover;display:block}
+.pin .cap{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;background:linear-gradient(transparent,rgba(0,0,0,.65));color:#fff;font-size:13px;font-weight:600;line-height:1.1}
+.pin .cap input{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.4);color:#fff;font:inherit;padding:2px 0}
+.pin .cap input::placeholder{color:rgba(255,255,255,.7)}
+.pin .rm{position:absolute;top:6px;right:6px;border:0;border-radius:999px;background:rgba(46,21,0,.55);color:#fff;font-size:11px;padding:2px 8px;cursor:pointer}
+.pin.add{display:grid;place-items:center;border:1.5px dashed var(--ink-3);background:none;cursor:pointer;color:var(--ink-2);font-size:12px;text-align:center;padding:10px}
+.pin.ph{display:grid;place-items:center;color:var(--ink-3);font-size:13px;border-style:dashed}
+
+/* body */
+.hwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.hwk button{border:0;background:var(--card-2);border-radius:10px;padding:6px 0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--ink-3)}
+.hwk button i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--sage)}
+.hwk button.on i{background:var(--sage)}
+.hwk button.today{border-color:var(--ink)}
+.band{position:relative;height:7px;border-radius:7px;background:var(--line)}
+.band .zone{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--sage) 45%,transparent);border-radius:7px}
+.band .mk{position:absolute;top:-3px;width:3px;height:13px;border-radius:2px;background:var(--ink)}
+.kvl{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2)}
+.trend{display:flex;align-items:flex-end;gap:4px;height:70px}
+.trend div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;color:var(--ink-3)}
+.trend i{width:100%;max-width:26px;background:var(--sage);border-radius:4px 4px 0 0;display:block}
+.trend i.low{background:var(--blush)}
+
+/* money */
+.fundbar{position:relative;height:7px;border-radius:7px;background:var(--line)}
+.fundbar i{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--tan)}
+.fundbar b{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--ink)}
+.payrow > summary{list-style:none;cursor:pointer} .payrow > summary::-webkit-details-marker, details > summary.chead::-webkit-details-marker{display:none} details > summary.chead{list-style:none}
+.split{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:13px;align-items:center}
+.split .field{width:90px;text-align:right}
+.split .tot{border-top:1px solid var(--line);padding-top:6px;font-weight:600}
+.paylist{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;font-size:12.5px;align-items:center}
+.paylist .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3)}
+
+/* travel */
+.trip{border:0;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--card-2)}
+.trip .cd{font-size:28px;font-weight:700;line-height:1;letter-spacing:-.03em}
+.trip .cd small{font-size:14px;color:var(--ink-3);font-weight:500}
+
+/* reviews */
+.review{border-bottom:1px solid var(--line);padding:10px 0;display:flex;flex-direction:column;gap:6px}
+.review:last-child{border-bottom:0}
+.review .txt{white-space:pre-wrap;font-size:13px;line-height:1.55}
+.review .txt h{display:block;font-size:15px;font-weight:600;margin-top:6px}
+</style>
+
+<div class="shell">
+  <nav class="side" id="side" aria-label="Sections"></nav>
+  <div class="main">
+    <header class="head">
+      <h1>Omnia OS</h1>
+      <div class="meta" id="headmeta"></div>
+    </header>
+    <div class="askwrap">
+      <form class="ask" id="askform"><input id="askin" placeholder="Tell me what you need" autocomplete="off" aria-label="Ask"><button type="submit" id="askbtn" aria-label="Send">↑</button></form>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div id="thread" class="thread"></div>
+    <div id="page"></div>
+  </div>
+</div>
+<nav class="bottomnav" id="bottomnav" aria-label="Sections"></nav>
+<div class="toast" id="toast" hidden></div>
+<input type="file" id="pin-file" accept="image/*" hidden>
+
+<script>
+/* ═══════════ CONFIG ═══════════ */
+const START_DATE = "2026-09-06";           // Day 1 of the 90-Day HHH Run
+const RUN_DAYS = 90;
+const TZ = "America/Chicago";
+const SHIFT = [15, 24], CAPTURE_START = 8;  // Mon–Fri 3pm–12am; capture window opens 8am
+// The Departure Fund pays for Rio (RIO.budget, spent Dec 26–Jan 5) and still holds FUND_GOAL by FUND_DEADLINE: extra earnings (planMap[].extra) close the gap.
+// Rehab ends once she is back from Rio with FUND_GOAL in the fund.
+const FUND_GOAL = 3000, FUND_STRETCH = 5000, FUND_DEADLINE = "2026-12-31";
+const RIO = { leave: "2026-12-26", back: "2027-01-05", budget: 600 };
+const LIVING_SAVE = 700, BILLS_SKIM = 100;
+const WORKOUT_TARGET = [3, 4], PROTEIN = [160, 165], CALORIES = [2300, 2400];
+const CAL_ID = "blktrvler@gmail.com";
+const SERVER = { gcal: "Google Calendar", gmail: "Gmail", drive: "Google Drive", metricool: "Metricool Social Media Management" };
+const BRANDS = {
+  "@blkgrlco":      { cls: "b1", pill: "@blkgrlco", name: "@blkgrlco", sub: "Hot · Healthy · Happy · 90-Day Run", metricool: "4359163", gapDays: 2 },
+  "@blkgrlcotoo":   { cls: "b2", pill: "@blkgrlcotoo", name: "@blkgrlcotoo", sub: "Young & Outside · Scent Passport", metricool: "6918875", gapDays: 21 },
+  "@uglyinbetween": { cls: "b3", pill: "Podcast", name: "I Wish Someone Had Told Me", sub: "Podcast · one take, keep the cracks", metricool: "6918899", gapDays: 14 },
+};
+const STAGES = ["Idea", "Scripted", "Shot list", "Filmed", "Edited", "Scheduled", "Posted"];
+const LANES = ["Hot", "Healthy", "Happy"];
+const TABS = [["today", "Today", "T"], ["week", "Week", "W"], ["studio", "Studio", "S"], ["hhh", "HHH", "90"], ["body", "Body", "B"], ["money", "Money", "$"], ["travel", "Travel", "✈"], ["review", "Review", "R"]];
+const LOCKED = [
+  { re: /vision\s*board/i, rule: "It's called the Pin Board, never a vision board." },
+  { re: /\b\d+\s+(ways|tips|things|reasons|hacks)\b/i, rule: "No listicle titles. One sentence, opinion + curiosity." },
+  { re: /comment your own rule/i, rule: "The 90-Day Run CTA is \"make your own Pin Board.\"" },
+  { re: /(follower|subscriber)s?\s*(count|goal|target)|hit \d+k/i, rule: "Goal is consistency and storytelling, not follower counts." },
+  { re: /(delete|erase|remove)\b.*\b(missed|goal)/i, rule: "A missed goal is named on camera, never erased." },
+];
+const PROFILE = `Omnia Koumi. Airline ground ops at MEM (United Ground Express: gate agent / CSR / cargo). Shift Mon–Fri 3pm–12am, off Sat/Sun, timezone America/Chicago.
+Weekly rhythm: weekday mornings = opportunistic capture only, before the shift. Saturday = batch film day. Sunday = edit, upload, reflect, plan next week. Travel filming only on vacation days or weekends.
+BLKGRLCO Studios, three brands: @blkgrlco (personal development, Hot/Healthy/Happy; flagship = the 90-Day HHH Run: daily vlogs + a Monthly Vlog recap split into Hot/Healthy/Happy segments (the recap used to be weekly; it is monthly now); a missed goal is named on camera, never erased; CTA "make your own Pin Board"). @blkgrlcotoo (travel: "Young & Outside in [Location]", "SCENT PASSPORT"; separate visual identity). Podcast "I Wish Someone Had Told Me" (friend-to-friend, one take, keep voice cracks and pauses).
+Pin Board = monthly + yearly goals with photos. NOT a vision board.
+Fitness: Crunch Fitness with a personal trainer (PT sessions booked in the Crunch app, usually Wed/Thu/Fri 11:30am, inside the capture window); lift 3–4x/week counting PT, ~2,300–2,400 cal, 160–165g protein, food tracked in ZOZOFIT.
+Money: GOAL = $3,000 in the Departure Fund by Dec 31 2026, with Rio also paid from the fund ($600 budget, standby flights, so lodging, food, gifts, fun; spent Dec 26–Jan 5; Rio spending comes from that budget, not the weekly cap). To get there she earns ~$391 extra take-home on a full check Oct 21–Dec 16 (Oct 7 ~$225, Dec 30 ~$330: partial periods) (overtime at $22.65/hr ≈ $19.56 take-home an hour: ~10 extra OT hours a week in total: she clocks in at 3:00 instead of 3:30 (started late Sep, +2.5 hrs/week) plus ~7.5 hrs/week of pickups — plan: Monday 4–10am every week + one 3-hour block on a day off each pay period; never Tuesday 4am after a midnight finish; base rate $15.10) and every extra dollar goes straight to the fund. Biweekly pay: one check for bills, one for living; how much each check saves (base + extra) is in THE PLAN. Stretch $5,000. You are also her money manager. Starting 2026-10-21 (a bills check) she is in FINANCIAL REHAB until she is back from Rio with $3,000 in the Departure Fund: no spending outside essentials (bills, groceries, gas, gym/PT, meds) and a hard weekly cash cap she sets. While rehab is active, every non-essential purchase is a no unless she overrides it knowingly; when she asks "can I afford X", answer from the cap left this week and say plainly if it breaks rehab; a living check in rehab gets two weeks of cap for life and the rest to the fund. On payday, split the check (bills due before the next check first, then the Departure Fund, then living), keep her on pace for the Rio budget and then $3,000, watch the Rio trip (late Dec) as a second call on cash, and say plainly when a number doesn't work. No bank is connected, so work from what she tells you and what's logged.
+Travel: standby benefits. Rio de Janeiro family trip late Dec → Jan 5.
+Goal is consistency and storytelling, not follower counts or monetization. Never center analytics.
+Title rule: one sentence, opinion + curiosity, no "3 ways" listicles. Videos end on her "bye bye"; no filler sign-off.
+Voice for coaching: direct, warm, honest. Never cheerleading, never corporate.`;
+
+/* ═══════════ DATES ═══════════ */
+const pad = n => String(n).padStart(2, "0");
+const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parseD = s => { const [y, m, d] = String(s).slice(0, 10).split("-").map(Number); return new Date(y, m - 1, d); };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const monday = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return addDays(x, -((x.getDay() + 6) % 7)); };
+const dayDiff = (a, b) => Math.round((parseD(ymd(b)) - parseD(ymd(a))) / 864e5);
+const fmt = (d, o) => d.toLocaleDateString("en-US", o);
+const fmtTime = d => d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).replace(":00", "").replace(" ", "").toLowerCase();
+const hourLabel = h => h === 0 || h === 24 ? "12a" : h === 12 ? "12p" : h < 12 ? h + "a" : (h - 12) + "p";
+const money = n => (n < 0 ? "-$" : "$") + Math.abs(Math.round(n)).toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const $ = s => document.querySelector(s);
+let NOW = new Date();
+const TODAY = () => ymd(NOW), WEEK0 = () => monday(NOW), WEEKKEY = () => ymd(WEEK0()), MONTH = () => TODAY().slice(0, 7);
+const runDay = (d = NOW) => dayDiff(parseD(START_DATE), d) + 1;
+function dayType(d) {
+  const t = store.get("travel", { trips: [] }).trips.find(t => t.vacation && ymd(d) >= t.start && ymd(d) <= t.end);
+  if (t) return "vac";
+  const w = d.getDay(); return w === 6 ? "sat" : w === 0 ? "sun" : "work";
+}
+const TYPE_LABEL = { work: "Work day", sat: "Batch Saturday", sun: "Edit Sunday", vac: "Vacation" };
+
+/* ═══════════ STORE (db + local mirror) ═══════════ */
+const LS = "omnia-os:";
+const lsGet = k => { try { const v = localStorage.getItem(LS + k); return v ? JSON.parse(v) : null; } catch { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(LS + k, JSON.stringify(v)); } catch {} };
+const mem = {};
+let db = null, assets = null, mcp = null, sample = null, perms = null, capsResolved = false;
+let sampleTools = null, toolCap = 16;   // null = unknown, true/false once limits() answers
+let sampleState = "unknown";  // permissions state for "sample"
+let abortAsk = null, lastAskError = "", consentStuck = false;
+const PAGE_URL = "https://claude.ai/artifact/PJMgHgWkjLs5XJQBZZTTgV";
+const store = {
+  get(key, dflt) { if (!(key in mem)) mem[key] = lsGet(key) ?? JSON.parse(JSON.stringify(dflt)); return mem[key]; },
+  save(key) {
+    const v = mem[key]; if (v && typeof v === "object" && !Array.isArray(v)) v.updatedAt = Date.now();
+    lsSet(key, v);
+    if (db) db.doc("os/" + key).set(v).catch(e => toast("Couldn't save: " + (e.message || e.code) + ". Kept on this device."));
+  },
+  async load(keys) {
+    if (!db) return;
+    await Promise.all(keys.map(async k => { try { const s = await db.doc("os/" + k).get(); if (s.exists) { mem[k] = s.data(); lsSet(k, mem[k]); } } catch {} }));
+  },
+};
+function hhhWeekKeys() { const out = []; let w = monday(parseD(START_DATE)); while (w <= WEEK0()) { out.push("hhh-" + ymd(w)); w = addDays(w, 7); } return out; }
+const bodyKeys = () => [0, 1, 2, 3, 4, 5].map(i => "body-" + ymd(addDays(WEEK0(), -7 * i)));
+const allKeys = () => ["tasks", "studio", "ideas", "shots", "money", "travel", "reviews", "settings", "pt", "yearly", "pins-" + MONTH(), "brief-" + TODAY(), "close-" + TODAY(), ...hhhWeekKeys(), ...bodyKeys()];
+
+/* data accessors */
+const tasks = () => store.get("tasks", { items: [] });
+const studio = () => store.get("studio", { cards: [] });
+const ideas = () => store.get("ideas", { items: [] });
+const moneyS = () => store.get("money", { balance: null, log: [], nextPayday: "", nextKind: "living", plans: {}, bills: [], checks: [], rehab: { start: "2026-10-21", cap: null, spend: [] } });
+// rehab: financial rehab — no spending outside essentials + a hard weekly cash cap, from `start` until the Departure Fund reaches FUND_GOAL.
+// spend: [{id, date, amount, note, essential}]
+const rehab = () => { const m = moneyS(); m.rehab = m.rehab || { start: "2026-10-21", cap: null, spend: [] }; return m.rehab; };
+const REHAB_ESSENTIALS = ["bills", "groceries", "gas", "gym / PT", "meds"];
+function rehabState() {
+  const r = rehab(), bal = moneyS().balance ?? 0, today = TODAY();
+  const done = bal >= FUND_GOAL && today >= RIO.back, started = today >= r.start;
+  const wk = WEEKKEY(), wkEnd = ymd(addDays(WEEK0(), 6));
+  const thisWeek = r.spend.filter(x => x.date >= wk && x.date <= wkEnd);
+  const spent = thisWeek.reduce((a, x) => a + x.amount, 0);
+  const nonEss = r.spend.filter(x => !x.essential && x.date >= r.start);
+  return { r, active: started && !done, started, done, daysTo: dayDiff(NOW, parseD(r.start)), spent, left: r.cap === null ? null : r.cap - spent, thisWeek, nonEss, toGoal: Math.max(0, FUND_GOAL - bal) };
+}
+// bills: {id,name,amount,day}  checks: {date,kind,amount}
+const travel = () => store.get("travel", { trips: [{ id: "rio", name: "Rio de Janeiro — family New Year", start: "2026-12-26", end: "2027-01-05", vacation: true, packing: [], filming: [{ id: "f1", text: "Young & Outside in Rio — opener at the beach", done: false }, { id: "f2", text: "SCENT PASSPORT: Rio", done: false }], standby: "" }] });
+const hhh = (wk = WEEKKEY()) => store.get("hhh-" + wk, { goals: [] });
+const body = (wk = WEEKKEY()) => store.get("body-" + wk, { days: {} });
+const settings = () => store.get("settings", { gapDays: {} });
+const pt = () => store.get("pt", { sessions: [] });   // Crunch personal training: {id,date,time,done}
+const ptOn = ds => pt().sessions.filter(x => x.date === ds);
+
+/* ═══════════ SYNC (connectors) ═══════════ */
+const cache = lsGet("cache") || {}; cache.at = cache.at || {};
+const status = { gcal: "idle", gmail: "idle", drive: "idle", metricool: "idle" }, errors = {};
+const saveCache = () => lsSet("cache", cache);
+const asObj = p => typeof p === "string" ? (() => { try { return JSON.parse(p); } catch { return {}; } })() : (p || {});
+function errText(e, name) {
+  const m = String(e?.message || "");
+  switch (e?.code) {
+    case "needs_reauth": return `Reconnect ${name}`;
+    case "server_not_connected": case "selection_required": return `Connect ${name}`;
+    case "not_in_manifest": return `${name} is off for this page`;
+    case "blocked_by_policy": case "approval_required": return `${name} blocked by workspace policy`;
+    case "server_unavailable": return `${name} didn't answer`;
+    case "tool_error": return /scope|permission|insufficient/i.test(m) ? `Reconnect ${name} with full access` : `${name} error: ${m.slice(0, 90)}`;
+    default: return `${name} sync failed`;
+  }
+}
+async function callRead(server, tool, input) {
+  try { return (await mcp.callTool(server, tool, input)).payload; }
+  catch (e) { if (e?.retryable) { await new Promise(r => setTimeout(r, Math.min(e.retryAfterMs || 0, 8000) + 800 + Math.random() * 1000)); return (await mcp.callTool(server, tool, input)).payload; } throw e; }
+}
+const localIso = d => { const off = -d.getTimezoneOffset(), s = off >= 0 ? "+" : "-"; return `${ymd(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}:00${s}${pad(Math.floor(Math.abs(off) / 60))}:${pad(Math.abs(off) % 60)}`; };
+async function syncCalendar() {
+  const s = addDays(WEEK0(), -7), e = addDays(WEEK0(), 42);
+  const p = asObj(await callRead(SERVER.gcal, "list_events", { calendarId: CAL_ID, startTime: localIso(s), endTime: localIso(e), orderBy: "startTime", timeZone: TZ, pageSize: 250 }));
+  const list = Array.isArray(p) ? p : (p.items || p.events || p.data || []);
+  cache.events = list.map(ev => {
+    const st = ev.start?.dateTime || ev.start?.date || ev.startTime || ev.start || "", en = ev.end?.dateTime || ev.end?.date || ev.endTime || ev.end || "";
+    return { id: ev.id || uid(), title: ev.summary || ev.title || "(busy)", start: String(st), end: String(en), allDay: String(st).length <= 10, url: ev.htmlLink || "" };
+  }).filter(ev => ev.start);
+}
+async function syncGmail() {
+  const p = asObj(await callRead(SERVER.gmail, "search_threads", { query: "in:inbox newer_than:10d -category:promotions (collab OR collaboration OR partnership OR sponsor OR brand OR podcast OR interview OR blkgrlco OR \"young & outside\" OR feature OR invite)", pageSize: 12 }));
+  cache.mail = (p.threads || []).map(t => { const m = (t.messages || [])[0] || {}; return { id: t.id, msgId: m.id, subject: m.subject || "(no subject)", from: m.sender || "", snippet: m.snippet || "", date: m.date || "", unread: (m.labelIds || []).includes("UNREAD"), url: t.viewUrl || m.viewUrl || "" }; })
+    .filter(m => !/newsletter|unsubscribe|digest|webinar|workshop|sale|% off/i.test(m.snippet + m.subject + m.from) || /re:|collab/i.test(m.subject));
+}
+async function syncDrive() {
+  const p = asObj(await callRead(SERVER.drive, "search_files", { query: "(title contains 'script' or title contains 'bible' or title contains 'footage' or title contains 'shot list' or title contains 'copy') and modifiedTime > '2026-01-01T00:00:00Z'", pageSize: 30, excludeContentSnippets: true }));
+  cache.drive = (p.files || []).map(f => ({ id: f.id, title: f.title || f.name || "Untitled", url: f.viewUrl || "", folder: /folder/.test(f.mimeType || ""), modified: f.modifiedTime || "" }));
+}
+async function syncMetricool() {
+  const from = addDays(WEEK0(), -28), to = addDays(NOW, 42), out = [];
+  await Promise.all(Object.entries(BRANDS).map(async ([ch, b]) => {
+    const p = asObj(await callRead(SERVER.metricool, "getScheduledPosts", { brandId: b.metricool, fromDate: localIso(from), toDate: localIso(to), timezone: TZ }));
+    for (const post of (p.data || [])) {
+      const provs = post.providers || [];
+      out.push({ id: String(post.id || uid()), channel: ch, when: post.publicationDate?.dateTime || "", title: post.youtubeData?.title || post.pinterestData?.pinTitle || String(post.text || "").split("\n")[0].slice(0, 90), published: provs.some(x => /PUBLISHED/i.test(x.status || "")), networks: provs.map(x => x.network), url: (provs.find(x => x.publicUrl) || {}).publicUrl || "" });
+    }
+  }));
+  cache.posts = out.sort((a, b) => a.when.localeCompare(b.when));
+}
+let syncing = false;
+async function syncAll(silent) {
+  NOW = new Date();
+  if (db) { await store.load(allKeys()); }
+  if (!mcp || syncing) { render(); return; }
+  syncing = true;
+  const jobs = { gcal: syncCalendar, metricool: syncMetricool, gmail: syncGmail, drive: syncDrive };
+  for (const k in jobs) status[k] = "busy"; renderConnect();
+  await Promise.all(Object.entries(jobs).map(async ([k, fn]) => {
+    try { await fn(); status[k] = "ok"; delete errors[k]; cache.at[k] = Date.now(); }
+    catch (e) { status[k] = "bad"; errors[k] = errText(e, SERVER[k].replace(" Social Media Management", "")); if (["needs_reauth", "server_not_connected", "not_in_manifest", "blocked_by_policy"].includes(e?.code)) { if (k === "gcal") cache.events = []; if (k === "gmail") cache.mail = []; } }
+  }));
+  syncing = false; saveCache(); render();
+  if (!silent) toast("Synced.");
+  maybeBrief();
+}
+
+/* ═══════════ DERIVED ═══════════ */
+const eventsOn = ds => (cache.events || []).filter(ev => ev.allDay ? (ds >= ev.start.slice(0, 10) && (ds < (ev.end || ev.start).slice(0, 10) || ds === ev.start.slice(0, 10))) : ymd(new Date(ev.start)) === ds);
+const postsOn = ds => (cache.posts || []).filter(p => p.when.slice(0, 10) === ds);
+const openCards = () => studio().cards.filter(c => c.stage !== "Posted");
+function fundPace() {
+  const m = moneyS(), bal = m.balance ?? 0, today = TODAY(), pmap = m.planMap || [];
+  const checks = paydaysUntil(FUND_DEADLINE);
+  const living = checks.filter(c => c.kind === "living").length, bills = checks.filter(c => c.kind === "bills").length;
+  const ahead = pmap.filter(p => p.date >= today && p.date <= FUND_DEADLINE);
+  const toRio = ahead.filter(p => p.date < RIO.leave && p.save > 0).reduce((a, p) => a + p.save, 0);
+  const preRio = today < RIO.leave, inRio = !preRio && today <= RIO.back;
+  const rioAt = preRio ? bal + toRio : null;                        // what Rio will have if the plan holds
+  const projected = bal + ahead.reduce((a, p) => a + p.save, 0) - (preRio && !ahead.some(p => p.kind === "rio") ? RIO.budget : 0);
+  const need = Math.max(0, FUND_GOAL - bal);
+  const short = Math.max(0, FUND_GOAL - projected), nChecks = ahead.filter(p => p.kind !== "rio").length || checks.length;
+  const extra = ahead.reduce((a, p) => a + (p.extra || 0), 0), extraPer = Math.max(0, ...ahead.map(p => p.extra || 0));
+  return { extra, extraPer, bal, need, checks, living, bills, planned: projected - bal, projected, short, perCheck: nChecks ? short / nChecks : short, onPace: projected >= FUND_GOAL, preRio, inRio, rioAt, rioShort: preRio ? Math.max(0, RIO.budget - rioAt) : 0 };
+}
+// planMap rows: {date, kind, pay (expected take-home), extra (overtime in pay), costs {label: $}, save, mypayMax, note}
+const planRow = ds => (moneyS().planMap || []).find(x => x.date === ds);
+const committed = r => Object.values(r?.costs || {}).reduce((a, v) => a + v, 0);
+function billsDue(fromStr) {
+  const from = parseD(fromStr), to = addDays(from, 14); let sum = 0;
+  for (const b of (moneyS().bills || [])) for (let i = 0; i < 2; i++) { const d = new Date(from.getFullYear(), from.getMonth() + i, Math.min(b.day, 28)); if (d >= from && d < to) sum += b.amount; }
+  return sum;
+}
+function paydaysUntil(endStr) {
+  const m = moneyS(); if (!m.nextPayday) return [];
+  const out = []; let d = parseD(m.nextPayday), kind = m.nextKind || "living";
+  while (ymd(d) <= endStr && out.length < 30) { out.push({ date: ymd(d), kind }); d = addDays(d, 14); kind = kind === "living" ? "bills" : "living"; }
+  return out;
+}
+function lastPostByBrand(ch) { const ps = (cache.posts || []).filter(p => p.channel === ch && p.published); return ps.length ? ps[ps.length - 1].when.slice(0, 10) : null; }
+function nextSaturday() { const d = parseD(TODAY()); return addDays(d, (6 - d.getDay() + 7) % 7 || 7); }
+function flags() {
+  const out = [], today = TODAY();
+  for (const t of tasks().items) if (!t.done && t.date && t.date < today) out.push({ kind: "overdue", text: `Overdue: ${t.title}`, sub: `Was due ${fmt(parseD(t.date), { weekday: "short", month: "short", day: "numeric" })}`, fix: { label: "Move to today", act: "task-move", id: t.id, v: today }, alt: { label: "Done", act: "task-done", id: t.id } });
+  for (const c of openCards()) if (c.due && c.due < today) out.push({ kind: "overdue", text: `Slipping: ${c.title}`, sub: `${c.brand} · due ${fmt(parseD(c.due), { month: "short", day: "numeric" })} · still at ${c.stage}`, fix: { label: "Move due to Sunday", act: "card-due", id: c.id, v: ymd(addDays(parseD(today), (7 - parseD(today).getDay()) % 7 || 7)) } });
+  for (const [ch, b] of Object.entries(BRANDS)) {
+    const gap = settings().gapDays[ch] ?? b.gapDays, last = lastPostByBrand(ch);
+    if (!cache.posts) continue;
+    const days = last ? dayDiff(parseD(last), NOW) : null;
+    const queued = (cache.posts || []).some(p => p.channel === ch && !p.published && p.when.slice(0, 10) >= today);
+    if ((days === null || days > gap) && !queued) out.push({ kind: "gap", text: `${b.name}: ${days === null ? "nothing live in the last 4 weeks" : `no upload in ${days} days`}`, sub: `Limit ${gap} days · nothing queued in Metricool`, fix: { label: "Plan one", act: "ask", v: `Plan the next upload for ${ch}` } });
+  }
+  const sat = ymd(nextSaturday()), sh = store.get("shots", { done: {}, notes: {} });
+  for (const c of openCards()) if (["Shot list", "Filmed"].includes(c.stage) && c.footage === "missing") out.push({ kind: "footage", text: `Missing footage: ${c.title}`, sub: `Needs shooting before Saturday ${fmt(parseD(sat), { month: "short", day: "numeric" })}` + (sh.notes[c.id] ? " · " + sh.notes[c.id] : ""), fix: { label: "Add to Saturday", act: "card-due", id: c.id, v: sat } });
+  const rs = rehabState();
+  if (rs.active && rs.r.cap === null) out.push({ kind: "money", text: "Financial rehab is on but the weekly cap isn't set", sub: "Set the cash cap on Money so the manager can count it down", fix: { label: "Money", act: "tab", v: "money" } });
+  if (rs.active && rs.left !== null && rs.left < 0) out.push({ kind: "money", text: `Over this week's cash cap by ${money(-rs.left)}`, sub: `Cap ${money(rs.r.cap)} · spent ${money(rs.spent)}`, fix: { label: "What now?", act: "ask", v: "I'm over my weekly cash cap. What do I do for the rest of the week?" } });
+  for (const x of rs.nonEss.filter(x => x.date >= ymd(addDays(NOW, -7)))) out.push({ kind: "money", text: `Non-essential spend in rehab: ${money(x.amount)}${x.note ? " · " + x.note : ""}`, sub: `${fmt(parseD(x.date), { weekday: "short", month: "short", day: "numeric" })} · rehab rule: essentials only`, fix: { label: "It was essential", act: "spend-ess", id: x.id } });
+  if (!rs.started && !rs.done && rs.daysTo <= 7) out.push({ kind: "money", text: `Financial rehab starts in ${rs.daysTo} day${rs.daysTo === 1 ? "" : "s"}`, sub: rs.r.cap === null ? "Set your weekly cash cap before Oct 21" : `Weekly cap ${money(rs.r.cap)} · essentials only`, fix: { label: "Money", act: "tab", v: "money" } });
+  const fp = fundPace();
+  if (moneyS().balance === null) out.push({ kind: "money", text: "Departure Fund balance not set", sub: "Set it on Money so pace math works", fix: { label: "Money", act: "tab", v: "money" } });
+  else if (!moneyS().nextPayday) out.push({ kind: "money", text: "Next payday not set", sub: "Pace math needs it", fix: { label: "Money", act: "tab", v: "money" } });
+  else if (fp.rioShort > 0) out.push({ kind: "money", text: `Rio budget short by ${money(fp.rioShort)}`, sub: `The fund reaches ${money(fp.rioAt)} by Dec 26; the trip budget is ${money(RIO.budget)}`, fix: { label: "See the math", act: "tab", v: "money" } });
+  else if (!fp.onPace && fp.need > 0) out.push({ kind: "money", text: `Departure Fund behind plan by ${money(fp.short)}`, sub: `${money(fp.perCheck)} more per check to reach ${money(FUND_GOAL)} by ${fmt(parseD(FUND_DEADLINE), { month: "short", day: "numeric", year: "numeric" })} and end rehab`, fix: { label: "See the math", act: "tab", v: "money" } });
+  for (const ev of (cache.events || [])) {
+    if (ev.allDay) continue;
+    const s = new Date(ev.start), d = ymd(s), w = s.getDay(), h = s.getHours() + s.getMinutes() / 60;
+    if (d < today || d > ymd(addDays(NOW, 14))) continue;
+    if (w >= 1 && w <= 5 && h >= SHIFT[0] && h < SHIFT[1] && dayType(s) !== "vac") out.push({ kind: "conflict", text: `Booked during your shift: ${ev.title}`, sub: `${fmt(s, { weekday: "short", month: "short", day: "numeric" })} ${fmtTime(s)}`, fix: { label: "Ask what to do", act: "ask", v: `"${ev.title}" is on my calendar during my shift on ${fmt(s, { weekday: "long" })}. What should I do?` } });
+  }
+  for (const c of openCards()) if (c.brand === "@blkgrlcotoo" && c.due && ["Shot list", "Filmed"].includes(c.stage)) { const d = parseD(c.due); if (dayType(d) === "work") out.push({ kind: "conflict", text: `Travel filming on a work day: ${c.title}`, sub: `${fmt(d, { weekday: "long", month: "short", day: "numeric" })} · move it to a weekend or vacation day`, fix: { label: "Move to Saturday", act: "card-due", id: c.id, v: sat } }); }
+  const texts = [...tasks().items.filter(t => !t.done).map(t => ["task", t.id, t.title]), ...openCards().map(c => ["card", c.id, c.title + " " + (c.note || "")]), ...ideas().items.map(i => ["idea", i.id, i.text])];
+  for (const [kind, id, text] of texts) for (const L of LOCKED) if (L.re.test(text)) out.push({ kind: "locked", text: `Contradicts a locked decision: "${text.slice(0, 60)}"`, sub: L.rule + " Your call.", fix: { label: "Ask me", act: "ask", v: `This ${kind} says "${text.slice(0, 80)}". It contradicts: ${L.rule} Should I change it, and to what?` } });
+  for (const k of hhhWeekKeys()) for (const g of hhh(k.slice(4)).goals) if (g.missed && !g.named) out.push({ kind: "hhh", text: `Missed goal: ${g.text}`, sub: `${g.lane} · week of ${fmt(parseD(k.slice(4)), { month: "short", day: "numeric" })} · name it on camera`, fix: { label: "Named it", act: "goal-named", id: g.id, wk: k } });
+  return out;
+}
+
+/* ═══════════ ASSISTANT ═══════════ */
+const thread = [];   // {role, content, tools?:[], previews?:[]}
+let previews = [];   // pending action cards
+let asking = false;
+function contextBlock() {
+  const d = NOW, t = dayType(d), fp = fundPace();
+  const wk = hhh(), bd = body();
+  const lifts = Object.values(bd.days).filter(x => x.lift).length;
+  return `TODAY: ${fmt(d, { weekday: "long", month: "long", day: "numeric", year: "numeric" })} ${fmtTime(d)} (${TZ}). Day type: ${TYPE_LABEL[t]}. Day ${runDay()} of 90 (Day 1 = ${START_DATE}).
+${t === "work" ? `Shift 3pm–12am. Capture window ${hourLabel(CAPTURE_START)}–3pm.` : ""}
+TASKS (open): ${tasks().items.filter(x => !x.done).map(x => `[${x.id}] ${x.title} (${x.brand || "life"}${x.date ? ", " + x.date : ""})`).join("; ") || "none"}
+STUDIO CARDS (not posted): ${openCards().map(c => `[${c.id}] ${c.brand} · ${c.title} · ${c.stage}${c.due ? " · due " + c.due : ""}${c.footage ? " · footage " + c.footage : ""}${c.note ? " · " + c.note : ""}`).join("; ") || "none"}
+IDEAS: ${ideas().items.slice(-8).map(i => `[${i.id}] ${i.brand} ${i.text}`).join("; ") || "none"}
+METRICOOL (queued/live, ±4 wks): ${(cache.posts || []).slice(-12).map(p => `${p.channel} ${p.when.slice(0, 16)} ${p.published ? "LIVE" : "queued"} "${p.title}"`).join("; ") || "nothing"}
+CALENDAR (next 7 days): ${(cache.events || []).filter(e => { const s = e.start.slice(0, 10); return s >= TODAY() && s <= ymd(addDays(NOW, 7)); }).map(e => `${e.allDay ? e.start.slice(0, 10) : e.start.slice(0, 16)} ${e.title}`).join("; ") || "none loaded"}
+MAIL needing attention: ${(cache.mail || []).slice(0, 5).map(m => `${m.from}: ${m.subject}`).join("; ") || "none flagged"}
+HHH THIS WEEK: ${wk.goals.map(g => `[${g.id}] ${g.lane}: ${g.text} ${g.count}/${g.target}${g.missed ? " MISSED" : ""}`).join("; ") || "no goals set"}
+BODY THIS WEEK: ${lifts} lifts (target 3–4). PT sessions next 7 days: ${pt().sessions.filter(x => x.date >= TODAY() && x.date <= ymd(addDays(NOW, 7))).map(x => `${x.date} ${x.time}${x.done ? " done" : ""}`).join(", ") || "none booked"}. Today: protein ${bd.days[TODAY()]?.protein || 0}g, cal ${bd.days[TODAY()]?.cal || 0}.
+FINANCIAL REHAB: ${(() => { const rs = rehabState(); return rs.done ? "complete ($3,000 in the fund after Rio)" : rs.active ? `ACTIVE since ${rs.r.start}. Rules: no spending outside essentials (${REHAB_ESSENTIALS.join(", ")}); hard weekly cash cap ${rs.r.cap === null ? "NOT SET — ask her to set it" : money(rs.r.cap)}; this week spent ${money(rs.spent)}${rs.left !== null ? ", " + money(rs.left) + " left" : ""}; non-essential spends since start: ${rs.nonEss.length}; ends when she is back from Rio with $3,000 in the fund (${money(rs.toGoal)} to go; goal date ${FUND_DEADLINE})` : `starts ${rs.r.start} (in ${rs.daysTo} days, on a bills check): no spending outside essentials + weekly cash cap ${rs.r.cap === null ? "(cap not set yet)" : money(rs.r.cap)}, until she is back from Rio with $3,000 in the fund (goal ${FUND_DEADLINE})`; })()}.
+POST-REHAB BUDGET (starts once the fund hits $3,000; monthly, built on two checks = ${money((moneyS().budget || {}).income || 0)}): ${((moneyS().budget || {}).lines || []).map(l => `${l.name} ${money(l.amount)}`).join(", ") || "none"}. Rules: ${(moneyS().budget || {}).rules || ""}
+THE PLAN (built from her Chime data, 2026-09-24): ${(moneyS().planMap || []).map(p => p.kind === "rio" ? `${p.date} RIO: ${money(p.save)} from the fund` : `${p.date} ${p.kind}: take-home ${money(p.pay || 0)} (incl. ${money(p.extra || 0)} overtime), committed ${money(committed(p))} [${Object.entries(p.costs || {}).map(([k, v]) => k + " " + money(v)).join(", ")}], save ${money(p.save)}, left over ${money((p.pay || 0) - committed(p) - p.save)}${p.note ? " (" + p.note + ")" : ""}`).join("; ") || "none"}. Facts: ${moneyS().planFacts || ""}
+MONEY: Departure Fund ${moneyS().balance === null ? "balance not set" : money(fp.bal) + " of $3,000"}; monthly bills ${money((moneyS().bills || []).reduce((a, b) => a + b.amount, 0))} (${(moneyS().bills || []).map(b => `${b.name} ${money(b.amount)} on the ${b.day}`).join(", ") || "none listed"}); recent checks ${(moneyS().checks || []).slice(-4).map(c => `${c.date} ${c.kind} ${money(c.amount)}`).join(", ") || "none logged"}; savings log last 5: ${moneyS().log.slice(-5).map(l => `${l.date} ${money(l.amount)}`).join(", ") || "none"}; RIO: paid from the Departure Fund; trip budget ${money(RIO.budget)}; leaves ${RIO.leave} (${dayDiff(NOW, parseD(RIO.leave))} days), back ${RIO.back}; ${fp.preRio ? `fund on plan reaches ${money(fp.rioAt)} by then${fp.rioShort ? ", short " + money(fp.rioShort) : ""}` : fp.inRio ? "she is on the trip now" : "done; the fund is rebuilding"}. Next payday ${moneyS().nextPayday || "not set"} (${moneyS().nextKind}); on the plan the fund reaches ${money(fp.projected)} by ${FUND_DEADLINE} (${fp.onPace ? "on plan" : "short " + money(fp.short)}). Extra earnings still to make: ${money(fp.extra)} (${money(fp.extraPer)} take-home per check).
+FLAGS: ${flags().map(f => f.text).join("; ") || "none"}
+PIN BOARD (${fmt(d, { month: "long" })}): ${store.get("pins-" + MONTH(), { items: [] }).items.map(p => p.caption).filter(Boolean).join(", ") || "no captions yet"}. Yearly: ${store.get("yearly", { items: [] }).items.map(i => i.text + (i.done ? " ✓" : "")).join(", ") || "none"}`;
+}
+const SYSTEM = `You are Omnia OS, the assistant layer of Omnia's personal dashboard. You run her day: brief, plan, flag, draft, and update the page through your tools.
+${PROFILE}
+Rules: reply in plain text, short, no markdown headers, no bullet symbols other than "–". Use the tools to make real changes instead of describing them. Max three priorities per day, and the Day-X-of-90 video is always one. Anything that touches an outside app (calendar, email) goes through proposeCalendarEvent / draftEmail, which only creates a preview she must confirm. When something contradicts a locked decision, say so and ask; never silently resolve it. Never delete a missed HHH goal.`;
+function pageTools() {
+  const t = (name, description, properties, required, execute) => ({ name, description, inputSchema: { type: "object", properties, required }, execute });
+  return [
+    t("addTask", "Add a task or to-do (personal or content-related) for a date.", { title: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD or empty" }, brand: { type: "string", description: "@blkgrlco | @blkgrlcotoo | @uglyinbetween | life" } }, ["title"], ({ title, date, brand }) => { const it = { id: uid(), title, date: date || "", brand: brand || "life", done: false, created: Date.now() }; tasks().items.push(it); store.save("tasks"); render(); return { ok: true, id: it.id }; }),
+    t("moveTask", "Reschedule a task or a studio card by id (from the context lists) to a new date, and/or mark done.", { id: { type: "string" }, date: { type: "string" }, done: { type: "boolean" } }, ["id"], ({ id, date, done }) => {
+      const tk = tasks().items.find(x => x.id === id); if (tk) { if (date !== undefined) tk.date = date; if (done !== undefined) tk.done = done; store.save("tasks"); render(); return { ok: true, moved: tk.title }; }
+      const c = studio().cards.find(x => x.id === id); if (c) { if (date !== undefined) c.due = date; if (done) setStage(c, "Posted"); store.save("studio"); render(); return { ok: true, moved: c.title }; }
+      return { ok: false, error: "no task or card with that id" }; }),
+    t("updateCard", "Create or update a studio content card. Omit id to create. Fields: brand, title, stage, due, platform, note, footage, draft (a caption/title draft shown on the card).", { id: { type: "string" }, brand: { type: "string" }, title: { type: "string" }, stage: { type: "string", description: STAGES.join(" | ") }, due: { type: "string" }, platform: { type: "string" }, note: { type: "string" }, footage: { type: "string", description: "missing | Drive | T7 SSD | have" }, draft: { type: "string" } }, [], (a) => { let c = a.id ? studio().cards.find(x => x.id === a.id) : null; if (!c) { if (!a.title) return { ok: false, error: "title required to create" }; c = { id: uid(), brand: "@blkgrlco", title: a.title, stage: "Idea", due: "", platform: "", note: "", footage: "", script: "", created: Date.now() }; studio().cards.push(c); } if (a.brand && BRANDS[a.brand]) c.brand = a.brand; if (a.title) c.title = a.title; if (a.due !== undefined) c.due = a.due; if (a.platform !== undefined) c.platform = a.platform; if (a.note !== undefined) c.note = a.note; if (a.footage !== undefined) c.footage = a.footage; if (a.draft !== undefined) c.draft = a.draft; if (a.stage && STAGES.includes(a.stage) && a.stage !== c.stage) setStage(c, a.stage); store.save("studio"); render(); return { ok: true, id: c.id, stage: c.stage }; }),
+    t("logWorkout", "Log a lift and/or protein and calories for a day. pt: true marks that day's Crunch PT session done (books one if none exists); ptSkipped: true marks it skipped.", { date: { type: "string" }, lift: { type: "boolean" }, name: { type: "string", description: "e.g. legs, upper, PT session" }, protein: { type: "number" }, calories: { type: "number" }, pt: { type: "boolean" }, ptSkipped: { type: "boolean" }, ptTime: { type: "string", description: "HH:MM when booking, default 11:30" } }, [], ({ date, lift, name, protein, calories, pt: isPt, ptSkipped, ptTime }) => { const ds = date || TODAY(), k = "body-" + ymd(monday(parseD(ds))); const b = store.get(k, { days: {} }); const d = b.days[ds] || (b.days[ds] = {}); if (isPt !== undefined || ptSkipped !== undefined) { let x = pt().sessions.find(y => y.date === ds); if (!x) { x = { id: uid(), date: ds, time: ptTime || "11:30", done: false }; pt().sessions.push(x); } if (isPt !== undefined) x.done = isPt; if (ptSkipped !== undefined) x.skipped = ptSkipped; if (x.done) { d.lift = true; d.name = d.name || "PT session"; } store.save("pt"); } if (lift !== undefined) d.lift = lift; if (name) d.name = name; if (protein) d.protein = protein; if (calories) d.cal = calories; store.save(k); render(); return { ok: true, day: ds, entry: d }; }),
+    t("logSavings", "Add money to the Departure Fund (negative to withdraw), or set the balance outright.", { amount: { type: "number" }, setBalance: { type: "number" }, note: { type: "string" } }, [], ({ amount, setBalance, note }) => { const m = moneyS(); if (setBalance !== undefined) m.balance = setBalance; if (amount) { m.balance = (m.balance || 0) + amount; m.log.push({ date: TODAY(), amount, note: note || "" }); } store.save("money"); render(); return { ok: true, balance: m.balance }; }),
+    t("planPaycheck", "Record a paycheck and its split. Sets the plan for that payday (amount, how much to the Departure Fund) and optionally logs the check as received.", { date: { type: "string" }, kind: { type: "string", description: "living | bills" }, amount: { type: "number" }, save: { type: "number", description: "dollars to the Departure Fund" }, received: { type: "boolean" } }, ["date", "amount"], ({ date, kind, amount, save, received }) => { const m = moneyS(); const pl = m.plans[date] || (m.plans[date] = {}); pl.amount = amount; if (save !== undefined) pl.save = save; if (kind) pl.kind = kind; if (received) { m.checks = m.checks || []; m.checks.push({ date, kind: kind || pl.kind || "living", amount }); } store.save("money"); render(); return { ok: true, plan: pl }; }),
+    t("logSpend", "Log a purchase against the weekly cash cap (financial rehab). essential: true for bills/groceries/gas/gym/meds.", { amount: { type: "number" }, note: { type: "string" }, essential: { type: "boolean" }, date: { type: "string" } }, ["amount"], ({ amount, note, essential, date }) => { rehab().spend.push({ id: uid(), date: date || TODAY(), amount, note: note || "", essential: !!essential }); store.save("money"); render(); const rs = rehabState(); return { ok: true, weekSpent: rs.spent, weekLeft: rs.left, rehabActive: rs.active }; }),
+    t("setRehab", "Set financial rehab settings: weekly cash cap in dollars, and/or start date.", { cap: { type: "number" }, start: { type: "string" } }, [], ({ cap, start }) => { const r = rehab(); if (cap !== undefined) r.cap = cap; if (start) r.start = start; store.save("money"); render(); return { ok: true, rehab: { start: r.start, cap: r.cap } }; }),
+    t("setBill", "Add or update a recurring monthly bill (name, amount, day of month due). amount 0 removes it.", { name: { type: "string" }, amount: { type: "number" }, day: { type: "number" } }, ["name", "amount"], ({ name, amount, day }) => { const m = moneyS(); m.bills = m.bills || []; const i = m.bills.findIndex(b => b.name.toLowerCase() === name.toLowerCase()); if (amount <= 0) { if (i >= 0) m.bills.splice(i, 1); } else if (i >= 0) Object.assign(m.bills[i], { amount, day: day || m.bills[i].day }); else m.bills.push({ id: uid(), name, amount, day: day || 1 }); store.save("money"); render(); return { ok: true, bills: m.bills }; }),
+    t("updateGoal", "Add, count, or mark an HHH goal for this week. Missed goals are never deleted.", { id: { type: "string", description: "existing goal id, or omit to add" }, lane: { type: "string", description: "Hot | Healthy | Happy" }, text: { type: "string" }, target: { type: "number" }, count: { type: "number" }, missed: { type: "boolean" } }, [], ({ id, lane, text, target, count, missed }) => { const w = hhh(); let g = w.goals.find(x => x.id === id); if (!g) { if (!text) return { ok: false, error: "text required" }; g = { id: uid(), lane: LANES.includes(lane) ? lane : "Healthy", text, target: target || 1, count: 0, missed: false, named: false }; w.goals.push(g); } if (count !== undefined) g.count = count; if (target) g.target = target; if (missed !== undefined) g.missed = missed; store.save("hhh-" + WEEKKEY()); render(); return { ok: true, id: g.id }; }),
+    t("addIdea", "Save an idea to the Idea Bank.", { text: { type: "string" }, brand: { type: "string" } }, ["text"], ({ text, brand }) => { ideas().items.push({ id: uid(), text, brand: BRANDS[brand] ? brand : "@blkgrlco", created: Date.now() }); store.save("ideas"); render(); return { ok: true }; }),
+    t("buildShotList", "Replace or add to Saturday's shot list. Each shot is tagged with a card id, location and outfit.", { shots: { type: "array", items: { type: "object", properties: { cardId: { type: "string" }, shot: { type: "string" }, location: { type: "string" }, outfit: { type: "string" } }, required: ["shot"] } }, replace: { type: "boolean" } }, ["shots"], ({ shots, replace }) => { const sh = store.get("shots", { done: {}, notes: {}, list: [] }); sh.list = sh.list || []; if (replace) sh.list = []; for (const s of shots) sh.list.push({ id: uid(), cardId: s.cardId || "", shot: s.shot, location: s.location || "Anywhere", outfit: s.outfit || "—", done: false }); store.save("shots"); render(); return { ok: true, count: sh.list.length }; }),
+    t("proposeCalendarEvent", "Propose a Google Calendar event. Shows a preview card; nothing is created until Omnia confirms.", { title: { type: "string" }, date: { type: "string", description: "YYYY-MM-DD" }, start: { type: "string", description: "HH:MM 24h" }, end: { type: "string", description: "HH:MM 24h" }, notes: { type: "string" } }, ["title", "date", "start", "end"], ({ title, date, start, end, notes }) => { previews.push({ id: uid(), kind: "event", state: "pending", title, date, start, end, notes: notes || "" }); renderThread(); return { ok: true, status: "preview shown; awaiting her confirmation" }; }),
+    t("draftEmail", "Propose a Gmail draft (reply or new). Shows a preview; saved to Drafts only after she confirms. Never sends.", { to: { type: "string" }, subject: { type: "string" }, body: { type: "string" }, replyToMessageId: { type: "string" } }, ["subject", "body"], ({ to, subject, body: b, replyToMessageId }) => { previews.push({ id: uid(), kind: "email", state: "pending", to: to || "", subject, body: b, replyToMessageId: replyToMessageId || "" }); renderThread(); return { ok: true, status: "preview shown" }; }),
+    t("saveNote", "Archive text on the week: kind 'review' (the weekly review) or 'outline' (the Monthly Vlog cold-open outline, keyed by month).", { kind: { type: "string", description: "review | outline" }, text: { type: "string" }, week: { type: "string", description: "Monday date YYYY-MM-DD, default this week" } }, ["kind", "text"], ({ kind, text, week }) => { const r = store.get("reviews", { weeks: {} }); const w = week || WEEKKEY(); if (kind === "outline") { r.outlines = r.outlines || {}; r.outlines[MONTH()] = { text, at: Date.now() }; } else r.weeks[w] = { text, at: Date.now() }; store.save("reviews"); render(); return { ok: true }; }),
+  ];
+}
+async function refreshSampleState() {
+  try { sampleState = perms ? await perms.state("sample").catch(() => "unavailable") : (sample ? "granted" : "unavailable"); } catch { sampleState = "unavailable"; }
+  if (sample && sampleTools === null) { try { const l = await sample.limits(); sampleTools = !!l.tools; toolCap = l.tools?.maxCount || 16; } catch { sampleTools = false; } }
+}
+async function enableClaude() {
+  if (!perms) return toast("This view can't ask Claude. Open the link in a browser on your phone or computer.");
+  const before = sampleState;
+  const r = await perms.request(["sample"]).catch(() => ({}));
+  sampleState = r.sample || sampleState;
+  if (sampleState === "prompt" && before === "prompt") { consentStuck = true; render(); return; }
+  if (sampleState === "granted" && !sample) sample = await use("sample");
+  await refreshSampleState(); render();
+  if (sampleState === "granted") { toast("Claude is on."); maybeBrief(); } else if (sampleState === "denied") toast("You declined. Reload the page to be asked again.");
+}
+function sampleErrText(e) {
+  switch (e?.code) {
+    case "not_granted": consentStuck = sampleState !== "denied"; return "This page hasn't been allowed to ask Claude. If no permission box appeared, open the link in Safari (Copy link above) and allow it there.";
+    case "upstream_error": consentStuck = true; return "The permission box didn't open in this view. Open the link in Safari, allow Claude once, and it stays allowed.";
+    case "sampling_disabled": return "Claude isn't available on this account.";
+    case "tools_unavailable": return "This view can't run page actions, so I answered without them. Open the link in a browser for logging and planning.";
+    case "capability_disabled": case "capability_removed": case "not_declared": return "Claude can't run in this view. Open the link in a browser on your phone or computer.";
+    case "session_expired": return "Your Claude sign-in expired. Sign in again and reload.";
+    case "rate_limited": return "Claude is rate-limited right now. Give it a minute.";
+    case "refused": return "Claude declined that one. Rephrase it.";
+    case "empty_completion": return "Claude came back empty. Try again with more detail.";
+    case "cancelled": return "Stopped.";
+    case "prompt_too_large": return "That's too much context for one question. Ask something narrower.";
+    default: consentStuck = sampleState !== "granted"; return "Something went wrong (" + (e?.code || "unknown") + "): " + (e?.message || "").slice(0, 160) + (sampleState !== "granted" ? " — try opening the link in Safari and allowing Claude there." : "");
+  }
+}
+async function ask(text, opts = {}) {
+  if (!text?.trim() || asking) return;
+  if (!opts.hidden) thread.push({ role: "user", content: text });
+  if (!sample) { thread.push({ role: "assistant", content: capsResolved ? "Claude isn't running in this view. Open the link in Safari or Chrome (not inside another app) and tap Enable Claude." : "Still loading. Try again in a second." }); renderThread(); return; }
+  asking = true; renderHead();
+  const live = { role: "assistant", content: "", tools: [], thinking: true }; thread.push(live); renderThread();
+  const turns = thread.filter(m => !m.thinking && m.role).slice(-12).map(m => ({ role: m.role, content: m.content }));
+  if (opts.hidden) turns.push({ role: "user", content: text });
+  if (turns[0].role !== "user") turns.unshift({ role: "user", content: "(context)" });
+  const noTools = sampleTools === false;
+  turns[0] = { role: "user", content: `${SYSTEM}\n\nCURRENT STATE\n${contextBlock()}\n${noTools ? "\nNOTE: page tools are NOT available in this view. Answer in text; when she asks you to log or move something, give her the exact change to make on the page instead of claiming you did it." : ""}\n---\n${turns[0].content}` };
+  const tools = pageTools().slice(0, Math.min(16, toolCap || 16)).map(tl => ({ ...tl, execute: (input, ctx) => { live.tools.push(tl.name); renderThread(); return tl.execute(input, ctx); } }));
+  abortAsk = new AbortController();
+  const run = withTools => sample(turns, { ...(withTools ? { tools } : { cache: false }), signal: abortAsk.signal, modelTier: opts.tier || "default", onText: ({ text }) => { live.content = text; live.thinking = false; renderThread(); } });
+  try {
+    let r;
+    try { r = await run(!noTools); }
+    catch (e) { if (e?.code === "tools_unavailable") { sampleTools = false; live.note = sampleErrText(e); r = await run(false); } else throw e; }
+    live.content = r.text || "(done)"; live.thinking = false;
+    if (opts.onDone) opts.onDone(r.text);
+  } catch (e) {
+    live.thinking = false;
+    live.content = (e?.text ? e.text + "\n\n" : "") + sampleErrText(e);
+    lastAskError = (e?.code || "unknown") + (e?.message ? ": " + String(e.message).slice(0, 120) : ""); toast(sampleErrText(e));
+    if (e?.code === "not_granted") sampleState = "denied";
+  }
+  abortAsk = null; asking = false; renderThread(); render();
+}
+async function maybeBrief(force) {
+  const k = "brief-" + TODAY(), b = store.get(k, { text: "", json: null });
+  if (b.json && !force) return;
+  if (!sample || sampleState === "denied") return;
+  try {
+    const prompt = `${SYSTEM}\n\nCURRENT STATE\n${contextBlock()}\n\nWrite today's morning brief as JSON only: {"priorities":[{"text":"...","brand":"@blkgrlco|@blkgrlcotoo|@uglyinbetween|life"}], "coaching":"one direct sentence, honest, not cheerleading"}. Exactly 3 priorities; the first is always today's Day ${runDay()} of 90 video (film it in the capture window, or finish and schedule it). Base the other two on what's actually due, slipping, or flagged. Keep each under 12 words.`;
+    const j = await sample.json(prompt, { modelTier: "default", cache: false });
+    if (j && Array.isArray(j.priorities)) { b.json = { priorities: j.priorities.slice(0, 3), coaching: j.coaching || "" }; b.at = Date.now(); store.save(k); renderPage(); }
+  } catch (e) { if (e.code === "not_granted") sampleState = "denied"; else console.warn(e); renderPage(); }
+}
+
+/* preview actions (outside apps) */
+async function confirmPreview(p, el) {
+  if (!mcp) return toast("Connectors aren't available in this view.");
+  p.state = "sending"; renderThread();
+  try {
+    if (p.kind === "event") {
+      const day = parseD(p.date), [sh, sm] = p.start.split(":").map(Number), [eh, em] = p.end.split(":").map(Number);
+      const s = new Date(day); s.setHours(sh, sm || 0); const e = new Date(day); e.setHours(eh, em || 0);
+      const r = await mcp.callTool(SERVER.gcal, "create_event", { calendarId: CAL_ID, summary: p.title, startTime: localIso(s), endTime: localIso(e), timeZone: TZ, description: p.notes || undefined });
+      p.state = "done"; p.result = asObj(r.payload).htmlLink || ""; toast("Added to Google Calendar.");
+      syncCalendar().then(() => { saveCache(); render(); }).catch(() => {});
+    } else if (p.kind === "email") {
+      const input = { subject: p.subject, body: p.body }; if (p.to) input.to = p.to.split(/[,\s]+/).filter(Boolean); if (p.replyToMessageId) input.replyToMessageId = p.replyToMessageId;
+      const r = await mcp.callTool(SERVER.gmail, "create_draft", input);
+      p.state = "done"; p.result = asObj(r.payload).viewUrl || ""; toast("Saved to Gmail Drafts. Nothing was sent.");
+    }
+  } catch (e) { p.state = "pending"; toast("Couldn't do that: " + errText(e, p.kind === "event" ? "Google Calendar" : "Gmail") + ". Check the app before retrying."); }
+  renderThread();
+}
+
+/* ═══════════ ROUTINES ═══════════ */
+const ROUTINES = {
+  sunday: { name: "Sunday Plan", when: d => dayType(d) === "sun", desc: "Review → carry over → HHH goals → uploads → shot list → calendar", prompt: () => `Run the SUNDAY PLAN with me, one step per message, waiting for my answer between steps. Steps: (1) Review last week in four lines: done vs planned, wins, misses (from the state above; ask me what I don't have). (2) Carry over unfinished tasks and slipping cards: propose which move to which day this week and do it with moveTask when I agree. (3) Set this week's HHH goals: propose 2 per lane, specific and countable (e.g. "lift ×4", "160g protein ×5 days", "therapy ×1"), then save with updateGoal. (4) Assign uploads per brand for the week: which card ships when, using updateCard/moveTask. (5) Build Saturday's shot list grouped by location and outfit with buildShotList, tagged to cards. (6) Confirm, then propose the calendar blocks (capture windows, Saturday batch, Sunday edit, uploads) with proposeCalendarEvent so I can approve each. Start with step 1 now.` },
+  saturday: { name: "Saturday Batch", when: d => dayType(d) === "sat", desc: "Shot list by location and outfit, tick as you film", prompt: () => `SATURDAY BATCH. Look at my shot list and the Shot-list/Filmed cards above. If the list is thin or empty, build it now with buildShotList: group by location, then outfit, tag each shot to a card id, keep every video's establishing wide + medium + close-up covered. Then give me the filming order for today in 5 lines or fewer and tell me the first location to set up.` },
+  vlog: { name: "Monthly Vlog Builder", when: d => { const last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate() - d.getDate(); return (d.getDay() === 0 && last < 7) || last < 3; }, desc: "The month's wins and misses per lane + Pin Board spotlight → cold-open outline", prompt: () => `MONTHLY VLOG BUILDER for ${fmt(NOW, { month: "long" })} (Day ${runDay()} of 90). Pull every week of this month: HHH goals hit and missed per lane (the state above has this week; ask me for earlier weeks if you need them), lifts, and this month's Pin Board captions. Write the cold-open outline: (1) a one-sentence cold open that states an opinion and opens a question, (2) the Hot segment: the month's hits, and every miss named on camera, (3) Healthy, (4) Happy, (5) the Pin Board goal spotlight for the month and whether it moved, (6) the close: CTA "make your own Pin Board", then "bye bye" — no other sign-off, no filler. Then 3 title options (one sentence each, opinion + curiosity, no listicles). Save the outline with saveNote (kind: outline) and ask me which title to use.` },
+  payday: { name: "Payday Plan", when: d => moneyS().nextPayday === ymd(d), desc: "Split today's check: bills first, then the Fund, then living", prompt: () => `PAYDAY PLAN.${rehabState().active ? " Financial rehab is active: living money = two weeks of the weekly cap, nothing more; everything above bills and cap goes to the Departure Fund." : ""} Ask me for today's check amount (one line). Then split it: (1) bills due before the next check (from the bills list; ask if the list is empty), (2) the Departure Fund — this check's amount from THE PLAN (base + extra earnings), more if I'm behind, less only if bills don't clear; ask how much extra (overtime/pickups) was on this check and whether it hit the extra target, (3) what's left for groceries, gas and life, as a per-week number. Record it with planPaycheck (received: true) and, once I confirm the transfer, logSavings. Then one line on where I stand for $3,000 by Dec 31 with Rio paid.` },
+  money: { name: "Money Check-in", when: d => d.getDay() === 0, desc: "Pace, bills coverage, Rio, what to cut", prompt: () => `MONEY CHECK-IN, five lines max:${rehabState().active ? " (Financial rehab is active — lead with the cap: spent vs cap this week, any non-essential spends, and the honest line about it.)" : ""} (1) Departure Fund pace for $3,000 by Dec 31 with Rio paid, and whether the last check hit its extra-earnings target — on track or short by how much, and the fix (more pickups, or trim Rio). (2) Bills coverage — do the next bills checks cover what's due? (3) Rio (Dec 26–Jan 5) — the Fund is the Rio budget: on track for it or not, and what it covers. (4) One thing to cut or change this fortnight. (5) A question for me if you're missing a number (balance, next payday, check amounts, bills). Be direct.` },
+  close: { name: "Nightly Close", when: d => d.getHours() >= 22 || d.getHours() < 4, desc: "60 seconds after the shift: tick, move, log HHH", prompt: () => `NIGHTLY CLOSE, 60 seconds, after my shift. In one message: list today's open tasks and today's HHH goals with a number each, and ask me in one line which got done (numbers), what didn't and where it moves, and whether I lifted / my protein. When I answer: moveTask the done ones, move the rest to tomorrow (or Saturday if they need daylight), updateGoal counts, logWorkout, and mark anything I say I missed as missed (never delete). End with one honest line about tomorrow's capture window.` },
+};
+function runRoutine(key) { const r = ROUTINES[key]; setTab("today"); ask(r.prompt(), { hidden: true, tier: "complex" }); thread.splice(thread.length - 1, 0, { role: "user", content: `▶ ${r.name}` }); renderThread(); }
+function setStage(c, stage) {
+  const was = c.stage; c.stage = stage; c.stagedAt = Date.now();
+  if (stage === "Posted" && was !== "Posted" && /long|vlog|episode|podcast|young & outside|scent/i.test(c.title + " " + (c.platform || "")) && !c.repurposed) {
+    c.repurposed = true;
+    for (const cut of ["Cutdown 1 — hook moment", "Cutdown 2 — the miss, named", "Cutdown 3 — best visual beat"]) studio().cards.push({ id: uid(), brand: c.brand, title: `${c.title} · ${cut}`, stage: "Idea", due: "", platform: "TikTok · Reels · Shorts", note: "Auto-created when the long-form was marked Posted.", footage: "have", script: c.script || "", parent: c.id, created: Date.now() });
+    toast("Posted. Three cutdown cards added.");
+  }
+}
+
+/* ═══════════ RENDER: shell ═══════════ */
+let tab = lsGet("tab") || "today";
+function setTab(t) { tab = t; lsSet("tab", t); render(); window.scrollTo({ top: 0 }); }
+function renderNav() {
+  const n = flags().length;
+  const item = ([k, l, ic]) => `<button class="navbtn" role="tab" aria-selected="${tab === k}" data-act="tab" data-v="${k}"><span>${l}</span>${k === "today" && n ? `<span class="badge">${n}</span>` : ""}</button>`;
+  $("#side").innerHTML = `<div class="brandmark">Omnia OS</div>` + TABS.map(item).join("") + `<div style="margin-top:auto" id="side-connect"></div>`;
+  $("#bottomnav").innerHTML = TABS.map(([k, l, ic]) => `<button role="tab" aria-selected="${tab === k}" data-act="tab" data-v="${k}"><i>${ic}</i>${l}${k === "today" && n ? `<span class="badge">${n}</span>` : ""}</button>`).join("");
+}
+function renderHead() {
+  const d = runDay();
+  $("#headmeta").innerHTML = `<b>${fmt(NOW, { weekday: "long" })}</b>${fmt(NOW, { month: "long", day: "numeric", year: "numeric" })}<div class="day tnum">${d < 1 ? "Run starts " + fmt(parseD(START_DATE), { month: "short", day: "numeric" }) : d > RUN_DAYS ? "Run complete" : `Day ${d} of ${RUN_DAYS}`}</div>`;
+  const chips = tab === "money" ? ["Log: $42 groceries", "Can I afford this? (say what it is)", "How much cap do I have left this week?", "Plan my next paycheck split"]
+    : tab === "body" ? ["Log: lifted legs, 150g protein", "How many lifts do I have left this week?", "What should I eat to hit protein tonight?"]
+    : tab === "studio" ? ["Draft 3 titles for today's HHH vlog", "What's blocking the Turkey edit?", "Move the Turkey edit to Sunday"]
+    : tab === "hhh" ? ["Set this week's HHH goals with me", "Which goals am I about to miss?", "What do I name on camera this week?"]
+    : ["I only have 45 minutes before work, what should I film?", "What did I miss this week?", "Draft 3 titles for today's HHH vlog", "Log: lifted legs, 150g protein", "Put $700 in the Departure Fund"];
+  const gate = !capsResolved ? "" : !sample ? `<button class="chip" style="border-color:var(--wine);color:var(--wine)" data-act="enable-claude">Claude isn't running here · tap for help</button>`
+    : sampleState === "granted" ? "" : sampleState === "denied" ? `<button class="chip" style="border-color:var(--wine);color:var(--wine)" data-act="enable-claude">Claude was declined · reload to allow</button>`
+    : `<button class="chip" style="background:var(--wine);color:#fff;border-color:var(--wine)" data-act="enable-claude">Enable Claude</button>`;
+  $("#chips").innerHTML = gate + chips.map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("");
+  const stuck = $("#consent-help");
+  if (stuck) stuck.remove();
+  if (consentStuck && sampleState !== "granted") $("#chips").insertAdjacentHTML("afterend", `<div class="notice wine" id="consent-help" style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span style="flex:1 1 200px">The "allow Claude" box isn't opening in this app. Open this page in Safari or Chrome once, tap Enable Claude there, and it stays allowed for that browser.</span><button class="btn sm wine" data-act="copy-link">Copy link</button><a class="btn sm" href="${PAGE_URL}" target="_blank" rel="noopener">Open in browser</a></div>`);
+  $("#askbtn").textContent = asking ? "■" : "↑"; $("#askbtn").disabled = false; $("#askbtn").setAttribute("aria-label", asking ? "Stop" : "Send");
+}
+function renderConnect() {
+  const names = { gcal: "Calendar", gmail: "Gmail", drive: "Drive", metricool: "Metricool" };
+  const html = `<div class="connect">${Object.keys(names).map(k => `<span class="src ${status[k]}" title="${esc(errors[k] || "")}"><i class="dot ${status[k]}"></i>${status[k] === "bad" ? esc(errors[k]) : names[k]}${cache.at[k] && status[k] !== "bad" ? ` <span class="stale tnum">${fmtTime(new Date(cache.at[k]))}</span>` : ""}</span>`).join("")}
+    <button class="btn sm" data-act="sync" ${syncing || !mcp ? "disabled" : ""}>${syncing ? "Syncing…" : "Sync now"}</button>
+    <span class="src" title="Assistant status"><i class="dot ${!capsResolved ? "busy" : sample && sampleState === "granted" ? "ok" : sample ? "" : "bad"}"></i>Claude: ${!capsResolved ? "loading" : !sample ? "not available in this view" : sampleState === "granted" ? (sampleTools === false ? "on, text only" : "on") : sampleState === "denied" ? "declined" : "needs your OK"}${lastAskError ? ` · last error ${esc(lastAskError)}` : ""}</span>${!mcp && capsResolved ? `<span class="stale">Connectors aren't available in this view; showing the last synced data.</span>` : ""}</div>`;
+  const el = $("#connectbar"); if (el) el.innerHTML = html;
+}
+function renderThread() {
+  const el = $("#thread");
+  if (!thread.length && !previews.length) { el.innerHTML = ""; return; }
+  el.innerHTML = thread.map(m => `<div class="msg ${m.role === "user" ? "user" : "ai"} ${m.thinking ? "thinking" : ""}">${m.thinking && !m.content ? "Thinking… first answers can take up to a minute. Tap ■ to stop." : esc(m.content)}${m.note ? `<div class="stale" style="margin-top:6px">${esc(m.note)}</div>` : ""}${m.tools?.length ? `<div class="tools">${[...new Set(m.tools)].map(t => `<span>✓ ${t}</span>`).join("")}</div>` : ""}</div>`).join("")
+    + previews.map(p => p.kind === "event" ? `<div class="preview ${p.state}"><div class="lbl">Google Calendar · ${p.state === "done" ? "added" : p.state === "cancelled" ? "cancelled" : "needs your OK"}</div><h4>${esc(p.title)}</h4>
+        ${p.state === "pending" ? `<div class="kv"><b>Date</b><input data-pf="date" data-id="${p.id}" type="date" value="${esc(p.date)}"><b>Start</b><input data-pf="start" data-id="${p.id}" type="time" value="${esc(p.start)}"><b>End</b><input data-pf="end" data-id="${p.id}" type="time" value="${esc(p.end)}"><b>Notes</b><input data-pf="notes" data-id="${p.id}" value="${esc(p.notes)}"></div>
+        <div class="acts"><button class="btn solid" data-act="pv-ok" data-id="${p.id}">Confirm</button><button class="btn" data-act="pv-cancel" data-id="${p.id}">Cancel</button></div>` : `<div class="sub">${fmt(parseD(p.date), { weekday: "short", month: "short", day: "numeric" })} · ${p.start}–${p.end}${p.result ? ` · <a href="${esc(p.result)}" target="_blank" rel="noopener">open</a>` : ""}</div>`}</div>`
+      : `<div class="preview ${p.state}"><div class="lbl">Gmail draft · ${p.state === "done" ? "saved to Drafts" : p.state === "cancelled" ? "cancelled" : "needs your OK · nothing is sent"}</div><h4>${esc(p.subject)}</h4>
+        ${p.state === "pending" ? `<div class="kv"><b>To</b><input data-pf="to" data-id="${p.id}" value="${esc(p.to)}" placeholder="address"><b>Subject</b><input data-pf="subject" data-id="${p.id}" value="${esc(p.subject)}"></div><textarea data-pf="body" data-id="${p.id}" rows="6">${esc(p.body)}</textarea>
+        <div class="acts"><button class="btn solid" data-act="pv-ok" data-id="${p.id}">Save draft</button><button class="btn" data-act="pv-cancel" data-id="${p.id}">Cancel</button></div>` : `<div class="sub">${p.result ? `<a href="${esc(p.result)}" target="_blank" rel="noopener">Open in Gmail</a>` : esc(p.body.slice(0, 120))}</div>`}</div>`).join("")
+    + (thread.length ? `<div class="threadbar"><span>${sample ? (sampleTools === false ? "Claude answers in text here; page actions need a browser view." : "Claude answers here. It only changes outside apps after you confirm.") : ""}</span><button class="linkbtn" data-act="clear-thread">Clear</button></div>` : "");
+  const last = el.lastElementChild; if (asking && last) el.querySelector(".msg:last-of-type")?.scrollIntoView({ block: "nearest" });
+}
+
+/* ═══════════ RENDER: pages ═══════════ */
+function render() { NOW = new Date(); renderNav(); renderHead(); renderPage(); renderConnect(); renderThread(); }
+function renderPage() {
+  const P = { today: pageToday, week: pageWeek, studio: pageStudio, hhh: pageHHH, body: pageBody, money: pageMoney, travel: pageTravel, review: pageReview };
+  $("#page").innerHTML = `<div id="connectbar" style="margin-bottom:12px"></div>` + P[tab]();
+  renderConnect(); afterRender();
+}
+
+/* ---- TODAY ---- */
+function pageToday() {
+  const t = dayType(NOW), h = NOW.getHours() + NOW.getMinutes() / 60;
+  const toShift = t === "work" ? (h < SHIFT[0] ? SHIFT[0] - h : null) : null;
+  const capLeft = t === "work" && h < SHIFT[0] ? Math.max(0, SHIFT[0] - Math.max(h, CAPTURE_START)) : 0;
+  const brief = store.get("brief-" + TODAY(), { json: null });
+  const due = Object.keys(BRANDS).map(ch => [ch, postsOn(TODAY()).filter(p => p.channel === ch), openCards().filter(c => c.brand === ch && c.due === TODAY())]);
+  const fl = flags();
+  const hm = x => `${Math.floor(x)}h ${pad(Math.round((x % 1) * 60))}m`;
+  const prios = brief.json?.priorities || [{ text: `Film Day ${runDay()} of 90`, brand: "@blkgrlco" }];
+  return `<div class="grid g3">
+    <section class="card brief span2">
+      <div class="chead"><h2>Morning brief</h2><span class="lbl">${TYPE_LABEL[t]}${brief.at ? ` · ${fmtTime(new Date(brief.at))}` : ""}</span></div>
+      <div class="kvs">
+        <div class="kv-t"><b class="tnum">${toShift !== null ? hm(toShift) : t === "work" ? (h >= 24 ? "Off" : "On shift") : "Off"}</b><span>${toShift !== null ? "to shift" : t === "work" ? "shift 3p–12a" : "no shift"}</span></div>
+        <div class="kv-t"><b class="tnum">${t === "work" ? hm(capLeft) : t === "sat" ? "All day" : t === "sun" ? "Edit day" : "Vacation"}</b><span>${t === "work" ? "capture left" : t === "sat" ? "batch film" : t === "sun" ? "upload · reflect" : "film if you like"}</span></div>
+        <div class="kv-t"><b class="tnum">${runDay()}<small style="font-size:14px;color:var(--ink-3)"> / 90</small></b><span>HHH run</span></div>
+      </div>
+      <div class="lbl">Today's three</div>
+      <div>${prios.map((p, i) => `<div class="prio"><span class="n">${i + 1}</span><span style="flex:1">${esc(p.text)}</span>${BRANDS[p.brand] ? `<span class="pill ${BRANDS[p.brand].cls}">${BRANDS[p.brand].pill}</span>` : ""}</div>`).join("")}</div>
+      <div class="lbl">Posting today</div>
+      <div class="sub">${due.map(([ch, ps, cs]) => `<span class="pill ${BRANDS[ch].cls}">${BRANDS[ch].pill}</span> ${ps.length ? ps.map(p => `${p.published ? "live" : "queued " + fmtTime(new Date(p.when))}: ${esc(p.title)}`).join("; ") : cs.length ? cs.map(c => `due: ${esc(c.title)} (${c.stage})`).join("; ") : "nothing"}`).join("<br>")}</div>
+      ${brief.json?.coaching ? `<div class="coach">${esc(brief.json.coaching)}</div>` : sample ? `<div class="sub">Writing today's brief…</div>` : ""}
+      <div class="threadbar"><span></span><button class="linkbtn" data-act="rebrief">Rewrite the brief</button></div>
+    </section>
+    <section class="card flagcard">
+      <div class="chead"><h2>Flags</h2><span class="lbl">${fl.length || "clear"}</span></div>
+      ${fl.length ? `<div>${fl.map(f => `<div class="flag"><i class="fi"></i><div class="ft">${esc(f.text)}<small>${esc(f.sub)}</small></div><div style="display:flex;flex-direction:column;gap:4px">${f.fix ? `<button class="btn sm wine" data-act="${f.fix.act}" data-id="${f.fix.id || ""}" data-wk="${f.fix.wk || ""}" data-v="${esc(f.fix.v || "")}">${f.fix.label}</button>` : ""}${f.alt ? `<button class="btn sm" data-act="${f.alt.act}" data-id="${f.alt.id}">${f.alt.label}</button>` : ""}</div></div>`).join("")}</div>` : `<div class="empty">Nothing's on fire.</div>`}
+    </section>
+    <section class="card span3">
+      <div class="chead"><h2>Routines</h2><span class="sub">Step by step, with Claude</span></div>
+      <div class="routines">${Object.entries(ROUTINES).filter(([k, r]) => !["payday", "money"].includes(k) || r.when(NOW)).map(([k, r]) => `<button class="routine ${r.when(NOW) ? "hot" : ""}" data-act="routine" data-v="${k}"><b>${r.name}</b><span>${r.desc}</span></button>`).join("")}</div>
+    </section>
+    <section class="card span2">
+      <div class="chead"><h2>Today</h2><span class="lbl">${fmt(NOW, { weekday: "long", month: "long", day: "numeric" })}</span></div>
+      ${timeline(NOW)}
+      <div class="legend"><span><i style="background:var(--shift)"></i>Shift</span><span><i style="background:var(--sage)"></i>Capture</span><span><i style="background:var(--blush)"></i>Batch</span><span><i style="background:var(--tan)"></i>Edit · Upload</span><span><i style="background:var(--ink)"></i>Calendar</span></div>
+    </section>
+    <section class="card">
+      <div class="chead"><h2>Tasks</h2><span class="lbl">${tasks().items.filter(x => !x.done && (!x.date || x.date <= TODAY())).length} open</span></div>
+      <div class="rows">${tasks().items.filter(x => !x.done && (!x.date || x.date <= TODAY())).slice(0, 8).map(taskRow).join("") || `<div class="empty">Nothing due. Add one, or ask.</div>`}</div>
+      <form class="addrow" data-form="task"><input class="field" id="task-text" placeholder="Task" autocomplete="off" required><select class="field" id="task-brand" aria-label="Brand"><option value="life">Life</option>${Object.entries(BRANDS).map(([k, b]) => `<option value="${k}">${b.pill}</option>`).join("")}</select><input class="field" id="task-date" type="date" value="${TODAY()}" aria-label="Date"><button class="btn solid">Add</button></form>
+      ${(cache.mail || []).length ? `<hr class="hr"><div class="lbl">Mail worth a look</div><div class="rows">${cache.mail.slice(0, 4).map(m => `<div class="row"><div class="t"><a href="${esc(m.url)}" target="_blank" rel="noopener" style="text-decoration:none">${esc(m.subject)}</a><small>${esc(m.from.replace(/<.*>/, "").trim())}${m.unread ? " · unread" : ""}</small></div><button class="btn sm" data-act="ask" data-v="${esc(`Draft a short reply to the email "${m.subject}" from ${m.from} (message id ${m.msgId}). Friend-to-friend tone. Snippet: ${m.snippet.slice(0, 200)}`)}">Draft reply</button></div>`).join("")}</div>` : ""}
+    </section>
+  </div>`;
+}
+function taskRow(t) { return `<div class="row ${t.done ? "done" : ""}"><input type="checkbox" class="check" id="tk-${t.id}" data-act="task-toggle" data-id="${t.id}" ${t.done ? "checked" : ""}><label class="t" for="tk-${t.id}">${esc(t.title)}${t.date && t.date !== TODAY() ? `<small>${t.date < TODAY() ? "overdue · " : ""}${fmt(parseD(t.date), { weekday: "short", month: "short", day: "numeric" })}</small>` : ""}</label>${BRANDS[t.brand] ? `<span class="pill ${BRANDS[t.brand].cls}">${BRANDS[t.brand].pill}</span>` : ""}<button class="x" data-act="task-rm" data-id="${t.id}" aria-label="Remove">×</button></div>`; }
+function timeline(d) {
+  const ds = ymd(d), t = dayType(d), H0 = 6, H1 = 24, PX = 26, top = h => (h - H0) * PX;
+  let b = "";
+  if (t === "work") b += `<div class="blk capture" style="top:${top(CAPTURE_START)}px;height:${(SHIFT[0] - CAPTURE_START) * PX - 4}px"><b>Capture window</b>Opportunistic only: today's short, b-roll, a talking head</div><div class="blk shift" style="top:${top(SHIFT[0])}px;height:${(SHIFT[1] - SHIFT[0]) * PX - 2}px"><b>MEM · ground ops</b>3pm – 12am</div>`;
+  else if (t === "sat") b += `<div class="blk batch" style="top:${top(9)}px;height:${9 * PX - 4}px"><b>Batch film day</b>Work the shot list, location by location</div>`;
+  else if (t === "sun") b += `<div class="blk sunday" style="top:${top(9)}px;height:${10 * PX - 4}px"><b>Edit · Upload · Reflect · Plan</b>Edit the week's shorts (Monthly Vlog at month end), queue Metricool, Sunday Plan</div>`;
+  else b += `<div class="blk capture" style="top:${top(9)}px;height:${9 * PX - 4}px"><b>Vacation</b>Travel filming allowed</div>`;
+  for (const ev of eventsOn(ds).filter(e => !e.allDay)) {
+    const s = new Date(ev.start), e = ev.end ? new Date(ev.end) : new Date(+s + 36e5);
+    const sh = Math.max(H0, s.getHours() + s.getMinutes() / 60), eh = Math.min(H1, ymd(e) !== ds ? 24 : e.getHours() + e.getMinutes() / 60); if (eh <= H0) continue;
+    const conflict = t === "work" && sh >= SHIFT[0];
+    b += `<div class="blk ev ${conflict ? "conflict" : ""}" style="top:${top(sh)}px;height:${Math.max(22, (eh - sh) * PX - 2)}px"><b>${esc(ev.title)}</b>${fmtTime(s)} – ${fmtTime(e)}</div>`;
+  }
+  for (const x of ptOn(ds)) { const [hh, mm] = x.time.split(":").map(Number), sh = hh + (mm || 0) / 60; if (sh >= H0 && sh < H1) b += `<div class="blk ev" style="top:${top(sh)}px;height:${PX - 2}px;left:48%;border-color:var(--sage-ink);color:var(--sage-ink)"><b>PT · Crunch${x.done ? " ✓" : x.skipped ? " · skipped" : ""}</b>${fmtTime(new Date(2000, 0, 1, hh, mm || 0))}</div>`; }
+  if (ds === TODAY()) { const h = NOW.getHours() + NOW.getMinutes() / 60; if (h >= H0 && h <= H1) b += `<div class="blk now" style="top:${top(h)}px"></div>`; }
+  let g = ""; for (let h = H0; h <= H1; h += 2) g += `<div class="hl" style="top:${top(h)}px">${hourLabel(h)}</div><div class="hg" style="top:${top(h)}px"></div>`;
+  const all = eventsOn(ds).filter(e => e.allDay);
+  return `${all.length ? `<div class="sub">${all.map(e => `<span class="pill b0">${esc(e.title)}</span>`).join(" ")}</div>` : ""}<div class="tl" style="height:${(H1 - H0) * PX}px">${g}${b}</div>`;
+}
+
+/* ---- WEEK ---- */
+let weekOff = 0;
+function pageWeek() {
+  const w0 = addDays(WEEK0(), weekOff * 7);
+  const days = [0, 1, 2, 3, 4, 5, 6].map(i => addDays(w0, i));
+  const sh = store.get("shots", { done: {}, notes: {}, list: [] });
+  return `<section class="card" style="margin-bottom:12px"><div class="chead"><h2>Week of ${fmt(w0, { month: "long", day: "numeric" })}</h2><div class="tabs"><button data-act="week-off" data-v="-1">‹</button><button data-act="week-off" data-v="0" aria-selected="${weekOff === 0}">This week</button><button data-act="week-off" data-v="1">›</button></div></div>
+    <div class="legend"><span><i style="background:var(--blush)"></i>@blkgrlco</span><span><i style="background:var(--sage)"></i>@blkgrlcotoo</span><span><i style="background:var(--tan)"></i>Podcast</span><span><i style="background:var(--sage-ink)"></i>Body</span><span><i style="background:var(--ink)"></i>Calendar</span><span><i style="background:var(--ink-3)"></i>Life</span> · drag a card to another day, or tap ⇄</div></section>
+    <div class="wkgrid">${days.map(d => {
+      const ds = ymd(d), t = dayType(d), wk = ymd(monday(d)), bd = store.get("body-" + wk, { days: {} }).days[ds];
+      const items = [
+        ...eventsOn(ds).map(e => ({ cls: "cal", text: (e.allDay ? "" : fmtTime(new Date(e.start)) + " ") + e.title, fixed: true })),
+        ...postsOn(ds).map(p => ({ cls: BRANDS[p.channel].cls, text: (p.published ? "live · " : "queued · ") + p.title, fixed: true })),
+        ...studio().cards.filter(c => c.due === ds && c.stage !== "Posted").map(c => ({ cls: BRANDS[c.brand].cls, text: `${c.stage}: ${c.title}`, id: c.id, kind: "card" })),
+        ...tasks().items.filter(x => x.date === ds).map(x => ({ cls: BRANDS[x.brand]?.cls || "life", text: x.title, id: x.id, kind: "task", done: x.done })),
+        ...ptOn(ds).map(x => ({ cls: "body", text: `PT ${fmtTime(new Date(2000, 0, 1, ...x.time.split(":").map(Number)))}${x.done ? " ✓" : x.skipped ? " · skipped" : ""}`, fixed: true })),
+        ...(bd?.lift && !ptOn(ds).some(x => x.done) ? [{ cls: "body", text: "Lift" + (bd.name ? " · " + bd.name : ""), fixed: true }] : []),
+        ...(t === "sat" && sh.list?.length && ds === ymd(nextSaturday()) ? [{ cls: "b1", text: `Shot list: ${sh.list.filter(s => !s.done).length} shots left`, fixed: true }] : []),
+      ];
+      return `<div class="wkday ${ds === TODAY() ? "today" : ""}" data-drop="${ds}"><div class="dh"><b>${d.getDate()}</b><span>${fmt(d, { weekday: "short" })}</span></div><span class="type ${t}">${t === "work" ? "Shift 3p–12a" : TYPE_LABEL[t]}</span>
+        ${items.map(it => `<div class="wi ${it.cls} ${it.done ? "done" : ""}" ${it.id ? `draggable="true" data-drag="${it.kind}:${it.id}"` : ""}><i></i><span class="t">${esc(it.text)}</span>${it.id ? `<button class="mv" data-act="move-pick" data-v="${it.kind}:${it.id}" aria-label="Move">⇄</button>` : ""}</div>`).join("")}
+        <button class="linkbtn" data-act="quick-task" data-v="${ds}" style="align-self:flex-start;margin-top:auto">+ task</button></div>`;
+    }).join("")}</div>`;
+}
+
+/* ---- STUDIO ---- */
+let studioBrand = lsGet("studioBrand") || "@blkgrlco", editCard = null;
+function pageStudio() {
+  const cards = studio().cards.filter(c => c.brand === studioBrand);
+  const month = MONTH();
+  const first = new Date(NOW.getFullYear(), NOW.getMonth(), 1), start = monday(first);
+  let cal = ["M", "T", "W", "T", "F", "S", "S"].map(d => `<div class="dh">${d}</div>`).join("");
+  for (let i = 0; i < 42; i++) { const d = addDays(start, i), ds = ymd(d); if (i >= 35 && d.getMonth() !== NOW.getMonth()) break;
+    const dots = postsOn(ds).map(p => `<i class="${BRANDS[p.channel].cls} ${p.published ? "live" : ""}" title="${esc(p.title)}"></i>`).join("") + studio().cards.filter(c => c.due === ds && c.stage !== "Posted").map(c => `<i class="${BRANDS[c.brand].cls}" title="${esc(c.title)}"></i>`).join("");
+    cal += `<div class="uc ${d.getMonth() !== NOW.getMonth() ? "out" : ""} ${ds === TODAY() ? "today" : ""}"><span>${d.getDate()}</span><span class="dots">${dots}</span></div>`; }
+  const drive = (cache.drive || []).slice(0, 8);
+  return `<section class="card" style="margin-bottom:12px">
+      <div class="chead"><h2>Studio</h2><div class="brandtabs">${Object.entries(BRANDS).map(([k, b]) => `<button class="btn sm ${studioBrand === k ? "solid" : ""}" data-act="studio-brand" data-v="${k}">${b.pill}</button>`).join("")}</div></div>
+      <div class="sub">${esc(BRANDS[studioBrand].name)} · ${esc(BRANDS[studioBrand].sub)} · Posted = this month, live in Metricool ${(cache.posts || []).filter(p => p.channel === studioBrand && p.published && p.when.startsWith(month)).length}</div>
+      <div class="kan">${STAGES.map(s => { const cs = cards.filter(c => c.stage === s && (s !== "Posted" || (c.stagedAt && ymd(new Date(c.stagedAt)).startsWith(month)))); return `<div class="col" data-stage="${s}"><h4>${s}<span class="tnum">${cs.length}</span></h4>${cs.map(kanCard).join("")}${s === "Idea" ? `<button class="linkbtn" data-act="card-new" style="align-self:flex-start">+ card</button>` : ""}</div>`; }).join("")}</div>
+    </section>
+    <div class="grid g3">
+      <section class="card"><div class="chead"><h2>Idea Bank</h2><span class="lbl">${ideas().items.length}</span></div>
+        <div class="rows">${[...ideas().items].reverse().slice(0, 8).map(i => `<div class="row"><div class="t">${esc(i.text)}<small>${BRANDS[i.brand]?.pill || ""} · ${fmt(new Date(i.created), { month: "short", day: "numeric" })}</small></div><button class="btn sm" data-act="idea-card" data-id="${i.id}">→ card</button><button class="x" data-act="idea-rm" data-id="${i.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">Drop ideas the moment they show up.</div>`}</div>
+        <form class="addrow" data-form="idea"><input class="field" id="idea-text" placeholder="New idea" autocomplete="off" required><select class="field" id="idea-brand" aria-label="Brand">${Object.entries(BRANDS).map(([k, b]) => `<option value="${k}" ${k === studioBrand ? "selected" : ""}>${b.pill}</option>`).join("")}</select><button class="btn solid">Add</button></form></section>
+      <section class="card"><div class="chead"><h2>Upload calendar</h2><span class="lbl">${fmt(NOW, { month: "long" })}</span></div><div class="upcal">${cal}</div><div class="legend"><span><i style="background:var(--blush-ink)"></i>@blkgrlco</span><span><i style="background:var(--sage-ink)"></i>@blkgrlcotoo</span><span><i style="background:var(--tan-ink)"></i>Podcast</span><span>ringed = live in Metricool</span></div></section>
+      <section class="card"><div class="chead"><h2>Saturday shot list</h2><span class="lbl">${fmt(nextSaturday(), { month: "short", day: "numeric" })}</span></div>${shotList()}</section>
+      <section class="card span3"><div class="chead"><h2>Drive</h2><span class="sub">Scripts, bibles, footage folders</span></div>
+        <div class="rows">${drive.map(f => `<div class="row"><div class="t"><a href="${esc(f.url)}" target="_blank" rel="noopener" style="text-decoration:none">${f.folder ? "📁 " : ""}${esc(f.title)}</a><small>${f.modified ? "edited " + fmt(new Date(f.modified), { month: "short", day: "numeric" }) : ""}</small></div></div>`).join("") || `<div class="empty">${status.drive === "bad" ? esc(errors.drive) : "Nothing synced from Drive yet."}</div>`}</div></section>
+    </div>`;
+}
+function kanCard(c) {
+  const over = c.due && c.due < TODAY() && c.stage !== "Posted";
+  return `<div class="kc ${over ? "overdue" : ""}" draggable="true" data-drag="card:${c.id}" data-act="card-open" data-id="${c.id}"><div class="t">${esc(c.title)}</div><div class="m">${c.due ? `<span class="tnum">${over ? "overdue · " : ""}${fmt(parseD(c.due), { month: "short", day: "numeric" })}</span>` : ""}${c.platform ? `<span>${esc(c.platform)}</span>` : ""}${c.footage ? `<span>${c.footage === "missing" ? "⚑ footage missing" : "footage: " + esc(c.footage)}</span>` : ""}${c.script ? `<a href="${esc(c.script)}" target="_blank" rel="noopener">script</a>` : ""}</div>${c.draft ? `<div class="sub" style="">“${esc(c.draft.slice(0, 90))}”</div>` : ""}<button class="mv" data-act="stage-pick" data-id="${c.id}">move ⇄</button></div>`;
+}
+function shotList() {
+  const sh = store.get("shots", { done: {}, notes: {}, list: [] }), list = sh.list || [];
+  const groups = {}; for (const s of list) (groups[s.location] = groups[s.location] || []).push(s);
+  const cardName = id => studio().cards.find(c => c.id === id)?.title || "";
+  const filmed = openCards().filter(c => ["Shot list", "Filmed"].includes(c.stage));
+  return `<div class="sub">${filmed.length} card${filmed.length === 1 ? "" : "s"} waiting on footage: ${filmed.map(c => esc(c.title)).join(", ") || "none"}</div>
+    ${Object.entries(groups).map(([loc, ss]) => `<div><div class="lbl">${esc(loc)}</div><div class="rows">${ss.map(s => `<div class="row ${s.done ? "done" : ""}"><input type="checkbox" class="check" id="sh-${s.id}" data-act="shot-toggle" data-id="${s.id}" ${s.done ? "checked" : ""}><label class="t" for="sh-${s.id}">${esc(s.shot)}<small>${esc(s.outfit)}${s.cardId ? " · " + esc(cardName(s.cardId)) : ""}</small></label><button class="x" data-act="shot-rm" data-id="${s.id}" aria-label="Remove">×</button></div>`).join("")}</div></div>`).join("") || `<div class="empty">No shots yet. Run Saturday Batch or ask: "build my shot list".</div>`}
+    <form class="addrow" data-form="shot"><input class="field" id="shot-text" placeholder="Shot" required autocomplete="off"><input class="field" id="shot-loc" placeholder="Location" style="flex:0 1 110px"><input class="field" id="shot-outfit" placeholder="Outfit" style="flex:0 1 90px"><button class="btn solid">Add</button></form>
+    <div class="threadbar"><span></span><button class="linkbtn" data-act="routine" data-v="saturday">Build with Claude</button></div>`;
+}
+function cardSheet(c) {
+  const isNew = !c.id;
+  return `<div class="detail" data-act="sheet-close"><div class="sheet" data-stop="1"><h3>${isNew ? "New card" : esc(c.title)}</h3>
+    <form class="frm" data-form="card" data-id="${c.id || ""}">
+      <label class="full">Title<input class="field" name="title" value="${esc(c.title || "")}" required></label>
+      <label>Brand<select class="field" name="brand">${Object.entries(BRANDS).map(([k, b]) => `<option value="${k}" ${(c.brand || studioBrand) === k ? "selected" : ""}>${b.pill}</option>`).join("")}</select></label>
+      <label>Stage<select class="field" name="stage">${STAGES.map(s => `<option ${(c.stage || "Idea") === s ? "selected" : ""}>${s}</option>`).join("")}</select></label>
+      <label>Due<input class="field" name="due" type="date" value="${esc(c.due || "")}"></label>
+      <label>Platform<input class="field" name="platform" value="${esc(c.platform || "")}" placeholder="TikTok · Reels · YouTube"></label>
+      <label class="full">Script link (Drive)<input class="field" name="script" value="${esc(c.script || "")}" placeholder="https://docs.google.com/…"></label>
+      <label>Footage<select class="field" name="footage"><option value="">—</option><option value="missing" ${c.footage === "missing" ? "selected" : ""}>Missing</option><option value="Drive" ${c.footage === "Drive" ? "selected" : ""}>On Drive</option><option value="T7 SSD" ${c.footage === "T7 SSD" ? "selected" : ""}>On T7 SSD</option><option value="have" ${c.footage === "have" ? "selected" : ""}>Have it</option></select></label>
+      <label>Lane (for HHH)<select class="field" name="lane"><option value="">—</option>${LANES.map(l => `<option ${c.lane === l ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      <label class="full">Notes<textarea class="field" name="note" rows="3">${esc(c.note || "")}</textarea></label>
+      <div class="full" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:space-between"><div style="display:flex;gap:6px"><button class="btn solid">Save</button><button type="button" class="btn" data-act="sheet-close">Cancel</button></div>${isNew ? "" : `<button type="button" class="btn ghost" data-act="card-rm" data-id="${c.id}">Delete card</button>`}</div>
+    </form></div></div>`;
+}
+
+/* ---- HHH ---- */
+function pageHHH() {
+  const day = runDay(), frac = Math.max(0, Math.min(1, day / RUN_DAYS)), C = 2 * Math.PI * 34;
+  const wk = hhh(), keys = hhhWeekKeys();
+  const streak = []; for (let i = 0; i < Math.min(RUN_DAYS, Math.max(day, 0)); i++) { const d = addDays(parseD(START_DATE), i), ds = ymd(d); const live = (cache.posts || []).some(p => p.channel === "@blkgrlco" && p.published && p.when.slice(0, 10) === ds); const bd = store.get("body-" + ymd(monday(d)), { days: {} }).days[ds]; streak.push({ ds, on: live || !!bd?.lift, today: ds === TODAY() }); }
+  const missed = []; for (const k of keys) for (const g of hhh(k.slice(4)).goals) if (g.missed || (k !== "hhh-" + WEEKKEY() && g.count < g.target)) missed.push({ ...g, wk: k.slice(4), key: k });
+  const pins = store.get("pins-" + MONTH(), { items: [] }), yearly = store.get("yearly", { items: [] });
+  return `<div class="grid g3">
+    <section class="card"><div class="chead"><h2>90-Day Run</h2><span class="lbl">Day 1 · ${fmt(parseD(START_DATE), { month: "short", day: "numeric" })}</span></div>
+      <div class="ringrow"><svg class="ring" width="84" height="84" viewBox="0 0 84 84" aria-hidden="true"><circle class="track" cx="42" cy="42" r="34" fill="none" stroke-width="7"/><circle class="val" cx="42" cy="42" r="34" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - frac)}" transform="rotate(-90 42 42)"/><text x="42" y="47" text-anchor="middle" font-size="16" font-weight="600" fill="currentColor" font-family="Inter,system-ui,sans-serif">${Math.round(frac * 100)}%</text></svg>
+        <div><div class="big tnum">Day ${Math.max(1, Math.min(day, RUN_DAYS))} <small>of 90</small></div><div class="sub">${Math.max(0, RUN_DAYS - day)} to go · finale ${fmt(addDays(parseD(START_DATE), RUN_DAYS - 1), { month: "short", day: "numeric" })}</div></div></div>
+      <div class="lbl">Daily streak · live post or lift</div><div class="streak">${streak.map(s => `<i class="${s.on ? "on" : s.today ? "" : "miss"} ${s.today ? "today" : ""}" title="${s.ds}"></i>`).join("")}</div>
+      <div class="sub tnum">${streak.filter(s => s.on).length} of ${streak.length} days with a live post or a lift.</div></section>
+    <section class="card span2"><div class="chead"><h2>This week's goals</h2><span class="sub">Week of ${fmt(WEEK0(), { month: "short", day: "numeric" })} · specific and countable</span></div>
+      <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">${LANES.map(l => { const gs = wk.goals.filter(g => g.lane === l); return `<div><div class="pill l${l}" style="margin-bottom:4px">${l}</div>${gs.map(goalRow).join("") || `<div class="empty" style="font-size:14px">None set</div>`}</div>`; }).join("")}</div>
+      <form class="addrow" data-form="goal"><select class="field" id="goal-lane">${LANES.map(l => `<option>${l}</option>`).join("")}</select><input class="field" id="goal-text" placeholder="Countable goal" required autocomplete="off"><input class="field tnum" id="goal-target" type="number" min="1" max="21" value="3" aria-label="Times"><button class="btn solid">Add</button></form>
+      <div class="threadbar"><span>Missed goals stay on the board until you name them on camera.</span><button class="linkbtn" data-act="ask" data-v="Set this week's HHH goals with me">Set with Claude</button></div></section>
+    <section class="card"><div class="chead"><h2>Missed goals log</h2><span class="lbl">${missed.length}</span></div>
+      <div>${missed.map(g => `<div class="goal missed"><div class="t">${esc(g.text)}</div><span class="stale tnum">${g.count}/${g.target} · ${fmt(parseD(g.wk), { month: "short", day: "numeric" })}</span><div class="gfoot"><span class="pill l${g.lane}">${g.lane}</span>${g.named ? `<span class="stale">named on camera ✓</span>` : `<span class="tag-miss">Name it on camera</span><button class="linkbtn" data-act="goal-named" data-id="${g.id}" data-wk="${g.key}">Named it</button>`}</div></div>`).join("") || `<div class="empty">Nothing missed yet.</div>`}</div></section>
+    <section class="card span2"><div class="chead"><h2>Pin Board</h2><span class="lbl">${fmt(NOW, { month: "long" })} goals</span></div>
+      <div class="pins">${pins.items.map(it => `<figure class="pin" style="margin:0"><img src="/_blob/${esc(it.assetId)}" alt="${esc(it.caption || "Pin Board photo")}" loading="lazy"><button class="rm" data-act="pin-rm" data-id="${it.id}">Remove</button><figcaption class="cap"><input id="pc-${it.id}" data-act="pin-cap" data-id="${it.id}" value="${esc(it.caption || "")}" placeholder="Name this goal"></figcaption></figure>`).join("")}
+        ${assets ? `<button class="pin add" data-act="pin-add" id="pin-drop">+ Add photo<br><span class="stale">or drop one here</span></button>` : `<div class="pin ph">${capsResolved ? "Uploads open for the owner" : "Loading…"}</div>`}
+        ${Array.from({ length: Math.max(0, 3 - pins.items.length) }, () => `<div class="pin ph">Goal</div>`).join("")}</div>
+      <hr class="hr"><div class="chead"><span class="lbl">${NOW.getFullYear()} goals</span><span class="lbl tnum">${yearly.items.filter(i => i.done).length}/${yearly.items.length}</span></div>
+      <div class="rows">${yearly.items.map(it => `<div class="row ${it.done ? "done" : ""}"><input type="checkbox" class="check" id="yg-${it.id}" data-act="year-done" data-id="${it.id}" ${it.done ? "checked" : ""}><label class="t" for="yg-${it.id}">${esc(it.text)}</label><button class="x" data-act="year-rm" data-id="${it.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">Add the goals this year is for.</div>`}</div>
+      <form class="addrow" data-form="year"><input class="field" id="year-text" placeholder="Yearly goal" required autocomplete="off"><button class="btn solid">Add</button></form></section>
+  </div>`;
+}
+function goalRow(g) { const hit = g.count >= g.target, missed = g.missed && !hit; return `<div class="goal ${hit ? "hit" : ""} ${missed ? "missed" : ""}"><div class="t">${esc(g.text)}</div><div class="ctr"><button data-act="goal-dec" data-id="${g.id}" aria-label="One less">−</button><span class="tnum">${g.count}/${g.target}</span><button data-act="goal-inc" data-id="${g.id}" aria-label="One more">+</button></div><div class="bar"><i style="width:${Math.min(100, g.count / g.target * 100)}%"></i></div>${!hit ? `<div class="gfoot">${missed ? `<span class="tag-miss">Name it on camera</span>` : ""}<button class="linkbtn" data-act="goal-miss" data-id="${g.id}">${missed ? "Undo missed" : "Mark missed"}</button></div>` : ""}</div>`; }
+
+/* ---- BODY ---- */
+function pageBody() {
+  const b = body(), td = b.days[TODAY()] || {}, lifts = Object.values(b.days).filter(d => d.lift).length;
+  const band = (v, lo, hi, max) => `<div class="band"><span class="zone" style="left:${lo / max * 100}%;width:${(hi - lo) / max * 100}%"></span>${v ? `<span class="mk" style="left:calc(${Math.min(100, v / max * 100)}% - 1.5px)"></span>` : ""}</div>`;
+  const weeks = bodyKeys().reverse().map(k => { const w = store.get(k, { days: {} }); const ds = Object.values(w.days); const p = ds.filter(d => d.protein); return { wk: k.slice(5), lifts: ds.filter(d => d.lift).length, protein: p.length ? Math.round(p.reduce((a, d) => a + d.protein, 0) / p.length) : 0 }; });
+  return `<div class="grid g3">
+    <section class="card"><div class="chead"><h2>Lifts</h2><span class="lbl tnum">${lifts} / ${WORKOUT_TARGET[0]}–${WORKOUT_TARGET[1]}</span></div>
+      <div class="hwk">${[0, 1, 2, 3, 4, 5, 6].map(i => { const d = addDays(WEEK0(), i), ds = ymd(d); return `<button class="${b.days[ds]?.lift ? "on" : ""} ${ds === TODAY() ? "today" : ""}" data-act="lift" data-v="${ds}" aria-pressed="${!!b.days[ds]?.lift}">${fmt(d, { weekday: "narrow" })}<i></i></button>`; }).join("")}</div>
+      <div class="sub">${lifts >= 4 ? "Four in. That's the week." : lifts >= 3 ? "In range. One more is the stretch." : `${3 - lifts} more to reach 3. Crunch or PT.`}</div>
+      <input class="field" id="lift-name" placeholder="Today’s session (legs, upper, PT, Crunch app day 2…)" value="${esc(td.name || "")}"></section>
+    <section class="card"><div class="chead"><h2>Protein & calories</h2><span class="lbl">today</span></div>
+      <div class="kvl"><span class="lbl">Protein</span><span><input class="field tnum" id="h-protein" type="number" inputmode="numeric" placeholder="0" value="${td.protein || ""}" style="width:80px;text-align:right"> g</span></div>${band(td.protein, PROTEIN[0], PROTEIN[1], 200)}<div class="kvl"><span>Target ${PROTEIN[0]}–${PROTEIN[1]}g · ZOZOFIT</span><span class="tnum">${td.protein ? (td.protein >= PROTEIN[0] ? "Hit" : PROTEIN[0] - td.protein + "g to go") : "Not logged"}</span></div>
+      <div class="kvl"><span class="lbl">Calories</span><span><input class="field tnum" id="h-cal" type="number" inputmode="numeric" placeholder="0" value="${td.cal || ""}" style="width:80px;text-align:right"></span></div>${band(td.cal, CALORIES[0], CALORIES[1], 3000)}<div class="kvl"><span>Target ~${CALORIES[0].toLocaleString()}–${CALORIES[1].toLocaleString()}</span><span class="tnum">${td.cal ? (td.cal > CALORIES[1] ? td.cal - CALORIES[1] + " over" : td.cal >= CALORIES[0] ? "In range" : CALORIES[0] - td.cal + " to go") : "Not logged"}</span></div></section>
+    <section class="card"><div class="chead"><h2>Personal training</h2><span class="lbl">Crunch · ${pt().sessions.filter(x => x.date >= TODAY() && !x.done && !x.skipped).length} booked</span></div>
+      ${(() => { const past = pt().sessions.filter(x => x.date < TODAY() && !x.done && !x.skipped).sort((a, b2) => a.date.localeCompare(b2.date)); return past.length ? `<div class="notice wine">Did you make it? ${past.map(x => `<span style="white-space:nowrap">${fmt(parseD(x.date), { weekday: "short", month: "short", day: "numeric" })} <button class="btn sm" data-act="pt-done" data-id="${x.id}">Went</button> <button class="btn sm ghost" data-act="pt-skip" data-id="${x.id}">Skipped</button></span>`).join(" ")}</div>` : ""; })()}
+      <div class="rows">${pt().sessions.filter(x => x.date >= TODAY()).sort((a, b2) => a.date.localeCompare(b2.date)).slice(0, 8).map(x => `<div class="row ${x.done ? "done" : ""}"><input type="checkbox" class="check" id="pt-${x.id}" data-act="pt-toggle" data-id="${x.id}" ${x.done ? "checked" : ""} aria-label="Done"><label class="t" for="pt-${x.id}">${x.date === TODAY() ? "Today" : fmt(parseD(x.date), { weekday: "long" })}<small>${fmt(parseD(x.date), { month: "short", day: "numeric" })} · ${fmtTime(new Date(2000, 0, 1, ...x.time.split(":").map(Number)))}${x.skipped ? " · skipped" : ""}</small></label><button class="x" data-act="pt-rm" data-id="${x.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">No sessions booked. Add the next ones from the Crunch app.</div>`}</div>
+      <form class="addrow" data-form="pt"><input class="field" id="pt-date" type="date" required><input class="field" id="pt-time" type="time" value="11:30"><button class="btn solid">Book</button></form>
+      <div class="stale">Ticking a session logs it as a lift. Sessions come from the Crunch app; add them here when you book.</div></section>
+    <section class="card"><div class="chead"><h2>Six-week trend</h2><span class="lbl">lifts · avg protein</span></div>
+      <div class="trend">${weeks.map(w => `<div><i style="height:${w.lifts / 5 * 54 + 2}px" class="${w.lifts < 3 ? "low" : ""}" title="${w.lifts} lifts"></i>${fmt(parseD(w.wk), { month: "numeric", day: "numeric" })}</div>`).join("")}</div>
+      <div class="rows">${weeks.map(w => `<div class="kvl tnum" style="padding:3px 0"><span>Week of ${fmt(parseD(w.wk), { month: "short", day: "numeric" })}</span><span>${w.lifts} lifts · ${w.protein ? w.protein + "g" : "—"}</span></div>`).join("")}</div></section>
+  </div>`;
+}
+
+/* ---- MONEY ---- */
+// open <details> on the Money tab survive re-renders
+const openDet = new Set();
+document.addEventListener("toggle", e => { const d = e.target; if (d.tagName === "DETAILS" && d.id) d.open ? openDet.add(d.id) : openDet.delete(d.id); }, true);
+const det = id => `id="${id}" ${openDet.has(id) ? "open" : ""}`;
+function pageMoney() {
+  const m = moneyS(), fp = fundPace(), rs = rehabState(), today = TODAY();
+  const plan = d => m.plans[d] || {};
+  const pmap = m.planMap || [];
+  const bal = m.balance ?? 0;
+  const next = pmap.find(p => p.date >= today && p.kind !== "rio" && !plan(p.date).done);
+  const saveOf = p => plan(p.date).save ?? p.save;
+  const day = (ds, o = { weekday: "short", month: "short", day: "numeric" }) => fmt(parseD(ds), o);
+  const status = !pmap.length ? "Ask the money manager to build your plan." : fp.rioShort ? `Rio is ${money(fp.rioShort)} short. Save more before Dec 26.` : fp.onPace ? `On track: ${money(fp.projected)} by Dec 31, with Rio (${money(RIO.budget)}) paid.` : `Behind by ${money(fp.short)}: ${money(fp.perCheck)} more per check.`;
+
+  /* 1. the fund, and the one thing to do next */
+  const fundCard = `<section class="card span3">
+      <div class="chead"><h2>Departure Fund</h2><span class="lbl">goal ${money(FUND_GOAL)} by Dec 31</span></div>
+      <div class="big tnum">${m.balance === null ? "$0" : money(bal)} <small>/ ${money(FUND_GOAL)}</small></div>
+      <div class="bar ${fp.onPace && !fp.rioShort ? "" : "wine"}" style="height:8px"><i style="width:${Math.min(100, bal / FUND_GOAL * 100)}%"></i></div>
+      <div class="notice ${fp.onPace && !fp.rioShort ? "" : "wine"}">${status}</div>
+      ${next ? `<div class="row" style="padding:4px 0"><div class="t"><b style="font-weight:600">Next: ${day(next.date)}</b> · put <b style="font-weight:600">${money(saveOf(next))}</b> in the fund<small>${next.kind === "living" ? "Living" : "Bills"} check · about ${money(plan(next.date).amount ?? next.pay ?? 0)}</small></div><button class="btn solid sm" data-act="plan-done" data-d="${next.date}" data-v="${saveOf(next)}">Done</button></div>` : ""}
+      <div class="addrow"><input class="field tnum" id="fund-amt" type="number" inputmode="decimal" placeholder="$" aria-label="Amount"><button class="btn" data-act="fund-add">Add</button><button class="btn" data-act="fund-set">Set balance</button></div>
+    </section>`;
+
+  /* 2. this week's spending */
+  const cap = rs.r.cap;
+  const weekCard = `<section class="card span3">
+      <div class="chead"><h2>This week</h2><span class="lbl">${rs.active ? "rehab · essentials only" : rs.started ? "" : `rehab starts ${day(rs.r.start, { month: "short", day: "numeric" })}`}</span></div>
+      <div class="big tnum">${money(rs.spent)}${cap !== null ? ` <small>/ ${money(cap)}</small>` : ""}</div>
+      ${cap !== null ? `<div class="bar ${rs.left < 0 ? "wine" : rs.left < cap * 0.25 ? "tan" : ""}"><i style="width:${Math.min(100, rs.spent / cap * 100)}%"></i></div><div class="sub tnum">${rs.left < 0 ? money(-rs.left) + " over" : money(rs.left) + " left through " + fmt(addDays(WEEK0(), 6), { weekday: "long" })}</div>` : `<div class="sub">Set a weekly cap under More.</div>`}
+      <form class="addrow" data-form="spend"><input class="field tnum" id="spend-amt" type="number" inputmode="decimal" placeholder="$" required style="flex:0 0 80px"><input class="field" id="spend-note" placeholder="What was it" autocomplete="off"><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" class="check" id="spend-ess" checked> Essential</label><button class="btn solid">Log</button></form>
+      ${rs.thisWeek.length ? `<div class="rows">${[...rs.thisWeek].reverse().slice(0, 6).map(x => `<div class="row"><div class="t">${money(x.amount)}${x.note ? " · " + esc(x.note) : ""}<small>${day(x.date)}${x.essential ? "" : ` · <span style="color:var(--wine);font-weight:600">non-essential</span>`}</small></div>${x.essential ? "" : `<button class="btn sm" data-act="spend-ess" data-id="${x.id}">Essential</button>`}<button class="x" data-act="spend-rm" data-id="${x.id}" aria-label="Remove">×</button></div>`).join("")}</div>` : ""}
+    </section>`;
+
+  /* 3. paydays: one line each, tap for the breakdown */
+  const payCard = pmap.length ? `<section class="card span3">
+      <div class="chead"><h2>Paydays</h2><span class="lbl">save · fund after</span></div>
+      <div class="rows">${(() => { let run = 0; return pmap.map(p => { const sv = saveOf(p); run += sv; const done = plan(p.date).done, past = p.date < today && !done;
+        if (p.kind === "rio") return `<div class="row"><div class="t">Rio<small>${day(p.date, { month: "short", day: "numeric" })} – Jan 5 · paid from the fund</small></div><span class="tnum" style="color:var(--wine);font-weight:600">−${money(-sv)}</span><span class="tnum sub" style="min-width:56px;text-align:right">${money(run)}</span></div>`;
+        const amt = plan(p.date).amount ?? p.pay, left = amt - sv - committed(p);
+        return `<details class="payrow" ${det("pay-" + p.date)}><summary class="row" style="${past ? "opacity:.5" : ""}"><div class="t">${day(p.date)}<small>${p.kind === "living" ? "Living" : "Bills"} check${p.extra ? ` · +${money(p.extra)} overtime` : ""}</small></div><span class="tnum" style="font-weight:600">${done ? `<span style="color:var(--sage-ink)">✓ ${money(sv)}</span>` : money(sv)}</span><span class="tnum sub" style="min-width:56px;text-align:right">${money(run)}</span></summary>
+          <div class="split" style="padding:4px 0 10px">
+            <span>Check</span><input class="field tnum" type="number" data-plan="amount" data-d="${p.date}" value="${plan(p.date).amount ?? ""}" placeholder="${p.pay}">
+            ${Object.entries(p.costs || {}).map(([k, v]) => `<span class="sub">${esc(k)}</span><span class="tnum sub">−${money(v)}</span>`).join("")}
+            <span>To the fund</span><input class="field tnum" type="number" data-plan="save" data-d="${p.date}" value="${sv}">
+            <span class="tot">Left over</span><span class="tot tnum" style="${left < 0 ? "color:var(--wine)" : ""}">${money(left)}</span>
+            ${p.note ? `<span class="sub" style="grid-column:1/-1">${esc(p.note)}</span>` : ""}
+            ${done ? "" : `<button class="btn sm" style="grid-column:1/-1;justify-self:start" data-act="plan-done" data-d="${p.date}" data-v="${sv}">Mark saved (+${money(sv)})</button>`}
+          </div></details>`; }).join(""); })()}</div>
+    </section>` : "";
+
+  /* 4. the manager */
+  const managerCard = `<section class="card span3"><div class="chead"><h2>Money manager</h2><span class="sub">Ask about your money</span></div>
+      <div class="routines" style="grid-template-columns:repeat(2,minmax(0,1fr))"><button class="routine ${ROUTINES.payday.when(NOW) ? "hot" : ""}" data-act="routine" data-v="payday"><b>Payday Plan</b><span>${ROUTINES.payday.desc}</span></button><button class="routine ${ROUTINES.money.when(NOW) ? "hot" : ""}" data-act="routine" data-v="money"><b>Money Check-in</b><span>${ROUTINES.money.desc}</span></button></div>
+      <div class="chips" style="padding-top:0">${["Can I afford this? (say what it is)", "I missed an overtime block. What now?", "What if Rio needs $800?"].map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div></section>`;
+
+  /* 5. everything else, folded away */
+  const bud = m.budget;
+  const budget = bud ? (() => {
+    const billsLine = bud.lines.find(l => l.bills);
+    // bills that have their own budget line (e.g. Rent) don't count against the "other bills" allowance
+    const ownLine = b => bud.lines.some(l => !l.bills && b.name.toLowerCase().startsWith(l.name.toLowerCase().split(" ")[0]));
+    const realBills = (m.bills || []).filter(b => !ownLine(b)).reduce((a, b) => a + b.amount, 0);
+    const groups = ["Needs", "Debt", "Studio", "Wants", "Savings"].filter(g => bud.lines.some(l => l.group === g));
+    const byG = g => bud.lines.filter(l => l.group === g).reduce((a, l) => a + l.amount, 0);
+    return `<div class="lbl">Budget after rehab · monthly · ${money(bud.income)}</div>
+      <div class="rows">${groups.map(g => `<div class="row" style="padding:6px 0"><div class="t">${g}<small>${bud.lines.filter(l => l.group === g).map(l => `${esc(l.name)} ${money(l.amount)}`).join(" · ")}</small></div><span class="tnum" style="font-weight:600">${money(byG(g))}</span></div>`).join("")}</div>
+      ${billsLine && realBills > billsLine.amount ? `<div class="notice wine">Your other bills (${money(realBills)}) are over the ${money(billsLine.amount)} this budget allows.</div>` : ""}`; })() : "";
+  const moreCard = `<section class="card span3"><details ${det("money-more")}><summary class="chead" style="cursor:pointer"><h2>More</h2><span class="lbl">bills · budget · settings · history</span></summary>
+      <div class="lbl">Bills · ${money((m.bills || []).reduce((a, b) => a + b.amount, 0))}/mo</div>
+      <div class="rows">${[...(m.bills || [])].sort((a, b) => a.day - b.day).map(b => `<div class="row"><div class="t">${esc(b.name)}<small>due on the ${b.day}</small></div><span class="tnum">${money(b.amount)}</span><button class="x" data-act="bill-rm" data-id="${b.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">No bills listed.</div>`}</div>
+      <form class="addrow" data-form="bill"><input class="field" id="bill-name" placeholder="Bill (phone, insurance…)" required autocomplete="off"><input class="field tnum" id="bill-amt" type="number" placeholder="$" required style="flex:0 0 70px"><input class="field tnum" id="bill-day" type="number" min="1" max="31" placeholder="Day" style="flex:0 0 60px"><button class="btn solid">Add</button></form>
+      ${budget}
+      <div class="lbl">Settings</div>
+      <div class="split" style="margin-bottom:8px"><span>Weekly cash cap</span><input class="field tnum" id="rehab-cap" type="number" inputmode="decimal" value="${cap ?? ""}" placeholder="$"><span>Rehab starts</span><input class="field" id="rehab-start" type="date" value="${esc(rs.r.start)}" style="width:140px"><span>Next payday</span><input class="field" id="pay-date" type="date" value="${esc(m.nextPayday || "")}" style="width:140px"><span>That check is</span><select class="field" id="pay-kind" style="width:140px"><option value="living" ${m.nextKind === "living" ? "selected" : ""}>Living</option><option value="bills" ${m.nextKind === "bills" ? "selected" : ""}>Bills</option></select></div>
+      <button class="btn sm" data-act="rehab-save">Save cap</button>
+      <div class="lbl" style="margin-top:12px">Savings history</div>
+      <div class="rows">${[...m.log].reverse().slice(0, 8).map(l => `<div class="row"><div class="t">${l.amount >= 0 ? "Saved" : "Took out"} ${money(Math.abs(l.amount))}<small>${l.date}${l.note ? " · " + esc(l.note) : ""}</small></div></div>`).join("") || `<div class="empty">Nothing logged yet.</div>`}</div>
+      ${m.planFacts ? `<div class="lbl" style="margin-top:12px">How the plan works</div><div class="sub">${esc(m.planFacts)}</div>` : ""}
+    </details></section>`;
+
+  return `<div class="grid g3">${fundCard}${weekCard}${payCard}${managerCard}${moreCard}</div>`;
+}
+/* ---- TRAVEL ---- */
+function pageTravel() {
+  const t = travel();
+  return `<div class="grid">${t.trips.map(tr => { const days = dayDiff(NOW, parseD(tr.start)); const list = (arr, kind) => `<div class="rows">${arr.map(i => `<div class="row ${i.done ? "done" : ""}"><input type="checkbox" class="check" id="${kind}-${i.id}" data-act="trip-check" data-trip="${tr.id}" data-kind="${kind}" data-id="${i.id}" ${i.done ? "checked" : ""}><label class="t" for="${kind}-${i.id}">${esc(i.text)}</label><button class="x" data-act="trip-rm" data-trip="${tr.id}" data-kind="${kind}" data-id="${i.id}">×</button></div>`).join("") || `<div class="empty">Empty</div>`}</div><form class="addrow" data-form="trip-item" data-trip="${tr.id}" data-kind="${kind}"><input class="field" placeholder="${kind === "packing" ? "Pack…" : "Film…"}" required autocomplete="off"><button class="btn solid">Add</button></form>`;
+    return `<section class="card"><div class="chead"><h2>${esc(tr.name)}</h2><span class="lbl">${fmt(parseD(tr.start), { month: "short", day: "numeric" })} – ${fmt(parseD(tr.end), { month: "short", day: "numeric" })}</span></div>
+      <div class="trip"><div class="cd tnum">${days > 0 ? days + ' <small>days out</small>' : days <= 0 && ymd(NOW) <= tr.end ? "You're there" : "Done"}</div><div class="sub">Standby · ${tr.vacation ? "counts as vacation days on the calendar" : "weekend trip"}${tr.id === "rio" ? ` · paid from the Departure Fund: ${money(RIO.budget)} budget` : ""}</div></div>
+      <div class="lbl">Packing</div>${list(tr.packing, "packing")}
+      <div class="lbl">Filming</div>${list(tr.filming, "filming")}
+      <label class="lbl" for="sb-${tr.id}">Standby notes</label><textarea class="field" id="sb-${tr.id}" data-act="standby" data-trip="${tr.id}" placeholder="Loads, backup flights, who to call…">${esc(tr.standby || "")}</textarea>
+      <button class="linkbtn" data-act="trip-rm-trip" data-trip="${tr.id}" style="align-self:flex-end">Remove trip</button></section>`; }).join("")}
+    <section class="card"><div class="chead"><h2>New trip</h2></div><form class="frm" data-form="trip" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input class="field" name="name" placeholder="Where, and why" required style="grid-column:1/-1"><input class="field" name="start" type="date" required><input class="field" name="end" type="date" required><label style="grid-column:1/-1;display:flex;gap:8px;align-items:center;font-size:13px"><input type="checkbox" class="check" name="vacation" checked> Vacation days (travel filming allowed)</label><button class="btn solid" style="grid-column:1/-1;justify-self:start">Add trip</button></form></section>
+  </div>`;
+}
+
+/* ---- REVIEW ---- */
+function pageReview() {
+  const r = store.get("reviews", { weeks: {} }), weeks = Object.keys(r.weeks || {}).sort().reverse();
+  const outline = r.outlines?.[MONTH()];
+  return `<div class="grid">
+    <section class="card"><div class="chead"><h2>Weekly review</h2><span class="lbl">${weeks.length} archived</span></div>
+      <div class="sub">Generated on Sundays: done vs planned, wins, losses, what to change. Also on demand.</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn solid" data-act="gen-review">${r.weeks[WEEKKEY()] ? "Regenerate this week" : "Generate this week's review"}</button>${outline ? "" : `<button class="btn" data-act="routine" data-v="vlog">Monthly Vlog outline</button>`}</div>
+      ${outline ? `<hr class="hr"><div class="lbl">${fmt(NOW, { month: "long" })} Vlog outline · ${fmt(new Date(outline.at), { month: "short", day: "numeric" })}</div><div class="review"><div class="txt">${esc(outline.text)}</div></div>` : ""}</section>
+    <section class="card"><div class="chead"><h2>Archive</h2></div>
+      <div>${weeks.map(w => `<div class="review"><div class="chead"><span class="lbl">Week of ${fmt(parseD(w), { month: "long", day: "numeric" })}</span><span class="stale">${fmt(new Date(r.weeks[w].at), { month: "short", day: "numeric" })}</span></div><div class="txt">${esc(r.weeks[w].text)}</div></div>`).join("") || `<div class="empty">Your first review lands this Sunday.</div>`}</div></section>
+  </div>`;
+}
+
+/* ═══════════ AFTER RENDER (drag/drop, sheets) ═══════════ */
+let sheetHtml = "";
+function afterRender() {
+  document.querySelectorAll("body > .detail").forEach(n => n.remove());
+  if (sheetHtml) { const d = document.createElement("div"); d.innerHTML = sheetHtml; document.body.appendChild(d.firstElementChild); }
+  const drop = $("#pin-drop");
+  if (drop) { drop.ondragover = e => { e.preventDefault(); drop.style.borderColor = "var(--wine)"; }; drop.ondragleave = () => drop.style.borderColor = ""; drop.ondrop = e => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) uploadPin(f); }; }
+  document.querySelectorAll("[data-drag]").forEach(el => {
+    el.addEventListener("dragstart", e => { e.dataTransfer.setData("text/plain", el.dataset.drag); el.classList.add("dragging"); });
+    el.addEventListener("dragend", () => el.classList.remove("dragging"));
+  });
+  document.querySelectorAll("[data-drop],[data-stage]").forEach(z => {
+    z.addEventListener("dragover", e => { e.preventDefault(); z.classList.add("over"); });
+    z.addEventListener("dragleave", () => z.classList.remove("over"));
+    z.addEventListener("drop", e => { e.preventDefault(); z.classList.remove("over"); const [kind, id] = (e.dataTransfer.getData("text/plain") || "").split(":"); if (!id) return;
+      if (z.dataset.drop) moveItem(kind, id, z.dataset.drop); else if (z.dataset.stage && kind === "card") { const c = studio().cards.find(x => x.id === id); if (c) { setStage(c, z.dataset.stage); store.save("studio"); render(); } } });
+  });
+}
+function moveItem(kind, id, date) {
+  if (kind === "task") { const t = tasks().items.find(x => x.id === id); if (t) { t.date = date; store.save("tasks"); } }
+  else { const c = studio().cards.find(x => x.id === id); if (c) { c.due = date; store.save("studio"); } }
+  render();
+}
+async function uploadPin(file) {
+  if (!assets) return; if (!/^image\//.test(file.type)) return toast("That file isn't an image.");
+  toast("Uploading…");
+  try { const r = await assets.upload(file); const k = "pins-" + MONTH(), p = store.get(k, { items: [] }); p.items.push({ id: uid(), assetId: r.id, caption: "" }); store.save(k); render(); toast("Pinned."); }
+  catch (e) { toast(e.code === "too_large" ? "Over 20 MB; try a smaller photo." : "Upload failed: " + (e.message || e.code)); }
+}
+let toastT; function toast(m) { const t = $("#toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3200); }
+function findGoal(id, wk) { const keys = wk ? [wk] : hhhWeekKeys(); for (const k of keys) { const g = store.get(k, { goals: [] }).goals.find(g => g.id === id); if (g) return [k, g]; } return []; }
+
+/* ═══════════ EVENTS ═══════════ */
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]"); if (!el) return;
+  if (el.matches("input,select,textarea")) return;
+  const a = el.dataset.act, id = el.dataset.id, v = el.dataset.v;
+  if (a === "card-open" && e.target.closest("button,a")) return;
+  switch (a) {
+    case "tab": setTab(v); break;
+    case "sync": syncAll(); break;
+    case "enable-claude": enableClaude(); break;
+    case "copy-link": (navigator.clipboard?.writeText(PAGE_URL) || Promise.reject()).then(() => toast("Link copied. Paste it in Safari.")).catch(() => { const i = document.createElement("input"); i.value = PAGE_URL; document.body.appendChild(i); i.select(); try { document.execCommand("copy"); toast("Link copied. Paste it in Safari."); } catch { toast(PAGE_URL); } i.remove(); }); break;
+    case "ask": setTab("today"); ask(v); break;
+    case "clear-thread": thread.length = 0; previews = previews.filter(p => p.state === "pending"); renderThread(); break;
+    case "rebrief": { const b = store.get("brief-" + TODAY(), {}); b.json = null; maybeBrief(true); toast("Rewriting…"); break; }
+    case "routine": runRoutine(v); break;
+    case "gen-review": setTab("today"); ask(`Write this week's WEEKLY REVIEW (week of ${fmt(WEEK0(), { month: "long", day: "numeric" })}) from the state above: Done vs planned (numbers), Wins (3 max), Losses (named plainly, including any missed HHH goals), What to change next week (2 lines). Plain text, under 180 words, no headers other than those four labels. Save it with saveNote (kind: review), then show it to me.`, { hidden: true, tier: "complex" }); break;
+    case "week-off": weekOff = v === "0" ? 0 : weekOff + Number(v); renderPage(); break;
+    case "task-toggle": break;
+    case "task-done": { const t = tasks().items.find(x => x.id === id); if (t) { t.done = true; store.save("tasks"); render(); } break; }
+    case "task-move": moveItem("task", id, v); break;
+    case "task-rm": tasks().items = tasks().items.filter(x => x.id !== id); store.save("tasks"); render(); break;
+    case "quick-task": { sheetHtml = `<div class="detail" data-act="sheet-close"><div class="sheet"><h3>Task for ${fmt(parseD(v), { weekday: "long", month: "short", day: "numeric" })}</h3><form class="addrow" data-form="task" data-date="${v}"><input class="field" id="task-text" placeholder="Task" required autocomplete="off"><select class="field" id="task-brand"><option value="life">Life</option>${Object.entries(BRANDS).map(([k, b]) => `<option value="${k}">${b.pill}</option>`).join("")}</select><button class="btn solid">Add</button></form></div></div>`; render(); $("#task-text")?.focus(); break; }
+    case "move-pick": { const [kind, iid] = v.split(":"); sheetHtml = `<div class="detail" data-act="sheet-close"><div class="sheet"><h3>Move to</h3><div class="rows">${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => { const d = addDays(parseD(TODAY()), i); return `<button class="row" style="border:0;background:none;text-align:left;cursor:pointer;width:100%" data-act="move-to" data-v="${kind}:${iid}:${ymd(d)}"><span class="t">${i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmt(d, { weekday: "long" })}<small>${fmt(d, { month: "short", day: "numeric" })} · ${TYPE_LABEL[dayType(d)]}</small></span></button>`; }).join("")}</div><button class="btn" data-act="sheet-close">Cancel</button></div></div>`; render(); break; }
+    case "move-to": { const [kind, iid, date] = v.split(":"); sheetHtml = ""; moveItem(kind, iid, date); break; }
+    case "sheet-close": if (e.target === el || el.tagName === "BUTTON") { sheetHtml = ""; render(); } break;
+    case "studio-brand": studioBrand = v; lsSet("studioBrand", v); renderPage(); break;
+    case "card-new": sheetHtml = cardSheet({ brand: studioBrand }); render(); break;
+    case "card-open": { const c = studio().cards.find(x => x.id === id); if (c) { sheetHtml = cardSheet(c); render(); } break; }
+    case "card-rm": studio().cards = studio().cards.filter(x => x.id !== id); store.save("studio"); sheetHtml = ""; render(); break;
+    case "card-due": { const c = studio().cards.find(x => x.id === id); if (c) { c.due = v; store.save("studio"); render(); } break; }
+    case "stage-pick": { const c = studio().cards.find(x => x.id === id); if (!c) break; sheetHtml = `<div class="detail" data-act="sheet-close"><div class="sheet"><h3>${esc(c.title)}</h3><div class="rows">${STAGES.map(s => `<button class="row" style="border:0;background:none;text-align:left;cursor:pointer;width:100%;${s === c.stage ? "font-weight:600" : ""}" data-act="stage-to" data-id="${c.id}" data-v="${s}"><span class="t">${s}</span></button>`).join("")}</div><button class="btn" data-act="sheet-close">Cancel</button></div></div>`; render(); break; }
+    case "stage-to": { const c = studio().cards.find(x => x.id === id); if (c) { setStage(c, v); store.save("studio"); } sheetHtml = ""; render(); break; }
+    case "idea-card": { const i = ideas().items.find(x => x.id === id); if (!i) break; studio().cards.push({ id: uid(), brand: i.brand, title: i.text, stage: "Idea", due: "", platform: "", note: "", footage: "", script: "", created: Date.now() }); ideas().items = ideas().items.filter(x => x.id !== id); store.save("studio"); store.save("ideas"); render(); toast("Card created."); break; }
+    case "idea-rm": ideas().items = ideas().items.filter(x => x.id !== id); store.save("ideas"); render(); break;
+    case "shot-rm": { const sh = store.get("shots", { list: [] }); sh.list = (sh.list || []).filter(s => s.id !== id); store.save("shots"); render(); break; }
+    case "goal-inc": case "goal-dec": { const [k, g] = findGoal(id); if (!g) break; g.count = Math.max(0, g.count + (a === "goal-inc" ? 1 : -1)); store.save(k); render(); break; }
+    case "goal-miss": { const [k, g] = findGoal(id); if (!g) break; g.missed = !g.missed; store.save(k); render(); break; }
+    case "goal-named": { const [k, g] = findGoal(id, el.dataset.wk || undefined); if (!g) break; g.named = true; g.missed = true; store.save(k); render(); toast("Good. It's on the record."); break; }
+    case "pt-done": case "pt-skip": case "pt-rm": { const x = pt().sessions.find(y => y.id === id); if (!x) break; if (a === "pt-rm") pt().sessions = pt().sessions.filter(y => y.id !== id); else if (a === "pt-skip") x.skipped = true; else { x.done = true; const k = "body-" + ymd(monday(parseD(x.date))); const b = store.get(k, { days: {} }); const d = b.days[x.date] || (b.days[x.date] = {}); d.lift = true; d.name = d.name || "PT session"; store.save(k); } store.save("pt"); render(); break; }
+    case "lift": { const b = body(); const d = b.days[v] || (b.days[v] = {}); d.lift = !d.lift; store.save("body-" + WEEKKEY()); render(); break; }
+    case "fund-add": case "fund-set": { const n = parseFloat($("#fund-amt").value); if (!isFinite(n)) return toast("Enter an amount."); const m = moneyS(); if (a === "fund-add") { m.balance = (m.balance || 0) + n; m.log.push({ date: TODAY(), amount: n, note: "" }); } else m.balance = n; store.save("money"); render(); toast(a === "fund-add" ? `Saved ${money(n)}.` : `Balance set to ${money(n)}.`); break; }
+    case "rehab-save": { const r = rehab(); const c = parseFloat($("#rehab-cap").value); r.cap = isFinite(c) && c > 0 ? c : null; const st = $("#rehab-start").value; if (st) r.start = st; store.save("money"); render(); toast(r.cap ? `Cap set: ${money(r.cap)} a week.` : "Cap cleared."); break; }
+    case "spend-ess": { const x = rehab().spend.find(y => y.id === id); if (x) { x.essential = true; store.save("money"); render(); } break; }
+    case "spend-rm": { const r = rehab(); r.spend = r.spend.filter(y => y.id !== id); store.save("money"); render(); break; }
+    case "bill-rm": { const m = moneyS(); m.bills = (m.bills || []).filter(b => b.id !== id); store.save("money"); render(); break; }
+    case "plan-done": { const m = moneyS(); const pl = m.plans[el.dataset.d] || (m.plans[el.dataset.d] = {}); pl.done = true; const amt = Number(v); m.balance = (m.balance || 0) + amt; m.log.push({ date: TODAY(), amount: amt, note: "payday " + el.dataset.d }); store.save("money"); render(); toast(`+${money(amt)} to the Departure Fund.`); break; }
+    case "pin-add": $("#pin-file").click(); break;
+    case "pin-rm": { const k = "pins-" + MONTH(), p = store.get(k, { items: [] }); const it = p.items.find(i => i.id === id); if (!it) break; if (!it.confirm) { it.confirm = true; el.textContent = "Tap again to remove"; setTimeout(() => { it.confirm = false; render(); }, 3500); break; } p.items = p.items.filter(i => i.id !== id); store.save(k); render(); if (assets) assets.delete(it.assetId).catch(() => {}); break; }
+    case "year-rm": { const y = store.get("yearly", { items: [] }); y.items = y.items.filter(i => i.id !== id); store.save("yearly"); render(); break; }
+    case "trip-rm": { const tr = travel().trips.find(t => t.id === el.dataset.trip); if (tr) { tr[el.dataset.kind] = tr[el.dataset.kind].filter(i => i.id !== id); store.save("travel"); render(); } break; }
+    case "trip-rm-trip": { const t = travel(); t.trips = t.trips.filter(x => x.id !== el.dataset.trip); store.save("travel"); render(); break; }
+    case "pv-ok": { const p = previews.find(x => x.id === id); if (p) confirmPreview(p, el); break; }
+    case "pv-cancel": { const p = previews.find(x => x.id === id); if (p) { p.state = "cancelled"; renderThread(); } break; }
+  }
+});
+document.addEventListener("input", e => {
+  const el = e.target;
+  if (el.dataset.pf) { const p = previews.find(x => x.id === el.dataset.id); if (p) p[el.dataset.pf] = el.value; }
+});
+document.addEventListener("change", e => {
+  const el = e.target, a = el.dataset.act, id = el.dataset.id;
+  if (a === "pt-toggle") { const x = pt().sessions.find(y => y.id === id); if (!x) return; x.done = el.checked; x.skipped = false; const k = "body-" + ymd(monday(parseD(x.date))); const b = store.get(k, { days: {} }); const d = b.days[x.date] || (b.days[x.date] = {}); d.lift = el.checked; if (el.checked) d.name = d.name || "PT session"; store.save(k); store.save("pt"); setTimeout(render, 200); }
+  else if (a === "task-toggle") { const t = tasks().items.find(x => x.id === id); if (t) { t.done = el.checked; store.save("tasks"); setTimeout(render, 200); } }
+  else if (a === "shot-toggle") { const sh = store.get("shots", { list: [] }); const s = (sh.list || []).find(x => x.id === id); if (s) { s.done = el.checked; store.save("shots"); setTimeout(render, 200); } }
+  else if (a === "year-done") { const y = store.get("yearly", { items: [] }); const it = y.items.find(i => i.id === id); if (it) { it.done = el.checked; store.save("yearly"); render(); } }
+  else if (a === "pin-cap") { const k = "pins-" + MONTH(), p = store.get(k, { items: [] }); const it = p.items.find(i => i.id === id); if (it) { it.caption = el.value.trim(); store.save(k); } }
+  else if (a === "trip-check") { const tr = travel().trips.find(t => t.id === el.dataset.trip); const it = tr?.[el.dataset.kind].find(i => i.id === id); if (it) { it.done = el.checked; store.save("travel"); setTimeout(render, 200); } }
+  else if (a === "standby") { const tr = travel().trips.find(t => t.id === el.dataset.trip); if (tr) { tr.standby = el.value; store.save("travel"); } }
+  else if (el.id === "h-protein" || el.id === "h-cal" || el.id === "lift-name") { const b = body(); const d = b.days[TODAY()] || (b.days[TODAY()] = {}); if (el.id === "lift-name") d.name = el.value.trim(); else { const n = parseInt(el.value, 10); d[el.id === "h-protein" ? "protein" : "cal"] = isFinite(n) && n > 0 ? n : 0; } store.save("body-" + WEEKKEY()); if (el.id !== "lift-name") render(); }
+  else if (el.id === "pay-date" || el.id === "pay-kind") { const m = moneyS(); m.nextPayday = $("#pay-date").value; m.nextKind = $("#pay-kind").value; store.save("money"); render(); }
+  else if (el.dataset.plan) { const m = moneyS(); const pl = m.plans[el.dataset.d] || (m.plans[el.dataset.d] = {}); pl[el.dataset.plan] = parseFloat(el.value) || 0; store.save("money"); render(); }
+  else if (el.id === "pin-file") { const f = el.files?.[0]; el.value = ""; if (f) uploadPin(f); }
+});
+document.addEventListener("submit", e => {
+  const f = e.target, form = f.dataset.form; if (!form) return; e.preventDefault();
+  if (form === "task") { const text = $("#task-text").value.trim(); if (!text) return; tasks().items.push({ id: uid(), title: text, brand: $("#task-brand").value, date: f.dataset.date || $("#task-date")?.value || "", done: false, created: Date.now() }); store.save("tasks"); sheetHtml = ""; render(); }
+  else if (form === "pt") { const date = $("#pt-date").value; if (!date) return; pt().sessions.push({ id: uid(), date, time: $("#pt-time").value || "11:30", done: false }); store.save("pt"); render(); }
+  else if (form === "spend") { const amt = parseFloat($("#spend-amt").value); if (!isFinite(amt) || amt <= 0) return; rehab().spend.push({ id: uid(), date: TODAY(), amount: amt, note: $("#spend-note").value.trim(), essential: $("#spend-ess").checked }); store.save("money"); render(); }
+  else if (form === "bill") { const m = moneyS(); m.bills = m.bills || []; m.bills.push({ id: uid(), name: $("#bill-name").value.trim(), amount: parseFloat($("#bill-amt").value) || 0, day: parseInt($("#bill-day").value, 10) || 1 }); store.save("money"); render(); }
+  else if (form === "idea") { const text = $("#idea-text").value.trim(); if (!text) return; ideas().items.push({ id: uid(), text, brand: $("#idea-brand").value, created: Date.now() }); store.save("ideas"); render(); }
+  else if (form === "goal") { const text = $("#goal-text").value.trim(); if (!text) return; hhh().goals.push({ id: uid(), lane: $("#goal-lane").value, text, target: parseInt($("#goal-target").value, 10) || 1, count: 0, missed: false, named: false }); store.save("hhh-" + WEEKKEY()); render(); }
+  else if (form === "year") { const text = $("#year-text").value.trim(); if (!text) return; store.get("yearly", { items: [] }).items.push({ id: uid(), text, done: false }); store.save("yearly"); render(); }
+  else if (form === "shot") { const sh = store.get("shots", { done: {}, notes: {}, list: [] }); sh.list = sh.list || []; sh.list.push({ id: uid(), shot: $("#shot-text").value.trim(), location: $("#shot-loc").value.trim() || "Anywhere", outfit: $("#shot-outfit").value.trim() || "—", done: false, cardId: "" }); store.save("shots"); render(); }
+  else if (form === "card") { const d = Object.fromEntries(new FormData(f).entries()); let c = studio().cards.find(x => x.id === f.dataset.id); if (!c) { c = { id: uid(), created: Date.now(), stage: "Idea" }; studio().cards.push(c); } const was = c.stage; Object.assign(c, { title: d.title.trim(), brand: d.brand, due: d.due, platform: d.platform.trim(), script: d.script.trim(), footage: d.footage, lane: d.lane, note: d.note.trim() }); if (d.stage !== was) setStage(c, d.stage); store.save("studio"); sheetHtml = ""; render(); }
+  else if (form === "trip-item") { const tr = travel().trips.find(t => t.id === f.dataset.trip); const inp = f.querySelector("input"); if (tr && inp.value.trim()) { tr[f.dataset.kind].push({ id: uid(), text: inp.value.trim(), done: false }); store.save("travel"); render(); } }
+  else if (form === "trip") { const d = Object.fromEntries(new FormData(f).entries()); travel().trips.push({ id: uid(), name: d.name.trim(), start: d.start, end: d.end, vacation: !!d.vacation, packing: [], filming: [], standby: "" }); store.save("travel"); render(); }
+});
+$("#askform").addEventListener("submit", e => { e.preventDefault(); if (asking) { abortAsk?.abort(); return; } const v = $("#askin").value.trim(); if (!v) return; $("#askin").value = ""; setTab("today"); ask(v); });
+
+/* ═══════════ BOOT ═══════════ */
+const use = n => window.claude?.use ? window.claude.use(n).catch(() => null) : Promise.resolve(null);
+render();
+Promise.all([use("db"), use("assets"), use("mcp"), use("sample"), use("permissions")]).then(async ([d, a, m, s, pm]) => {
+  db = d; assets = a; mcp = m; sample = s; perms = pm; capsResolved = true;
+  await refreshSampleState();
+  if (db) { await store.load(allKeys()); for (const k of ["studio", "tasks", "shots"]) db.doc("os/" + k).onSnapshot(snap => { if (!snap.exists || snap.metadata.hasPendingWrites) return; const data = snap.data(); if (JSON.stringify(data) !== JSON.stringify(mem[k])) { mem[k] = data; lsSet(k, data); render(); } }, () => {}); }
+  render();
+  if (mcp) syncAll(true); else maybeBrief();
+});
+setTimeout(() => { if (!capsResolved) { capsResolved = true; render(); } }, 11000);
+setInterval(() => { if (mcp && document.visibilityState === "visible") syncAll(true); }, 15 * 60 * 1000);
+setInterval(() => { const was = TODAY(); NOW = new Date(); if (TODAY() !== was) { store.load(allKeys()).then(() => { render(); maybeBrief(); }); } else if (tab === "today") renderPage(); }, 60000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && mcp && Date.now() - Math.max(0, ...Object.values(cache.at)) > 15 * 60 * 1000) syncAll(true); });
+</script>

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Artifact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/dashboard/check-hook.js\"",
+            "timeout": 180,
+            "statusMessage": "Checking the dashboard before publishing\u2026"
+          }
+        ]
+      }
+    ]
+  }
+}
