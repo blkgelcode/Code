@@ -298,6 +298,7 @@ textarea.field{resize:vertical;min-height:70px;width:100%}
 .fundbar{position:relative;height:7px;border-radius:7px;background:var(--line)}
 .fundbar i{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--tan)}
 .fundbar b{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--ink)}
+.payrow > summary{list-style:none;cursor:pointer} .payrow > summary::-webkit-details-marker, details > summary.chead::-webkit-details-marker{display:none} details > summary.chead{list-style:none}
 .split{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:13px;align-items:center}
 .split .field{width:90px;text-align:right}
 .split .tot{border-top:1px solid var(--line);padding-top:6px;font-weight:600}
@@ -1007,82 +1008,89 @@ function pageBody() {
 }
 
 /* ---- MONEY ---- */
+// open <details> on the Money tab survive re-renders
+const openDet = new Set();
+document.addEventListener("toggle", e => { const d = e.target; if (d.tagName === "DETAILS" && d.id) d.open ? openDet.add(d.id) : openDet.delete(d.id); }, true);
+const det = id => `id="${id}" ${openDet.has(id) ? "open" : ""}`;
 function pageMoney() {
-  const m = moneyS(), fp = fundPace(), pays = fp.checks.slice(0, 8);
+  const m = moneyS(), fp = fundPace(), rs = rehabState(), today = TODAY();
   const plan = d => m.plans[d] || {};
-  const rs = rehabState();
-  const rehabCard = `<section class="card span3" style="${rs.active ? "box-shadow:var(--shadow),inset 4px 0 0 var(--wine)" : ""}">
-      <div class="chead"><h2>Financial rehab</h2><span class="lbl">${rs.done ? "complete" : rs.active ? "active · until the fund hits $3,000 after Rio" : `starts ${fmt(parseD(rs.r.start), { weekday: "short", month: "short", day: "numeric" })} · ${rs.daysTo} days`}</span></div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
-        <div>
-          <div class="lbl">Weekly cash cap</div>
-          <div class="addrow" style="margin-top:4px"><input class="field tnum" id="rehab-cap" type="number" inputmode="decimal" placeholder="$ per week" value="${rs.r.cap ?? ""}" style="flex:1 1 100px"><input class="field" id="rehab-start" type="date" value="${esc(rs.r.start)}" style="flex:0 1 140px" aria-label="Start date"><button class="btn solid" data-act="rehab-save">Save</button></div>
-          <div class="sub" style="margin-top:6px">Groceries, gas and life per week. Everything outside ${REHAB_ESSENTIALS.join(", ")} is a no.</div>
-        </div>
-        <div>
-          <div class="lbl">This week</div>
-          <div class="big tnum" style="margin-top:4px">${money(rs.spent)}${rs.r.cap !== null ? ` <small>/ ${money(rs.r.cap)}</small>` : ""}</div>
-          ${rs.r.cap !== null ? `<div class="bar ${rs.left < 0 ? "wine" : rs.left < rs.r.cap * 0.25 ? "tan" : ""}" style="margin-top:6px"><i style="width:${Math.min(100, rs.spent / rs.r.cap * 100)}%"></i></div><div class="sub tnum" style="margin-top:4px">${rs.left < 0 ? money(-rs.left) + " over" : money(rs.left) + " left through " + fmt(addDays(WEEK0(), 6), { weekday: "short" })}</div>` : `<div class="sub">Set a cap to count it down.</div>`}
-        </div>
-        <div>
-          <div class="lbl">Way out</div>
-          <div class="big tnum" style="margin-top:4px">${money(rs.toGoal)}</div>
-          <div class="sub">to $3,000 · by Dec 31 with Rio paid · rehab ends when you're back${moneyS().nextPayday ? "" : " · set your payday for the date"}</div>
-        </div>
-      </div>
-      <form class="addrow" data-form="spend"><input class="field tnum" id="spend-amt" type="number" inputmode="decimal" placeholder="$" required style="flex:0 0 90px"><input class="field" id="spend-note" placeholder="What was it" autocomplete="off"><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" class="check" id="spend-ess" checked> Essential</label><button class="btn solid">Log spend</button></form>
-      ${rs.thisWeek.length ? `<div class="rows">${[...rs.thisWeek].reverse().slice(0, 8).map(x => `<div class="row"><div class="t">${money(x.amount)}${x.note ? " · " + esc(x.note) : ""}<small>${fmt(parseD(x.date), { weekday: "short", month: "short", day: "numeric" })}${x.essential ? "" : ` · <span style="color:var(--wine);font-weight:600">non-essential</span>`}</small></div>${x.essential ? "" : `<button class="btn sm" data-act="spend-ess" data-id="${x.id}">Essential</button>`}<button class="x" data-act="spend-rm" data-id="${x.id}" aria-label="Remove">×</button></div>`).join("")}</div>` : ""}
-    </section>`;
   const pmap = m.planMap || [];
-  const planCard = pmap.length ? `<section class="card span3"><div class="chead"><h2>The plan</h2><span class="sub">From your Chime history · ${esc(m.planBuilt || "")}</span></div>
-      ${m.planFacts ? `<div class="sub">${esc(m.planFacts)}</div>` : ""}
-      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;min-width:720px" class="tnum">
-        <thead><tr style="text-align:left;color:var(--ink-3);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em"><th style="padding:6px 4px">Payday</th><th>Check</th><th>Take-home</th><th>Committed</th><th>Fund</th><th>Left over</th><th>Fund total</th><th></th></tr></thead>
-        <tbody>${(() => { let run = 0; return pmap.map(p => { run += p.save; const past = p.date < TODAY(), rio = p.kind === "rio", left = (p.pay || 0) - committed(p) - p.save; return `<tr style="border-top:1px solid var(--line);vertical-align:top;${past ? "opacity:.5" : ""}"><td style="padding:8px 4px;font-weight:600">${fmt(parseD(p.date), { month: "short", day: "numeric" })}</td><td><span class="pill ${p.kind === "living" ? "b2" : rio ? "b1" : "b0"}">${rio ? "Rio" : p.kind}</span></td><td>${rio ? "" : money(p.pay || 0)}${p.extra ? `<div class="sub" style="color:var(--tan-ink)">incl. +${money(p.extra)} OT</div>` : ""}</td><td>${rio ? "" : `${money(committed(p))}<div class="sub">${Object.entries(p.costs || {}).map(([k, v]) => `${esc(k)} ${money(v)}`).join(" · ")}</div>`}</td><td style="font-weight:600;${p.save < 0 ? "color:var(--wine)" : ""}">${p.save < 0 ? "−" + money(-p.save) : money(p.save)}</td><td style="${!rio && left < 0 ? "color:var(--wine);font-weight:600" : ""}">${rio ? "" : money(left)}</td><td>${money(run)}</td><td class="sub" style="min-width:160px">${esc(p.note || "")}</td></tr>`; }).join(""); })()}</tbody></table></div>
-      ${m.planGaps ? `<div class="notice">${esc(m.planGaps)}</div>` : ""}
+  const bal = m.balance ?? 0;
+  const next = pmap.find(p => p.date >= today && p.kind !== "rio" && !plan(p.date).done);
+  const saveOf = p => plan(p.date).save ?? p.save;
+  const day = (ds, o = { weekday: "short", month: "short", day: "numeric" }) => fmt(parseD(ds), o);
+  const status = !pmap.length ? "Ask the money manager to build your plan." : fp.rioShort ? `Rio is ${money(fp.rioShort)} short. Save more before Dec 26.` : fp.onPace ? `On track: ${money(fp.projected)} by Dec 31, with Rio (${money(RIO.budget)}) paid.` : `Behind by ${money(fp.short)}: ${money(fp.perCheck)} more per check.`;
+
+  /* 1. the fund, and the one thing to do next */
+  const fundCard = `<section class="card span3">
+      <div class="chead"><h2>Departure Fund</h2><span class="lbl">goal ${money(FUND_GOAL)} by Dec 31</span></div>
+      <div class="big tnum">${m.balance === null ? "$0" : money(bal)} <small>/ ${money(FUND_GOAL)}</small></div>
+      <div class="bar ${fp.onPace && !fp.rioShort ? "" : "wine"}" style="height:8px"><i style="width:${Math.min(100, bal / FUND_GOAL * 100)}%"></i></div>
+      <div class="notice ${fp.onPace && !fp.rioShort ? "" : "wine"}">${status}</div>
+      ${next ? `<div class="row" style="padding:4px 0"><div class="t"><b style="font-weight:600">Next: ${day(next.date)}</b> · put <b style="font-weight:600">${money(saveOf(next))}</b> in the fund<small>${next.kind === "living" ? "Living" : "Bills"} check · about ${money(plan(next.date).amount ?? next.pay ?? 0)}</small></div><button class="btn solid sm" data-act="plan-done" data-d="${next.date}" data-v="${saveOf(next)}">Done</button></div>` : ""}
+      <div class="addrow"><input class="field tnum" id="fund-amt" type="number" inputmode="decimal" placeholder="$" aria-label="Amount"><button class="btn" data-act="fund-add">Add</button><button class="btn" data-act="fund-set">Set balance</button></div>
+    </section>`;
+
+  /* 2. this week's spending */
+  const cap = rs.r.cap;
+  const weekCard = `<section class="card span3">
+      <div class="chead"><h2>This week</h2><span class="lbl">${rs.active ? "rehab · essentials only" : rs.started ? "" : `rehab starts ${day(rs.r.start, { month: "short", day: "numeric" })}`}</span></div>
+      <div class="big tnum">${money(rs.spent)}${cap !== null ? ` <small>/ ${money(cap)}</small>` : ""}</div>
+      ${cap !== null ? `<div class="bar ${rs.left < 0 ? "wine" : rs.left < cap * 0.25 ? "tan" : ""}"><i style="width:${Math.min(100, rs.spent / cap * 100)}%"></i></div><div class="sub tnum">${rs.left < 0 ? money(-rs.left) + " over" : money(rs.left) + " left through " + fmt(addDays(WEEK0(), 6), { weekday: "long" })}</div>` : `<div class="sub">Set a weekly cap under More.</div>`}
+      <form class="addrow" data-form="spend"><input class="field tnum" id="spend-amt" type="number" inputmode="decimal" placeholder="$" required style="flex:0 0 80px"><input class="field" id="spend-note" placeholder="What was it" autocomplete="off"><label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" class="check" id="spend-ess" checked> Essential</label><button class="btn solid">Log</button></form>
+      ${rs.thisWeek.length ? `<div class="rows">${[...rs.thisWeek].reverse().slice(0, 6).map(x => `<div class="row"><div class="t">${money(x.amount)}${x.note ? " · " + esc(x.note) : ""}<small>${day(x.date)}${x.essential ? "" : ` · <span style="color:var(--wine);font-weight:600">non-essential</span>`}</small></div>${x.essential ? "" : `<button class="btn sm" data-act="spend-ess" data-id="${x.id}">Essential</button>`}<button class="x" data-act="spend-rm" data-id="${x.id}" aria-label="Remove">×</button></div>`).join("")}</div>` : ""}
+    </section>`;
+
+  /* 3. paydays: one line each, tap for the breakdown */
+  const payCard = pmap.length ? `<section class="card span3">
+      <div class="chead"><h2>Paydays</h2><span class="lbl">save · fund after</span></div>
+      <div class="rows">${(() => { let run = 0; return pmap.map(p => { const sv = saveOf(p); run += sv; const done = plan(p.date).done, past = p.date < today && !done;
+        if (p.kind === "rio") return `<div class="row"><div class="t">Rio<small>${day(p.date, { month: "short", day: "numeric" })} – Jan 5 · paid from the fund</small></div><span class="tnum" style="color:var(--wine);font-weight:600">−${money(-sv)}</span><span class="tnum sub" style="min-width:56px;text-align:right">${money(run)}</span></div>`;
+        const amt = plan(p.date).amount ?? p.pay, left = amt - sv - committed(p);
+        return `<details class="payrow" ${det("pay-" + p.date)}><summary class="row" style="${past ? "opacity:.5" : ""}"><div class="t">${day(p.date)}<small>${p.kind === "living" ? "Living" : "Bills"} check${p.extra ? ` · +${money(p.extra)} overtime` : ""}</small></div><span class="tnum" style="font-weight:600">${done ? `<span style="color:var(--sage-ink)">✓ ${money(sv)}</span>` : money(sv)}</span><span class="tnum sub" style="min-width:56px;text-align:right">${money(run)}</span></summary>
+          <div class="split" style="padding:4px 0 10px">
+            <span>Check</span><input class="field tnum" type="number" data-plan="amount" data-d="${p.date}" value="${plan(p.date).amount ?? ""}" placeholder="${p.pay}">
+            ${Object.entries(p.costs || {}).map(([k, v]) => `<span class="sub">${esc(k)}</span><span class="tnum sub">−${money(v)}</span>`).join("")}
+            <span>To the fund</span><input class="field tnum" type="number" data-plan="save" data-d="${p.date}" value="${sv}">
+            <span class="tot">Left over</span><span class="tot tnum" style="${left < 0 ? "color:var(--wine)" : ""}">${money(left)}</span>
+            ${p.note ? `<span class="sub" style="grid-column:1/-1">${esc(p.note)}</span>` : ""}
+            ${done ? "" : `<button class="btn sm" style="grid-column:1/-1;justify-self:start" data-act="plan-done" data-d="${p.date}" data-v="${sv}">Mark saved (+${money(sv)})</button>`}
+          </div></details>`; }).join(""); })()}</div>
     </section>` : "";
+
+  /* 4. the manager */
+  const managerCard = `<section class="card span3"><div class="chead"><h2>Money manager</h2><span class="sub">Ask about your money</span></div>
+      <div class="routines" style="grid-template-columns:repeat(2,minmax(0,1fr))"><button class="routine ${ROUTINES.payday.when(NOW) ? "hot" : ""}" data-act="routine" data-v="payday"><b>Payday Plan</b><span>${ROUTINES.payday.desc}</span></button><button class="routine ${ROUTINES.money.when(NOW) ? "hot" : ""}" data-act="routine" data-v="money"><b>Money Check-in</b><span>${ROUTINES.money.desc}</span></button></div>
+      <div class="chips" style="padding-top:0">${["Can I afford this? (say what it is)", "I missed an overtime block. What now?", "What if Rio needs $800?"].map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div></section>`;
+
+  /* 5. everything else, folded away */
   const bud = m.budget;
-  const budgetCard = bud ? (() => {
-    const groups = ["Needs", "Debt", "Studio", "Wants", "Savings"].filter(g => bud.lines.some(l => l.group === g));
+  const budget = bud ? (() => {
     const billsLine = bud.lines.find(l => l.bills);
     // bills that have their own budget line (e.g. Rent) don't count against the "other bills" allowance
     const ownLine = b => bud.lines.some(l => !l.bills && b.name.toLowerCase().startsWith(l.name.toLowerCase().split(" ")[0]));
     const realBills = (m.bills || []).filter(b => !ownLine(b)).reduce((a, b) => a + b.amount, 0);
-    const total = bud.lines.reduce((a, l) => a + l.amount, 0);
+    const groups = ["Needs", "Debt", "Studio", "Wants", "Savings"].filter(g => bud.lines.some(l => l.group === g));
     const byG = g => bud.lines.filter(l => l.group === g).reduce((a, l) => a + l.amount, 0);
-    return `<section class="card span3"><div class="chead"><h2>Budget after rehab</h2><span class="sub">Monthly · built on 2 checks (${money(bud.income)}) · starts when the fund hits $3,000</span></div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">${groups.map(g => `<div><div class="chead"><span class="lbl">${g}</span><span class="lbl tnum">${money(byG(g))} · ${Math.round(byG(g) / bud.income * 100)}%</span></div><div class="rows">${bud.lines.filter(l => l.group === g).map(l => `<div class="row" style="padding:6px 0"><div class="t">${esc(l.name)}${l.why ? `<small>${esc(l.why)}</small>` : ""}</div><span class="tnum" style="font-weight:600">${money(l.amount)}</span></div>`).join("")}</div></div>`).join("")}</div>
-      <div class="notice ${billsLine && realBills > billsLine.amount ? "wine" : ""}">${billsLine ? (realBills ? (realBills > billsLine.amount ? `Your listed bills are ${money(realBills)}, ${money(realBills - billsLine.amount)} over the ${money(billsLine.amount)} this budget allows. Ask the manager to rebalance it.` : `Your listed bills (${money(realBills)}) fit the ${money(billsLine.amount)} allowance with ${money(billsLine.amount - realBills)} to spare.`) : `This budget allows ${money(billsLine.amount)} a month for fixed bills other than rent (phone, insurance…). Add them in the Bills card and this line checks itself.`) : ""} Total ${money(total)} of ${money(bud.income)}.</div>
-      ${bud.rules ? `<div class="sub" style="white-space:pre-wrap">${esc(bud.rules)}</div>` : ""}
-    </section>`; })() : "";
-  return `<div class="grid g3">
-    ${planCard}
-    ${budgetCard}
-    ${rehabCard}
-    <section class="card"><div class="chead"><h2>Departure Fund</h2><span class="lbl">${fp.preRio ? "Rio first" : fp.inRio ? "in Rio" : "rebuilding"}</span></div>
-      <div class="big tnum">${m.balance === null ? "—" : money(m.balance)} <small>/ ${money(FUND_GOAL)}</small></div>
-      <div class="fundbar" title="Stretch ${money(FUND_STRETCH)}"><i style="width:${Math.min(100, (m.balance || 0) / FUND_STRETCH * 100)}%"></i><b style="left:${FUND_GOAL / FUND_STRETCH * 100}%"></b></div>
-      <div class="sub tnum">${fp.preRio ? `Rio budget ${money(RIO.budget)} · then rebuild to ${money(FUND_GOAL)}` : `${money(fp.need)} to goal · stretch ${money(FUND_STRETCH)}`}</div>
-      <div class="addrow"><input class="field tnum" id="fund-amt" type="number" inputmode="decimal" placeholder="$" aria-label="Amount"><button class="btn solid" data-act="fund-add">Add</button><button class="btn" data-act="fund-set">Set balance</button></div>
-      <label class="lbl" for="pay-date">Next payday</label><div class="addrow"><input class="field" id="pay-date" type="date" value="${esc(m.nextPayday || "")}" style="flex:1 1 130px"><select class="field" id="pay-kind"><option value="living" ${m.nextKind === "living" ? "selected" : ""}>Living + savings check</option><option value="bills" ${m.nextKind === "bills" ? "selected" : ""}>Bills check</option></select></div></section>
-    <section class="card"><div class="chead"><h2>Pace</h2><span class="lbl">${!m.planMap ? "needs a plan" : fp.rioShort ? "Rio short" : fp.onPace ? "on plan" : "behind"}</span></div>
-      ${(m.planMap || []).length ? `<div class="paylist">${fp.preRio ? `<span class="k">Rio budget</span><span class="sub">fund by Dec 26</span><span class="tnum" style="color:${fp.rioShort ? "var(--wine)" : "inherit"}">${money(fp.rioAt)} / ${money(RIO.budget)}</span>` : ""}<span class="k">Extra to earn</span><span class="sub">~${money(fp.extraPer)} a full check</span><span class="tnum">${money(fp.extra)}</span><span class="k">After Rio</span><span class="sub">by ${fmt(parseD(FUND_DEADLINE), { month: "short", day: "numeric" })}</span><span class="tnum">${money(fp.projected)}</span><span class="k">Goal</span><span class="sub">rehab ends</span><span class="tnum">${money(FUND_GOAL)}</span></div>
-      <div class="notice ${fp.onPace && !fp.rioShort ? "" : "wine"}">${fp.rioShort ? `Rio is ${money(fp.rioShort)} short on the plan. Save more before Dec 26 or trim the trip.` : fp.onPace ? `On the plan: Rio gets ${fp.preRio ? money(fp.rioAt) : "its budget"}, then the fund rebuilds to ${money(fp.projected)} by ${fmt(parseD(FUND_DEADLINE), { month: "short", day: "numeric", year: "numeric" })}. Every dollar of extra pay goes straight to the fund; every $100 Rio doesn't spend is $100 less overtime.` : `Short by ${money(fp.short)}: ${money(fp.perCheck)} more per check.`}</div>` : `<div class="empty">Ask the money manager to build your plan.</div>`}</section>
-    <section class="card"><div class="chead"><h2>Savings history</h2><span class="lbl">${m.log.length}</span></div>
-      <div class="rows">${[...m.log].reverse().slice(0, 10).map(l => `<div class="row"><div class="t">${l.amount >= 0 ? "Saved" : "Took out"} ${money(Math.abs(l.amount))}<small>${l.date}${l.note ? " · " + esc(l.note) : ""}</small></div></div>`).join("") || `<div class="empty">No deposits logged yet.</div>`}</div></section>
-    <section class="card"><div class="chead"><h2>Bills</h2><span class="lbl tnum">${money((m.bills || []).reduce((a, b) => a + b.amount, 0))}/mo</span></div>
-      <div class="rows">${[...(m.bills || [])].sort((a, b) => a.day - b.day).map(b => `<div class="row"><div class="t">${esc(b.name)}<small>due on the ${b.day}</small></div><span class="tnum">${money(b.amount)}</span><button class="x" data-act="bill-rm" data-id="${b.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">List your monthly bills so the bills-check math works.</div>`}</div>
-      <form class="addrow" data-form="bill"><input class="field" id="bill-name" placeholder="Bill" required autocomplete="off"><input class="field tnum" id="bill-amt" type="number" placeholder="$" required style="flex:0 0 80px"><input class="field tnum" id="bill-day" type="number" min="1" max="31" placeholder="Day" style="flex:0 0 66px"><button class="btn solid">Add</button></form></section>
-    <section class="card span2"><div class="chead"><h2>Money manager</h2><span class="sub">Claude, with your numbers</span></div>
-      <div class="routines" style="grid-template-columns:repeat(2,minmax(0,1fr))"><button class="routine ${ROUTINES.payday.when(NOW) ? "hot" : ""}" data-act="routine" data-v="payday"><b>Payday Plan</b><span>${ROUTINES.payday.desc}</span></button><button class="routine ${ROUTINES.money.when(NOW) ? "hot" : ""}" data-act="routine" data-v="money"><b>Money Check-in</b><span>${ROUTINES.money.desc}</span></button></div>
-      <div class="chips" style="padding-top:0">${["Can I afford $150 on workout clothes this week?", "How much should Rio cost me?", "Where does my next bills check go?", "What if Rio needs $800?"].map(c => `<button class="chip" data-act="ask" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      ${(m.checks || []).length ? `<div class="lbl">Checks logged</div><div class="rows">${[...m.checks].reverse().slice(0, 4).map(c => `<div class="row"><div class="t">${money(c.amount)}<small>${c.date} · ${c.kind}</small></div></div>`).join("")}</div>` : `<div class="stale">No bank is connected, so tell the manager your check amounts on payday and it does the split.</div>`}</section>
-    <section class="card span3"><div class="chead"><h2>Paycheck split planner</h2><span class="sub">Each payday on the plan · edit any amount</span></div>
-      ${pays.length ? `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr))">${pays.map(p => { const pl = plan(p.date), row = planRow(p.date), save = pl.save ?? (row?.save ?? (p.kind === "living" ? LIVING_SAVE : BILLS_SKIM)), amt = pl.amount ?? row?.pay, owed = row ? committed(row) : p.kind === "bills" ? billsDue(p.date) : 0, left = amt ? amt - save - owed : null; return `<div class="trip"><div class="chead"><b style="font-weight:600;font-size:15px">${fmt(parseD(p.date), { weekday: "short", month: "short", day: "numeric" })}</b><span class="pill ${p.kind === "living" ? "b2" : "b0"}">${p.kind === "living" ? "Living" : "Bills"}</span></div>
-        <div class="split"><span>Check amount${pl.amount == null && row?.pay ? " (plan)" : ""}</span><input class="field tnum" type="number" data-plan="amount" data-d="${p.date}" value="${pl.amount ?? ""}" placeholder="${row?.pay ? row.pay : "$"}"><span>Departure Fund</span><input class="field tnum" type="number" data-plan="save" data-d="${p.date}" value="${save}"><span>${row ? "Committed" : p.kind === "living" ? "Groceries · gas · life" : "Bills due before next check"}${row ? `<small class="sub" style="display:block">${Object.entries(row.costs || {}).map(([k, v]) => `${esc(k)} ${money(v)}`).join(" · ")}</small>` : ""}</span><span class="tnum">${money(owed)}</span>${left !== null ? `<span>Left over</span><span class="tnum" style="color:${left < 0 ? "var(--wine)" : "inherit"}">${money(left)}</span>` : ""}${pl.done ? `<span class="tot" style="grid-column:1/-1;color:var(--sage-ink)">Deposited ✓</span>` : `<button class="btn sm" style="grid-column:1/-1;justify-self:start" data-act="plan-done" data-d="${p.date}" data-v="${save}">Mark deposited (+${money(save)})</button>`}</div></div>`; }).join("")}</div>` : `<div class="empty">Set a payday first.</div>`}</section>
-  </div>`;
-}
+    return `<div class="lbl">Budget after rehab · monthly · ${money(bud.income)}</div>
+      <div class="rows">${groups.map(g => `<div class="row" style="padding:6px 0"><div class="t">${g}<small>${bud.lines.filter(l => l.group === g).map(l => `${esc(l.name)} ${money(l.amount)}`).join(" · ")}</small></div><span class="tnum" style="font-weight:600">${money(byG(g))}</span></div>`).join("")}</div>
+      ${billsLine && realBills > billsLine.amount ? `<div class="notice wine">Your other bills (${money(realBills)}) are over the ${money(billsLine.amount)} this budget allows.</div>` : ""}`; })() : "";
+  const moreCard = `<section class="card span3"><details ${det("money-more")}><summary class="chead" style="cursor:pointer"><h2>More</h2><span class="lbl">bills · budget · settings · history</span></summary>
+      <div class="lbl">Bills · ${money((m.bills || []).reduce((a, b) => a + b.amount, 0))}/mo</div>
+      <div class="rows">${[...(m.bills || [])].sort((a, b) => a.day - b.day).map(b => `<div class="row"><div class="t">${esc(b.name)}<small>due on the ${b.day}</small></div><span class="tnum">${money(b.amount)}</span><button class="x" data-act="bill-rm" data-id="${b.id}" aria-label="Remove">×</button></div>`).join("") || `<div class="empty">No bills listed.</div>`}</div>
+      <form class="addrow" data-form="bill"><input class="field" id="bill-name" placeholder="Bill (phone, insurance…)" required autocomplete="off"><input class="field tnum" id="bill-amt" type="number" placeholder="$" required style="flex:0 0 70px"><input class="field tnum" id="bill-day" type="number" min="1" max="31" placeholder="Day" style="flex:0 0 60px"><button class="btn solid">Add</button></form>
+      ${budget}
+      <div class="lbl">Settings</div>
+      <div class="split" style="margin-bottom:8px"><span>Weekly cash cap</span><input class="field tnum" id="rehab-cap" type="number" inputmode="decimal" value="${cap ?? ""}" placeholder="$"><span>Rehab starts</span><input class="field" id="rehab-start" type="date" value="${esc(rs.r.start)}" style="width:140px"><span>Next payday</span><input class="field" id="pay-date" type="date" value="${esc(m.nextPayday || "")}" style="width:140px"><span>That check is</span><select class="field" id="pay-kind" style="width:140px"><option value="living" ${m.nextKind === "living" ? "selected" : ""}>Living</option><option value="bills" ${m.nextKind === "bills" ? "selected" : ""}>Bills</option></select></div>
+      <button class="btn sm" data-act="rehab-save">Save cap</button>
+      <div class="lbl" style="margin-top:12px">Savings history</div>
+      <div class="rows">${[...m.log].reverse().slice(0, 8).map(l => `<div class="row"><div class="t">${l.amount >= 0 ? "Saved" : "Took out"} ${money(Math.abs(l.amount))}<small>${l.date}${l.note ? " · " + esc(l.note) : ""}</small></div></div>`).join("") || `<div class="empty">Nothing logged yet.</div>`}</div>
+      ${m.planFacts ? `<div class="lbl" style="margin-top:12px">How the plan works</div><div class="sub">${esc(m.planFacts)}</div>` : ""}
+    </details></section>`;
 
+  return `<div class="grid g3">${fundCard}${weekCard}${payCard}${managerCard}${moreCard}</div>`;
+}
 /* ---- TRAVEL ---- */
 function pageTravel() {
   const t = travel();
