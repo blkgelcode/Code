@@ -24,7 +24,9 @@ Don't skip a stage, don't reorder them, and never go past stop.
 3. `podcast/EPISODES.md`, `podcast/locked.json`,
    `brand-bible/brands/uglyinbetween.md`, and the corrections log in
    `brand-bible/CREATIVE_MEMORY.md`.
-4. `podcast/episodes/epNN/_inbox/from_chat.md`, if it exists. Her newest
+4. `podcast/_inbox/from_chat.md` (show-level decisions, e.g. where
+   footage lives and how she reviews masters) and
+   `podcast/episodes/epNN/_inbox/from_chat.md`, if it exists. Her newest
    notes win over anything older. A `HOLD` entry means stop after the
    spec.
 
@@ -112,7 +114,8 @@ Build to podcast/episodes/epNN/spec.md. Read manifest.json and the
 handoff notes of the roles before you in roles/.
 
 Hard limits:
-- Never publish, upload, schedule or post anything anywhere.
+- Never publish, upload, schedule or post anything anywhere. Never write to
+  Google Drive, Rella or any other platform (reading her Drive docs is fine).
 - Her words only: you may order and trim her recorded speech. You may not
   add, paraphrase, re-record, generate or "clean up" any line, including in
   captions. Pauses, sighs and voice cracks stay.
@@ -156,10 +159,11 @@ python3 .claude/skills/podcast-episode/scripts/verify.py podcast/episodes/epNN -
 
 ## 5. Report, then stop
 
-1. Put the masters where she can review them: upload to Drive under the
-   podcast's **Show Episodes → Long-Form / Short-Form** folders when the
-   connector can take the file size. Otherwise say where they are and
-   that the container is temporary.
+1. **Don't put anything on Drive, Rella or any platform (R1).** Masters
+   stay in `epNN/media/out/` (gitignored). Give their exact paths. If the
+   session is a cloud container, say so: the files disappear when the
+   session ends. Follow whatever review method she has set in
+   `podcast/_inbox/from_chat.md`.
 2. Commit the repo-side files (spec, manifest, copy, roles notes,
    verify_report.md, EPISODES.md), never media, and push.
 3. Add a "ready for sign-off" (or "blocked") entry to `from_code.md` with
@@ -168,12 +172,15 @@ python3 .claude/skills/podcast-episode/scripts/verify.py podcast/episodes/epNN -
    notes, thumbnail concept, and on the first episode the intro/outro
    lock.
 4. Tell her in two or three lines where it is and what needs her.
-5. **Stop.** Nothing gets uploaded, scheduled, or posted, even after she
-   signs off. She publishes.
+5. **Stop.** Nothing gets uploaded, scheduled, or posted, and nothing goes
+   to Drive or Rella. She publishes.
 
 ## After sign-off
 
 When `from_chat.md` has `SIGN-OFF: Ep N`:
+- If the sign-off entry asks for it, copy the approved files to the Drive
+  folder it names, and nothing else. Without that request, nothing goes
+  to Drive.
 - On the **first** signed-off episode only, write the theme, intro-card,
   and outro-card sha256 values from `verify_report.md` into
   `podcast/locked.json`, set `locked_on_episode`, and commit. From then

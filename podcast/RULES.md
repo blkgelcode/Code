@@ -11,7 +11,7 @@ reported as done.
 
 | # | Rule | What "met" means | How it's verified |
 |---|---|---|---|
-| R1 | **Nothing publishes without her sign-off.** | The chain stops at "ready for sign-off." No uploads, schedules, or posts to any platform (Metricool, YouTube, TikTok, Instagram, OpusClip, Rella, vidIQ). Publishing tools are also denied in `.claude/settings.json`. | Process rule, plus the settings deny list |
+| R1 | **Nothing publishes, and nothing goes to Drive, Rella, or any platform, without her sign-off.** | Before a `SIGN-OFF: Ep N` line exists in that episode's `from_chat.md`, nothing is written, uploaded, copied, shared, scheduled or posted to Google Drive, Rella, Metricool, YouTube, TikTok, Instagram, OpusClip, vidIQ or any other platform. Reading her script and blog post from Drive is allowed. After sign-off, Code may copy approved files to Drive only if the sign-off entry asks for it. Code never publishes. She does. | Skill gate on the sign-off line. In `.claude/settings.json`, publishing tools are denied and Drive/Rella write tools require approval every time. |
 | R2 | **−16 LUFS on both audio and video.** | Every deliverable (audio master, video master, every vertical) measures −16 LUFS integrated, ±0.5 LU. | `ffmpeg ebur128` on each file |
 | R3 | **Cold open stays music-free.** | The music bus is silent (below −60 dB peak) from the cold open's start to its end. | `ffmpeg volumedetect` on the music stem over that range |
 | R4 | **One consistent intro/outro across every episode.** | Same theme file, intro card, and outro card, byte-for-byte, in every episode. The first approved episode sets the lock in `locked.json`. | sha256 against `locked.json` |

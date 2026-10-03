@@ -43,6 +43,11 @@ below are history and keep the old name.
 
 ## Podcast episode pipeline locked (2026-10-03)
 
+**R1 widened later the same day:** nothing goes to Drive, Rella or any
+platform without her sign-off, not just "nothing publishes." The skill no
+longer uploads review masters to Drive before sign-off. Where she reviews
+masters is an open question in `podcast/_inbox/from_code.md` (Q1).
+
 She asked for a `/podcast-episode <N>` skill
 (`.claude/skills/podcast-episode/`) and locked seven rules for every
 @uglyinbetween episode: sign-off before anything publishes; −16 LUFS on

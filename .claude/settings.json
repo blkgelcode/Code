@@ -10,7 +10,22 @@
       "mcp__Higgsfield_MCP__tiktok_prepare_publish",
       "mcp__Higgsfield_MCP__publish_website",
       "mcp__Rella__create_rella_content",
-      "mcp__Rella__update_rella_content"
+      "mcp__Rella__update_rella_content",
+      "mcp__Rella__attach_rella_media_to_content"
+    ],
+    "ask": [
+      "mcp__Google_Drive__create_file",
+      "mcp__Google_Drive__update_file",
+      "mcp__Google_Drive__copy_file",
+      "mcp__Google_Drive__share_file",
+      "mcp__Google_Drive__trash_file",
+      "mcp__Rella__create_rella_tasks",
+      "mcp__Rella__update_rella_tasks",
+      "mcp__Rella__create_rella_notes",
+      "mcp__Rella__update_rella_notes",
+      "mcp__Rella__create_rella_projects",
+      "mcp__Rella__create_rella_statuses",
+      "mcp__Rella__create_rella_tags"
     ]
   }
 }
