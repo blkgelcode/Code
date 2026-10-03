@@ -6,7 +6,7 @@ asks her before doing anything else, then updates the row.
 
 | N | Title | Script + blog post | Status |
 |---|---|---|---|
-| 0 | I Wish Someone Had Told Me | [Drive doc](https://docs.google.com/document/d/1Lmtqy24y9LkTGsRNncCcT9iA46QBrsmXK7-xtuIBkt4/edit) (blog post + script in one doc) | Script locked; not filmed. **Resources block is still a placeholder**, so R7 blocks show notes until it's filled. |
+| 0 | I Wish Someone Had Told Me (shares the show's name) | [Drive doc](https://docs.google.com/document/d/1Lmtqy24y9LkTGsRNncCcT9iA46QBrsmXK7-xtuIBkt4/edit) (blog post + script in one doc) | Script locked; not filmed. **Resources block is still a placeholder**, so R7 blocks show notes until it's filled. |
 
 ## Drafts not yet numbered
 

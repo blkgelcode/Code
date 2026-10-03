@@ -272,7 +272,9 @@ Series names — use exactly: **"Young & Outside in [Location]"**, **"SCENT
 PASSPORT"**. Never use retired names ("Young Hot & Outside," "Fuck It Book
 It," "STAMPED").
 
-### @uglyinbetween — Podcast
+### I Wish Someone Had Told Me (@uglyinbetween, handle changing) — Podcast
+
+Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
 
 **This brand overrides the shared toolkit, not just varies it.**
 
@@ -307,22 +309,10 @@ Shifts; Smash Cut (single deliberate gut-punch moment, used sparingly).
 **Explicitly does not fit:** any fast-cut, graphic-heavy pop-up/SFX style
 — that's the opposite of this brand's one-take rule.
 
-**Visual identity:**
-- Woman fully composed from the neck down, raw emotion visible on the face
-  only — contrasted against one polished/glamorous "together" shot in the
-  same set.
-- Black-and-white, high-contrast portraiture.
-- Smudged/running dark makeup as the emotional-rawness motif.
-- Recurring icons: wilting flowers, cracked phone screens, half-erased
-  journals.
-- Palette: deep aubergine `#3A2E39` + faded terracotta `#DDBEA9`.
-- Type: Garamond Italic headlines / Helvetica Neue Light body — **except**
-  thumbnail headlines specifically, which use **Eighties Comeback**
-  (supersedes Garamond Italic in that one role only; Garamond
-  Italic/Helvetica Neue Light still governs everything else).
-
-If a trending thumbnail convention conflicts with this raw B&W aesthetic,
-flag it and let her decide — don't chase the trend over the locked identity.
+**Visual identity: under review since the 2026-10-03 rename.** The
+previous look (B&W portraiture, aubergine/terracotta palette,
+Garamond/Helvetica type, Eighties Comeback thumbnail headlines) is not
+locked. Don't apply it by default. Ask.
 
 ---
 
@@ -330,6 +320,9 @@ flag it and let her decide — don't chase the trend over the locked identity.
 
 Don't treat any of the following as a rule; ask or flag instead:
 
+- The podcast's visual identity, tagline, pillars, brand hashtag and new
+  handle: all under review since the 2026-10-03 rename to "I Wish Someone
+  Had Told Me".
 - Exact exposure/contrast/highlights/shadows/saturation targets beyond the
   named LUTs — not specified anywhere yet.
 - The Yale Jeannette-style graphic/pop-up/SFX pack (staggered word

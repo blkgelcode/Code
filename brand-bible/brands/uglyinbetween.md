@@ -1,17 +1,32 @@
-# The Ugly In Between (@uglyinbetween) — Podcast
+# I Wish Someone Had Told Me (@uglyinbetween, handle changing) — Podcast
+
+> **Renamed 2026-10-03.** The show is now *I Wish Someone Had Told Me*. *The Ugly In
+> Between* is a retired name, so don't use it. She has chosen a new handle
+> but hasn't given it yet, so `@uglyinbetween` references (and Metricool)
+> stay as they are until she does.
+>
+> **Identity under review, not locked:** the tagline, the Five Pillars, the
+> whole Visual Identity section (B&W look, icons, palette, type, thumbnail
+> font) and the brand hashtag. Those sections below are the previous
+> version, kept for reference. Flag them rather than apply them as rules,
+> and ask when a deliverable needs one.
+> **Still locked:** the sign-off *"Stay ugly."*, the voice, the production
+> approach (one take, documentarian rule) and the episode rules in
+> `../../podcast/RULES.md`.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context. This is the brand
 most visually and editorially distinct from the other two — treat its
 rules as overrides, not variations, of the shared toolkit.
 
 ## Identity
-- Tagline: *"Where growth isn't pretty, but it's real."*
-- Sign-off: *"Stay ugly."* / full form *"Stay ugly. See you in the
-  in-between."*
+- Tagline *(under review)*: *"Where growth isn't pretty, but it's real."*
+- Sign-off: *"Stay ugly."* (kept through the 2026-10-03 rename). The old
+  full form *"Stay ugly. See you in the in-between."* points to the old
+  name, so it's under review. Don't use it until she confirms.
 - Core thesis: going past the pretty surface of "having it together" into
   the actual mess of healing.
 
-## Five Pillars
+## Five Pillars (under review)
 Radical Permission to Be Messy · Sacredness of Backsliding · Joy Is
 Suspicious · Community Over Counsel · Beauty in Unfinished Endings.
 
@@ -38,9 +53,9 @@ Bible doc's more dramatic style; don't drift back toward that register.
 - **Physical set/studio reference (2026-09-11):** warm neutral, cozy
   environment — cream/oatmeal boucle bean bags, small wood side tables, a
   single warm-toned directional studio light, minimal styling (two mugs,
-  one mic on a stand). This describes the **recording space only** — final
-  visual output still gets the locked B&W high-contrast treatment below;
-  the room's actual color doesn't change that. Confirmed scope: studio/set
+  one mic on a stand). This describes the **recording space only**. The
+  final visual treatment is under review since the 2026-10-03 rename (it
+  was B&W high-contrast); the room's actual color doesn't set it. Confirmed scope: studio/set
   inspiration only, not a format or palette change.
 - **Documentarian rule applies fully and without exception here** — this
   brand is explicitly exempt from the talking-head explainer exception
@@ -68,7 +83,7 @@ Bible doc's more dramatic style; don't drift back toward that register.
   brand's one-take, keep-the-pauses rule. That reference is for
   @blkgrlco/@blkgrlcotoo only.
 
-## Visual Identity
+## Visual Identity (under review: previous version, not locked)
 - Woman fully composed from the neck down, raw emotion visible on the face
   only — contrasted against one polished/glamorous "together" shot in the
   same set to visualize the surface-vs-underneath tension.
@@ -98,7 +113,7 @@ Bible doc's more dramatic style; don't drift back toward that register.
   term from the episode's actual pillar (e.g. Ep1 "The First-Born Daughter
   Burden") rather than a generic "mental health podcast" tag.
 - Hashtag tiers: broad (#healingjourney) / niche (#selfhealers) / brand
-  (#uglyinbetween).
+  (#uglyinbetween; under review, changes with the handle).
 - Hook patterns (Idea Bank): contrarian/counterintuitive angle, concrete
   anecdote with real stakes, confession, debate moment, direct
   takeaway/question.

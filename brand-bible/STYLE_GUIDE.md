@@ -231,5 +231,6 @@ produce at correct spec.
   4-panel grid template → `brands/blkgrlco.md`.
 - @blkgrlcotoo's locked palette (navy/marigold/sand/raspberry/periwinkle) →
   `brands/blkgrlcotoo.md`.
-- @uglyinbetween's full visual identity (B&W portraiture, aubergine/
-  terracotta palette, Garamond/Helvetica type) → `brands/uglyinbetween.md`.
+- The podcast's visual identity → `brands/uglyinbetween.md`. Under
+  review since its 2026-10-03 rename to *I Wish Someone Had Told Me*, so the previous B&W /
+  aubergine-terracotta / Garamond-Helvetica look is not locked.

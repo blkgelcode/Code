@@ -26,7 +26,7 @@ and cracks stay (documentarian rule).
 | id | kind | spec | captions | owner role |
 |---|---|---|---|---|
 | audio_master | audio | −16 LUFS (R2) | n/a | audio master |
-| video_master | video | B&W high-contrast, −16 LUFS | SRT (R5) | video edit → audio master |
+| video_master | video | look per spec (identity under review), −16 LUFS | SRT (R5) | video edit → audio master |
 | vertical_NN | vertical | 1080×1920, −16 LUFS | SRT + burned-in | verticals |
 | copy | text | titles, description, show notes (R7), thumbnail concepts | — | packaging |
 

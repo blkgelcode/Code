@@ -1,6 +1,6 @@
 ---
 name: podcast-episode
-description: Run the full production chain for one episode of The Ugly In Between (@uglyinbetween): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, verticals, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
+description: Run the full production chain for one episode of the podcast I Wish Someone Had Told Me (formerly The Ugly In Between, @uglyinbetween): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, verticals, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
 argument-hint: <episode number>
 ---
 
@@ -98,7 +98,7 @@ Wait for each stage's handoff note before launching the next stage. Use
 this prompt for every role, filling in the brackets:
 
 ```
-You are the <ROLE> for The Ugly In Between, Ep <N>. Repo: /home/user/Code.
+You are the <ROLE> for I Wish Someone Had Told Me, Ep <N>. Repo: /home/user/Code.
 Episode folder: podcast/episodes/epNN/.
 
 Your role brief, from podcast/PLAYBOOK.md (follow it exactly):
@@ -131,11 +131,11 @@ What each role produces, unless the playbook says otherwise:
 
 | Role | Owns | Notes |
 |---|---|---|
-| video edit | `video_master` (picture + her dialogue), `video_master.txt` (built from the edit list's raw words), `video_master.srt` | B&W high-contrast. Every cut comes from `raw_words.json` timestamps. |
+| video edit | `video_master` (picture + her dialogue), `video_master.txt` (built from the edit list's raw words), `video_master.srt` | Look per the brand file. The visual identity is under review, so if the spec doesn't set the look, ask. Every cut comes from `raw_words.json` timestamps. |
 | sound design | theme edit, intro card, outro card, `music_stem` (full-length music bus aligned to the master), `cold_open` in the manifest | Theme = the locked Epidemic Sound recording. Cold open has no music at all. Intro follows the cold open. Theme comes in under her "Stay ugly." take. After the first sign-off, reuse the locked asset files exactly (R4). |
 | audio master | `audio_master` and the final mix on `video_master`, both at −16 LUFS (R2) | One-pass `loudnorm` misses on short files. Measure, apply exact gain or use two-pass, then re-measure. |
 | verticals | `vertical_NN` files: 1080×1920, captions burned in + `.srt`, −16 LUFS, a transcript each | Cut only from her words, and never from inside the cold open with music added. |
-| packaging | `copy/show_notes.md`, titles, description, tags, thumbnail concepts | Show notes contain the blog's Resources block verbatim (R7). Quotes attributed to her are verbatim. No AI thumbnails. Eighties Comeback for thumbnail headlines. SEO follows `uglyinbetween.md`. |
+| packaging | `copy/show_notes.md`, titles, description, tags, thumbnail concepts | Show notes contain the blog's Resources block verbatim (R7). Quotes attributed to her are verbatim. No AI thumbnails. The thumbnail look and font are under review, so propose and don't assume. SEO follows `uglyinbetween.md`. Never use the retired name "The Ugly In Between". |
 
 ## 4. Verify before you report
 

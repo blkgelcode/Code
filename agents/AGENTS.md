@@ -79,7 +79,7 @@ guessing.
 **BLKGRLCO-specific:** a transcript take marked "lululu"/"la la la" is a flub
 marker — cut that take. Silence/dead-air handling is project-dependent (see
 `brand-bible/STYLE_GUIDE.md`) — talking-head/daily-vlog content gets all
-dead air cut, *The Ugly In Between* keeps it. Every cut lands on a body
+dead air cut, *I Wish Someone Had Told Me* (the podcast) keeps it. Every cut lands on a body
 movement, never a camera reposition.
 
 Learns from examples into `brand-bible/STYLE_GUIDE.md` (editing section):

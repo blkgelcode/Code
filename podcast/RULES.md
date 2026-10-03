@@ -1,4 +1,4 @@
-# The Ugly In Between — Locked Episode Rules
+# I Wish Someone Had Told Me — Locked Episode Rules
 
 Locked by Omnia on 2026-10-03. These override anything in
 `PLAYBOOK.md` or any role brief that conflicts with them. If a role thinks
@@ -39,5 +39,7 @@ reported as done.
 
 One take; keep voice cracks, sighs, and pauses. The documentarian rule
 applies fully: never cut her silence the way explainer content gets cut.
-Minimal-to-no music beyond the locked theme. B&W high-contrast look.
-Thumbnail headlines in Eighties Comeback. No AI-generated thumbnails, ever.
+Minimal-to-no music beyond the locked theme. No AI-generated thumbnails,
+ever. The visual identity (look, palette, type, thumbnail font) is **under
+review** since the 2026-10-03 rename. Don't assume the old B&W /
+aubergine-terracotta / Eighties Comeback look. Propose, and ask.

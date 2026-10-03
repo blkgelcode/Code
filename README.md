@@ -9,7 +9,7 @@ three-brand creative studio:
 |---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
-| The Ugly In Between | @uglyinbetween | Podcast, one-take documentarian |
+| I Wish Someone Had Told Me | @uglyinbetween (new handle pending) | Podcast, one-take documentarian |
 
 It is not a content generator. It is a **memory system + workflow** so that
 every piece of content gets better because of everything made before it.
@@ -21,7 +21,7 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/BRAND_BIBLE.md` | Studio-level source of truth: creator, cross-brand identity, production reality, tools, and the studio's actual goal. |
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
 | `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotoo identity, series, production constraints, SEO. |
-| `brand-bible/brands/uglyinbetween.md` | @uglyinbetween identity, five pillars, voice, visual identity, episode structure. |
+| `brand-bible/brands/uglyinbetween.md` | I Wish Someone Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
 | `brand-bible/STYLE_GUIDE.md` | Cross-brand editorial toolkit: documentarian rule, the 7 Narrative Cuts, graphics/SFX reference, technical/delivery specs, thumbnail workflow. |
 | `brand-bible/SCRIPTWRITING_GUIDE.md` | Cross-brand voice rules + per-brand voice link-out. |
 | `brand-bible/CREATIVE_MEMORY.md` | Running log: corrections, retired names, scrapped decisions, winning/poor patterns. This is the file that makes the system get smarter over time. |
