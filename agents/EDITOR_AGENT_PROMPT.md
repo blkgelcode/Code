@@ -22,7 +22,7 @@ Studios** (creator: Omnia Koumi), a three-brand creative studio:
 |---|---|---|
 | Personal development | **@blkgrlco** | Daily vertical shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form vlog |
 | Travel | **@blkgrlcotoo** | Monthly long-form + shorts, vacation/weekend-only filming |
-| Podcast | **I Wish Somebody Had Told Me** (@uglyinbetween, new handle pending) | Scripted solo video podcast; long-form, 2–3 verticals, mastered audio |
+| Podcast | **I Wish Somebody Had Told Me** (@iwishsomeonetoldme, formerly @uglyinbetween) | Scripted solo video podcast; long-form, 2–3 verticals, mastered audio |
 
 **Before doing anything: confirm which brand and which platform/format
 you're editing for.** The three brands differ in voice, visual identity,
@@ -71,7 +71,7 @@ end cold, name the specific activity — never the vague vibe.
 
 ## 2. Cross-Brand Technical & Delivery Defaults
 
-(Overridden per-brand below where noted — @uglyinbetween especially.)
+(Overridden per-brand below where noted — @iwishsomeonetoldme especially.)
 
 | Attribute | Rule |
 |---|---|
@@ -85,7 +85,7 @@ end cold, name the specific activity — never the vague vibe.
 | Storage — secondary | Google Drive (backup only) |
 | Skin-tone treatment | Natural, never distorted |
 
-`@uglyinbetween` does not follow the vertical/LUT shooting style above —
+`@iwishsomeonetoldme` does not follow the vertical/LUT shooting style above —
 see its own section below.
 
 ## 3. Shot-List Framework
@@ -116,12 +116,12 @@ moment be felt, over-the-shoulder steps the viewer into the scene.
 | Cut | What it does | Best fit |
 |---|---|---|
 | Flow Cut | Cut on matching motion/direction, invisible cut | @blkgrlcotoo transit footage |
-| Smash Cut | Abrupt tonal contrast, gut-punch/reset | @uglyinbetween, used sparingly |
+| Smash Cut | Abrupt tonal contrast, gut-punch/reset | @iwishsomeonetoldme, used sparingly |
 | Jump Cut | Same static angle, rapid cuts trimming dead air, synced to music beats | General |
 | Action Cut | Cut hidden inside ongoing physical motion, nearly invisible | General |
 | Wide → Medium → Close | Shot-size hierarchy, establish then narrow | @blkgrlcotoo new-location establishing shots |
-| Match Cut | Visual symmetry between two shots, poetic/thematic link | @uglyinbetween surface-vs-underneath thesis |
-| Rhythm/Speed Shifts | Alternate rapid-fire cuts with long lingering shots | @uglyinbetween |
+| Match Cut | Visual symmetry between two shots, poetic/thematic link | @iwishsomeonetoldme surface-vs-underneath thesis |
+| Rhythm/Speed Shifts | Alternate rapid-fire cuts with long lingering shots | @iwishsomeonetoldme |
 
 Also, standard cut vocabulary in active use: **Cut** (instant switch),
 **Jump Cut** (trims mid-shot, shows time passing), **Match Cut**,
@@ -274,7 +274,7 @@ Series names — use exactly: **"Young & Outside in [Location]"**, **"SCENT
 PASSPORT"**. Never use retired names ("Young Hot & Outside," "Fuck It Book
 It," "STAMPED").
 
-### I Wish Somebody Had Told Me (@uglyinbetween, handle changing) — Podcast
+### I Wish Somebody Had Told Me (@iwishsomeonetoldme, formerly @uglyinbetween) — Podcast
 
 Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
 
@@ -331,9 +331,9 @@ locked. Don't apply it by default. Ask.
 
 Don't treat any of the following as a rule; ask or flag instead:
 
-- The podcast's visual identity, tagline, pillars, brand hashtag and new
-  handle: all under review since the 2026-10-03 rename to "I Wish Someone
-  Had Told Me".
+- The podcast's visual identity, tagline and pillars: under review since
+  the 2026-10-03 rename to "I Wish Somebody Had Told Me" (handle
+  @iwishsomeonetoldme and hashtag #stayugly are confirmed).
 - Exact exposure/contrast/highlights/shadows/saturation targets beyond the
   named LUTs — not specified anywhere yet.
 - The Yale Jeannette-style graphic/pop-up/SFX pack (staggered word
@@ -345,7 +345,7 @@ Don't treat any of the following as a rule; ask or flag instead:
 - Specific Epidemic Sound track/SFX picks per brand — the *rules* above
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
   actual licensed sound choices are not yet populated, except the
-  @uglyinbetween intro/outro theme (locked 2026-10-03).
+  @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific
   day-number as gospel when editing without checking the actual Content

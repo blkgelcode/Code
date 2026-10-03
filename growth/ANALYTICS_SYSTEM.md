@@ -16,13 +16,13 @@ growth-chasing framing into reports or recommendations.
   @blkgrlco (Instagram, Pinterest, TikTok, YouTube — still the only brand
   with real posting history: 120 subs / 4 videos as of original
   connection, plus 4 confirmed TikTok posts as of 2026-09-11), @blkgrlcotoo
-  and @uglyinbetween (Instagram, TikTok, YouTube — both brand new, no
+  and @iwishsomeonetoldme (Instagram, TikTok, YouTube — both brand new, no
   published content on any network yet).
 - **vidIQ** — connected to @blkgrlcotoo's YouTube (brand new, no content
   yet as of last check). Usable for general/competitor keyword research,
   trend data, and outliers — not yet for own-channel performance, since
   there's nothing to analyze.
-- **@uglyinbetween** — no analytics tool connected yet.
+- **@iwishsomeonetoldme** — no analytics tool connected yet.
 - No live YouTube algorithm/analytics access exists anywhere in this
   toolkit. Research is grounded in live web search only — every report
   should say so rather than overclaiming insider access.

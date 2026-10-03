@@ -1,13 +1,14 @@
-# I Wish Somebody Had Told Me (@uglyinbetween, handle changing) — Podcast
+# I Wish Somebody Had Told Me (@iwishsomeonetoldme, formerly @uglyinbetween) — Podcast
 
 > **Renamed 2026-10-03.** The show is now *I Wish Somebody Had Told Me*. *The Ugly In
-> Between* is a retired name, so don't use it. She has chosen a new handle
-> but hasn't given it yet, so `@uglyinbetween` references (and Metricool)
-> stay as they are until she does.
+> Between* is a retired name, so don't use it. **Handle:**
+> `@iwishsomeonetoldme` (formerly `@uglyinbetween`). **Brand hashtag:**
+> `#stayugly`. Both were confirmed 2026-10-03. The handle says "someone";
+> the show says "Somebody". That's hers, so don't "fix" either.
 >
 > **Identity under review, not locked:** the tagline, the Five Pillars, the
 > whole Visual Identity section (B&W look, icons, palette, type, thumbnail
-> font) and the brand hashtag. Those sections below are the previous
+> font). Those sections below are the previous
 > version, kept for reference. Flag them rather than apply them as rules,
 > and ask when a deliverable needs one.
 > **Source of truth since 2026-10-03:** her [Show Hub doc](https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6). It
@@ -122,7 +123,7 @@ is retired.
   term from the episode's actual pillar (e.g. Ep1 "The First-Born Daughter
   Burden") rather than a generic "mental health podcast" tag.
 - Hashtag tiers: broad (#healingjourney) / niche (#selfhealers) / brand
-  (#uglyinbetween; under review, changes with the handle).
+  (#stayugly, confirmed 2026-10-03).
 - Hook patterns (Idea Bank): contrarian/counterintuitive angle, concrete
   anecdote with real stakes, confession, debate moment, direct
   takeaway/question.
@@ -132,6 +133,9 @@ is retired.
 
 ## Connected Tools
 
+- **Metricool:** the connection (id 6918899) was made under the old
+  @uglyinbetween handle. Once the platform handles are renamed, check that
+  it still points at the same Instagram/TikTok/YouTube accounts.
 - **Metricool connected as of 2026-09-10** (id 6918899) — Instagram,
   TikTok, YouTube. Brand new: no published content found on any of those
   three networks as of a 2026-09-11 check — consistent with the podcast

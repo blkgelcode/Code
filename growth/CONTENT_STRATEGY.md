@@ -1,7 +1,7 @@
 # Content Strategy
 
 Three brands, one studio: @blkgrlco (personal development), @blkgrlcotoo
-(travel), @uglyinbetween (podcast). Confirm which brand before applying
+(travel), @iwishsomeonetoldme (podcast). Confirm which brand before applying
 anything below — pillars, cadence, and even the production rhythm differ by
 brand. See `../brand-bible/brands/` for each brand's full pillar/series
 detail; this file covers the cross-brand mechanics.
@@ -37,7 +37,7 @@ Per-brand hook patterns (Idea Bank):
   Results First, Mistake Warning, Direct Question, POV/Relatable.
 - **@blkgrlcotoo:** compliment-getter recommendation, value/dupe
   comparison, fixable-mistake tip, mood-visual + specific detail.
-- **@uglyinbetween:** contrarian/counterintuitive angle, concrete anecdote
+- **@iwishsomeonetoldme:** contrarian/counterintuitive angle, concrete anecdote
   with real stakes, confession, debate moment, direct takeaway/question.
 
 ## The content ecosystem model
@@ -90,7 +90,7 @@ open up?"
 |---|---|---|
 | @blkgrlco | YouTube, Instagram, TikTok, Pinterest | Only brand with real posting history (Metricool: 120 subs / 4 videos at connection; 4 confirmed TikTok posts as of 2026-09-11). |
 | @blkgrlcotoo | YouTube (vidIQ + Metricool connected, brand new — no published content on any network yet as of 2026-09-11) | |
-| @uglyinbetween | YouTube/Instagram/TikTok (Metricool connected 2026-09-10, brand new — no published content yet) | |
+| @iwishsomeonetoldme | YouTube/Instagram/TikTok (Metricool connected 2026-09-10, brand new — no published content yet) | |
 
 ## Content calendar framework
 

@@ -26,7 +26,7 @@ Status: scaffold only as of 2026-09-11 — nothing populated yet.
 |---|---|---|---|
 | @blkgrlco | `[NEEDS INPUT]` | — | Music chosen before shooting, not added in post (studio-wide rule) — so this should reflect what's actually picked pre-shoot, not a generic mood board. |
 | @blkgrlcotoo | `[NEEDS INPUT]` | — | |
-| @uglyinbetween | Per the playbook: locked intro/outro + optional light bed under sections; cold open dry | **Intro/outro theme, locked 2026-10-03:** "I Deserve Better (Instrumental Version)", spring gang (Epidemic Sound `9a1a4af2-55e9-3bbe-8614-b9a26a6fae83`, 93 BPM, stems). Picked by her from a 3-track shortlist (vs. "The Letter", Rikard From; "222", Sarah, the Illstrumentalist). Same edit every episode, never in the cold open. See `../podcast/RULES.md`. | Given the one-take/raw documentary rule, confirm whether this library applies at all here, or only for rare moments (e.g. a Match Cut/Smash Cut beat). |
+| @iwishsomeonetoldme | Per the playbook: locked intro/outro + optional light bed under sections; cold open dry | **Intro/outro theme, locked 2026-10-03:** "I Deserve Better (Instrumental Version)", spring gang (Epidemic Sound `9a1a4af2-55e9-3bbe-8614-b9a26a6fae83`, 93 BPM, stems). Picked by her from a 3-track shortlist (vs. "The Letter", Rikard From; "222", Sarah, the Illstrumentalist). Same edit every episode, never in the cold open. See `../podcast/RULES.md`. | Given the one-take/raw documentary rule, confirm whether this library applies at all here, or only for rare moments (e.g. a Match Cut/Smash Cut beat). |
 
 ## Sound Effects
 
@@ -40,7 +40,7 @@ sounds especially. See `STYLE_GUIDE.md`.
 |---|---|---|---|
 | @blkgrlco | Label-card pops, pattern interrupts, transitions | `[NEEDS INPUT]` | Cross-ref the SFX-per-cut-style table in `STYLE_GUIDE.md` (film-reel clack for montages, paper-swoosh for graphic pop-ins, abrupt silence for Smash Cut, rhythmic taps for Jump Cuts) — specific Epidemic Sound picks for each go here once chosen, as a low/mid/high set where it's a repeated transition sound. |
 | @blkgrlcotoo | Object-label callouts, transitions, graphic pop-ins | `[NEEDS INPUT]` | The Yale Jeannette SFX logic (pop/click on text, camera-shutter on freeze-frames, paper-tear on wipes, whoosh on slides, mouse-click on mock-UI) is the rulebook — this table is where the actual licensed sound for each becomes concrete. |
-| @uglyinbetween | `[NEEDS INPUT]` | — | Not a stated fit for the Yale Jeannette SFX-heavy style (see `STYLE_GUIDE.md`) — if this brand uses SFX at all, it's likely sparse/different in kind, not the same picks as the other two brands. |
+| @iwishsomeonetoldme | `[NEEDS INPUT]` | — | Not a stated fit for the Yale Jeannette SFX-heavy style (see `STYLE_GUIDE.md`) — if this brand uses SFX at all, it's likely sparse/different in kind, not the same picks as the other two brands. |
 
 ## SFX reference clips (2026-09-11)
 

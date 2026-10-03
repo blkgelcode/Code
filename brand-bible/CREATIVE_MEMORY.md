@@ -42,6 +42,18 @@ production approach, the seven episode rules. Ep 0 is "I Wish Someone Had
 Told Me"; the show is "...Somebody...". Dated entries
 below are history and keep the old name.
 
+## Podcast handle, hashtag and storage confirmed (2026-10-03)
+
+Handle **@iwishsomeonetoldme** (formerly @uglyinbetween; "someone" in the
+handle, "Somebody" in the show name, both as she gave them). Brand hashtag
+**#stayugly**. The handle and hashtag are swapped in every current doc;
+source docs and dated history keep the old ones. The Metricool connection
+(id 6918899) was made under the old handle, so check it after the platform
+renames. **Storage:** raw footage is on her T7, which mounts as
+"Untitled". She uploads it to the cloud session, and Code sends the
+finished `EpNN_*` masters back to her to save on Untitled. Details are in
+`podcast/RULES.md` → "Where things live".
+
 ## Podcast playbook received: Show Hub doc (2026-10-03)
 
 She shared her Show Hub doc (https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6).
@@ -155,7 +167,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Editor's Hand** (handwritten captions/quotes only) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
 | @blkgrlcotoo | **TAN Memories** (thumbnail headline font) + **Perfectly Nineties** (secondary/accent), confirmed 2026-09-11 | Fully resolved — no open items on this brand's typography. |
-| @uglyinbetween | Garamond Italic (headlines) / Helvetica Neue Light (body); **thumbnail headline role superseded 2026-09-11 by Eighties Comeback** (stated directly as "for uglyinbetween thumbnails") | **Under review since the 2026-10-03 rename.** Previously: Garamond/Helvetica Neue pre-existing, locked. Eighties Comeback replaces the thumbnail-headline role specifically — flagged as a deliberate change to a previously locked font, not silently swapped. |
+| @iwishsomeonetoldme | Garamond Italic (headlines) / Helvetica Neue Light (body); **thumbnail headline role superseded 2026-09-11 by Eighties Comeback** (stated directly as "for uglyinbetween thumbnails") | **Under review since the 2026-10-03 rename.** Previously: Garamond/Helvetica Neue pre-existing, locked. Eighties Comeback replaces the thumbnail-headline role specifically — flagged as a deliberate change to a previously locked font, not silently swapped. |
 
 ## Confirmed brand palettes
 
@@ -163,7 +175,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | @blkgrlcotoo | `#284376` navy, `#E58E47` marigold, `#D9D1C7` sand, `#CA5278` raspberry, `#6177A8` periwinkle | 2026-09-11, via coolors.co link — explicit, high confidence, supersedes the earlier "no palette locked" placeholder. |
 | @blkgrlco | `#F0DAC2` cream, `#B68A71` tan, `#B4AD7F` sage-tan, `#636407` moss olive, `#A8B118` olive-chartreuse, `#EBB9BA` blush, `#8C0532` wine, `#49001B` oxblood, `#2E1500` espresso | 2026-09-11, confirmed directly (color-generator screenshot) — supersedes the PDF's named colors and the earlier proposed-hex guesses. `#A8B118` matches the already-locked label-card color exactly. |
-| @uglyinbetween | `#3A2E39` aubergine, `#DDBEA9` terracotta | **Under review since the 2026-10-03 rename** (previously locked). |
+| @iwishsomeonetoldme | `#3A2E39` aubergine, `#DDBEA9` terracotta | **Under review since the 2026-10-03 rename** (previously locked). |
 
 ## Source documents ingested (continued)
 | Date | Document | Status |

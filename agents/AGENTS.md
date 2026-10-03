@@ -13,7 +13,7 @@ Shared rules for every agent:
   original version" instead (see Competitor Intelligence, below).
 - Never treat a single example as a permanent brand rule.
 - **Confirm brand + platform before producing anything.** BLKGRLCO Studios
-  is three distinct brands (@blkgrlco, @blkgrlcotoo, @uglyinbetween) — see
+  is three distinct brands (@blkgrlco, @blkgrlcotoo, @iwishsomeonetoldme) — see
   `brand-bible/BRAND_BIBLE.md` §2 — and pillars, voice, hashtag tiers, and
   title conventions differ by both brand and platform.
 - **Nothing auto-publishes.** Every deliverable goes to Omnia for approval,
@@ -174,7 +174,7 @@ creative craft, not subs/watch-hours/monetization — a monetization target
 was set and scrapped the same day in 2026-09 for exactly this reason (see
 `brand-bible/BRAND_BIBLE.md` §9). Frame findings as craft feedback, not a
 growth mandate. Only @blkgrlco has real posting history right now (via
-Metricool); @blkgrlcotoo (vidIQ-connected) and @uglyinbetween have none yet
+Metricool); @blkgrlcotoo (vidIQ-connected) and @iwishsomeonetoldme have none yet
 — say so rather than fabricating trends from near-zero data.
 
 Tracks views, impressions, CTR, avg view duration, retention, watch time,

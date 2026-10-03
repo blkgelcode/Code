@@ -37,7 +37,7 @@ brand file's "Editorial Frameworks" section.
 1. **Flow Cut** — cut on matching motion/direction; makes a cut invisible
    by continuing movement across it. *(Fits @blkgrlcotoo transit footage.)*
 2. **Smash Cut** — abrupt tonal contrast; gut-punch moment or reset.
-   *(Fits @uglyinbetween, used sparingly.)*
+   *(Fits @iwishsomeonetoldme, used sparingly.)*
 3. **Jump Cut** — same static angle, rapid cuts trimming dead air, synced
    to music beats.
 4. **Action Cut** — cut hidden inside ongoing physical motion; nearly
@@ -45,10 +45,10 @@ brand file's "Editorial Frameworks" section.
 5. **Wide → Medium → Close** — shot-size hierarchy, establish then narrow
    focus. *(Standard for @blkgrlcotoo's new-location establishing shots.)*
 6. **Match Cut** — visual symmetry between two different shots, a
-   poetic/thematic link. *(Fits @uglyinbetween's surface-vs-underneath
+   poetic/thematic link. *(Fits @iwishsomeonetoldme's surface-vs-underneath
    thesis.)*
 7. **Rhythm/Speed Shifts** — alternate rapid-fire short cuts with long
-   lingering shots to modulate emotional tension. *(Fits @uglyinbetween.)*
+   lingering shots to modulate emotional tension. *(Fits @iwishsomeonetoldme.)*
 
 Supporting production details (secondary, for later title-card graphics):
 - Chapter/section title cards: bold sans-serif, warm color-blocked
@@ -65,7 +65,7 @@ Supporting production details (secondary, for later title-card graphics):
 
 Confirmed as a technique source to apply, not just reference — this
 resolves one of the earlier unwatchable TikTok clips (transcript supplied).
-Fit: @blkgrlco/@blkgrlcotoo primarily — @uglyinbetween's minimal-to-no-
+Fit: @blkgrlco/@blkgrlcotoo primarily — @iwishsomeonetoldme's minimal-to-no-
 music, one-take approach means beat-syncing and layered transition SFX
 don't really apply there.
 
@@ -137,7 +137,7 @@ low-volume SFX.
 Stated as "elements I want on hand" — a real intended asset library, not
 passive inspiration, though nothing here is applied to a specific piece of
 content yet. Medium confidence; same fit rule as the rest of this
-section — **@blkgrlco/@blkgrlcotoo, not @uglyinbetween.**
+section — **@blkgrlco/@blkgrlcotoo, not @iwishsomeonetoldme.**
 
 **Sourcing (confirmed 2026-09-11): these and similar elements are directly
 searchable/available in Canva** — no separate asset acquisition needed,

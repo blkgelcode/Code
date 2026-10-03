@@ -5,6 +5,41 @@ Episode reports go in `podcast/episodes/epNN/_inbox/from_code.md`.
 
 ---
 
+## 2026-10-03 18:49 — setup: storage, handle and hashtag set; 2 confirmations open
+
+**Status:** ready to run as soon as an episode is filmed and uploaded.
+
+**What changed:**
+- **Footage and masters:** your raw footage is on the T7, which shows up
+  as **Untitled**. You upload an episode's files into the cloud session.
+  When the masters are done and verified, I send them to you in the
+  session (MP3, long-form, verticals, captions), named `EpNN_…`, and you
+  save them to Untitled. **The cloud session's copies disappear when it
+  ends, so save them right away.** This is written into
+  `podcast/RULES.md` ("Where things live") and the skill.
+- **Handle `@iwishsomeonetoldme`, hashtag `#stayugly`.** Both are swapped
+  in every current doc and marked confirmed. The handle says "someone",
+  the show says "Somebody". I kept both exactly as you gave them.
+- **Metricool:** the connection was made under @uglyinbetween. After you
+  rename the accounts on Instagram/TikTok/YouTube, check it still points
+  at them.
+
+**Answered:** Q1 (review: masters come to you and you save them to
+Untitled), Q2 (footage: Untitled, uploaded per episode), Q5 (handle +
+hashtag).
+
+**Still open** (answer in `podcast/_inbox/from_chat.md`, or just tell me):
+
+1. **Sign-off:** I'm using the flexing sign-off from your scripts
+   ("Signed, a ___" / "Stay ___") with the theme under it, not a fixed
+   "Stay ugly." OK?
+2. **One-take rule:** I'm following the playbook's daily-vlog cut (script
+   cut tight, punch-ins, b-roll), not the old keep-every-pause rule. OK to
+   retire the old one?
+
+**Sign-off checklist:** nothing to sign off yet. Nothing has been
+published, and nothing was sent to Drive, Rella or any platform.
+
 ## 2026-10-03 18:45 — setup: playbook wired in, 5 questions open
 
 **Status:** ready to run once an episode is filmed (Q1, Q2). Nothing else

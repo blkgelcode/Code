@@ -110,7 +110,7 @@ Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
   stall there).
 - Camera: DJI Osmo Pocket 3, D-Log M — apply the correct LUT rather than
   trusting the file's own (mis-tagged) color-space metadata. (@blkgrlco /
-  @blkgrlcotoo shooting style — @uglyinbetween has its own production
+  @blkgrlcotoo shooting style — @iwishsomeonetoldme has its own production
   approach, see `brand-bible/brands/uglyinbetween.md`.)
 - Editor: CapCut.
 - Footage that won't import/transcribe: round-trip through a Canva export

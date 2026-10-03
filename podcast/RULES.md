@@ -20,6 +20,19 @@ reported as done.
 | R6 | **Her words only.** Code orders and trims; it never rewrites her voice. | Every word in every deliverable and caption is a run of words she actually said in the raw recording. Nothing is added, paraphrased, "cleaned up", censored or bleeped (her language is raw on purpose). Titles, descriptions and show-note framing are packaging and may be written, but any quote attributed to her must be verbatim. | Transcript coverage check against the raw transcript |
 | R7 | **Show notes reuse the blog post's resources block** (RAINN where relevant, LifeStance, 988). | `copy/resources_block.md` is a verbatim span of that episode's blog post: from its first resource sentence through the 988 line. The show notes contain it verbatim. | Substring checks: block ⊂ blog post, block contains 988, block ⊂ show notes |
 
+## Where things live (confirmed 2026-10-03)
+
+| What | Where |
+|---|---|
+| Raw footage | Her T7 SSD, which mounts as **Untitled**. She uploads each episode's files into the cloud session. |
+| Working files | The cloud session: `podcast/episodes/epNN/media/` (gitignored; gone when the session ends) |
+| Final masters | Back to the T7 (**Untitled**). Code sends them to her in the session, and she saves them there. |
+| Spec, copy, inbox, verify report | This repo, `podcast/episodes/epNN/` |
+| Scripts, blog posts, playbook | Her Show Hub doc (read live) |
+
+Masters are named `EpNN_<deliverable>.<ext>` (e.g. `Ep03_audio_master.mp3`)
+so they can sit side by side on Untitled without clashing.
+
 ## Playbook specs that verify.py also checks
 
 - **Audio master:** MP3, stereo, ID3 tags for show name (album), episode

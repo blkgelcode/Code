@@ -37,7 +37,7 @@ the link-out table at the bottom.
 |---|---|---|
 | @blkgrlco | Empowering, authentic, aspirational; warm/relatable/inspiring tone. Locked opener style: declarative present-tense ("I'm hot... so I need to beautymaxx") — echo where it fits naturally, don't force it into every line. | `brands/blkgrlco.md` |
 | @blkgrlcotoo | No dedicated voice doc yet beyond the shared rules above — inherits studio defaults. | `brands/blkgrlcotoo.md` |
-| @uglyinbetween | **Friend-talking-to-a-friend — not therapist-voice, not authoritative, not overwritten/literary.** This is a deliberate correction away from the original Bible doc's more dramatic style; don't drift back toward it. | `brands/uglyinbetween.md` |
+| @iwishsomeonetoldme | **Friend-talking-to-a-friend — not therapist-voice, not authoritative, not overwritten/literary.** This is a deliberate correction away from the original Bible doc's more dramatic style; don't drift back toward it. | `brands/uglyinbetween.md` |
 
 ## How this system talks to her (not to the audience — to Omnia directly)
 

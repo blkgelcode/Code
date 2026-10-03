@@ -1,6 +1,6 @@
 ---
 name: podcast-episode
-description: Run the full production chain for one filmed episode of the podcast I Wish Somebody Had Told Me (formerly The Ugly In Between, @uglyinbetween): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, vertical, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
+description: Run the full production chain for one filmed episode of the podcast I Wish Somebody Had Told Me (@iwishsomeonetoldme; formerly The Ugly In Between, @iwishsomeonetoldme): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, vertical, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
 argument-hint: <episode number>
 ---
 
@@ -70,11 +70,15 @@ reports go in `podcast/_inbox/from_code.md`.
    ongoing support…") through the 988 Lifeline sentence. In most posts it
    sits at the end of the "Let me be clear…" paragraph. Don't re-word,
    reorder or add anything.
-5. **Footage.** It stays wherever she keeps it (playbook). Use the location
-   in `podcast/_inbox/from_chat.md`, or ask. If episode N isn't filmed yet,
-   record intake as blocked in `from_code.md` and stop. Working media goes
-   in `epNN/media/`, which is gitignored and never committed (this repo is
-   public).
+5. **Footage** (see "Where things live" in `podcast/RULES.md`). Raw
+   footage lives on her T7 SSD, which mounts as **Untitled**. She uploads
+   episode N's files into this session. Find them among the session's
+   uploads, copy them into `epNN/media/raw/`, and list each file (name,
+   duration, size) in the spec. If nothing has been uploaded, ask her to
+   upload episode N's footage from Untitled, then wait. If it isn't filmed
+   yet, record intake as blocked in `from_code.md` and stop. Working media
+   stays in `epNN/media/`, which is gitignored and never committed (this
+   repo is public).
 6. **Transcribe** the raw recording with word timestamps into
    `media/transcripts/raw.txt` + `raw_words.json` (e.g. `pip install
    faster-whisper`). This is the source of truth for R6.
@@ -178,11 +182,15 @@ python3 .claude/skills/podcast-episode/scripts/verify.py podcast/episodes/epNN -
 
 ## 5. Report, then stop
 
-1. **Nothing goes to Drive, Rella or any platform (R1).** Masters stay in
-   `epNN/media/out/` (gitignored). Give their exact paths. If this is a
-   cloud session, say so: the files disappear when the session ends.
-   Follow whatever review method she has set in
-   `podcast/_inbox/from_chat.md`.
+1. **Hand the masters to her, not to a platform (R1).** Send every final
+   file in `epNN/media/out/` (`EpNN_*`: the MP3, the long-form, each
+   vertical, the SRTs) with **SendUserFile** (`display: "attach"`) so she
+   can save them to **Untitled** (her T7). That's how masters land on the
+   T7, and it's delivery to her, not publishing. Tell her plainly: **this
+   cloud session's files disappear when it ends, so save them to Untitled
+   now.** If a file is too big to send, say which one and keep the
+   session's copy until she confirms she has it. Nothing goes to Drive,
+   Rella or any platform.
 2. Commit the repo-side files (spec, manifest, copy, roles notes,
    verify_report.md, EPISODES.md), never media, and push.
 3. Add a "ready for sign-off" (or "blocked") entry to the episode's

@@ -19,7 +19,7 @@ current plan.
 
 | Stream | Fit notes |
 |---|---|
-| Ad revenue | Passive, scales with reach; low trust risk. Currently far from platform thresholds on @blkgrlco; @blkgrlcotoo and @uglyinbetween have no posting history yet. |
+| Ad revenue | Passive, scales with reach; low trust risk. Currently far from platform thresholds on @blkgrlco; @blkgrlcotoo and @iwishsomeonetoldme have no posting history yet. |
 | Sponsorships / brand partnerships | Screen every offer against the brand-fit filter below before accepting, whenever this becomes relevant. |
 | Affiliate marketing | Only for products genuinely used/endorsed. |
 | Digital products | Would fit @blkgrlco once its Authority/Education content has proven organic demand. |
