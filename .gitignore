@@ -1,0 +1,3 @@
+# Podcast media: footage, masters, stems, and licensed music never get committed (public repo)
+podcast/episodes/*/media/
+podcast/assets/

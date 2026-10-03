@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-09-11.
+2026-10-03.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -286,6 +286,21 @@ It," "STAMPED").
 - No LUT/vertical shooting spec from Section 2 above applies here — this
   brand doesn't follow the DJI/D-Log/vertical pipeline.
 
+**Episode locks (2026-10-03), every episode:**
+- Nothing publishes without her sign-off.
+- **−16 LUFS integrated** on the audio master, the video master, and every
+  vertical.
+- **Cold open stays music-free.**
+- **One consistent intro/outro across every episode.** Cold open → intro
+  (theme + intro card) → episode → outro (her own "Stay ugly." take with
+  the theme under it, then the outro card). Theme: "I Deserve Better
+  (Instrumental Version)", spring gang (Epidemic Sound). The same files are
+  reused byte-for-byte once the first episode's are approved.
+- **Captions on every video and vertical** (burned in on verticals).
+- **Her words only.** Order and trim, never rewrite, paraphrase, add, or
+  "clean up" a line, captions included.
+- **Show notes reuse the blog post's Resources block** verbatim.
+
 **Editorial frameworks that apply:** Match Cut (between emotionally linked
 moments, serving the "surface vs. underneath" thesis); Rhythm/Speed
 Shifts; Smash Cut (single deliberate gut-punch moment, used sparingly).
@@ -325,7 +340,8 @@ Don't treat any of the following as a rule; ask or flag instead:
   reference boards, explicitly not adopted.
 - Specific Epidemic Sound track/SFX picks per brand — the *rules* above
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
-  actual licensed sound choices are not yet populated.
+  actual licensed sound choices are not yet populated, except the
+  @uglyinbetween intro/outro theme (locked 2026-10-03).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific
   day-number as gospel when editing without checking the actual Content

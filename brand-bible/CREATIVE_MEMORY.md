@@ -28,6 +28,26 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
 
+## Podcast episode pipeline locked (2026-10-03)
+
+She asked for a `/podcast-episode <N>` skill
+(`.claude/skills/podcast-episode/`) and locked seven rules for every
+@uglyinbetween episode: sign-off before anything publishes; −16 LUFS on
+audio and video; music-free cold open; one consistent intro/outro; captions
+on every video and vertical; her words only (order and trim, never
+rewrite); show notes reuse the blog post's Resources block. Full table:
+`podcast/RULES.md`, checked mechanically by `verify.py`.
+Interview answers: no footage filmed yet; outputs go in this repo
+(`podcast/`), with media gitignored because the repo is public; theme =
+"I Deserve Better (Instrumental Version)" (spring gang); outro = her own
+"Stay ugly." take with the theme under it, which she chose over a fully
+cold end; per-episode `_inbox/from_chat.md` + `from_code.md` as a simple
+newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
+**Still open:** the five-role playbook (audio master, sound design, video
+edit, verticals, packaging). She's sending it, and it will be saved as
+`podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
+missing. Ep 0's blog Resources block is still a placeholder.
+
 ## Corrections log
 *(mistake → correction → date. Referenced before every new piece of content so it isn't repeated.)*
 

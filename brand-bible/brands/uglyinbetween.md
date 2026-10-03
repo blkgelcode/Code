@@ -22,7 +22,17 @@ Bible doc's more dramatic style; don't drift back toward that register.
 
 ## Production Approach
 - Record in **one take**, keep voice cracks/sighs/pauses.
-- Minimal-to-no music.
+- Minimal-to-no music. The one standing exception is the locked
+  intro/outro theme (below); the cold open is always music-free.
+- **Episode production locks (2026-10-03)**, full table + how each is
+  verified in `../../podcast/RULES.md`: nothing publishes without her
+  sign-off · −16 LUFS on audio and video · cold open stays music-free ·
+  one consistent intro/outro across every episode (theme: *"I Deserve
+  Better (Instrumental Version)"*, spring gang, Epidemic Sound) · captions
+  on every video and vertical · her words only (order and trim, never
+  rewrite) · show notes reuse the blog post's Resources block. Outro = her
+  own "Stay ugly." take with the theme under it. Run episodes with
+  `/podcast-episode <N>`.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
 - **Physical set/studio reference (2026-09-11):** warm neutral, cozy

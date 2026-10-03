@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "deny": [
+      "mcp__OpusClip__opusclip_schedule_publish",
+      "mcp__OpusClip__opusclip_create_post_task",
+      "mcp__vidIQ__vidiq_video_upload",
+      "mcp__vidIQ__vidiq_update_video",
+      "mcp__vidIQ__vidiq_update_video_thumbnail",
+      "mcp__vidIQ__vidiq_instagram_publish_reel",
+      "mcp__Higgsfield_MCP__tiktok_prepare_publish",
+      "mcp__Higgsfield_MCP__publish_website",
+      "mcp__Rella__create_rella_content",
+      "mcp__Rella__update_rella_content"
+    ]
+  }
+}

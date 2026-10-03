@@ -1,0 +1,12 @@
+{
+  "_comment": "R4 lock. Hashes stay null until Omnia signs off on the first episode's intro/outro; verify.py then reports them, and they get written here. After that, every episode must match byte-for-byte.",
+  "theme": {
+    "epidemic_recording_id": "9a1a4af2-55e9-3bbe-8614-b9a26a6fae83",
+    "title": "I Deserve Better (Instrumental Version)",
+    "artist": "spring gang",
+    "sha256": null
+  },
+  "intro_card": { "sha256": null },
+  "outro_card": { "sha256": null },
+  "locked_on_episode": null
+}

@@ -1,0 +1,15 @@
+{
+  "episode": null,
+  "cold_open": { "start": 0.0, "end": null },
+  "raw_transcript": "media/transcripts/raw.txt",
+  "music_stem": "media/stems/music_bus.wav",
+  "theme_file": "../../assets/theme.wav",
+  "intro_card": "../../assets/intro_card.mov",
+  "outro_card": "../../assets/outro_card.mov",
+  "blog_post": "copy/blog_post.md",
+  "show_notes": "copy/show_notes.md",
+  "deliverables": [
+    { "id": "audio_master", "kind": "audio", "path": "media/out/audio_master.wav", "transcript": "media/transcripts/audio_master.txt" },
+    { "id": "video_master", "kind": "video", "path": "media/out/video_master.mp4", "transcript": "media/transcripts/video_master.txt", "captions": "media/out/video_master.srt" }
+  ]
+}
