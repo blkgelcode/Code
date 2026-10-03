@@ -47,6 +47,13 @@ def duration(path):
     return float(out)
 
 
+def probe(path):
+    out = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_streams", "-show_format", "-of", "json", str(path)],
+        capture_output=True, text=True).stdout
+    return json.loads(out)
+
+
 def sha256(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -124,19 +131,6 @@ def check_words(label, raw_tokens, text):
                f"{label}: {len(soft)} single-word mismatch(es), likely transcription noise; listen to check: {shown}")
     else:
         record("R6 her words only", "PASS", f"{label}: every word traced to the raw recording")
-
-
-def resources_block(md):
-    lines = md.splitlines()
-    for i, line in enumerate(lines):
-        if re.match(r"^\s*(#+\s*)?(\*\*)?resources\b", line, re.I):
-            block = [line]
-            for nxt in lines[i + 1:]:
-                if re.match(r"^\s*#+\s", nxt) or re.match(r"^\s*=+\s*$", nxt):
-                    break
-                block.append(nxt)
-            return "\n".join(block).strip()
-    return None
 
 
 def norm_ws(s):
@@ -254,21 +248,53 @@ def main():
                 check_words(d["id"], raw_tokens, p(t).read_text())
 
     # R7: show notes reuse the blog post's resources block
-    blog, notes = m.get("blog_post"), m.get("show_notes")
-    if not blog or not p(blog).exists():
-        record("R7 resources block", "FAIL", "blog post missing")
-    elif not notes or not p(notes).exists():
-        record("R7 resources block", "FAIL", "show notes missing")
+    blog, notes, rb = m.get("blog_post"), m.get("show_notes"), m.get("resources_block")
+    missing = [k for k, v in (("blog_post", blog), ("show_notes", notes), ("resources_block", rb)) if not v or not p(v).exists()]
+    if missing:
+        record("R7 resources block", "FAIL", f"missing: {', '.join(missing)}")
     else:
-        block = resources_block(p(blog).read_text())
-        if block is None:
-            record("R7 resources block", "FAIL", "blog post has no Resources block")
-        elif "[" in block and "]" in block and re.search(r"\[[^\]]*(name|todo|tbd|here)[^\]]*\]", block, re.I):
-            record("R7 resources block", "FAIL", "blog post's Resources block is still a placeholder")
-        elif norm_ws(block) in norm_ws(p(notes).read_text()):
-            record("R7 resources block", "PASS", "show notes contain the blog's Resources block verbatim")
+        block = norm_ws(p(rb).read_text())
+        if not block:
+            record("R7 resources block", "FAIL", "resources_block is empty")
+        elif re.search(r"\[[^\]]*(name|todo|tbd|here)[^\]]*\]", block, re.I):
+            record("R7 resources block", "FAIL", "the blog post's resources block is still a placeholder")
+        elif block not in norm_ws(p(blog).read_text()):
+            record("R7 resources block", "FAIL", "resources_block isn't a verbatim span of the blog post")
+        elif "988" not in block:
+            record("R7 resources block", "FAIL", "resources_block doesn't reach the 988 line")
+        elif block not in norm_ws(p(notes).read_text()):
+            record("R7 resources block", "FAIL", "show notes don't contain the blog's resources block verbatim")
         else:
-            record("R7 resources block", "FAIL", "show notes don't contain the blog's Resources block verbatim")
+            record("R7 resources block", "PASS", "show notes contain the blog's resources block verbatim")
+
+    # Playbook specs: audio master format + tags, vertical count + 9:16
+    for d in deliverables:
+        path = p(d["path"])
+        if not path.exists():
+            continue
+        info = probe(path)
+        if d["kind"] == "audio":
+            a = next((x for x in info["streams"] if x["codec_type"] == "audio"), {})
+            tags = {k.lower(): v for k, v in info["format"].get("tags", {}).items()}
+            problems = []
+            if a.get("codec_name") != "mp3":
+                problems.append(f"codec {a.get('codec_name')} (needs mp3)")
+            if a.get("channels") != 2:
+                problems.append(f"{a.get('channels')} channel(s) (needs stereo)")
+            for tag, what in (("album", "show name"), ("track", "episode number"), ("title", "title")):
+                if not tags.get(tag):
+                    problems.append(f"no {tag} tag ({what})")
+            record("Playbook: audio spec", "FAIL" if problems else "PASS",
+                   f"{d['id']}: " + ("; ".join(problems) if problems else "mp3, stereo, ID3 show/episode/title"))
+            if not tags.get("disc"):
+                record("Playbook: audio spec", "WARN", f"{d['id']}: no disc (TPOS) tag carrying the season")
+        if d["kind"] == "vertical":
+            v = next((x for x in info["streams"] if x["codec_type"] == "video"), {})
+            w, h = v.get("width", 0), v.get("height", 0)
+            ok = h and abs(w / h - 9 / 16) < 0.01
+            record("Playbook: verticals", "PASS" if ok else "FAIL", f"{d['id']}: {w}×{h} (needs 9:16)")
+    n_vert = sum(1 for d in deliverables if d["kind"] == "vertical")
+    record("Playbook: verticals", "PASS" if 2 <= n_vert <= 3 else "FAIL", f"{n_vert} vertical(s) (playbook: 2–3)")
 
     fails = [r for r in results if r[1] == "FAIL"]
     warns = [r for r in results if r[1] == "WARN"]

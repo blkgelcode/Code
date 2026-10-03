@@ -32,7 +32,7 @@ visual identity. Don't average them into one generic "BLKGRLCO style."
 |---|---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form | `brands/blkgrlco.md` |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming | `brands/blkgrlcotoo.md` |
-| I Wish Someone Had Told Me (renamed 2026-10-03) | @uglyinbetween (new handle pending) | Podcast, one-take documentarian | `brands/uglyinbetween.md` |
+| I Wish Somebody Had Told Me (renamed 2026-10-03) | @uglyinbetween (new handle pending) | Scripted solo video podcast | `brands/uglyinbetween.md` |
 
 **Confirm brand + platform before producing anything** — pillars, voice,
 hashtag tiers, and title conventions all differ by brand.

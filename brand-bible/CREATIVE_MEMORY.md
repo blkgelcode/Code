@@ -28,18 +28,38 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
 
-## Podcast renamed: "I Wish Someone Had Told Me" (2026-10-03)
+## Podcast renamed: "I Wish Somebody Had Told Me" (2026-10-03)
 
-She renamed the podcast from *The Ugly In Between* to *I Wish Someone Had Told Me*.
+She renamed the podcast from *The Ugly In Between* to *I Wish Somebody
+Had Told Me* (first logged as "Someone"; corrected the same day from her
+Show Hub doc, where "Someone" is only Ep 0's title).
 Interview answers: **new handle** (chosen but not yet given; @uglyinbetween
 stays in docs and Metricool until she gives it) · **sign-off stays "Stay
 ugly."** (locked outro unchanged) · **identity is being rethought**, so the
 tagline, Five Pillars, visual identity (B&W, palette, type, thumbnail font)
 and brand hashtag are marked under review, not locked. Kept: voice,
-production approach, the seven episode rules. Ep 0 shares the show's name.
-The Drive Bible doc is titled "I WISH SOMEBODY HAD TOLD ME" (Somebody, not
-Someone); the name used here is the one she gave in chat. Dated entries
+production approach, the seven episode rules. Ep 0 is "I Wish Someone Had
+Told Me"; the show is "...Somebody...". Dated entries
 below are history and keep the old name.
+
+## Podcast playbook received: Show Hub doc (2026-10-03)
+
+She shared her Show Hub doc (https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6).
+Its Production System tab is the playbook, which `/podcast-episode`
+now reads live on every run (`podcast/PLAYBOOK.md` is only a pointer). It
+settled four open questions: the show is "I Wish **Somebody** Had Told Me";
+Season 1 is Ep 0 + 10 episodes, all written; every blog post has a real
+resources block (LifeStance + 988, RAINN on Ep 5, *Attached* on Ep 8),
+inline in the "Let me be clear…" paragraph, so R7 now checks a verbatim
+`copy/resources_block.md`; and the five agents are defined. **Superseded
+by the playbook, pending her confirmation:** the podcast's one-take,
+never-streamline documentarian rule (the long-form is now cut like the
+daily vlogs) and the fixed "Stay ugly." sign-off (it flexes: "Signed, a
+___" / "Stay ___"). That sign-off conflicts with her chat answer "Keep
+'Stay ugly.'" from earlier the same day, so it was asked in
+`podcast/_inbox/from_code.md`. New show rules: never show a media clip in
+any version, credit the source in the description, and the language is
+uncensored.
 
 ## Podcast episode pipeline locked (2026-10-03)
 
@@ -113,7 +133,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | "Fuck It Book It" / "STAMPED" | "Young & Outside in [Location]" (via "Young Hot & Outside") | @blkgrlcotoo |
 | "comment your own rule" (CTA) | "make your own Pin Board" | @blkgrlco (90-Day HHH Run) |
 | #stamped, #fuckitbookit, #younghotandoutside (hashtags) | current brand/series hashtags | @blkgrlcotoo |
-| "The Ugly In Between" (show name, retired 2026-10-03) | "I Wish Someone Had Told Me" | podcast |
+| "The Ugly In Between" (show name, retired 2026-10-03) | "I Wish Somebody Had Told Me" | podcast |
 
 ## Scrapped decisions (kept for context — do not resurrect without her explicit ask)
 

@@ -1,6 +1,6 @@
-# I Wish Someone Had Told Me (@uglyinbetween, handle changing) — Podcast
+# I Wish Somebody Had Told Me (@uglyinbetween, handle changing) — Podcast
 
-> **Renamed 2026-10-03.** The show is now *I Wish Someone Had Told Me*. *The Ugly In
+> **Renamed 2026-10-03.** The show is now *I Wish Somebody Had Told Me*. *The Ugly In
 > Between* is a retired name, so don't use it. She has chosen a new handle
 > but hasn't given it yet, so `@uglyinbetween` references (and Metricool)
 > stay as they are until she does.
@@ -10,9 +10,17 @@
 > font) and the brand hashtag. Those sections below are the previous
 > version, kept for reference. Flag them rather than apply them as rules,
 > and ask when a deliverable needs one.
-> **Still locked:** the sign-off *"Stay ugly."*, the voice, the production
-> approach (one take, documentarian rule) and the episode rules in
-> `../../podcast/RULES.md`.
+> **Source of truth since 2026-10-03:** her [Show Hub doc](https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6). It
+> holds the show format, the locked episode structure, the sign-off rule,
+> the standard resources block, the Season 1 lineup, and every script and
+> blog post. Its **Production System** tab is the playbook
+> `/podcast-episode` follows. Still locked here: the voice and the episode
+> rules in `../../podcast/RULES.md`.
+> **Superseded by the playbook (pending her confirmation):** the one-take,
+> keep-every-pause documentarian rule (the long-form is now cut like the
+> daily vlogs: script cut tight, punch-ins, b-roll over heavy talking); the
+> fixed "Stay ugly." sign-off (it now flexes per episode: "Signed, a ___" /
+> "Stay ___"); and the old 12-episode, 3-act structure.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context. This is the brand
 most visually and editorially distinct from the other two — treat its
@@ -20,9 +28,10 @@ rules as overrides, not variations, of the shared toolkit.
 
 ## Identity
 - Tagline *(under review)*: *"Where growth isn't pretty, but it's real."*
-- Sign-off: *"Stay ugly."* (kept through the 2026-10-03 rename). The old
-  full form *"Stay ugly. See you in the in-between."* points to the old
-  name, so it's under review. Don't use it until she confirms.
+- Sign-off: flexes per episode (Show Hub): *"Signed, a ___"* names who the
+  episode is about, and *"Stay ___"* carries its message (e.g. "Stay
+  scared, and do it anyway."). The old fixed *"Stay ugly. See you in the
+  in-between."* is superseded.
 - Core thesis: going past the pretty surface of "having it together" into
   the actual mess of healing.
 
@@ -36,9 +45,11 @@ not overwritten/literary. This is a deliberate pull-back from the original
 Bible doc's more dramatic style; don't drift back toward that register.
 
 ## Production Approach
-- Record in **one take**, keep voice cracks/sighs/pauses.
-- Minimal-to-no music. The one standing exception is the locked
-  intro/outro theme (below); the cold open is always music-free.
+- *Superseded 2026-10-03 by the playbook (pending her confirmation):*
+  record in one take, keep voice cracks/sighs/pauses. The show is now
+  filmed solo and scripted, and the long-form is cut like the daily vlogs.
+- Music per the playbook: the locked intro/outro theme plus an optional
+  light bed under sections. The cold open is always dry.
 - **Episode production locks (2026-10-03)**, full table + how each is
   verified in `../../podcast/RULES.md`: nothing publishes without her
   sign-off · −16 LUFS on audio and video · cold open stays music-free ·
@@ -46,7 +57,7 @@ Bible doc's more dramatic style; don't drift back toward that register.
   Better (Instrumental Version)"*, spring gang, Epidemic Sound) · captions
   on every video and vertical · her words only (order and trim, never
   rewrite) · show notes reuse the blog post's Resources block. Outro = her
-  own "Stay ugly." take with the theme under it. Run episodes with
+  own sign-off take for that episode with the theme under it, then a cold end. Run episodes with
   `/podcast-episode <N>`.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
@@ -57,30 +68,28 @@ Bible doc's more dramatic style; don't drift back toward that register.
   final visual treatment is under review since the 2026-10-03 rename (it
   was B&W high-contrast); the room's actual color doesn't set it. Confirmed scope: studio/set
   inspiration only, not a format or palette change.
-- **Documentarian rule applies fully and without exception here** — this
-  brand is explicitly exempt from the talking-head explainer exception
-  (cut-all-dead-air) used on the other two brands. Never streamline this
-  the way explainer content gets streamlined elsewhere.
+- *Superseded 2026-10-03 by the playbook (pending her confirmation):* the
+  documentarian rule with no exceptions (never streamline the silence).
+  The playbook cuts the long-form like the daily vlogs: script cut tight,
+  punch-ins, b-roll over the heavy talking sections.
 
 ## Structure
-- Episode 0 "Why Ugly?" — pilot, fully scripted, ~22 min.
-- 12-episode Season 1 in 3 acts of 4. **Act 1 — "Navigating the Cracks":**
-  1. The First-Born Daughter Burden
-  2. Your Body Is Screaming
-  3. Why I Ghosted My Therapist
-  4. Self-Awareness Isn't Healing
-- Full Bible doc (scripts/structure beyond this summary) lives in Google
-  Drive as the source of truth.
+Season 1 is Ep 0 (intro) plus 10 episodes, in airing order: thesis →
+wounds → coping → the turn toward help → the honest ending. The lineup,
+locked episode structure, scripts and blog posts live in the [Show Hub
+doc](https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6). The repo's snapshot is in `../../podcast/EPISODES.md`. The old
+12-episode, 3-act structure ("Why Ugly?" pilot, "Navigating the Cracks")
+is retired.
 
 ## Editorial Frameworks That Apply Here
 - **Match Cut** — between two emotionally linked moments, serving the
-  "surface vs. underneath" thesis without breaking the documentarian rule.
+  "surface vs. underneath" thesis.
 - **Rhythm/Speed Shifts** — worth borrowing.
 - **Smash Cut** — for a single deliberate gut-punch moment (e.g. into "Why
   I Ghosted My Therapist"), used sparingly.
 - **Explicitly not a fit:** the Graphics/SFX pop-up reference (Yale
   Jeannette) — fast-cut, graphic-heavy style is the opposite of this
-  brand's one-take, keep-the-pauses rule. That reference is for
+  show's playbook. That reference is for
   @blkgrlco/@blkgrlcotoo only.
 
 ## Visual Identity (under review: previous version, not locked)

@@ -22,7 +22,7 @@ Studios** (creator: Omnia Koumi), a three-brand creative studio:
 |---|---|---|
 | Personal development | **@blkgrlco** | Daily vertical shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form vlog |
 | Travel | **@blkgrlcotoo** | Monthly long-form + shorts, vacation/weekend-only filming |
-| Podcast | **@uglyinbetween** | One-take, minimal-music talking-head episodes |
+| Podcast | **I Wish Somebody Had Told Me** (@uglyinbetween, new handle pending) | Scripted solo video podcast; long-form, 2–3 verticals, mastered audio |
 
 **Before doing anything: confirm which brand and which platform/format
 you're editing for.** The three brands differ in voice, visual identity,
@@ -53,9 +53,10 @@ end cold, name the specific activity — never the vague vibe.
 - **Default:** keep pauses/sighs/dead air where they carry emotional truth.
 - **Explainer exception:** for pure talking-head/explainer content, cut ALL
   dead air and streamline hard.
-- **@uglyinbetween is fully exempt from the explainer exception** — never
-  streamline the podcast's silence. This is the one brand where the
-  documentarian rule has no exception at all.
+- **The podcast follows its own playbook:** the long-form is cut like the
+  daily vlogs (script cut tight, punch-ins, b-roll over heavy talking). The
+  old "never streamline the podcast's silence" rule is superseded (pending
+  her confirmation).
 - A "lululu"/"la, la, la" sound on camera = cut that take (flub-take
   marker).
 - Every clip in a montage must move the story forward — cut any shot that
@@ -131,8 +132,9 @@ cuts before shooting, not just in the edit.
 
 ## 5. Sound Design (Arthur's "Cut Theory," confirmed technique)
 
-Applies to **@blkgrlco / @blkgrlcotoo**. Does **not** apply to
-@uglyinbetween (minimal-to-no-music, one-take approach).
+Applies to **@blkgrlco / @blkgrlcotoo**. Does **not** apply to the
+podcast, whose sound design is set by its playbook: the locked
+intro/outro, an optional light bed under sections, and a dry cold open.
 
 1. **Edit to the beat** — mark beats on the timeline with a beat-detection
    tool, cut to those markers.
@@ -272,17 +274,27 @@ Series names — use exactly: **"Young & Outside in [Location]"**, **"SCENT
 PASSPORT"**. Never use retired names ("Young Hot & Outside," "Fuck It Book
 It," "STAMPED").
 
-### I Wish Someone Had Told Me (@uglyinbetween, handle changing) — Podcast
+### I Wish Somebody Had Told Me (@uglyinbetween, handle changing) — Podcast
 
 Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
 
 **This brand overrides the shared toolkit, not just varies it.**
 
-- Record in **one take**, keep voice cracks/sighs/pauses.
-- **Minimal-to-no music.**
-- **Documentarian rule applies fully, without exception** — never
-  streamline this the way explainer content gets streamlined on the other
-  two brands.
+- **Source of truth:** her Show Hub doc (https://claude.ai/artifact/M7L7vsPcDpSUj27pyG8jt6). Its Production System
+  tab is the playbook. Scripts and blog posts live in its other tabs.
+- Filmed solo and scripted. The long-form is cut like the daily vlogs:
+  cold open, script cut tight, punch-ins, b-roll over the heavy talking
+  sections.
+- **Locked episode structure:** cold open (the moment, or a scene described
+  in words; no intro before it) → her story and reflection → the advice
+  ("this is what I wish someone had told me") → disclaimer folded into the
+  close → "it's okay to ask for help" + the resources block → sign-off →
+  cold end.
+- **Never show a media clip** (TV, podcast, book), on any version,
+  including video. The scene is described in words. Credit the show, and
+  any fan edit that inspired the scene, in the description.
+- **Language is raw and uncensored on purpose.** Nothing gets toned down,
+  bleeped or softened, captions included.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
 - No LUT/vertical shooting spec from Section 2 above applies here — this
@@ -294,8 +306,8 @@ Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
   vertical.
 - **Cold open stays music-free.**
 - **One consistent intro/outro across every episode.** Cold open → intro
-  (theme + intro card) → episode → outro (her own "Stay ugly." take with
-  the theme under it, then the outro card). Theme: "I Deserve Better
+  (theme + intro card) → episode → outro (her episode's sign-off, "Signed,
+  a ___" / "Stay ___", with the theme under it, then a cold end). Theme: "I Deserve Better
   (Instrumental Version)", spring gang (Epidemic Sound). The same files are
   reused byte-for-byte once the first episode's are approved.
 - **Captions on every video and vertical** (burned in on verticals).
@@ -306,8 +318,7 @@ Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
 **Editorial frameworks that apply:** Match Cut (between emotionally linked
 moments, serving the "surface vs. underneath" thesis); Rhythm/Speed
 Shifts; Smash Cut (single deliberate gut-punch moment, used sparingly).
-**Explicitly does not fit:** any fast-cut, graphic-heavy pop-up/SFX style
-— that's the opposite of this brand's one-take rule.
+**Not part of the playbook:** the graphic-heavy pop-up/SFX style.
 
 **Visual identity: under review since the 2026-10-03 rename.** The
 previous look (B&W portraiture, aubergine/terracotta palette,

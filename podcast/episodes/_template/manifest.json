@@ -1,6 +1,9 @@
 {
   "episode": null,
-  "cold_open": { "start": 0.0, "end": null },
+  "cold_open": {
+    "start": 0.0,
+    "end": null
+  },
   "raw_transcript": "media/transcripts/raw.txt",
   "music_stem": "media/stems/music_bus.wav",
   "theme_file": "../../assets/theme.wav",
@@ -9,7 +12,33 @@
   "blog_post": "copy/blog_post.md",
   "show_notes": "copy/show_notes.md",
   "deliverables": [
-    { "id": "audio_master", "kind": "audio", "path": "media/out/audio_master.wav", "transcript": "media/transcripts/audio_master.txt" },
-    { "id": "video_master", "kind": "video", "path": "media/out/video_master.mp4", "transcript": "media/transcripts/video_master.txt", "captions": "media/out/video_master.srt" }
-  ]
+    {
+      "id": "audio_master",
+      "kind": "audio",
+      "path": "media/out/audio_master.mp3",
+      "transcript": "media/transcripts/audio_master.txt"
+    },
+    {
+      "id": "video_master",
+      "kind": "video",
+      "path": "media/out/video_master.mp4",
+      "transcript": "media/transcripts/video_master.txt",
+      "captions": "media/out/video_master.srt"
+    },
+    {
+      "id": "vertical_01",
+      "kind": "vertical",
+      "path": "media/out/vertical_01.mp4",
+      "transcript": "media/transcripts/vertical_01.txt",
+      "captions": "media/out/vertical_01.srt"
+    },
+    {
+      "id": "vertical_02",
+      "kind": "vertical",
+      "path": "media/out/vertical_02.mp4",
+      "transcript": "media/transcripts/vertical_02.txt",
+      "captions": "media/out/vertical_02.srt"
+    }
+  ],
+  "resources_block": "copy/resources_block.md"
 }

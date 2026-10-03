@@ -22,7 +22,7 @@ cold, name the specific activity — never the vague vibe.**
 | Sign-off | No filler sign-offs — except "bye bye," which always stays. |
 | Silence — default | **Documentarian rule:** keep pauses, sighs, dead air where they carry emotional truth. |
 | Silence — explainer exception | For pure talking-head/explainer content, cut ALL dead air and streamline hard — a deliberate departure from the documentarian rule, "the best beat of talking videos." |
-| Silence — @uglyinbetween | **Fully exempt from the explainer exception.** Never streamline the podcast's silence — see `brands/uglyinbetween.md`. This is the one brand where the documentarian rule has no exception. |
+| Silence — podcast (I Wish Somebody Had Told Me) | **Superseded 2026-10-03 (pending her confirmation):** the show's playbook cuts the long-form like the daily vlogs (script cut tight, punch-ins, b-roll over heavy talking). It was previously fully exempt from the explainer exception. See `brands/uglyinbetween.md` and her Show Hub doc. |
 | Flub-take marker | A "lululu" sound on camera (may transcribe as "la, la, la") = cut that take. |
 | Montage rule | Every clip in a montage must move the story forward — cut any shot that just sits on a state already shown. |
 | Progression montages | Build in escalating steps, intercut with movement/dance rather than sitting static (e.g. chore montages). |
@@ -87,7 +87,7 @@ don't really apply there.
 ## Graphics / Pop-Up / SFX Reference (Yale Jeannette — reference only, not yet applied)
 
 **Fit:** @blkgrlco and @blkgrlcotoo shorts/explainer-style content.
-**Not a fit:** @uglyinbetween — opposite of its one-take documentarian rule.
+**Not a fit:** the podcast (not part of its playbook).
 Nothing here is locked in yet; flag when ready to actually build a
 BLKGRLCO-specific graphic pack, and build it in the relevant brand's own
 palette, not Yale's beige/brown.
@@ -181,8 +181,9 @@ exists but wasn't captured):
 | Skin-tone treatment | Natural, never distorted. Standard rule, not project-specific. |
 | Exposure/contrast/highlights/shadows/saturation/mood beyond the LUT | `[NEEDS INPUT]` — approximation only until confirmed against a graded reference clip. |
 
-`@uglyinbetween` has its own production approach (one-take, minimal music,
-batch-record, same outfit for continuity) — see `brands/uglyinbetween.md`;
+The podcast has its own production approach (scripted solo video, cut per
+its playbook in the Show Hub doc, batch-record, same outfit for continuity);
+see `brands/uglyinbetween.md`;
 the vertical/LUT specs above describe the other two brands' shooting style,
 not necessarily the podcast's.
 
@@ -232,5 +233,5 @@ produce at correct spec.
 - @blkgrlcotoo's locked palette (navy/marigold/sand/raspberry/periwinkle) →
   `brands/blkgrlcotoo.md`.
 - The podcast's visual identity → `brands/uglyinbetween.md`. Under
-  review since its 2026-10-03 rename to *I Wish Someone Had Told Me*, so the previous B&W /
+  review since its 2026-10-03 rename to *I Wish Somebody Had Told Me*, so the previous B&W /
   aubergine-terracotta / Garamond-Helvetica look is not locked.

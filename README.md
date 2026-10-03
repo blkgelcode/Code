@@ -9,7 +9,7 @@ three-brand creative studio:
 |---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
-| I Wish Someone Had Told Me | @uglyinbetween (new handle pending) | Podcast, one-take documentarian |
+| I Wish Somebody Had Told Me | @uglyinbetween (new handle pending) | Scripted solo video podcast |
 
 It is not a content generator. It is a **memory system + workflow** so that
 every piece of content gets better because of everything made before it.
@@ -21,7 +21,7 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/BRAND_BIBLE.md` | Studio-level source of truth: creator, cross-brand identity, production reality, tools, and the studio's actual goal. |
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
 | `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotoo identity, series, production constraints, SEO. |
-| `brand-bible/brands/uglyinbetween.md` | I Wish Someone Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
+| `brand-bible/brands/uglyinbetween.md` | I Wish Somebody Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
 | `brand-bible/STYLE_GUIDE.md` | Cross-brand editorial toolkit: documentarian rule, the 7 Narrative Cuts, graphics/SFX reference, technical/delivery specs, thumbnail workflow. |
 | `brand-bible/SCRIPTWRITING_GUIDE.md` | Cross-brand voice rules + per-brand voice link-out. |
 | `brand-bible/CREATIVE_MEMORY.md` | Running log: corrections, retired names, scrapped decisions, winning/poor patterns. This is the file that makes the system get smarter over time. |
@@ -31,7 +31,7 @@ every piece of content gets better because of everything made before it.
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
-| `podcast/` | @uglyinbetween episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (five role definitions, pending), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
+| `podcast/` | @uglyinbetween episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (pointer to the live playbook in her Show Hub doc), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
 | `growth/ANALYTICS_SYSTEM.md` | What gets tracked, connected tools, and — critically — what analytics are *for* here (see below). |

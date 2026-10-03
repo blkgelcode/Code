@@ -93,15 +93,15 @@ list below).
 - **Retired hashtags — never reuse:** #stamped, #fuckitbookit,
   #younghotandoutside.
 
-### I Wish Someone Had Told Me (@uglyinbetween, new handle pending; podcast)
+### I Wish Somebody Had Told Me (@uglyinbetween, new handle pending; podcast)
 - Tagline (under review since the rename): "Where growth isn't pretty, but it's real."
 - Core terms: healing journey, mental health, real talk, self-awareness,
   first-born daughter, therapy, backsliding, growth — pull the specific
   term from the episode's actual pillar (e.g. Ep1 "The First-Born Daughter
   Burden," Ep3 "Why I Ghosted My Therapist") rather than a generic "mental
   health podcast" tag.
-- Sign-off in copy where it fits: "Stay ugly." (The full form "...See you in
-  the in-between." is under review because it points to the old name.)
+- Sign-off flexes per episode: "Signed, a ___" / "Stay ___" (Show Hub).
+  The old fixed "Stay ugly. See you in the in-between." is superseded.
 - Hashtag tiers: broad #healingjourney · niche #selfhealers · brand
   #uglyinbetween (under review, changes with the handle).
 
@@ -110,7 +110,7 @@ list below).
 "The Becoming" (retired name for the HOTTER/HEALTHIER/HAPPIER framework),
 "Young Hot & Outside," "Fuck It Book It," "STAMPED" (all retired names for
 "Young & Outside in [Location]"), "The Ugly In Between" (retired podcast
-name, now "I Wish Someone Had Told Me").
+name, now "I Wish Somebody Had Told Me").
 
 ## How to talk to her
 

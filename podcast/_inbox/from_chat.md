@@ -1,4 +1,4 @@
-# I Wish Someone Had Told Me: from chat (show level)
+# I Wish Somebody Had Told Me: from chat (show level)
 
 Decisions that apply to every episode: where footage lives, how you review
 masters, answers to the questions in `from_code.md`. Newest entry on top,
