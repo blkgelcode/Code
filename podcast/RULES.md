@@ -52,8 +52,9 @@ so they can sit side by side on Untitled without clashing.
   disclaimer folded into the close → "it's okay to ask for help" + the
   resources block → **outro: her sign-off with the theme under it** →
   cold end.
-- **Sign-off:** her own recorded lines for that episode, which flex per
-  episode ("Signed, a ___" / "Stay ___", as written in the script). They're
+- **Sign-off** (confirmed 2026-10-03): **"Signed, a ___. Stay ___."** in her
+  own recorded voice, as written in that episode's script. "Signed, a ___"
+  names who the episode is about; "Stay ___" emphasizes what it was about. They're
   never generated or borrowed from another episode. If the footage has no
   sign-off take, flag it.
 - The theme edit, intro card and outro card are built once, on the first

@@ -5,6 +5,27 @@ Episode reports go in `podcast/episodes/epNN/_inbox/from_code.md`.
 
 ---
 
+## 2026-10-03 19:16 — setup: complete, no open questions
+
+**Status:** ready. Film an episode, upload it from Untitled, and run
+`/podcast-episode <N>`.
+
+**What changed:**
+- **Editing style:** the old one-take, keep-every-pause rule is retired.
+  The long-form is cut the way the playbook says: cold open, script cut
+  tight, punch-ins, b-roll over the heavy talking sections. Your words are
+  still never re-worded (R6).
+- **Sign-off locked:** "Signed, a ___. Stay ___." in your own voice, as
+  written in each script. "Signed, a ___" names who the episode is about;
+  "Stay ___" emphasizes what it was about. The theme comes in under it,
+  then a cold end. #stayugly stays the brand hashtag.
+- Brand bible, editor prompt and creative memory updated to match.
+
+**Open questions:** none.
+
+**Sign-off checklist:** nothing to sign off yet. Nothing has been
+published, and nothing was sent to Drive, Rella or any platform.
+
 ## 2026-10-03 18:49 — setup: storage, handle and hashtag set; 2 confirmations open
 
 **Status:** ready to run as soon as an episode is filmed and uploaded.

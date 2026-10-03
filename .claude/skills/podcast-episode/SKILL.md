@@ -1,6 +1,6 @@
 ---
 name: podcast-episode
-description: Run the full production chain for one filmed episode of the podcast I Wish Somebody Had Told Me (@iwishsomeonetoldme; formerly The Ugly In Between, @iwishsomeonetoldme): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, vertical, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
+description: Run the full production chain for one filmed episode of the podcast I Wish Somebody Had Told Me (@iwishsomeonetoldme; formerly The Ugly In Between, @uglyinbetween): intake → implementation spec → build with five role sub-agents (audio master, sound design, video edit, vertical, packaging) → verify against the locked rules → report to the episode's _inbox, then stop before publishing. Use when Omnia invokes /podcast-episode <N>.
 argument-hint: <episode number>
 ---
 

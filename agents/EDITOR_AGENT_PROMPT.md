@@ -55,8 +55,7 @@ end cold, name the specific activity — never the vague vibe.
   dead air and streamline hard.
 - **The podcast follows its own playbook:** the long-form is cut like the
   daily vlogs (script cut tight, punch-ins, b-roll over heavy talking). The
-  old "never streamline the podcast's silence" rule is superseded (pending
-  her confirmation).
+  old "never streamline the podcast's silence" rule is superseded (retired, confirmed by her 2026-10-03).
 - A "lululu"/"la, la, la" sound on camera = cut that take (flub-take
   marker).
 - Every clip in a montage must move the story forward — cut any shot that

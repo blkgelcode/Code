@@ -17,11 +17,11 @@
 > blog post. Its **Production System** tab is the playbook
 > `/podcast-episode` follows. Still locked here: the voice and the episode
 > rules in `../../podcast/RULES.md`.
-> **Superseded by the playbook (pending her confirmation):** the one-take,
+> **Superseded by the playbook (retired, confirmed by her 2026-10-03):** the one-take,
 > keep-every-pause documentarian rule (the long-form is now cut like the
 > daily vlogs: script cut tight, punch-ins, b-roll over heavy talking); the
-> fixed "Stay ugly." sign-off (it now flexes per episode: "Signed, a ___" /
-> "Stay ___"); and the old 12-episode, 3-act structure.
+> fixed "Stay ugly." sign-off (it's now "Signed, a ___. Stay ___." per
+> episode); and the old 12-episode, 3-act structure.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context. This is the brand
 most visually and editorially distinct from the other two — treat its
@@ -29,10 +29,12 @@ rules as overrides, not variations, of the shared toolkit.
 
 ## Identity
 - Tagline *(under review)*: *"Where growth isn't pretty, but it's real."*
-- Sign-off: flexes per episode (Show Hub): *"Signed, a ___"* names who the
-  episode is about, and *"Stay ___"* carries its message (e.g. "Stay
-  scared, and do it anyway."). The old fixed *"Stay ugly. See you in the
-  in-between."* is superseded.
+- Sign-off (confirmed 2026-10-03): **"Signed, a ___. Stay ___."**, written
+  fresh for each episode. *"Signed, a ___"* names who the episode is about
+  (an eldest daughter, a procrastinator). *"Stay ___"* emphasizes what the
+  episode was about (e.g. "Stay scared, and do it anyway."). The old fixed
+  *"Stay ugly. See you in the in-between."* is retired as a sign-off;
+  #stayugly lives on as the brand hashtag.
 - Core thesis: going past the pretty surface of "having it together" into
   the actual mess of healing.
 
@@ -46,7 +48,7 @@ not overwritten/literary. This is a deliberate pull-back from the original
 Bible doc's more dramatic style; don't drift back toward that register.
 
 ## Production Approach
-- *Superseded 2026-10-03 by the playbook (pending her confirmation):*
+- *Superseded 2026-10-03 by the playbook (retired, confirmed by her 2026-10-03):*
   record in one take, keep voice cracks/sighs/pauses. The show is now
   filmed solo and scripted, and the long-form is cut like the daily vlogs.
 - Music per the playbook: the locked intro/outro theme plus an optional
@@ -69,7 +71,7 @@ Bible doc's more dramatic style; don't drift back toward that register.
   final visual treatment is under review since the 2026-10-03 rename (it
   was B&W high-contrast); the room's actual color doesn't set it. Confirmed scope: studio/set
   inspiration only, not a format or palette change.
-- *Superseded 2026-10-03 by the playbook (pending her confirmation):* the
+- *Superseded 2026-10-03 by the playbook (retired, confirmed by her 2026-10-03):* the
   documentarian rule with no exceptions (never streamline the silence).
   The playbook cuts the long-form like the daily vlogs: script cut tight,
   punch-ins, b-roll over the heavy talking sections.

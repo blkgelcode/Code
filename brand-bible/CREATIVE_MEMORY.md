@@ -63,13 +63,13 @@ settled four open questions: the show is "I Wish **Somebody** Had Told Me";
 Season 1 is Ep 0 + 10 episodes, all written; every blog post has a real
 resources block (LifeStance + 988, RAINN on Ep 5, *Attached* on Ep 8),
 inline in the "Let me be clear…" paragraph, so R7 now checks a verbatim
-`copy/resources_block.md`; and the five agents are defined. **Superseded
-by the playbook, pending her confirmation:** the podcast's one-take,
-never-streamline documentarian rule (the long-form is now cut like the
-daily vlogs) and the fixed "Stay ugly." sign-off (it flexes: "Signed, a
-___" / "Stay ___"). That sign-off conflicts with her chat answer "Keep
-'Stay ugly.'" from earlier the same day, so it was asked in
-`podcast/_inbox/from_code.md`. New show rules: never show a media clip in
+`copy/resources_block.md`; and the five agents are defined. **Retired,
+confirmed by her the same day:** the podcast's one-take, never-streamline
+documentarian rule (the long-form is cut like the daily vlogs: script cut
+tight, punch-ins, b-roll). **Sign-off confirmed:** "Signed, a ___. Stay
+___.", where "Stay ___" emphasizes what the episode was about. It
+replaces her earlier "keep 'Stay ugly.'" answer; #stayugly stays the brand
+hashtag. New show rules: never show a media clip in
 any version, credit the source in the description, and the language is
 uncensored.
 
