@@ -31,6 +31,7 @@ every piece of content gets better because of everything made before it.
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
+| `_inbox/` | Studio-wide inbox between her Claude assistant and Claude Code: `from_chat.md` (hers: requests and decisions) and `from_code.md` (Code's reports). Code reads `from_chat.md` at the start of every session (see `CLAUDE.md`). |
 | `podcast/` | @iwishsomeonetoldme episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (pointer to the live playbook in her Show Hub doc), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
