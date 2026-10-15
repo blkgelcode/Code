@@ -32,6 +32,7 @@ every piece of content gets better because of everything made before it.
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
 | `podcast/` | @iwishsomeonetoldme episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (pointer to the live playbook in her Show Hub doc), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
+| `_inbox/from_code.md` | Studio-level hand-off notes for work Code can't do from the cloud (files on Omnia's Mac, like the reel edit kit). Newest first. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
 | `growth/ANALYTICS_SYSTEM.md` | What gets tracked, connected tools, and — critically — what analytics are *for* here (see below). |
