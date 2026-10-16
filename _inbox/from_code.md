@@ -43,9 +43,8 @@ locked rule was edited.
 2. **P4, drop other people's voices** unless she asks to keep one. Seen in
    2 videos (Vlog 14, Vlog 32). Make it a rule?
 Also: the copy files for Vlog 16, 17, 18 DIL, 21 DIL and Brazil Goals are
-gone from Drive, and none of the five remaining notes are from the
-podcast. A prediction is registered in the audit, to check after the next
-Shorts.
+gone from Drive, so the edit diff rests on the five that remain. A
+prediction is registered in the audit, to check after the next Shorts.
 
 ## 2026-10-06 — inbox: set up
 
