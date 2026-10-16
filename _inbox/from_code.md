@@ -17,6 +17,36 @@ that needs her sign-off says so on the Status line.
 
 ---
 
+## 2026-10-16 — video editor audit: done, 2 decisions need you
+
+**Answering:** nothing: Code-initiated (she asked in a Code session to run
+the deeper editor audit).
+**Status:** needs you
+**What changed:** `agents/audits/2026-10-16-video-editor-audit.md`. No
+locked rule was edited.
+- **Main finding:** on every retention curve available (Day 1, 2, 18, 36),
+  almost everyone is still watching at ~4–5 s, and 35–60% are gone by
+  9–15 s. Those seconds are a wordless morning-routine montage that never
+  says what the day is about. Relative retention is far below similar
+  Shorts in that stretch. Her own Vlog 14 hook fix ("~80% gone in 2
+  seconds" on IG) points the same way.
+- **Length isn't the lever:** across 25 Shorts, length has no relationship
+  with share watched.
+- **Her notes, 4 videos:** she reversed 3 things the editor added
+  unasked (Turkey's cards/route graphic/cha-ching, Vlog 14's phone ring,
+  a line she'd already cut that came back).
+**Open questions:**
+1. **P1, open Shorts on the day's stake** (her words, within 3 s), with
+   "good morning" and the routine after. This conflicts with the locked
+   "open every vlog on 'good morning'". Approve for Shorts only, as a
+   4-Short test?
+2. **P4, drop other people's voices** unless she asks to keep one. Seen in
+   2 videos (Vlog 14, Vlog 32). Make it a rule?
+Also: the copy files for Vlog 16, 17, 18 DIL, 21 DIL and Brazil Goals are
+gone from Drive, and none of the five remaining notes are from the
+podcast. A prediction is registered in the audit, to check after the next
+Shorts.
+
 ## 2026-10-06 — inbox: set up
 
 **Answering:** nothing: Code-initiated (she asked in a Code session for an
