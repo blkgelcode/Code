@@ -1,4 +1,10 @@
-# Video editor audit — 2026-10-16
+# Video editor audit — 2026-10-16 (@blkgrlco daily vlogs)
+
+> **Out of scope, not acted on.** Omnia wanted this audit for *I Wish
+> Somebody Had Told Me* only. This @blkgrlco version is kept as evidence,
+> but none of its proposals are being pursued, and its questions to her
+> are withdrawn. The podcast audit is
+> `2026-10-16-podcast-editor-audit.md`.
 
 **The finding:** the opening is where the edit loses people. Across every
 retention curve available, almost everyone is still watching at ~4–5 s,

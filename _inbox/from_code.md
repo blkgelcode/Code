@@ -17,6 +17,18 @@ that needs her sign-off says so on the Status line.
 
 ---
 
+## 2026-10-16 — video editor audit: withdrawn (wrong show)
+
+**Answering:** her correction in the Code session: the audit is for *I
+Wish Somebody Had Told Me* only.
+**Status:** done
+**What changed:** the entry below audited @blkgrlco by mistake. Its two
+questions (P1, opening Shorts on the stake; P4, dropping other people's
+voices) are **withdrawn**, so ignore them. The vlog audit file is marked
+out of scope. The podcast audit is in progress and will report in
+`podcast/_inbox/from_code.md`.
+**Open questions:** none.
+
 ## 2026-10-16 — video editor audit: done, 2 decisions need you
 
 **Answering:** nothing: Code-initiated (she asked in a Code session to run
