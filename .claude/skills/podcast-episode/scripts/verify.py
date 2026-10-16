@@ -8,6 +8,7 @@ writes <episode>/verify_report.md, and exits 1 if any check FAILs.
 --frames also extracts caption-time frames from each vertical into
 <episode>/media/verify_frames/ so the burned-in captions can be eyeballed.
 """
+import difflib
 import hashlib
 import json
 import re
@@ -20,6 +21,7 @@ LUFS_TOLERANCE = 0.5
 TRUE_PEAK_CEILING = -1.0  # default ceiling, not a locked rule: WARN only
 COLD_OPEN_SILENCE_DB = -60.0
 MIN_RUN = 2  # shortest run of consecutive raw words that counts as hers
+CLOSE_MATCH = 0.8  # share of a script line that must survive, in one place, for the locked close
 REPO = Path(__file__).resolve().parents[4]
 
 results = []  # (rule, status, detail)
@@ -131,6 +133,24 @@ def check_words(label, raw_tokens, text):
                f"{label}: {len(soft)} single-word mismatch(es), likely transcription noise; listen to check: {shown}")
     else:
         record("R6 her words only", "PASS", f"{label}: every word traced to the raw recording")
+
+
+def locate(said, want):
+    """Find `want` (script line tokens) in one stretch of `said`.
+
+    Anchors on the longest exact run, then measures how much of the line
+    matches inside a window just wider than the line, so common words
+    scattered across the episode can't add up to a false match.
+    Returns (share of the line found, start index or None).
+    """
+    sm = difflib.SequenceMatcher(None, said, want, autojunk=False)
+    i, j, k = sm.find_longest_match(0, len(said), 0, len(want))
+    if k == 0:
+        return 0.0, None
+    lo = max(0, i - j - 5)
+    hi = min(len(said), i + (len(want) - j) + 5)
+    window = difflib.SequenceMatcher(None, said[lo:hi], want, autojunk=False)
+    return sum(b.size for b in window.get_matching_blocks()) / len(want), lo
 
 
 def norm_ws(s):
@@ -295,6 +315,85 @@ def main():
             record("Playbook: verticals", "PASS" if ok else "FAIL", f"{d['id']}: {w}×{h} (needs 9:16)")
     n_vert = sum(1 for d in deliverables if d["kind"] == "vertical")
     record("Playbook: verticals", "PASS" if 2 <= n_vert <= 3 else "FAIL", f"{n_vert} vertical(s) (playbook: 2–3)")
+
+    # Show Hub: the locked close survives the cut, in order (disclaimer →
+    # spoken resources → "Signed, a ___" → "Stay ___"), on every full-length master
+    script_rel = m.get("script")
+    if not script_rel or not p(script_rel).exists():
+        record("Show Hub: locked close", "FAIL", "script missing, so the close can't be checked")
+    else:
+        lines = [l.strip() for l in p(script_rel).read_text().splitlines() if l.strip()]
+        marks = [("disclaimer", next((l for l in lines if "not a therapist" in l.lower()), None)),
+                 ("988 line", next((l for l in reversed(lines) if "988" in l), None)),
+                 ("Signed", next((l for l in lines if l.startswith("Signed,")), None)),
+                 ("Stay", next((l for l in reversed(lines) if l.startswith("Stay ")), None))]
+        # in most scripts the 988 sentence sits inside the "Let me be clear"
+        # paragraph; when two marks are the same line, check it once
+        merged = []
+        for name, line in marks:
+            if line is not None and merged and merged[-1][1] == line:
+                merged[-1] = (merged[-1][0] + " + " + name, line)
+            else:
+                merged.append((name, line))
+        marks = merged
+        absent = [n for n, l in marks if l is None]
+        if absent:
+            record("Show Hub: locked close", "FAIL", f"script has no {', '.join(absent)} line")
+        for d in deliverables:
+            if d["kind"] not in ("audio", "video") or absent:
+                continue
+            t = d.get("transcript")
+            if not t or not p(t).exists():
+                continue  # R6 already fails a missing transcript
+            said = tokens(p(t).read_text())
+            found, problems = [], []
+            for name, line in marks:
+                cover, at = locate(said, tokens(line))
+                if cover < CLOSE_MATCH:
+                    problems.append(f"{name} missing ({cover:.0%} of the script line found)")
+                else:
+                    found.append((at, name))
+            expected = [n for n, _ in marks if n in {x for _, x in found}]
+            actual = [n for _, n in sorted(found)]
+            if actual != expected:
+                problems.append("out of order: " + " → ".join(actual))
+            record("Show Hub: locked close", "FAIL" if problems else "PASS",
+                   f"{d['id']}: " + ("; ".join(problems) if problems else "disclaimer, spoken resources, Signed, Stay all present in order"))
+
+    # Show Hub: media-sparked episodes credit their source in the description
+    credits = m.get("credits") or []
+    desc_rel = m.get("description")
+    if m.get("media_sparked") and not credits:
+        record("Show Hub: clip credit", "FAIL", "media-sparked episode with no credits listed in the manifest")
+    elif credits:
+        if not desc_rel or not p(desc_rel).exists():
+            record("Show Hub: clip credit", "FAIL", "description missing")
+        else:
+            text = norm_ws(p(desc_rel).read_text()).lower()
+            missing_c = [c for c in credits if c.lower() not in text]
+            record("Show Hub: clip credit", "FAIL" if missing_c else "PASS",
+                   ("not credited: " + ", ".join(missing_c)) if missing_c else "every source credited in the description")
+
+    # Playbook: show notes carry chapters (YouTube rules: start at 0:00, ≥3, ≥10 s apart)
+    if notes and p(notes).exists():
+        stamps = []
+        for l in p(notes).read_text().splitlines():
+            mm = re.match(r"^\s*[-*]?\s*(?:(\d+):)?(\d{1,2}):(\d{2})\b", l)
+            if mm:
+                h, mi, se = int(mm.group(1) or 0), int(mm.group(2)), int(mm.group(3))
+                stamps.append(h * 3600 + mi * 60 + se)
+        problems = []
+        if len(stamps) < 3:
+            problems.append(f"{len(stamps)} chapter line(s), needs ≥3")
+        elif stamps[0] != 0:
+            problems.append("first chapter isn't 0:00")
+        if any(b - a < 10 for a, b in zip(stamps, stamps[1:])):
+            problems.append("chapters out of order or under 10 s apart")
+        vm = next((d for d in deliverables if d["kind"] == "video" and p(d["path"]).exists()), None)
+        if vm and stamps and stamps[-1] >= duration(p(vm["path"])):
+            problems.append("last chapter is past the end of the video")
+        record("Playbook: chapters", "FAIL" if problems else "PASS",
+               "; ".join(problems) if problems else f"{len(stamps)} chapters, valid for YouTube")
 
     fails = [r for r in results if r[1] == "FAIL"]
     warns = [r for r in results if r[1] == "WARN"]

@@ -63,7 +63,13 @@ reports go in `podcast/_inbox/from_code.md`.
 2. Find episode N in the Show Hub's **Season 1 lineup**. If it isn't there,
    ask her. Don't guess. Update the snapshot row in `podcast/EPISODES.md`.
 3. From the doc's **Scripts** and **Blog Posts** tabs, copy the `### Ep N —`
-   section **verbatim** into `copy/script.md` and `copy/blog_post.md`.
+   section **verbatim** into `copy/script.md` and `copy/blog_post.md`. In
+   `manifest.json`, set `script` and `description`. If the script's
+   `Source:` line names a show, fan edit, podcast or book, also set
+   `media_sparked: true` and list every name to credit in `credits` (e.g.
+   Ep 2: the fan edit's handle and each show; Ep 4: Ted Lasso and Elizabeth
+   Appell; Ep 8: *Attached*, Amir Levine, Rachel Heller). `verify.py` checks
+   the description credits each one.
 4. Copy the blog post's **resources block** verbatim into
    `copy/resources_block.md`. It's the span from the first resource
    sentence (RAINN, a book like *Attached*, or "If you're looking for
@@ -87,10 +93,20 @@ reports go in `podcast/_inbox/from_code.md`.
      in the description, and that no clip may appear anywhere
    - no sign-off take ("Signed, a ___" / "Stay ___") in the footage, which
      blocks the outro
+   - any open note inside the script itself (e.g. Ep 2: "lines 2–4 matched
+     to scenes by video order, so check them"). Ask her before the edit.
    - first episode with no locked intro/outro yet (R4): sound design builds
      them in this run, and they need her approval
 
 ## 2. Spec (before any build work)
+
+No script marks where the cold open ends, and that's where the locked
+intro goes and where R3's music-free window stops. So the spec must name
+the **cold-open boundary**: the exact last line before the intro, with a
+reason. Put it first in the "spec ready" entry so she can move it. Copy
+every stage direction in the script into the spec as an editor
+instruction. Ep 4's `(Riff here… Let it breathe.)` means don't tighten
+that stretch, even though the rest is cut tight.
 
 Fill in `epNN/spec.md`: the doc `rev` you built to, intake facts, the
 section-by-section cut against the Show Hub's locked structure with raw
@@ -145,6 +161,12 @@ Hard limits:
 - Media files go in media/ (gitignored); never commit them.
 - Don't edit any _inbox/from_chat.md. Don't write to _inbox/from_code.md;
   the orchestrator reports.
+- Add nothing that isn't in her script, the playbook or the spec (no
+  extra cards, SFX, beds, graphics). If you think something is needed,
+  list it in roles/<role>.md as "proposed, not added". Her past reversals
+  were all unasked additions.
+- Lines she has cut stay cut. Check the "her cuts" list in the spec
+  before every re-cut.
 
 When done: update manifest.json for each deliverable you own (path,
 transcript, captions as applicable), and write roles/<role>.md: what you
@@ -204,6 +226,8 @@ python3 .claude/skills/podcast-episode/scripts/verify.py podcast/episodes/epNN -
    - [ ] show notes written (sources, resources, chapters)
    - [ ] blog post ready for Substack + website (her text from the doc,
      unchanged)
+   - [ ] cold-open boundary (where the intro lands)
+   - [ ] anything a role proposed but didn't add, each as its own item
    - [ ] on the first episode: the intro/outro lock
    - [ ] Omnia signed off → then she publishes
 4. Tell her in two or three lines where it is and what needs her.

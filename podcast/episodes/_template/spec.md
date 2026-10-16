@@ -10,6 +10,9 @@ If a role needs to deviate, it updates this spec and logs why in
 - Script + blog post: copied verbatim to copy/script.md, copy/blog_post.md
 - Resources block: copy/resources_block.md (verbatim span of the blog post)
 - Media-sparked? <no | source to credit; no clip anywhere>
+- Cold-open boundary: <exact last line before the intro> because <reason>
+- Stage directions from the script, as editor instructions: <list, or "none">
+- Her cuts (lines she has removed; never bring back): <list, or "none yet">
 - Footage: <paths, takes, durations, recording date>
 - Raw transcript: `media/transcripts/raw.txt` (+ word timestamps)
 - Open notes from `_inbox/from_chat.md`: <list, or "none">

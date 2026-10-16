@@ -40,5 +40,9 @@
       "captions": "media/out/Ep{{NN}}_vertical_02.srt"
     }
   ],
-  "resources_block": "copy/resources_block.md"
+  "resources_block": "copy/resources_block.md",
+  "script": "copy/script.md",
+  "description": "copy/description.md",
+  "media_sparked": false,
+  "credits": []
 }

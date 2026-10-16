@@ -5,6 +5,38 @@ Episode reports go in `podcast/episodes/epNN/_inbox/from_code.md`.
 
 ---
 
+## 2026-10-16 15:58 — editor audit: done, pipeline fixed, 2 things need you
+
+**Status:** done. Two items need you before Ep 1 and Ep 2 are cut.
+
+**What changed:**
+- **Audit:** `agents/audits/2026-10-16-podcast-editor-audit.md`. With
+  nothing filmed yet, the rawest material is your 11 scripts. All follow
+  the locked structure in order, and all speak LifeStance and 988 out
+  loud.
+- **The gap was the pipeline.** Nothing checked that your close
+  (disclaimer, resources, "Signed", "Stay") survives the cut, that Ep 2,
+  4 and 8 credit their source, or that show notes have valid chapters.
+  `verify.py` now checks all three. It's tested on all 11 real scripts and
+  catches deliberately broken cuts.
+- **Cold-open boundary:** no script marks where the cold open ends, which
+  is where the intro lands. Every spec now has to name the exact line,
+  with a reason, as the first thing you confirm.
+- **Stage directions** carry into the spec (Ep 4: don't tighten the
+  riff). Every role must list ideas as "proposed, not added" instead of
+  adding them.
+- No locked rule changed.
+
+**Open questions:**
+1. **Ep 2's scene lines:** your script says lines 2–4 were "matched to
+   scenes by video order, so check them." Can you confirm them before Ep 2
+   is cut?
+2. **Connect @iwishsomeonetoldme in vidIQ.** It's the only way to check
+   the three predictions in the audit once Ep 1 is live.
+
+**Sign-off checklist:** nothing to sign off yet. Nothing has been
+published, and nothing was sent to Drive, Rella or any platform.
+
 ## 2026-10-03 19:16 — setup: complete, no open questions
 
 **Status:** ready. Film an episode, upload it from Untitled, and run

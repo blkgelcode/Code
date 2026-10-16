@@ -39,6 +39,14 @@ so they can sit side by side on Untitled without clashing.
   number (track) and title. Season goes in the disc tag (`TPOS`); it's a
   WARN if missing, since ID3 has no season field.
 - **Verticals:** 2–3 per episode, 9:16.
+- **Locked close survives the cut** (Show Hub structure): the disclaimer
+  ("not a therapist"), the spoken resources (988 line), "Signed, a ___"
+  and "Stay ___" are each found in one stretch of the audio and video
+  master transcripts (≥80% of the script line), in that order.
+- **Clip credit** (Show Hub "Clips"): on a media-sparked episode, every
+  name in the manifest's `credits` appears in the description.
+- **Chapters** (playbook show notes): at least 3, starting at 0:00, at
+  least 10 s apart, ending before the video does.
 
 ## Intro / outro (locked 2026-10-03)
 
