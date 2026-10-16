@@ -5,7 +5,7 @@ Episode reports go in `podcast/episodes/epNN/_inbox/from_code.md`.
 
 ---
 
-## 2026-10-16 15:58 — editor audit: done, pipeline fixed, 2 things need you
+## 2026-10-16 15:54 — editor audit: done, pipeline fixed, 2 things need you
 
 **Status:** done. Two items need you before Ep 1 and Ep 2 are cut.
 
