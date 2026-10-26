@@ -63,6 +63,7 @@ DEFAULTS = {
     "claude_model": "claude-opus-5-5",
     "recent_projects": [],
     "default_picker_location": "/Volumes/Untitled/project hhh",
+    "export_path": "",
 }
 
 _lock = threading.RLock()

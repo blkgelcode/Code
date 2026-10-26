@@ -3,7 +3,7 @@
 A local web app for organizing footage and planning videos. It runs on your Mac at
 `http://localhost:4321` and works directly on the T7 (`Untitled/project hhh/<video>`).
 
-**Status:** Phase 1 (Media tab). Phase 2 (Plan) and Phase 3 (Overview) aren't built yet.
+**Status:** Phase 1 (Media) and Phase 2 (Plan) built. Phase 3 (Overview) is next.
 
 ## Start it
 
@@ -34,6 +34,39 @@ Safety rules, enforced in `blkbin/submit.py` and covered by tests:
 - Apply refuses to run if anything changed since the dry run you looked at.
 - The app won't open a whole drive, your home folder, or the whole `project hhh` folder.
 
+## What the Plan tab does (one plan per video)
+
+| Sub-tab | What it holds |
+|---|---|
+| Video details | Working name, post date, channel (@blkgrlco, @blkgrlcotoo, podcast), video type, status (Not started / In progress / Posted). |
+| Titles | Type or paste titles, one per line. Ticking one sends it to the dashboard. Long-forms show a warning until they have 3 titles. |
+| Thumbnails | Drop 3 PNGs. Each gets a click-appeal score (0–100), ranked, with notes: timestamp corner covered, cluttered at phone size, over 5 words or too small to read, fails the red-green colorblind preview (toggle to see it), face not centered. Link each one to a title. |
+| Script & music | Type `@` where a song starts and pick from this project's Music files. The cue list shows every song in order, with its line. |
+
+**How the score works.** Claude rates the thumbnail's appeal (0–100) and reads its text
+and face position. Each failed check then takes points off: corner −15, clutter −15,
+words −10, readability −10, colorblind −10, face −10. The corner, clutter and colorblind
+checks run on your Mac without Claude. The score ranks your options against each other;
+it doesn't predict click-through.
+
+## How the dashboard is connected
+
+Every time you tick a title or change a video's details, Bin rewrites
+`~/BLKGRLCO Studios/bin-export.json` (you can change the location in Settings → Connections).
+On the BLKGRLCO Studios dashboard (claude.ai), open **Data → Imports & Code → Import from
+BLKGRLCO Bin** and choose that file. You get a preview first. Then:
+- a video the dashboard doesn't have yet becomes a new record (at Idea, or Story map if it's in progress);
+- an existing record (matched by Bin's id, then the T7 folder, then the name) only gets *empty* fields filled
+  (post date, raw folder) and ticked titles added into empty title slots;
+- nothing is removed, and nothing is moved to Posted. That still needs your go on the dashboard.
+
+A claude.ai page can't read files on your Mac by itself, so choosing the file is the one manual step.
+
+## Where things are kept
+
+Plans (titles, thumbnails, script) are kept on your Mac in
+`~/Library/Application Support/BLKGRLCO Bin/projects/`. Each T7 folder holds a small
+`.blkgrlco-bin/project.json` so the app knows which plan belongs to it.
 Analysis data (frames, Whisper output, Claude's notes, undo journals) is kept in a hidden
 `.blkgrlco-bin/` folder inside each project, so it travels with the T7.
 
@@ -46,6 +79,9 @@ Analysis data (frames, Whisper output, Claude's notes, undo journals) is kept in
     the copy is identical to before (path, size, SHA-256 and modified time). It also proves the
     T7 original was never touched. It writes a report and a labels template for your 30 hand labels.
   - **Option 2:** scores your labels against the app's categories.
+  - **Option 3:** scores your past thumbnail A/B tests. Put each test in its own folder in
+    `~/bin-test/ab/` (the thumbnails plus a `winner.txt` with the winning file's name). The
+    report says whether the app's #1 matches the real winner for each test.
 
 ## Layout
 
@@ -58,6 +94,9 @@ blkbin/        Python server (standard library HTTP server) and logic
   naming.py    proposed names
   project.py   per-project state and the analysis queue
   submit.py    dry run, apply, undo, _bin-log.csv, _footage-master.md
+  registry.py  every video's plan + the dashboard export
+  planning.py  thumbnails, title links, script & music cues
+  thumbs.py    thumbnail checks and the click-appeal score
   server.py    API + static files, bound to 127.0.0.1 only
   cli.py       command-line tools used by run-tests.command
 web/           the interface (HTML/CSS/JS, no build step)

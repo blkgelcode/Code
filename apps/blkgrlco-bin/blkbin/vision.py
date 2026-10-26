@@ -138,3 +138,64 @@ def _claude(facts: dict, frame_paths: list[Path], settings: dict) -> dict:
     data["source"] = "claude"
     data["model"] = response.model
     return data
+
+
+# ---- thumbnails ------------------------------------------------------------------
+
+THUMB_SYSTEM = """You review YouTube thumbnails for a creator (BLKGRLCO Studios: personal
+development, travel, and a podcast). Read the image exactly as it is.
+Coordinates are fractions of the image size: x and y are the top-left corner,
+w and h are the width and height, all between 0 and 1.
+- texts: every separate block of words printed on the thumbnail, copied exactly.
+  h is the height of one line of that text.
+- faces: every human face, largest first.
+- text_hard_to_read: empty if all text reads easily on a phone; otherwise one short
+  sentence saying what makes it hard (thin font, low contrast, busy background behind it).
+- appeal: 0-100, how likely a viewer scrolling on a phone is to click, judged only on
+  clarity, emotion, contrast and curiosity. Most thumbnails land between 40 and 85.
+- appeal_why: one short sentence."""
+
+_BOX = {"type": "object", "properties": {k: {"type": "number"} for k in ("x", "y", "w", "h")},
+        "required": ["x", "y", "w", "h"], "additionalProperties": False}
+THUMB_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "texts": {"type": "array", "items": {
+            "type": "object",
+            "properties": {"text": {"type": "string"}, **_BOX["properties"]},
+            "required": ["text", "x", "y", "w", "h"], "additionalProperties": False}},
+        "faces": {"type": "array", "items": _BOX},
+        "text_hard_to_read": {"type": "string"},
+        "appeal": {"type": "integer"},
+        "appeal_why": {"type": "string"},
+    },
+    "required": ["texts", "faces", "text_hard_to_read", "appeal", "appeal_why"],
+    "additionalProperties": False,
+}
+
+
+def thumbnail_facts(path: Path, settings: dict) -> dict | None:
+    """Claude's reading of one thumbnail, or None when Claude isn't available."""
+    if not available():
+        return None
+    import anthropic
+
+    client = anthropic.Anthropic()
+    media_type = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
+    response = client.beta.messages.create(
+        betas=["server-side-fallback-2026-07-01"], fallbacks="default",
+        model=settings.get("claude_model", "claude-opus-5-5"),
+        max_tokens=8000,
+        system=THUMB_SYSTEM,
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": media_type,
+                                         "data": base64.standard_b64encode(path.read_bytes()).decode()}},
+            {"type": "text", "text": "Read this thumbnail."},
+        ]}],
+        output_config={"effort": "medium", "format": {"type": "json_schema", "schema": THUMB_SCHEMA}},
+    )
+    if response.stop_reason == "refusal":
+        raise RuntimeError("Claude declined to read this thumbnail")
+    data = json.loads(next(b.text for b in response.content if b.type == "text"))
+    data["appeal"] = max(0, min(100, int(data.get("appeal", 70))))
+    return data

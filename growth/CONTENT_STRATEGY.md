@@ -94,9 +94,12 @@ open up?"
 
 ## Content calendar framework
 
-- **System of record: Notion** — Studios Hub (one page per channel),
-  Content Calendar DB, Idea Bank DB. *"If it's not in Notion, it's not real
-  yet."* Hub page ID: `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36`.
+- **System of record: the BLKGRLCO Studios dashboard** (claude.ai artifact
+  https://claude.ai/artifact/UZu9ZMKxs7FyTR9UMHxBKn) — one record per piece
+  of content, across all three channels. Not Notion (2026-10-26: "No Notion").
+  Ideas and ticked titles arrive from BLKGRLCO Bin (`apps/blkgrlco-bin/`)
+  through its `bin-export.json`: dashboard → Data → Imports & Code → Import
+  from BLKGRLCO Bin.
 - Every scheduled item maps to: a brand, a pillar/lane, a platform, and a
   production step owner.
 - **Calendar decisions optimize for consistency and creative quality, not

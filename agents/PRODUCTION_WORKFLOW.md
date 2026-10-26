@@ -101,10 +101,12 @@ Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
 
 ## Technical & storage notes (BLKGRLCO Studios, all brands unless noted)
 
-- **System of record: Notion** — Studios Hub, Content Calendar DB, Idea
-  Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
-  `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36`. Content Calendar data source:
-  `collection://385c26ae-18f0-4b17-887e-ee4943716796`.
+- **System of record: the BLKGRLCO Studios dashboard** (claude.ai artifact
+  https://claude.ai/artifact/UZu9ZMKxs7FyTR9UMHxBKn) — one record per piece
+  of content, across all three channels. Not Notion (2026-10-26: "No Notion").
+  Ideas and ticked titles arrive from BLKGRLCO Bin (`apps/blkgrlco-bin/`)
+  through its `bin-export.json`: dashboard → Data → Imports & Code → Import
+  from BLKGRLCO Bin.
 - Source footage and project folders: Samsung T7 SSD, `project hhh` folder,
   one subfolder per video. Google Drive is backup-only (large downloads
   stall there).

@@ -77,6 +77,7 @@ function showTab(name) {
   try { localStorage.setItem("bin.tab", name); } catch (e) { /* storage blocked */ }
   if (name === "media") renderMedia();
   if (name === "settings") renderSettings();
+  if (name === "plan") renderPlan();
 }
 
 // ---------- project ----------
@@ -529,6 +530,7 @@ function settingsAnalysis(body) {
 }
 
 function settingsConnections(body) {
+  const exportPath = h("input", { class: "input", value: S.settings.export_path || "", placeholder: "~/BLKGRLCO Studios/bin-export.json", style: { flex: 1 } });
   const key = h("input", { class: "input", type: "password", placeholder: S.status.api_key_set ? "•••••••• saved" : "sk-ant-…", style: { flex: 1 } });
   body.append(
     h("h3", {}, "Connections"),
@@ -547,7 +549,10 @@ function settingsConnections(body) {
       h("span", { class: "help" }, S.status.claude ? "Claude is on." :
         S.status.api_key_set ? "Key saved, but the anthropic package isn't installed: run the start script again." :
         "Get a key at console.anthropic.com → API keys.")),
-    h("div", { class: "field" }, h("label", {}, "BLKGRLCO Studios dashboard"), h("span", { class: "help" }, "Connected in Phase 2.")),
+    h("div", { class: "field" }, h("label", {}, "BLKGRLCO Studios dashboard"),
+      h("span", { class: "help" }, "Every time you tick a title (or change a video's details), the app rewrites this file. On the dashboard, open Data → Imports & Code → Import from BLKGRLCO Bin and choose it. You see a preview before anything changes."),
+      h("div", { class: "inline" }, exportPath,
+        h("button", { class: "btn", onclick: () => saveSettings({ export_path: exportPath.value.trim() }, "Export location saved.") }, "Save"))),
     h("div", { class: "field" }, h("label", {}, "YouTube Analytics"), h("span", { class: "help" }, "Connected in Phase 3.")));
 }
 

@@ -88,11 +88,14 @@ confirmed; don't presume identical targeting without checking.
 
 ## 7. System of Record
 
-- **Notion** — Studios Hub (one page per channel), Content Calendar DB,
-  Idea Bank DB. *"If it's not in Notion, it's not real yet."* Hub page ID:
-  `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36` — corrected 2026-09-11; the ID
-  originally recorded in the source doc (`...aabb-cb4244d033d3`) actually
-  resolves to a single Content Calendar entry, not the hub page itself.
+- **BLKGRLCO Studios dashboard** (claude.ai artifact
+  https://claude.ai/artifact/UZu9ZMKxs7FyTR9UMHxBKn) — one record per piece
+  of content, across all three channels. Not Notion (2026-10-26: "No Notion").
+  Ideas and ticked titles arrive from BLKGRLCO Bin (`apps/blkgrlco-bin/`)
+  through its `bin-export.json`: dashboard → Data → Imports & Code → Import
+  from BLKGRLCO Bin.
+- *Retired: Notion* (Studios Hub page `3c77c3ea-6a8c-812b-8d56-e54b8ad3fa36`,
+  Content Calendar DB, Idea Bank DB). Kept for history only.
 - **Samsung T7 SSD** — raw footage, `project hhh` folder, one subfolder
   per video. The reliable path.
 - **Google Drive** — backup/transfer only; chokes on large files.

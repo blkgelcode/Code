@@ -1,5 +1,6 @@
 """Command-line tools, used by run-tests.command.
 
+  python -m blkbin.cli copy     SRC DEST        copy a folder for testing (never overwrites)
   python -m blkbin.cli analyze  FOLDER          analyze every file (waits until done)
   python -m blkbin.cli plan     FOLDER          print the dry run
   python -m blkbin.cli apply    FOLDER --yes    apply the dry run
@@ -8,6 +9,7 @@
   python -m blkbin.cli compare  A.tsv B.tsv     are two listings identical?
   python -m blkbin.cli labels-template FOLDER OUT.csv
   python -m blkbin.cli accuracy FOLDER LABELS.csv
+  python -m blkbin.cli score-ab AB_FOLDER        does the app's #1 thumbnail match the real winner?
 """
 from __future__ import annotations
 
@@ -29,6 +31,18 @@ APP_DIRS = {project_mod.STATE_DIR}
 def _open(folder: str):
     settings.load_env()
     return project_mod.open_project(folder)
+
+
+def cmd_copy(a):
+    """Copy a T7 folder for testing: contents and modified times, minus the app's own cache."""
+    import shutil
+    src, dst = Path(a.src), Path(a.dst)
+    if dst.exists():
+        print(f"{dst} already exists; not copying over it.")
+        sys.exit(2)
+    shutil.copytree(src, dst, copy_function=shutil.copy2, ignore=shutil.ignore_patterns(project_mod.STATE_DIR))
+    n = sum(len(files) for _, _, files in os.walk(dst))
+    print(f"Copied {n} files to {dst}.")
 
 
 def cmd_analyze(a):
@@ -172,9 +186,54 @@ def cmd_accuracy(a):
     print("\n".join(misses))
 
 
+IMAGE_EXT = {".png", ".jpg", ".jpeg", ".webp"}
+
+
+def cmd_score_ab(a):
+    """AB_FOLDER/<one folder per past test>/ holds that test's thumbnails plus winner.txt
+    (the winning file's name), or the winning file has "winner" in its name."""
+    import json
+    from . import thumbs, vision
+    settings.load_env()
+    cfg = settings.load()
+    canned = json.loads(Path(a.facts).read_text()) if a.facts else None
+    tests = sorted(d for d in Path(a.folder).iterdir() if d.is_dir() and not d.name.startswith("."))
+    if not tests:
+        print(f"No test folders in {a.folder}. Make one folder per A/B test with its thumbnails inside.")
+        return
+    print("Claude: " + ("saved readings" if canned is not None else "on" if vision.available() else "off (local checks only)") + "\n")
+    matched = counted = 0
+    for d in tests:
+        imgs = sorted(p for p in d.iterdir() if p.suffix.lower() in IMAGE_EXT and not p.name.startswith("."))
+        wfile = d / "winner.txt"
+        winner = wfile.read_text().strip() if wfile.exists() else next((p.name for p in imgs if "winner" in p.stem.lower()), "")
+        if len(imgs) < 2 or winner not in {p.name for p in imgs}:
+            print(f"{d.name}: skipped (needs 2+ images and a winner.txt naming one of them)\n")
+            continue
+        rows = []
+        for p in imgs:
+            facts = canned.get(p.name) if canned is not None else vision.thumbnail_facts(p, cfg)
+            r = thumbs.score(p, facts)
+            fails = [c["label"] for c in r["checks"] if c["ok"] is False]
+            rows.append({"name": p.name, "score": r["score"], "fails": fails})
+        thumbs.rank(rows)
+        rows.sort(key=lambda x: x["rank"])
+        counted += 1
+        hit = rows[0]["name"] == winner
+        matched += hit
+        print(f"{d.name}: real winner {winner} · app's #1 {rows[0]['name']} · {'MATCH' if hit else 'no match'}")
+        for x in rows:
+            mark = "  <- real winner" if x["name"] == winner else ""
+            print(f"   #{x['rank']} {x['score']:>3}  {x['name']}{mark}" + (f"   (fails: {', '.join(x['fails'])})" if x["fails"] else ""))
+        print()
+    if counted:
+        print(f"The app's #1 matched the real winner in {matched} of {counted} test(s).")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="blkbin.cli")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    s = sub.add_parser("copy"); s.add_argument("src"); s.add_argument("dst"); s.set_defaults(fn=cmd_copy)
     s = sub.add_parser("analyze"); s.add_argument("folder"); s.add_argument("--force", action="store_true")
     s.set_defaults(fn=cmd_analyze)
     s = sub.add_parser("plan"); s.add_argument("folder"); s.set_defaults(fn=cmd_plan)
@@ -187,6 +246,8 @@ def main(argv=None):
     s.set_defaults(fn=cmd_labels_template)
     s = sub.add_parser("accuracy"); s.add_argument("folder"); s.add_argument("labels")
     s.set_defaults(fn=cmd_accuracy)
+    s = sub.add_parser("score-ab"); s.add_argument("folder"); s.add_argument("--facts", help=argparse.SUPPRESS)
+    s.set_defaults(fn=cmd_score_ab)
     a = ap.parse_args(argv)
     try:
         a.fn(a)

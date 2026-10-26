@@ -237,6 +237,7 @@ class TestSafety(Base):
                 self.assertEqual(len(json.load(resp)["cards"]), 7)
         finally:
             httpd.shutdown()
+            httpd.server_close()
 
 
 if __name__ == "__main__":

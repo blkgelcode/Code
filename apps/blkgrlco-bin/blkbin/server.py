@@ -1,6 +1,7 @@
 """Local web server on 127.0.0.1 only. Standard library, no framework."""
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import mimetypes
@@ -11,13 +12,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
-from . import __version__, picker, project as project_mod, settings, speech, submit, vision
+from . import __version__, picker, planning, project as project_mod, registry, settings, speech, submit, vision
 
 log = logging.getLogger("blkbin.server")
 WEB = Path(__file__).resolve().parent.parent / "web"
 PORT = 4321
 
-_current: dict = {"project": None}
+_current: dict = {"project": None, "plan_id": None}
 _lock = threading.Lock()
 
 
@@ -34,12 +35,27 @@ def current():
     return proj
 
 
+def current_plan_id() -> str:
+    pid = _current["plan_id"]
+    if not pid:
+        raise HttpError(409, "Pick a project first.")
+    return pid
+
+
+def media_for_plan(plan: dict):
+    proj = _current["project"]
+    if proj is not None and plan.get("folder") == str(proj.root):
+        return proj
+    return None
+
+
 # ---- routes ----------------------------------------------------------------------
 
 def r_status(_body):
     return {
         "version": __version__,
         "project": str(_current["project"].root) if _current["project"] else None,
+        "plan_id": _current["plan_id"],
         "claude": vision.available(),
         "api_key_set": settings.has_api_key(),
         "whisper": speech.whisper_available(),
@@ -81,6 +97,7 @@ def r_open(body):
     except project_mod.ProjectError as exc:
         raise HttpError(400, str(exc))
     _current["project"] = proj
+    _current["plan_id"] = registry.for_folder(proj.root)["id"]
     return proj.view()
 
 
@@ -132,10 +149,82 @@ def r_undo(_body):
     return result
 
 
+# ---- plan tab ------------------------------------------------------------------
+
+def plan_view(plan: dict | None = None) -> dict:
+    plan = plan or registry.get(current_plan_id())
+    music = planning.music_files(media_for_plan(plan))
+    return {
+        "plan": plan,
+        "check": registry.title_check(plan),
+        "music": music,
+        "cues": planning.cues(plan.get("script", ""), music),
+        "channels": registry.CHANNELS,
+        "formats": registry.FORMATS,
+        "long_formats": sorted(registry.LONG_FORMATS),
+        "statuses": registry.STATUSES,
+        "export_path": str(registry.export_path()),
+        "claude": vision.available(),
+    }
+
+
+def _plan_call(fn, *args):
+    try:
+        return plan_view(fn(current_plan_id(), *args))
+    except (KeyError, ValueError) as exc:
+        raise HttpError(400, str(exc).strip("'") or "Not found")
+
+
+def r_plan(_body):
+    return plan_view()
+
+
+def r_plan_details(body):
+    return _plan_call(registry.update_details, body.get("changes", {}))
+
+
+def r_titles_add(body):
+    return _plan_call(registry.add_titles, str(body.get("text", "")))
+
+
+def r_titles_update(body):
+    return _plan_call(registry.update_title, str(body.get("id", "")), body.get("changes", {}))
+
+
+def r_thumbs_upload(body):
+    try:
+        data = base64.b64decode(str(body.get("data", "")).split(",")[-1], validate=True)
+    except ValueError:
+        raise HttpError(400, "That upload didn't come through. Try again.")
+    return _plan_call(planning.add_thumbnail, str(body.get("name", "thumbnail.png")), data)
+
+
+def r_thumbs_score(body):
+    return _plan_call(planning.score_all, body.get("ids"))
+
+
+def r_thumbs_update(body):
+    return _plan_call(planning.update_thumbnail, str(body.get("id", "")), body.get("changes", {}))
+
+
+def r_thumbs_remove(body):
+    return _plan_call(planning.remove_thumbnail, str(body.get("id", "")))
+
+
+def r_script(body):
+    return _plan_call(planning.set_script, str(body.get("text", "")))
+
+
+def r_export(_body):
+    return registry.build_export()
+
+
 GET_ROUTES = {
     "/api/status": r_status,
     "/api/settings": r_get_settings,
     "/api/project": r_project,
+    "/api/plan": r_plan,
+    "/api/export.json": r_export,
 }
 POST_ROUTES = {
     "/api/settings": r_save_settings,
@@ -148,9 +237,18 @@ POST_ROUTES = {
     "/api/submit/plan": r_plan,
     "/api/submit/apply": r_apply,
     "/api/submit/undo": r_undo,
+    "/api/plan/details": r_plan_details,
+    "/api/plan/titles/add": r_titles_add,
+    "/api/plan/titles/update": r_titles_update,
+    "/api/plan/thumbs/upload": r_thumbs_upload,
+    "/api/plan/thumbs/score": r_thumbs_score,
+    "/api/plan/thumbs/update": r_thumbs_update,
+    "/api/plan/thumbs/remove": r_thumbs_remove,
+    "/api/plan/script": r_script,
 }
 
 FRAME_RE = re.compile(r"^/api/frame/([0-9a-f]{16}(?:~\d+)?_\d)\.(jpg|png)$")
+THUMB_RE = re.compile(r"^/api/thumb/(p-[0-9a-f]{8})/(th-[0-9a-f]{6}(?:\.cb|\.phone)?\.(?:png|jpg|webp))$")
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -187,6 +285,9 @@ class Handler(BaseHTTPRequestHandler):
             m = FRAME_RE.match(path)
             if m:
                 return self._frame(m.group(1) + "." + m.group(2))
+            m = THUMB_RE.match(path)
+            if m:
+                return self._thumb(m.group(1), m.group(2))
             return self._static(path)
         except HttpError as exc:
             return self._json(exc.status, {"error": str(exc)})
@@ -208,7 +309,9 @@ class Handler(BaseHTTPRequestHandler):
         try:
             length = int(self.headers.get("Content-Length") or 0)
             body = json.loads(self.rfile.read(length) or b"{}") if length else {}
-            with _lock if path.startswith("/api/submit") else _NoLock():
+            serial = _lock if path.startswith("/api/submit") else \
+                registry.lock() if path.startswith("/api/plan") and path != "/api/plan/thumbs/score" else _NoLock()
+            with serial:
                 return self._json(200, route(body))
         except HttpError as exc:
             return self._json(exc.status, {"error": str(exc)})
@@ -222,6 +325,13 @@ class Handler(BaseHTTPRequestHandler):
         if not p.is_file():
             raise HttpError(404, "no frame")
         ctype = "image/png" if name.endswith(".png") else "image/jpeg"
+        self._send(200, p.read_bytes(), ctype)
+
+    def _thumb(self, pid: str, name: str):
+        p = registry.project_dir(pid) / "thumbs" / name
+        if not p.is_file():
+            raise HttpError(404, "no thumbnail")
+        ctype = mimetypes.guess_type(name)[0] or "image/png"
         self._send(200, p.read_bytes(), ctype)
 
     def _static(self, path: str):

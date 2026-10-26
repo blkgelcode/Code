@@ -18,7 +18,22 @@ unquote() { "$PYBIN" -c 'import shlex,sys; print(shlex.split(sys.argv[1])[0] if 
 echo "BLKGRLCO Bin tests"
 echo "  1) Full test on a fresh copy of one T7 folder"
 echo "  2) Score my hand labels"
-read -r -p "Choose 1 or 2: " MODE
+echo "  3) Score my past thumbnail A/B tests"
+read -r -p "Choose 1, 2 or 3: " MODE
+
+if [ "$MODE" = "3" ]; then
+  AB="$TEST_ROOT/ab"
+  if [ ! -d "$AB" ] || [ -z "$(ls -A "$AB" 2>/dev/null)" ]; then
+    mkdir -p "$AB"
+    echo "Put each past A/B test in its own folder inside $AB:"
+    echo "   $AB/<test name>/A.png, B.png, C.png and winner.txt (the winning file's name, e.g. B.png)"
+    echo "Then run this again and choose 3."
+    open "$AB" 2>/dev/null; read -r -p "Press Return to close." _; exit 0
+  fi
+  cli score-ab "$AB" | tee "$TEST_ROOT/ab-report-$(date +%Y%m%d-%H%M%S).txt"
+  echo; read -r -p "Done. Press Return to close." _
+  exit 0
+fi
 
 if [ "$MODE" = "2" ]; then
   read -r -p "Drag the test copy folder (inside ~/bin-test) here, then Return: " RAW
@@ -47,9 +62,9 @@ echo "BLKGRLCO Bin test report  $(date)"
 echo "Original (read only): $SRC"
 echo "Test copy:            $DEST"
 echo
-echo "== Copying (ditto, original untouched) =="
+echo "== Copying (original untouched; the app's own .blkgrlco-bin folder is left behind so the test starts fresh) =="
 cli snapshot "$SRC" "$WORK/original-start.tsv"
-ditto "$SRC" "$DEST" && echo "Copied $(find "$DEST" -type f | wc -l | tr -d ' ') files."
+cli copy "$SRC" "$DEST"
 echo
 echo "== Unit tests =="
 "$PYBIN" -m unittest discover -s "$APP/tests" 2>&1 | tail -3
