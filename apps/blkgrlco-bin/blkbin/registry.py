@@ -274,3 +274,59 @@ def write_export() -> Path | None:
         return p
     except OSError:
         return None
+
+
+# ---- ideas & the project list (Overview tab, sidebar) -----------------------------------
+
+def add_ideas(text: str, channel: str = "@blkgrlco", fmt: str = "long-form") -> dict:
+    """One idea per non-empty line. Each becomes a project under Not started.
+    An idea whose name matches an existing project is skipped, not duplicated."""
+    if channel not in CHANNELS:
+        raise ValueError("Unknown channel")
+    if fmt not in FORMATS:
+        raise ValueError("Unknown video type")
+    with _lock:
+        have = {p["details"]["name"].strip().lower() for p in all_plans()}
+        added, skipped = [], []
+        for line in str(text).splitlines():
+            name = LIST_MARK.sub("", line).strip()[:200]
+            if not name:
+                continue
+            if name.lower() in have:
+                skipped.append(name)
+                continue
+            added.append(new_plan(name, None, channel=channel, format=fmt, status="not-started")["id"])
+            have.add(name.lower())
+    return {"added": added, "skipped": skipped}
+
+
+def summary(plan: dict) -> dict:
+    d = plan["details"]
+    folder = plan.get("folder")
+    return {
+        "id": plan["id"], "name": d["name"], "status": d["status"], "format": d["format"],
+        "channel": d["channel"], "post_date": d["post_date"], "folder": folder,
+        "folder_ok": bool(folder) and Path(folder).is_dir(), "test_copy": is_test_copy(folder),
+        "titles": title_check(plan), "created": plan.get("created"),
+    }
+
+
+def link_folder(pid: str, folder: Path) -> dict:
+    """Give an idea its T7 folder. Refuses a folder that already belongs to another video."""
+    marker = folder / ".blkgrlco-bin" / "project.json"
+    if marker.exists():
+        try:
+            other = json.loads(marker.read_text()).get("id")
+        except ValueError:
+            other = None
+        if other and other != pid:
+            try:
+                o = get(other)
+                if o.get("folder") == str(folder):
+                    raise ValueError(f'That folder already belongs to "{o["details"]["name"]}".')
+            except KeyError:
+                pass
+    plan = get(pid)
+    if plan.get("folder") and Path(plan["folder"]).is_dir() and plan["folder"] != str(folder):
+        raise ValueError("This video already has a folder.")
+    return attach_folder(pid, folder)

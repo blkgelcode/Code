@@ -199,3 +199,39 @@ def thumbnail_facts(path: Path, settings: dict) -> dict | None:
     data = json.loads(next(b.text for b in response.content if b.type == "text"))
     data["appeal"] = max(0, min(100, int(data.get("appeal", 70))))
     return data
+
+
+# ---- ideas from a screenshot ----------------------------------------------------------
+
+IDEAS_SCHEMA = {
+    "type": "object",
+    "properties": {"ideas": {"type": "array", "items": {"type": "string"}}},
+    "required": ["ideas"], "additionalProperties": False,
+}
+
+
+def extract_ideas(data: bytes, media_type: str, settings: dict) -> list[str]:
+    """Read a screenshot of a list (Notes, a whiteboard, a chat) and return one idea per item."""
+    if not available():
+        raise RuntimeError("Reading screenshots needs Claude. Add your API key in Settings → Connections.")
+    import anthropic
+
+    client = anthropic.Anthropic()
+    response = client.beta.messages.create(
+        betas=["server-side-fallback-2026-07-01"], fallbacks="default",
+        model=settings.get("claude_model", "claude-opus-5-5"),
+        max_tokens=8000,
+        system="You copy video ideas out of screenshots of lists. Return each list item exactly as written, "
+               "one string per item, in order. Leave out headings, dates, checkboxes and app interface text. "
+               "If an item wraps onto two lines, join it into one.",
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": media_type,
+                                         "data": base64.standard_b64encode(data).decode()}},
+            {"type": "text", "text": "Copy the ideas from this list."},
+        ]}],
+        output_config={"effort": "low", "format": {"type": "json_schema", "schema": IDEAS_SCHEMA}},
+    )
+    if response.stop_reason == "refusal":
+        raise RuntimeError("Claude declined to read this screenshot.")
+    data = json.loads(next(b.text for b in response.content if b.type == "text"))
+    return [s.strip() for s in data.get("ideas", []) if s and s.strip()]

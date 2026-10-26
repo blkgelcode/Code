@@ -11,6 +11,7 @@
 </head>
 <body>
   <header class="topbar">
+    <button class="side-toggle" id="side-toggle" title="Show or hide projects" aria-label="Show or hide projects">☰</button>
     <div class="brand">BLKGRLCO <span>Bin</span></div>
     <nav class="tabs" role="tablist">
       <button role="tab" data-tab="media" class="active">Media</button>
@@ -24,18 +25,20 @@
     </div>
   </header>
 
+  <div class="shell">
+  <aside id="sidebar" class="sidebar" aria-label="Projects"></aside>
   <main>
     <section id="tab-media" class="tab-panel active"></section>
     <section id="tab-plan" class="tab-panel"></section>
-    <section id="tab-overview" class="tab-panel">
-      <div class="placeholder"><h2>Overview</h2><p>Channel analytics, the ideas box and the project sidebar arrive in Phase 3.</p></div>
-    </section>
+    <section id="tab-overview" class="tab-panel"></section>
     <section id="tab-settings" class="tab-panel"></section>
   </main>
+  </div>
 
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-box"></div></div>
   <div id="toast" class="toast hidden"></div>
   <script src="/app.js"></script>
   <script src="/plan.js"></script>
+  <script src="/overview.js"></script>
 </body>
 </html>

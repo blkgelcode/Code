@@ -78,6 +78,7 @@ function showTab(name) {
   if (name === "media") renderMedia();
   if (name === "settings") renderSettings();
   if (name === "plan") renderPlan();
+  if (name === "overview") renderOverview();
 }
 
 // ---------- project ----------
@@ -95,6 +96,7 @@ async function pickFolder() {
     const v = await api.post("/api/project/pick");
     if (v.cancelled) return toast("No folder picked.");
     setView(v);
+    await loadProjects();
     S.page = 0;
     showTab("media");
   } catch (e) { toast(e.message, true); }
@@ -103,6 +105,7 @@ async function pickFolder() {
 async function openPath(path) {
   try {
     setView(await api.post("/api/project/open", { path }));
+    await loadProjects();
     S.page = 0; S.cat = "all"; S.kind = "all";
     renderMedia();
   } catch (e) { toast(e.message, true); }
@@ -110,9 +113,7 @@ async function openPath(path) {
 
 function setView(v) {
   S.view = v;
-  const name = $("#project-name");
-  name.textContent = v ? v.name : "No project open";
-  name.title = v ? v.path : "";
+  if (typeof updateHeader === "function") updateHeader();
   schedulePoll();
 }
 
@@ -224,6 +225,17 @@ function renderMedia(forcePathInput = false) {
 }
 
 function emptyState(forcePathInput) {
+  const plan = typeof currentPlan === "function" ? currentPlan() : null;
+  if (plan && (!plan.folder || !plan.folder_ok)) {  // an idea, or its T7 isn't plugged in
+    const linkInput = h("input", { placeholder: "/Volumes/Untitled/project hhh/<video folder>" });
+    return h("div", { class: "empty-state" },
+      h("h2", {}, `“${plan.name}”`),
+      h("p", {}, plan.folder ? `Its folder isn't reachable right now: ${plan.folder}. Plug in the T7, then click the project again.`
+        : "This idea has no footage folder yet. Link its folder on the T7 when you've filmed it."),
+      S.status && S.status.native_picker ? h("button", { class: "btn primary", onclick: () => linkFolder() }, "Link a folder…") : null,
+      h("div", { class: "path-row" }, linkInput, h("button", { class: "btn", onclick: () => linkFolder(linkInput.value.trim()) }, "Link this path")),
+      h("button", { class: "btn small", onclick: () => { O.current = null; S.view = null; drawSidebar(); updateHeader(); renderMedia(); } }, "Open a different folder instead"));
+  }
   const recent = (S.settings && S.settings.recent_projects) || [];
   const pathInput = h("input", { placeholder: "/Volumes/Untitled/project hhh/<video folder>", value: recent[0] || "" });
   const nativeOk = S.status && S.status.native_picker && !forcePathInput;
@@ -553,7 +565,7 @@ function settingsConnections(body) {
       h("span", { class: "help" }, "Every time you tick a title (or change a video's details), the app rewrites this file. On the dashboard, open Data → Imports & Code → Import from BLKGRLCO Bin and choose it. You see a preview before anything changes."),
       h("div", { class: "inline" }, exportPath,
         h("button", { class: "btn", onclick: () => saveSettings({ export_path: exportPath.value.trim() }, "Export location saved.") }, "Save"))),
-    h("div", { class: "field" }, h("label", {}, "YouTube Analytics"), h("span", { class: "help" }, "Connected in Phase 3.")));
+    youtubeSettings());
 }
 
 // ---------- boot ----------
@@ -568,6 +580,13 @@ window.addEventListener("resize", () => { if ($("#tab-media").classList.contains
   if (S.status.project) {
     try { setView(await api.get("/api/project")); } catch (e) { /* none open */ }
   }
+  await loadProjects();
+  $("#side-toggle").addEventListener("click", () => {
+    document.body.classList.toggle("side-hidden");
+    try { localStorage.setItem("bin.side", document.body.classList.contains("side-hidden") ? "0" : "1"); } catch (e) { /* storage blocked */ }
+    if ($("#tab-media").classList.contains("active")) renderMedia();
+  });
+  try { if (localStorage.getItem("bin.side") === "0") document.body.classList.add("side-hidden"); } catch (e) { /* storage blocked */ }
   let tab = "media";
   try { tab = localStorage.getItem("bin.tab") || "media"; } catch (e) { /* storage blocked */ }
   showTab(["media", "plan", "overview", "settings"].includes(tab) ? tab : "media");

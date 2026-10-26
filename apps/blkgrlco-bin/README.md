@@ -3,7 +3,8 @@
 A local web app for organizing footage and planning videos. It runs on your Mac at
 `http://localhost:4321` and works directly on the T7 (`Untitled/project hhh/<video>`).
 
-**Status:** Phase 1 (Media) and Phase 2 (Plan) built. Phase 3 (Overview) is next.
+**Status:** Phases 1 (Media), 2 (Plan) and 3 (Overview) built. Phase 4 (add-ons) is next;
+Phase 5 (Strategy) is specced in `docs/PHASE5_STRATEGY_SPEC.md`.
 
 ## Start it
 
@@ -48,6 +49,29 @@ and face position. Each failed check then takes points off: corner −15, clutte
 words −10, readability −10, colorblind −10, face −10. The corner, clutter and colorblind
 checks run on your Mac without Claude. The score ranks your options against each other;
 it doesn't predict click-through.
+
+## What the Overview tab and the sidebar do
+
+| Part | What it does |
+|---|---|
+| Sidebar (every tab) | Your projects grouped In progress / Not started / Posted, sortable by type, post date or name. Click one to open its plan, and its footage if its T7 folder is plugged in. ☰ hides it. |
+| Overview → Channels | Per channel: views, net subscribers (plus the current total), watch hours, and earnings if the channel has them. 7-day / 28-day toggle, each with a trend line and the change vs the period before. Click a tile to chart it per day; hover for each day's value; "Show as table" for the numbers. YouTube Analytics runs about 3 days behind, so the range ends 3 days ago. |
+| Overview → Ideas | Type or paste ideas one per line, or drop a screenshot of a list (Claude copies the items into the box so you can check them first). Each idea becomes a project under Not started and goes to the dashboard file. Duplicates are skipped. |
+| Ideas without footage | Click one and the Media tab offers "Link a folder…" once you've filmed it. A folder that already belongs to another video is refused. |
+
+### Connecting YouTube (one time, about 10 minutes)
+
+Settings → Connections walks through it:
+1. console.cloud.google.com → new project → turn on **YouTube Data API v3** and **YouTube Analytics API**.
+2. OAuth consent screen: External, add yourself as a test user, then set **Publishing status: In production**.
+   In "Testing" status Google expires the sign-in every 7 days. Google shows an "unverified app"
+   warning for a personal app; choose Advanced → Go to BLKGRLCO Bin.
+3. Credentials → OAuth client ID → **Desktop app** → download the JSON → choose it in Settings.
+4. Click **Connect a channel** once per channel (@blkgrlco, @blkgrlcotoo, the podcast). Google asks which channel.
+
+The app asks for read-only YouTube and Analytics access, plus the earnings report (it shows
+"not available" for a channel outside the Partner Program). Sign-in tokens stay in
+`~/Library/Application Support/BLKGRLCO Bin/youtube/`, readable only by you. Results are cached for an hour.
 
 ## How the dashboard is connected
 
@@ -97,6 +121,7 @@ blkbin/        Python server (standard library HTTP server) and logic
   registry.py  every video's plan + the dashboard export
   planning.py  thumbnails, title links, script & music cues
   thumbs.py    thumbnail checks and the click-appeal score
+  youtube.py   Google sign-in (desktop OAuth + PKCE) and channel analytics
   server.py    API + static files, bound to 127.0.0.1 only
   cli.py       command-line tools used by run-tests.command
 web/           the interface (HTML/CSS/JS, no build step)

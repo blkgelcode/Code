@@ -10,9 +10,10 @@ import threading
 import traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
-from . import __version__, picker, planning, project as project_mod, registry, settings, speech, submit, vision
+from . import (__version__, picker, planning, project as project_mod, registry, settings, speech, submit,
+               vision, youtube)
 
 log = logging.getLogger("blkbin.server")
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -127,7 +128,7 @@ def r_update_file(body):
     return proj.view()
 
 
-def r_plan(_body):
+def r_submit_plan(_body):
     return submit.plan(current())
 
 
@@ -219,13 +220,114 @@ def r_export(_body):
     return registry.build_export()
 
 
+# ---- overview tab: projects, ideas, YouTube ------------------------------------------------
+
+def r_projects(_body):
+    plans = [registry.summary(p) for p in registry.all_plans()]
+    return {"projects": plans, "current": _current["plan_id"], "formats": registry.FORMATS,
+            "channels": registry.CHANNELS, "statuses": registry.STATUSES}
+
+
+def _open_media(folder: str | None):
+    """Open a plan's T7 folder in the Media tab, or clear it if there isn't one (yet)."""
+    if folder and Path(folder).is_dir():
+        try:
+            _current["project"] = project_mod.open_project(folder)
+            return
+        except project_mod.ProjectError:
+            pass
+    _current["project"] = None
+
+
+def r_select(body):
+    try:
+        plan = registry.get(str(body.get("id", "")))
+    except KeyError:
+        raise HttpError(404, "That project isn't here anymore.")
+    _current["plan_id"] = plan["id"]
+    _open_media(plan.get("folder"))
+    return {**r_projects({}), "media_open": _current["project"] is not None}
+
+
+def r_link_folder(body):
+    pid = current_plan_id()
+    path = body.get("path")
+    if not path:
+        path = picker.choose_folder(settings.load().get("default_picker_location"))
+        if not path:
+            return {"cancelled": True}
+    folder = Path(path).expanduser().resolve()
+    try:
+        project_mod.check_folder(folder)
+        registry.link_folder(pid, folder)
+    except (project_mod.ProjectError, ValueError) as exc:
+        raise HttpError(400, str(exc))
+    _open_media(str(folder))
+    return {**r_projects({}), "media_open": _current["project"] is not None}
+
+
+def r_ideas_add(body):
+    try:
+        r = registry.add_ideas(str(body.get("text", "")), body.get("channel", "@blkgrlco"),
+                               body.get("format", "long-form"))
+    except ValueError as exc:
+        raise HttpError(400, str(exc))
+    return {**r, **r_projects({})}
+
+
+def r_ideas_screenshot(body):
+    raw = str(body.get("data", ""))
+    media_type = "image/png"
+    if raw.startswith("data:"):
+        media_type = raw[5:raw.index(";")] if ";" in raw else media_type
+    if media_type not in ("image/png", "image/jpeg", "image/webp", "image/gif"):
+        raise HttpError(400, "Use a PNG or JPG screenshot.")
+    try:
+        data = base64.b64decode(raw.split(",")[-1], validate=True)
+        return {"ideas": vision.extract_ideas(data, media_type, settings.load())}
+    except ValueError:
+        raise HttpError(400, "That upload didn't come through. Try again.")
+    except RuntimeError as exc:
+        raise HttpError(409, str(exc))
+
+
+def _yt(fn, *args):
+    try:
+        return fn(*args)
+    except youtube.YouTubeError as exc:
+        raise HttpError(409, str(exc))
+
+
+def r_yt_status(_body):
+    return youtube.status()
+
+
+def r_yt_client(body):
+    return _yt(youtube.save_client, str(body.get("json", "")))
+
+
+def r_yt_disconnect(body):
+    return youtube.disconnect(str(body.get("id", "")))
+
+
+def r_yt_overview(query):
+    try:
+        days = int((query.get("days") or ["28"])[0])
+    except ValueError:
+        days = 28
+    return _yt(youtube.overview, (query.get("channel") or [""])[0], days)
+
+
 GET_ROUTES = {
     "/api/status": r_status,
     "/api/settings": r_get_settings,
     "/api/project": r_project,
     "/api/plan": r_plan,
     "/api/export.json": r_export,
+    "/api/projects": r_projects,
+    "/api/youtube/status": r_yt_status,
 }
+QUERY_ROUTES = {"/api/youtube/overview": r_yt_overview}
 POST_ROUTES = {
     "/api/settings": r_save_settings,
     "/api/api-key": r_api_key,
@@ -234,7 +336,7 @@ POST_ROUTES = {
     "/api/project/refresh": r_refresh,
     "/api/analyze": r_analyze,
     "/api/file": r_update_file,
-    "/api/submit/plan": r_plan,
+    "/api/submit/plan": r_submit_plan,
     "/api/submit/apply": r_apply,
     "/api/submit/undo": r_undo,
     "/api/plan/details": r_plan_details,
@@ -245,6 +347,12 @@ POST_ROUTES = {
     "/api/plan/thumbs/update": r_thumbs_update,
     "/api/plan/thumbs/remove": r_thumbs_remove,
     "/api/plan/script": r_script,
+    "/api/projects/select": r_select,
+    "/api/projects/link-folder": r_link_folder,
+    "/api/ideas/add": r_ideas_add,
+    "/api/ideas/screenshot": r_ideas_screenshot,
+    "/api/youtube/client": r_yt_client,
+    "/api/youtube/disconnect": r_yt_disconnect,
 }
 
 FRAME_RE = re.compile(r"^/api/frame/([0-9a-f]{16}(?:~\d+)?_\d)\.(jpg|png)$")
@@ -278,10 +386,19 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self._host_ok():
             return self._json(403, {"error": "forbidden"})
-        path = unquote(urlparse(self.path).path)
+        url = urlparse(self.path)
+        path = unquote(url.path)
         try:
             if path in GET_ROUTES:
                 return self._json(200, GET_ROUTES[path]({}))
+            if path in QUERY_ROUTES:
+                return self._json(200, QUERY_ROUTES[path](parse_qs(url.query)))
+            if path == "/api/youtube/connect":
+                port = self.server.server_address[1]
+                target = _yt(youtube.auth_url, f"http://127.0.0.1:{port}/oauth/callback")
+                return self._send(302, b"", "text/plain", {"Location": target})
+            if path == "/oauth/callback":
+                return self._oauth_callback(parse_qs(url.query))
             m = FRAME_RE.match(path)
             if m:
                 return self._frame(m.group(1) + "." + m.group(2))
@@ -310,7 +427,8 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
             body = json.loads(self.rfile.read(length) or b"{}") if length else {}
             serial = _lock if path.startswith("/api/submit") else \
-                registry.lock() if path.startswith("/api/plan") and path != "/api/plan/thumbs/score" else _NoLock()
+                registry.lock() if (path.startswith("/api/plan") and path != "/api/plan/thumbs/score") \
+                or path in ("/api/ideas/add", "/api/projects/link-folder") else _NoLock()
             with serial:
                 return self._json(200, route(body))
         except HttpError as exc:
@@ -318,6 +436,25 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as exc:
             log.error("POST %s failed: %s", path, traceback.format_exc())
             return self._json(500, {"error": str(exc)})
+
+    def _oauth_callback(self, q: dict):
+        """Google sends the browser back here after sign-in. The state check ties it to a
+        sign-in this app started, so another site can't plant a channel."""
+        if q.get("error"):
+            msg, ok = f"Google sign-in was cancelled ({q['error'][0]}).", False
+        else:
+            try:
+                ch = youtube.finish_auth((q.get("state") or [""])[0], (q.get("code") or [""])[0])
+                msg, ok = f"Connected {ch['title']}.", True
+            except youtube.YouTubeError as exc:
+                msg, ok = str(exc), False
+        import html
+        page = (f"<!doctype html><meta charset=utf-8><title>BLKGRLCO Bin</title>"
+                f"<body style=\"font-family:Poppins,system-ui,sans-serif;background:#F0DAC2;color:#2E1500;"
+                f"display:grid;place-items:center;height:100vh;margin:0\"><div style=\"text-align:center\">"
+                f"<h2>{'✓ ' if ok else ''}{html.escape(msg)}</h2><p>You can close this tab and go back to BLKGRLCO Bin.</p>"
+                f"</div></body>")
+        self._send(200 if ok else 400, page.encode(), "text/html; charset=utf-8")
 
     def _frame(self, name: str):
         proj = current()
