@@ -291,3 +291,104 @@ def _set_earnings(channel_id: str, value: bool) -> None:
         if channel_id in chans and chans[channel_id].get("earnings") != value:
             chans[channel_id]["earnings"] = value
             _write_private("channels.json", chans)
+
+
+# ---- videos and retention (Phase 4 retention loop, Phase 5 strategy) ---------------------------
+
+def parse_duration(iso: str) -> int:
+    """ISO 8601 duration (PT1H2M3S) to seconds."""
+    import re
+    m = re.fullmatch(r"P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "")
+    if not m:
+        return 0
+    d, h, mi, s = (int(x or 0) for x in m.groups())
+    return d * 86400 + h * 3600 + mi * 60 + s
+
+
+def api_channel(prefer: str | None = None) -> str:
+    """A connected channel whose sign-in can be used for public lookups."""
+    chans = channels()
+    if not chans:
+        raise YouTubeError("Connect a YouTube channel first (Settings → Connections).")
+    if prefer:
+        for cid, c in chans.items():
+            if cid == prefer or (c.get("handle") or "").lower() == prefer.lower():
+                return cid
+    return next(iter(chans))
+
+
+def data(path: str, params: dict, prefer: str | None = None) -> dict:
+    """GET a YouTube Data API endpoint with a connected channel's sign-in."""
+    cid = api_channel(prefer)
+    return _get(cid, f"{DATA_API}/{path}?{urllib.parse.urlencode(params)}")
+
+
+def videos(ids: list[str], prefer: str | None = None) -> list[dict]:
+    out = []
+    for i in range(0, len(ids), 50):
+        r = data("videos", {"part": "snippet,contentDetails,statistics", "id": ",".join(ids[i:i + 50]),
+                            "maxResults": 50}, prefer)
+        for v in r.get("items", []):
+            sn, st = v.get("snippet", {}), v.get("statistics", {})
+            thumbs = sn.get("thumbnails", {})
+            out.append({
+                "id": v["id"], "channel_id": sn.get("channelId"), "channel": sn.get("channelTitle"),
+                "title": sn.get("title", ""), "description": (sn.get("description") or "")[:1500],
+                "published": sn.get("publishedAt"), "duration": parse_duration(v.get("contentDetails", {}).get("duration")),
+                "views": int(st.get("viewCount", 0) or 0), "likes": int(st.get("likeCount", 0) or 0),
+                "comments": int(st.get("commentCount", 0) or 0),
+                "thumbnail": (thumbs.get("medium") or thumbs.get("high") or thumbs.get("default") or {}).get("url"),
+            })
+    return out
+
+
+def video_info(video_id: str) -> dict:
+    found = videos([video_id])
+    if not found:
+        raise YouTubeError("YouTube doesn't know that video. Check the link.")
+    return found[0]
+
+
+def channel_uploads(channel_id: str, limit: int = 50, prefer: str | None = None) -> list[dict]:
+    """A channel's most recent uploads, newest first, with stats."""
+    ch = data("channels", {"part": "contentDetails", "id": channel_id}, prefer).get("items", [])
+    if not ch:
+        return []
+    playlist = ch[0]["contentDetails"]["relatedPlaylists"]["uploads"]
+    ids, token = [], None
+    while len(ids) < limit:
+        params = {"part": "contentDetails", "playlistId": playlist, "maxResults": min(50, limit - len(ids))}
+        if token:
+            params["pageToken"] = token
+        page = data("playlistItems", params, prefer)
+        ids += [it["contentDetails"]["videoId"] for it in page.get("items", [])]
+        token = page.get("nextPageToken")
+        if not token:
+            break
+    vids = {v["id"]: v for v in videos(ids, prefer)}
+    return [vids[i] for i in ids if i in vids]
+
+
+def retention(channel_id: str, video_id: str, start: str, end: str) -> list[list[float]]:
+    """Audience retention: [elapsed ratio, share of viewers still watching, relative to similar videos].
+    YouTube reports it in steps of 1% of the video's length."""
+    q = urllib.parse.urlencode({"ids": "channel==MINE", "startDate": start, "endDate": end,
+                                "metrics": "audienceWatchRatio,relativeRetentionPerformance",
+                                "dimensions": "elapsedVideoTimeRatio", "filters": f"video=={video_id}",
+                                "sort": "elapsedVideoTimeRatio"})
+    rows = _get(channel_id, f"{ANALYTICS_API}?{q}").get("rows") or []
+    return [[float(r[0]), float(r[1]), float(r[2]) if len(r) > 2 and r[2] is not None else None] for r in rows]
+
+
+def hold_at(points: list[list[float]], seconds: float, duration: float) -> float | None:
+    """Share of viewers still watching at `seconds`, interpolated between YouTube's 1% steps."""
+    if not points or not duration or seconds > duration:
+        return None
+    x = seconds / duration
+    pts = sorted(points)
+    if x <= pts[0][0]:
+        return pts[0][1]
+    for (x0, y0, *_), (x1, y1, *_) in zip(pts, pts[1:]):
+        if x0 <= x <= x1:
+            return y0 + (y1 - y0) * ((x - x0) / (x1 - x0) if x1 > x0 else 0)
+    return pts[-1][1]

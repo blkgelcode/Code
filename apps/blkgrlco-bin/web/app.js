@@ -20,6 +20,9 @@ function h(tag, attrs = {}, ...children) {
   return el;
 }
 
+// replaceChildren() would print "null" for optional parts, so skip them.
+const put = (el, ...items) => el.replaceChildren(...items.flat().filter((x) => x !== null && x !== undefined && x !== false));
+
 const api = {
   async get(path) {
     const r = await fetch(path);
@@ -79,6 +82,30 @@ function showTab(name) {
   if (name === "settings") renderSettings();
   if (name === "plan") renderPlan();
   if (name === "overview") renderOverview();
+  if (name === "strategy") renderStrategy();
+}
+
+// ---------- background jobs (ingest, proxies, flub map, strategy runs) ----------
+async function runJob(path, body, onProgress) {
+  let j = await api.post(path, body);
+  while (j.state === "running") {
+    if (onProgress) onProgress(j);
+    await new Promise((r) => setTimeout(r, 700));
+    j = await api.get(`/api/job?id=${encodeURIComponent(j.id)}`);
+  }
+  if (j.state === "error") throw new Error(j.error);
+  return j.result;
+}
+
+function progressBar() {
+  const fill = h("i"), text = h("span", { class: "progress-text" }, "Starting…");
+  const el = h("div", { class: "job" }, h("div", { class: "bar" }, fill), text);
+  el.update = (j) => {
+    const pct = j.total ? Math.min(100, Math.round((j.done / j.total) * 100)) : 0;
+    fill.style.width = `${pct}%`;
+    text.textContent = j.message || "";
+  };
+  return el;
 }
 
 // ---------- project ----------
@@ -191,6 +218,9 @@ function renderMedia(forcePathInput = false) {
           isBusy(S.view) ? `Analyzing… ${done} of ${cards.length} done` : `${cards.length} files`),
         engines,
         h("span", { class: "spacer" }),
+        h("button", { class: "btn small", onclick: openFixProxy, title: "Rescue clips that won't decode, and make 720p proxies in _proxies" },
+          `Fix + proxies${S.view.fix_count || S.view.proxy_count ? ` (${S.view.fix_count + S.view.proxy_count})` : ""}`),
+        h("button", { class: "btn small", onclick: openFlubMap, title: "Mark lululu flubs, silences and repeated takes in _footage-master.md" }, "Flub map"),
         h("button", { class: "btn small", onclick: refresh, title: "Rescan the folder" }, "Rescan"),
         h("button", { class: "btn", disabled: !S.view.undo_available, onclick: confirmUndo },
           S.view.undo_available ? `Undo last submit (${S.view.undo_count})` : "Undo last submit"),
@@ -271,6 +301,11 @@ function card(c) {
     ? h("button", { class: "edit", title: "Edit the title part of the name", onclick: (ev) => editTitle(ev, c) }, "✎")
     : null;
 
+  const lutTag = c.kind !== "video" ? null
+    : c.lut === "applied" ? h("button", { class: "tag tag-btn lut-on", title: "D-Log M → Rec.709 LUT applied to these frames. Click to turn it off for this clip (e.g. it was shot in normal color).", onclick: () => setLut(c, false) }, "LUT")
+    : c.lut === "missing" ? h("button", { class: "tag tag-btn warn", title: "This is a DJI clip but no LUT is installed, so its frames are flat. Add the LUT in Settings → Analysis.", onclick: () => { S.settingsTab = "analysis"; showTab("settings"); } }, "no LUT")
+    : (c.device || "").startsWith("DJI") ? h("button", { class: "tag tag-btn", title: "LUT switched off for this clip. Click to turn it back on.", onclick: () => setLut(c, true) }, "LUT off")
+    : null;
   const meta = h("div", { class: "meta" },
     h("span", { class: "tag kind" }, c.kind),
     c.duration && c.duration !== "—" ? h("span", { class: "tag" }, c.duration) : null,
@@ -278,7 +313,12 @@ function card(c) {
     c.device ? h("span", { class: "tag" }, c.device) : null,
     c.orientation ? h("span", { class: "tag" }, c.orientation) : null,
     c.speech ? h("span", { class: `tag speech-${c.speech}`, title: `${Math.round((c.speech_ratio || 0) * 100)}% talking · ${c.speech_engine || ""}` },
-      `speech: ${c.speech}`) : null);
+      `speech: ${c.speech}`) : null,
+    lutTag,
+    c.broken ? h("span", { class: "tag warn", title: c.broken }, c.fixed_path ? "fixed copy made" : "⚠ won't decode") : null,
+    c.proxy ? h("span", { class: "tag", title: c.proxy }, "proxy ✓") : null,
+    c.flubs ? h("button", { class: "tag tag-btn flub", title: "Open the flub & silence map", onclick: () => showFlubMap(c) },
+      `flubs ${c.flubs.markers}${c.flubs.possible ? "+" + c.flubs.possible : ""} · takes ${c.flubs.takes}`) : null);
 
   const select = h("select", {
     class: "cat-select", title: c.source ? `Picked by ${c.source === "user" ? "you" : c.source}` : "",
@@ -525,6 +565,8 @@ function settingsAnalysis(body) {
   const model = h("select", { class: "input" }, ...["tiny", "base", "small", "medium"].map((m) =>
     h("option", { value: m, selected: S.settings.whisper_model === m }, m)));
   const claudeModel = h("input", { class: "input", value: S.settings.claude_model });
+  const silDb = h("input", { class: "input", type: "number", min: -70, max: -10, value: S.settings.silence_db, style: { width: "80px" } });
+  const silMin = h("input", { class: "input", type: "number", min: 0.2, max: 5, step: 0.1, value: S.settings.silence_min, style: { width: "80px" } });
   body.append(
     h("h3", {}, "Analysis"),
     h("p", { class: "lead" }, "How speech is measured and which models run."),
@@ -535,10 +577,14 @@ function settingsAnalysis(body) {
     h("div", { class: "field" }, h("label", {}, "Whisper model"), model,
       h("span", { class: "help" }, "small is a good balance on an M1. medium is slower but catches more.")),
     h("div", { class: "field" }, h("label", {}, "Claude model"), claudeModel),
+    h("div", { class: "field" }, h("label", {}, "Flub map: silence"),
+      h("div", { class: "inline" }, "quieter than", silDb, "dB for at least", silMin, "seconds")),
     h("div", { class: "row-actions" }, h("button", { class: "btn primary", onclick: () => saveSettings({
       speech_thresholds: { some: Number(some.value) / 100, lots: Number(lots.value) / 100 },
       whisper_model: model.value, claude_model: claudeModel.value.trim() || "claude-opus-5-5",
-    }, "Analysis settings saved.") }, "Save")));
+      silence_db: Number(silDb.value) || -35, silence_min: Number(silMin.value) || 0.7,
+    }, "Analysis settings saved.") }, "Save")),
+    lutSettings());
 }
 
 function settingsConnections(body) {
@@ -589,5 +635,7 @@ window.addEventListener("resize", () => { if ($("#tab-media").classList.contains
   try { if (localStorage.getItem("bin.side") === "0") document.body.classList.add("side-hidden"); } catch (e) { /* storage blocked */ }
   let tab = "media";
   try { tab = localStorage.getItem("bin.tab") || "media"; } catch (e) { /* storage blocked */ }
-  showTab(["media", "plan", "overview", "settings"].includes(tab) ? tab : "media");
+  showTab(["media", "plan", "overview", "strategy", "settings"].includes(tab) ? tab : "media");
+  $("#ingest-btn").addEventListener("click", () => openIngest());
+  watchCards();
 })();

@@ -280,6 +280,13 @@ def write_master(project, cfg: dict, journal_id: str) -> dict:
     return record
 
 
+def refresh_master(project) -> dict:
+    """Rewrite _footage-master.md now (after a flub map), keeping the old version in history."""
+    stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+    with project.lock:
+        return write_master(project, settings_mod.load(), f"map-{stamp}")
+
+
 def _restore_master(project, journal: dict) -> None:
     rec = journal.get("master")
     if not rec:
@@ -319,4 +326,35 @@ def render_master(project, cfg: dict) -> str:
         "|---|---|---|---|---|",
         *rows,
         "",
+        *render_flub_maps(entries),
     ])
+
+
+def render_flub_maps(entries: list[dict]) -> list[str]:
+    from .flubs import fmt_t
+    mapped = [e for e in entries if e.get("flubmap")]
+    if not mapped:
+        return []
+    out = ["## Flub & silence map", "",
+           "_Flub marker = her \"lululu\" / \"la la la\". \"Possible\" = sound with no transcribed words, "
+           "often a marker Whisper skipped. Silence = quieter than the threshold for 0.7s or more. "
+           "Check against the clip before cutting._", ""]
+    for e in mapped:
+        m = e["flubmap"]
+        out += [f"### {Path(e['path']).name}", ""]
+        events = [(f["t"], f"{fmt_t(f['t'])}–{fmt_t(f['end'])}", "flub marker" if f["kind"] == "marker" else "possible flub",
+                   f["text"].replace("|", "/")) for f in m.get("flubs", [])]
+        events += [(a, f"{fmt_t(a)}–{fmt_t(b)}", "silence", f"{b - a:.1f}s") for a, b in m.get("silences", [])]
+        if events:
+            out += ["| Time | What | Detail |", "|---|---|---|"]
+            out += [f"| {t} | {what} | {detail} |" for _, t, what, detail in sorted(events)]
+        else:
+            out.append("No flubs or silences found.")
+        if m.get("takes"):
+            out += ["", "**Repeated takes** (#1 = best delivery):", ""]
+            for g in m["takes"]:
+                out.append(f"- \"{g['line'][:90]}\"")
+                for t in sorted(g["takes"], key=lambda t: t["rank"]):
+                    out.append(f"  - #{t['rank']} {fmt_t(t['start'])}–{fmt_t(t['end'])} · score {t['score']} · {t['notes']}")
+        out.append("")
+    return out

@@ -38,10 +38,10 @@ Channels: @blkgrlco (main), @blkgrlcotoo (travel), podcast "I Wish Someone Had T
 | 1 | **Media**: folder picker, file cards (2 thumbnails, type, duration, size, device, speech none/some/lots via local Whisper, old → new name, status Waiting → Analyzing → Included → Saved, category dropdown, re-analyze), Analyze all (ffprobe + 3 ffmpeg frames + Claude vision), filter chips + Video/Audio/Photos toggle, Submit changes = dry run then apply (rename + move into category folders, `_bin-log.csv`, `_footage-master.md`), Undo last submit, categories editable in Settings | Built. **Real-footage tests not run yet.** |
 | 2 | **Plan**: video details, title ideas (tick → dashboard export, long-forms need 3), thumbnails (0–100 click-appeal score + checks + colorblind toggle + link to title), script editor with `@` song tags from the project's Music files | Built. **A/B check not run yet.** |
 | 3 | **Overview** + project **sidebar**: YouTube Analytics (OAuth, 7/28-day, views, net subs, watch hours, earnings if available), ideas box (typed/pasted/screenshot → projects under Not started), sidebar grouped In progress / Not started / Posted, sortable by type | Built. **Not connected to real YouTube yet.** |
-| 4 | Add-ons (spec in §6) | **Not built.** Starts only after Phases 1–3 are signed off. |
-| 5 | Strategy tab | **Not built.** Spec + feasibility notes in `docs/PHASE5_STRATEGY_SPEC.md`. Only after 1–4 are signed off. |
+| 4 | **Add-ons** (spec in §6): Ingest (card → `project hhh/<new>/_raw`, SHA-256 every copy, "safe to wipe"), Fix + proxies (`_fixed.mp4`, 720p `_proxies/`), LUT first (D-Log M → Rec.709 on preview frames before Claude), Flub + silence map (into `_footage-master.md`), Retention loop (Plan → Edit & retention, Overview → What loses viewers) | Built at Omnia's "Go on all phases" (2026-10-27). **Real-footage test not run yet** (`run-tests.command` → 4). **Needs the DJI .cube LUT** from her (Settings → Analysis). |
+| 5 | **Strategy** tab: Audience Bullseye, Hook Machine, Channel Audit, Profiles & rules | Built the same day. **Needs** the Nia/Zara/Amara profiles and the Oct 21 rules typed into Strategy → Profiles & rules, and Claude + YouTube on the Mac. Test: `run-tests.command` → 5. |
 
-40 unit tests pass in the cloud: `cd apps/blkgrlco-bin && python3 -m unittest discover -s tests`.
+77 unit tests pass in the cloud: `cd apps/blkgrlco-bin && python3 -m unittest discover -s tests`.
 
 ### Things that were never exercised for real (the cloud had no network access to them)
 
@@ -51,7 +51,14 @@ Channels: @blkgrlco (main), @blkgrlcotoo (travel), podcast "I Wish Someone Had T
   If the installed SDK rejects any of those arguments, fix it against the SDK docs, then re-run.
 - **faster-whisper** (`blkbin/speech.py`): only the audio-energy fallback ran in the cloud. Check the real Whisper path on the Mac.
 - **The native folder picker** (AppleScript `choose folder`), **Poppins** (loaded from Google Fonts), and the `.command` launchers.
-- **Google OAuth + YouTube Analytics** (`blkbin/youtube.py`): tested only against a fake Google.
+- **Google OAuth + YouTube Analytics** (`blkbin/youtube.py`): tested only against a fake Google. That includes the
+  Phase 4/5 calls: `videos`, `playlistItems`, `search`, `channels?forHandle=`, and the retention report
+  (`dimensions=elapsedVideoTimeRatio`, `metrics=audienceWatchRatio,relativeRetentionPerformance`, `filters=video==ID`).
+- **Phase 4 on real footage**: the decode check (`proxy.decode_check`) flags a clip if ffmpeg prints *any* error while
+  decoding its first/last 2 seconds. If real DJI HEVC clips get flagged falsely, loosen it there. The flub map's
+  Whisper call (`word_timestamps=True`, `initial_prompt` with "lululu, la la la") only ran against a fake transcript.
+- **Phase 5 Claude prompts** (`blkbin/strategy.py`, `_claude`): only ran against a fake Claude. Read the first real
+  Bullseye output critically with Omnia (are the topic buckets sensible? are the 0–4 scores defensible?).
 
 ## 3. Setup on the Mac
 
@@ -109,7 +116,20 @@ Tokens live in `~/Library/Application Support/BLKGRLCO Bin/youtube/` (mode 600).
   Nothing is removed. **Never set stage to Posted: the dashboard requires Omnia's go.**
 - The dashboard's record fields are documented on its own Data → Imports & Code page ("For Code: reading a record").
 
-## 6. Phase 4 spec (Omnia's words; build only after Phases 1–3 are signed off)
+### 4d. Phase 4 test (`run-tests.command` → 4)
+Drag the DJI card (or a footage folder) in. It ingests into `~/bin-test/phase4-<time>/_raw` (never the T7),
+proves the card is unchanged, analyzes, runs fix + proxies, writes `~/bin-test/lut-before-after-<time>.jpg`,
+prints the flub map for the talking-head clip with the most talking (with its transcript), and prints the
+"what loses viewers" table. **Show Omnia:** the checksum report, the before/after LUT frame, and the flub map,
+and check the flub times against what she actually said in that clip. Report misses honestly.
+
+### 4e. Phase 5 test (`run-tests.command` → 5)
+First fill **Strategy → Profiles & rules** with her (Nia's lanes at minimum; she has the profiles and the Oct 21 rules).
+Option 5 runs the Bullseye on @blkgrlco only and prints the top 10 topics with their source videos, then
+checks each hook skeleton's median outlier score against the real 3-second hold of her last 5 videos
+(exact for videos under 5 minutes; long ones are read between YouTube's 1% steps, and the report says so).
+
+## 6. Phase 4 spec (Omnia's words; built 2026-10-27, see §2)
 
 1. **INGEST:** detect when a DJI or iPhone card/folder is connected. Copy everything to the T7 under
    `project hhh/<new project>/_raw` and check each copy with a checksum. Show "safe to wipe card" only when every
@@ -135,8 +155,9 @@ the flub map for one talking-head clip checked against what she actually said.
 
 ## 7. Phase 5
 
-See `docs/PHASE5_STRATEGY_SPEC.md`. Open questions there: where her **Nia / Zara / Amara** audience profiles are saved,
-and where her **Oct 21 outlier-study hook/title rules** live. Neither is in the repo.
+Spec and how each part was built: `docs/PHASE5_STRATEGY_SPEC.md`. Her **Nia / Zara / Amara** profiles and the
+**Oct 21 rules** still aren't in the repo or the app: type them into Strategy → Profiles & rules with her.
+The app never replaces a saved answer without her clicking "Yes, replace".
 
 ## 8. Code map and conventions
 
@@ -151,10 +172,17 @@ blkbin/  settings.py  app settings + API key (.env in ~/Library/Application Supp
          submit.py    dry run / apply / undo with write-ahead journals, _bin-log.csv, _footage-master.md
          registry.py  plans (~/Library/Application Support/BLKGRLCO Bin/projects/<id>/plan.json), ideas, export
          planning.py  thumbnails, title links, script cues      thumbs.py  thumbnail checks + score
-         youtube.py   desktop OAuth (PKCE, loopback) + Analytics  server.py  routes; 127.0.0.1 only; POSTs need X-Bin: 1
-         cli.py       copy / analyze / plan / apply / undo / snapshot / compare / labels-template / accuracy / score-ab
-web/     index.html app.js (media, settings) plan.js overview.js styles.css
-tests/   test_bin.py test_plan.py test_overview.py + make_fixtures.py / make_thumbs.py (synthetic footage)
+         youtube.py   desktop OAuth (PKCE, loopback) + Analytics + videos/uploads/retention  server.py  routes; 127.0.0.1 only; POSTs need X-Bin: 1
+         jobs.py      background jobs with progress (the browser polls /api/job?id=)
+         ingest.py    card → _raw with SHA-256 verify          proxy.py   decode check, _fixed, 720p _proxies
+         lut.py       .cube check/install, ffmpeg lut3d filter  flubs.py   silencedetect + Whisper words → markers, gaps, takes
+         retention.py edit order, 48h/7d pulls, drops → clips, "what loses viewers"
+         strategy.py  profiles/rules (guarded saves), Bullseye, Hook Machine, Channel Audit, Sunday schedule
+         scheduler.py runs retention + Sunday audit at start and every 30 min
+         cli.py       copy / analyze / plan / apply / undo / snapshot / compare / labels-template / accuracy / score-ab /
+                      ingest / fix-proxy / lut-compare / flubmap / retention / bullseye / skeleton-check
+web/     index.html app.js (media, settings) plan.js overview.js tools.js (ingest, proxies, flubs, LUT) strategy.js styles.css
+tests/   test_bin.py test_plan.py test_overview.py test_phase4.py test_phase5.py + make_fixtures.py / make_thumbs.py
 ```
 Safety rules are enforced in `submit.py` and covered by tests. Keep them: never delete; check names case-insensitively;
 re-check right before each rename; `os.rename` only (no copy+delete); refuse an apply if the dry run is stale.

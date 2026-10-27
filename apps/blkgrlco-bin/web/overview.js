@@ -61,7 +61,7 @@ function drawSidebar() {
             p.titles.long_form && !p.titles.ok ? `titles ${p.titles.written}/3` : null].filter(Boolean).join(" · ")))];
   };
   const visible = O.projects.filter((p) => !p.test_copy);
-  side.replaceChildren(
+  put(side, 
     h("div", { class: "side-head" },
       h("b", {}, "Projects"),
       h("select", { class: "side-sort", title: "Sort", onchange: (e) => { O.sort = e.target.value; saveUi(); drawSidebar(); } },
@@ -106,22 +106,23 @@ try { O.sort = localStorage.getItem("bin.sort") || "type"; } catch (e) { /* stor
 // ---------- overview tab ----------
 async function renderOverview() {
   const root = $("#tab-overview");
-  const subs = [["channels", "Channels"], ["ideas", "Ideas"]];
+  const subs = [["channels", "Channels"], ["retention", "What loses viewers"], ["ideas", "Ideas"]];
   const body = h("div", { class: "subpanel" });
-  root.replaceChildren(h("div", { class: "settings" },
+  put(root, h("div", { class: "settings" },
     h("nav", { class: "subtabs" }, ...subs.map(([id, l]) =>
       h("button", { class: O.sub === id ? "active" : "", onclick: () => { O.sub = id; renderOverview(); } }, l))),
     body));
   if (O.sub === "ideas") return drawIdeas(body);
+  if (O.sub === "retention") return drawLosesViewers(body);
   body.append(h("p", { class: "progress-text" }, "Loading…"));
-  try { O.yt = await api.get("/api/youtube/status"); } catch (e) { body.replaceChildren(h("p", {}, e.message)); return; }
+  try { O.yt = await api.get("/api/youtube/status"); } catch (e) { put(body, h("p", {}, e.message)); return; }
   drawChannels(body);
 }
 
 function drawChannels(body) {
   const yt = O.yt;
   if (!yt.channels.length) {
-    body.replaceChildren(
+    put(body, 
       h("h3", {}, "Channel analytics"),
       h("p", { class: "lead" }, "Views, subscribers, watch hours and earnings (if your channel has them), straight from YouTube Analytics."),
       h("div", { class: "banner" }, yt.client ? "Your Google app is set up. Connect a channel to see its numbers."
@@ -140,12 +141,12 @@ function drawChannels(body) {
         h("button", { class: O.days === d ? "active" : "", onclick: () => { O.days = d; O.data = null; drawChannels(body); } }, l)))),
     h("label", { class: "inline progress-text" }, h("input", { type: "checkbox", checked: O.table, onchange: (e) => { O.table = e.target.checked; drawChannels(body); } }), "Show as table"));
   const area = h("div", { class: "analytics" }, h("p", { class: "progress-text" }, "Loading YouTube Analytics…"));
-  body.replaceChildren(head, area);
+  put(body, head, area);
   const want = `${O.channel}:${O.days}`;
   if (O.data && O.data.key === want) return drawAnalytics(area);
   api.get(`/api/youtube/overview?channel=${encodeURIComponent(O.channel)}&days=${O.days}`)
     .then((d) => { O.data = { ...d, key: want }; drawAnalytics(area); })
-    .catch((e) => area.replaceChildren(h("div", { class: "banner" }, e.message)));
+    .catch((e) => put(area, h("div", { class: "banner" }, e.message)));
 }
 
 function drawAnalytics(area) {
@@ -167,7 +168,7 @@ function drawAnalytics(area) {
       sparkline(x.daily));
   });
   const x = m[O.metric], def = METRICS[O.metric];
-  area.replaceChildren(
+  put(area, 
     h("div", { class: "tiles" }, ...tiles),
     h("div", { class: "chart-card" },
       h("div", { class: "chart-head" },
@@ -277,7 +278,7 @@ function drawIdeas(body) {
         (r.skipped.length ? ` ${r.skipped.length} already existed.` : ""));
     } catch (e) { toast(e.message, true); }
   };
-  body.replaceChildren(
+  put(body, 
     h("h3", {}, "Ideas box"),
     h("p", { class: "lead" }, "Each idea becomes a project in the sidebar under Not started, and goes to your dashboard file."),
     h("div", { class: "ideas-grid" },
@@ -302,7 +303,7 @@ function youtubeSettings() {
       window.open("/api/youtube/connect", "_blank");
       window.addEventListener("focus", () => renderSettings(), { once: true });
     } }, yt.channels.length ? "Connect another channel" : "Connect a channel");
-    wrap.replaceChildren(
+    put(wrap, 
       h("label", {}, "YouTube Analytics"),
       yt.channels.length ? h("div", { class: "yt-channels" }, ...yt.channels.map((c) => h("div", { class: "state-line" },
         h("span", { class: "ok" }, "✓"), h("b", {}, c.handle || c.title), h("span", { class: "progress-text" }, c.title),
@@ -317,6 +318,25 @@ function youtubeSettings() {
           h("li", {}, "Choose that JSON file here: ", file))),
       h("div", { class: "inline" }, connect,
         h("span", { class: "help" }, "Google asks which channel. Connect @blkgrlco, @blkgrlcotoo and the podcast one at a time. When Google warns the app isn't verified, choose Advanced → Go to BLKGRLCO Bin.")));
-  }).catch((e) => wrap.replaceChildren(h("label", {}, "YouTube Analytics"), h("p", {}, e.message)));
+  }).catch((e) => put(wrap, h("label", {}, "YouTube Analytics"), h("p", {}, e.message)));
   return wrap;
+}
+
+// ---------- what loses viewers (retention loop) ----------
+async function drawLosesViewers(body, compact = false) {
+  put(body, h("p", { class: "progress-text" }, "Loading…"));
+  let r;
+  try { r = await api.get("/api/retention/table"); } catch (e) { put(body, h("p", {}, e.message)); return; }
+  const max = Math.max(0.01, ...r.rows.map((x) => x.per_10_min || 0));
+  put(body, 
+    compact ? h("h4", {}, "What loses viewers") : h("h3", {}, "What loses viewers"),
+    h("p", { class: "lead" }, `Every drop of 5 points or more in a posted video's retention curve, matched to the clip on screen, totalled by clip category. From ${r.videos.length} video${r.videos.length === 1 ? "" : "s"} with a curve and a clip order (the 7-day pull when there is one).`),
+    r.rows.length ? h("div", { class: "table-wrap" }, h("table", { class: "ops lv" },
+      h("thead", {}, h("tr", {}, ...["Category", "On screen", "Drops", "Drops per 10 min", "Avg drop", "Worst moments"].map((x) => h("th", {}, x)))),
+      h("tbody", {}, ...r.rows.map((x) => h("tr", {},
+        h("td", {}, h("b", {}, x.name)), h("td", {}, `${x.minutes} min`), h("td", {}, String(x.drops)),
+        h("td", {}, h("div", { class: "hbar" }, h("i", { style: { width: `${((x.per_10_min || 0) / max) * 100}%` } }), h("span", {}, x.per_10_min == null ? "—" : String(x.per_10_min)))),
+        h("td", {}, x.avg_lost == null ? "—" : `−${Math.round(x.avg_lost * 100)} pts`),
+        h("td", {}, ...x.worst.map((w) => h("div", { class: "progress-text" }, `${w.video}: ${w.clip || "?"} at ${fmtClock(w.t)} (−${Math.round(w.lost * 100)})`))))))))
+      : h("div", { class: "banner" }, "Nothing yet. In a posted video's Plan → Edit & retention, list its clips in order and link the video. The curve is pulled 48 hours and 7 days after it posts."));
 }

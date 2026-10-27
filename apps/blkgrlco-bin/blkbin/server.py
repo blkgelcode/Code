@@ -12,8 +12,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
-from . import (__version__, picker, planning, project as project_mod, registry, settings, speech, submit,
-               vision, youtube)
+from . import (__version__, flubs, ingest, jobs, lut, picker, planning, project as project_mod, proxy, registry,
+               retention, scheduler, settings, speech, strategy, submit, vision, youtube)
 
 log = logging.getLogger("blkbin.server")
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -155,8 +155,15 @@ def r_undo(_body):
 def plan_view(plan: dict | None = None) -> dict:
     plan = plan or registry.get(current_plan_id())
     music = planning.music_files(media_for_plan(plan))
+    proj = media_for_plan(plan)
+    clips = [{"fid": c["fid"], "name": c["name"], "category": c["category"], "category_name": c["category_name"],
+              "color": c["color"], "seconds": c["seconds"], "kind": c["kind"]}
+             for c in (proj.view()["cards"] if proj else []) if c["kind"] in ("video", "photo") and c["status"] != "error"]
     return {
         "plan": plan,
+        "clips": clips,
+        "media_open": proj is not None,
+        "youtube_connected": bool(youtube.channels()),
         "check": registry.title_check(plan),
         "music": music,
         "cues": planning.cues(plan.get("script", ""), music),
@@ -318,6 +325,198 @@ def r_yt_overview(query):
     return _yt(youtube.overview, (query.get("channel") or [""])[0], days)
 
 
+# ---- Phase 4: ingest, fix + proxy, LUT, flub map, retention -----------------------------------------
+
+def _job_start(kind, fn, *args):
+    try:
+        return jobs.start(kind, fn, *args)
+    except jobs.JobError as exc:
+        raise HttpError(409, str(exc))
+
+
+def r_job(query):
+    try:
+        return jobs.snapshot((query.get("id") or [""])[0])
+    except KeyError:
+        raise HttpError(404, "No such job (the app may have restarted).")
+
+
+def r_ingest_sources(_body):
+    cfg = settings.load()
+    root = cfg["default_picker_location"]
+    return {"sources": ingest.sources(), "dest_root": root, "dest_ok": Path(root).is_dir(),
+            "running": jobs.latest("ingest")}
+
+
+def r_ingest_pick(_body):
+    path = picker.choose_folder(None)
+    if not path:
+        return {"cancelled": True}
+    return {"source": ingest.describe(Path(path))}
+
+
+def r_ingest_plan(body):
+    try:
+        return ingest.plan(str(body.get("src", "")), str(body.get("name", "")))
+    except ingest.IngestError as exc:
+        raise HttpError(400, str(exc))
+
+
+def r_ingest_start(body):
+    r_ingest_plan(body)  # same checks, answered right away
+    return _job_start("ingest", ingest.run, str(body["src"]), str(body["name"]))
+
+
+def r_lut_status(_body):
+    return lut.status()
+
+
+def r_lut_install(body):
+    try:
+        return lut.install(str(body.get("text", "")), str(body.get("name", "")))
+    except lut.LutError as exc:
+        raise HttpError(400, str(exc))
+
+
+def r_proxy_todo(_body):
+    return proxy.todo(current())
+
+
+def r_proxy_start(body):
+    return _job_start("proxy", proxy.run, current(), bool(body.get("fix", True)), bool(body.get("proxy", True)))
+
+
+def r_flubs_start(body):
+    proj = current()
+    if not flubs.candidates(proj):
+        raise HttpError(409, "No analyzed clips with talking in this project.")
+    return _job_start("flubs", flubs.run, proj, body.get("fids") or None)
+
+
+def r_flub_map(query):
+    e = current().state["files"].get((query.get("fid") or [""])[0])
+    if not e or not e.get("flubmap"):
+        raise HttpError(404, "No flub map for that clip yet.")
+    return {"name": Path(e["path"]).name, "map": e["flubmap"]}
+
+
+def r_edit_order(body):
+    return _plan_call(lambda pid: retention.reanalyze(retention.set_edit_order(pid, body.get("items") or [],
+                                                                               media_for_plan(registry.get(pid)))["id"]))
+
+
+def r_link_video(body):
+    try:
+        return _plan_call(retention.link_video, str(body.get("url", "")))
+    except youtube.YouTubeError as exc:
+        raise HttpError(409, str(exc))
+
+
+def r_unlink_video(_body):
+    return _plan_call(retention.unlink_video)
+
+
+def r_retention_pull(body):
+    label = body.get("label") if body.get("label") in retention.PULLS else "now"
+    try:
+        return _plan_call(retention.pull, label)
+    except youtube.YouTubeError as exc:
+        raise HttpError(409, str(exc))
+
+
+def r_loses_viewers(_body):
+    return retention.loses_viewers()
+
+
+# ---- Phase 5: strategy -----------------------------------------------------------------------------------
+
+def _st(fn, *args):
+    try:
+        return fn(*args)
+    except strategy.StrategyError as exc:
+        raise HttpError(409, str(exc))
+    except youtube.YouTubeError as exc:
+        raise HttpError(409, str(exc))
+
+
+def r_strategy(query):
+    ch = (query.get("channel") or ["@blkgrlco"])[0]
+    if ch not in strategy.AUDIENCE:
+        raise HttpError(400, "Unknown channel.")
+    yt = youtube.status()
+    own = next((c for c in yt["channels"] if (c.get("handle") or "").lower() == ch.lower()), None)
+    return {"channel": ch, "persona": strategy.PERSONA[strategy.AUDIENCE[ch]], "profiles": strategy.profiles(),
+            "profile_fields": strategy.PROFILE_FIELDS, "rules": strategy.rules(), "rule_fields": strategy.RULE_FIELDS,
+            "bullseye": strategy.bullseye(ch), "skeletons": strategy.skeletons(ch),
+            "audit": strategy.audit(own["id"]) if own else None, "own_channel": own,
+            "youtube": yt, "claude": vision.available(), "openings": len(strategy.openings()),
+            "jobs": {k: jobs.latest(k) for k in ("bullseye", "skeletons", "audit", "skcheck")},
+            "plans": [registry.summary(p) for p in registry.all_plans() if p["details"]["status"] != "posted"],
+            "formats": registry.FORMATS, "channels": registry.CHANNELS}
+
+
+def r_profile_save(body):
+    return _st(strategy.save_profile, str(body.get("key", "")), body.get("changes") or {}, bool(body.get("confirm")))
+
+
+def r_rules_save(body):
+    return _st(strategy.save_rules, body.get("changes") or {}, bool(body.get("confirm")))
+
+
+def _own_channel(ch: str) -> str:
+    for c in youtube.status()["channels"]:
+        if (c.get("handle") or "").lower() == ch.lower():
+            return c["id"]
+    raise HttpError(409, f"Connect {ch} in Settings → Connections first.")
+
+
+def r_bullseye_run(body):
+    ch = str(body.get("channel", "@blkgrlco"))
+    if not youtube.channels():
+        raise HttpError(409, "Connect a YouTube channel first (Settings → Connections).")
+    return _job_start("bullseye", strategy.run_bullseye, ch)
+
+
+def r_send_topic(body):
+    r = _st(strategy.send_topic, str(body.get("channel", "")), str(body.get("id", "")), str(body.get("format", "long-form")))
+    return {**r, **r_projects({})}
+
+
+def r_skeletons_run(body):
+    return _job_start("skeletons", strategy.build_skeletons, str(body.get("channel", "@blkgrlco")))
+
+
+def r_openings(body):
+    return _st(strategy.set_openings, str(body.get("text", "")))
+
+
+def r_hooks_generate(body):
+    return _st(strategy.generate_hooks, str(body.get("channel", "")), str(body.get("skeleton", "")), str(body.get("pid", "")))
+
+
+def r_hooks_approve(body):
+    try:
+        plan = strategy.approve_hook(str(body.get("pid", "")), str(body.get("text", "")), str(body.get("skeleton", "")),
+                                     str(body.get("title", "")))
+    except (KeyError, strategy.StrategyError) as exc:
+        raise HttpError(400, str(exc))
+    return {"ok": True, "hooks": plan.get("hooks", [])}
+
+
+def r_hooks_remove(body):
+    return _plan_call(strategy.remove_hook, str(body.get("id", "")))
+
+
+def r_audit_run(body):
+    ch = str(body.get("channel", "@blkgrlco"))
+    return _job_start("audit", strategy.run_audit, _own_channel(ch))
+
+
+def r_skcheck_run(body):
+    ch = str(body.get("channel", "@blkgrlco"))
+    return _job_start("skcheck", strategy.skeleton_check, ch, _own_channel(ch), int(body.get("count") or 5))
+
+
 GET_ROUTES = {
     "/api/status": r_status,
     "/api/settings": r_get_settings,
@@ -326,8 +525,13 @@ GET_ROUTES = {
     "/api/export.json": r_export,
     "/api/projects": r_projects,
     "/api/youtube/status": r_yt_status,
+    "/api/ingest/sources": r_ingest_sources,
+    "/api/lut": r_lut_status,
+    "/api/proxy/todo": r_proxy_todo,
+    "/api/retention/table": r_loses_viewers,
 }
-QUERY_ROUTES = {"/api/youtube/overview": r_yt_overview}
+QUERY_ROUTES = {"/api/youtube/overview": r_yt_overview, "/api/job": r_job, "/api/flubs/map": r_flub_map,
+                "/api/strategy": r_strategy}
 POST_ROUTES = {
     "/api/settings": r_save_settings,
     "/api/api-key": r_api_key,
@@ -353,6 +557,27 @@ POST_ROUTES = {
     "/api/ideas/screenshot": r_ideas_screenshot,
     "/api/youtube/client": r_yt_client,
     "/api/youtube/disconnect": r_yt_disconnect,
+    "/api/ingest/pick": r_ingest_pick,
+    "/api/ingest/plan": r_ingest_plan,
+    "/api/ingest/start": r_ingest_start,
+    "/api/lut": r_lut_install,
+    "/api/proxy/start": r_proxy_start,
+    "/api/flubs/start": r_flubs_start,
+    "/api/plan/edit-order": r_edit_order,
+    "/api/plan/video": r_link_video,
+    "/api/plan/video/unlink": r_unlink_video,
+    "/api/plan/retention/pull": r_retention_pull,
+    "/api/plan/hooks/remove": r_hooks_remove,
+    "/api/strategy/profile": r_profile_save,
+    "/api/strategy/rules": r_rules_save,
+    "/api/strategy/bullseye": r_bullseye_run,
+    "/api/strategy/send-topic": r_send_topic,
+    "/api/strategy/skeletons": r_skeletons_run,
+    "/api/strategy/openings": r_openings,
+    "/api/strategy/hooks": r_hooks_generate,
+    "/api/strategy/hooks/approve": r_hooks_approve,
+    "/api/strategy/audit": r_audit_run,
+    "/api/strategy/skeleton-check": r_skcheck_run,
 }
 
 FRAME_RE = re.compile(r"^/api/frame/([0-9a-f]{16}(?:~\d+)?_\d)\.(jpg|png)$")
@@ -427,8 +652,10 @@ class Handler(BaseHTTPRequestHandler):
             length = int(self.headers.get("Content-Length") or 0)
             body = json.loads(self.rfile.read(length) or b"{}") if length else {}
             serial = _lock if path.startswith("/api/submit") else \
-                registry.lock() if (path.startswith("/api/plan") and path != "/api/plan/thumbs/score") \
-                or path in ("/api/ideas/add", "/api/projects/link-folder") else _NoLock()
+                registry.lock() if (path.startswith("/api/plan") and path not in ("/api/plan/thumbs/score", "/api/plan/video",
+                                                                                 "/api/plan/retention/pull")) \
+                or path in ("/api/ideas/add", "/api/projects/link-folder", "/api/strategy/hooks/approve",
+                            "/api/strategy/send-topic") else _NoLock()
             with serial:
                 return self._json(200, route(body))
         except HttpError as exc:

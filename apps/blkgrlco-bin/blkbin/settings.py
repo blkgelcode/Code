@@ -64,6 +64,10 @@ DEFAULTS = {
     "recent_projects": [],
     "default_picker_location": "/Volumes/Untitled/project hhh",
     "export_path": "",
+    "lut_name": "",
+    "silence_db": -35,          # quieter than this counts as silence (flub map)
+    "silence_min": 0.7,         # seconds
+    "audit_hour": 18,           # Sunday channel audit runs after this hour
 }
 
 _lock = threading.RLock()

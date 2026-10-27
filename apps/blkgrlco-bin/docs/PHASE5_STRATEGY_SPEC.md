@@ -1,6 +1,8 @@
-# Phase 5: Strategy tab (spec, not built yet)
+# Phase 5: Strategy tab
 
-Received 2026-10-26. Build only after Phases 1–4 are signed off. Order: 3 (Overview) → 4 (add-ons) → 5.
+Received 2026-10-26. Built 2026-10-27 after Omnia said "Go on all phases" (code: `blkbin/strategy.py`,
+`web/strategy.js`, tests in `tests/test_phase5.py`). How each open question below was handled is in
+"How it was built" at the end.
 
 ## Shared rules (as given)
 
@@ -61,3 +63,23 @@ Received 2026-10-26. Build only after Phases 1–4 are signed off. Order: 3 (Ove
 | Retention at 30s, last 50 uploads | OK | YouTube Analytics API with her OAuth (from Phase 3). Each channel, the podcast included, needs its own sign-in. |
 | API quota | OK with caching | The YouTube Data API allows 10,000 units a day; one search costs 100. Finding channels for 3 lanes fits in a day if results are cached. |
 | Sunday auto re-run | OK if the Mac is on | A scheduled background job; it catches up on the next start if the Mac was asleep. |
+
+## How it was built (2026-10-27)
+
+- **Profiles and rules:** not found anywhere, so the app has a Profiles & rules sub-tab. Missing answers are flagged
+  (goals, what she's tried, where she watches, as the spec says to ask). Saves that would replace a saved answer
+  stop and show old → new until she clicks "Yes, replace".
+- **Lanes:** the Bullseye searches YouTube (videos from the last 12 months) for each "search lane" in the profile,
+  plus the channels she says the audience already watches. A "lane" in "10–15 channels per lane" is the audience
+  (Nia's lane), not each search phrase.
+- **Topic score:** audience fit and Thu–Sat filmable are Claude's 0–4 calls, with the reason shown on hover. Demand
+  is the outlier count (1 → 1 point, 2–3 → 2, 4–6 → 3, 7+ → 4). Competition gap is the share of the topic's
+  outliers that come from channels under 100K subscribers (≥75% → 4, ≥50% → 3, ≥25% → 2, any → 1).
+- **Other creators' frames and transcripts:** not downloaded. Hook Machine uses titles, thumbnails and pasted (or
+  TubeLab-imported) opening lines. TubeLab isn't wired into the app directly.
+- **Story map B1–B5:** judged only when the project has a script in the Plan tab; otherwise "unknown".
+- **Format:** taken from the project's clip order (talking head ≥ 60% of the time → talking head; b-roll/photos ≥ 60% →
+  montage; else vlog) when the video is linked to a plan, otherwise Claude's guess from the title (labelled as a guess).
+- **3-second hold:** read from the retention curve; exact for videos under 5 minutes, interpolated between 1% steps
+  for longer ones (the table says which).
+- **Sunday re-run:** every Sunday after 18:00 (Settings `audit_hour`), or at the next start if the Mac was off.

@@ -262,6 +262,8 @@ def build_export() -> dict:
                 "thumbnails": [{"label": th["label"], "score": th.get("score"), "rank": th.get("rank")}
                                for th in by_title.get(t["id"], [])],
             } for t in titles],
+            "hooks": [h["text"] for h in plan.get("hooks", [])],
+            "video_id": (plan.get("edit") or {}).get("video_id"),
             "updated": plan.get("updated"),
         })
     return {"source": "BLKGRLCO Bin", "schema": 1, "exported_at": _now(), "projects": projects}

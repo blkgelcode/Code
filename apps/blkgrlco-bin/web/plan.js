@@ -8,7 +8,7 @@ async function renderPlan() {
   try {
     P.view = await api.get("/api/plan");
   } catch (e) {
-    root.replaceChildren(h("div", { class: "placeholder" },
+    put(root, h("div", { class: "placeholder" },
       h("h2", {}, "Plan"), h("p", {}, e.status === 409 ? "Open a video's folder in the Media tab first." : e.message)));
     return;
   }
@@ -23,9 +23,9 @@ const append = (el, ...items) => el.append(...items.filter((x) => x !== null && 
 function drawPlan() {
   const root = $("#tab-plan");
   const v = P.view, d = v.plan.details, c = v.check;
-  const subs = [["details", "Video details"], ["titles", `Titles ${c.written}/${c.need}`], ["thumbs", `Thumbnails${v.plan.thumbs.length ? " " + v.plan.thumbs.length : ""}`], ["script", "Script & music"]];
+  const subs = [["details", "Video details"], ["titles", `Titles ${c.written}/${c.need}`], ["thumbs", `Thumbnails${v.plan.thumbs.length ? " " + v.plan.thumbs.length : ""}`], ["script", "Script & music"], ["retention", "Edit & retention"]];
   const body = h("div", { class: "subpanel" });
-  root.replaceChildren(h("div", { class: "settings" },
+  put(root, h("div", { class: "settings" },
     h("nav", { class: "subtabs" },
       h("div", { class: "plan-name", title: v.plan.folder || "No folder yet" }, d.name),
       h("span", { class: `status st-${d.status}` }, v.statuses[d.status]),
@@ -35,7 +35,7 @@ function drawPlan() {
       }, label)),
       h("p", { class: "export-note" }, "Ticked titles go to your dashboard file:", h("br"), h("code", {}, v.export_path))),
     body));
-  ({ details: planDetails, titles: planTitles, thumbs: planThumbs, script: planScript })[P.sub](body);
+  ({ details: planDetails, titles: planTitles, thumbs: planThumbs, script: planScript, retention: planRetention })[P.sub](body);
 }
 
 async function planPost(path, body, msg) {
@@ -100,7 +100,14 @@ function planTitles(body) {
       c.ok ? `Long-form: ${c.written} titles written. ${c.approved} ticked for the dashboard.`
         : `Every long-form needs 3 titles. ${c.written} written so far.`) : null,
     h("div", { class: "title-add" }, box, h("button", { class: "btn primary", onclick: add }, "Add")),
-    h("div", { class: "title-list" }, rows.length ? rows : h("p", { class: "progress-text" }, "No titles yet.")));
+    h("div", { class: "title-list" }, rows.length ? rows : h("p", { class: "progress-text" }, "No titles yet.")),
+    h("h3", { class: "section-gap" }, "Hooks"),
+    h("p", { class: "lead" }, "First lines you approved in Strategy → Hook Machine."),
+    h("div", { class: "title-list" }, (v.plan.hooks || []).length ? v.plan.hooks.map((hk) => h("div", { class: "title-row hook-row approved" },
+      h("span", {}, "“"), h("span", { title: hk.skeleton ? `Skeleton: ${hk.skeleton}` : "" }, hk.text),
+      h("span", { class: "progress-text" }, hk.skeleton ? "skeleton" : ""),
+      h("button", { class: "icon-btn", title: "Remove this hook", onclick: () => planPost("/api/plan/hooks/remove", { id: hk.id }) }, "×")))
+      : h("p", { class: "progress-text" }, "None yet. Generate some in Strategy → Hook Machine.")));
 }
 
 // ---------- thumbnails ----------
@@ -210,7 +217,7 @@ function planScript(body) {
   const status = h("span", { class: "progress-text" }, "");
   let popItems = [], popIndex = 0, popQuery = null;
 
-  const drawCues = (cues) => cueBox.replaceChildren(
+  const drawCues = (cues) => put(cueBox, 
     cues.length ? h("ol", {}, ...cues.map((c) => h("li", { class: c.missing ? "missing" : "" },
       h("b", {}, `♪ ${c.name}`), h("span", { class: "progress-text" }, ` line ${c.line}`),
       c.missing ? h("span", { class: "warn-text" }, " · not in this project's Music anymore") : null,
@@ -247,7 +254,7 @@ function planScript(body) {
     const host = ed.parentElement.getBoundingClientRect();
     pop.style.left = `${Math.max(0, rect.left - host.left)}px`;
     pop.style.top = `${rect.bottom - host.top + 4}px`;
-    pop.replaceChildren(...(popItems.length ? popItems.map((m, i) => h("button", { class: i === popIndex ? "active" : "", onmousedown: (e) => { e.preventDefault(); insertSong(m); } },
+    put(pop, ...(popItems.length ? popItems.map((m, i) => h("button", { class: i === popIndex ? "active" : "", onmousedown: (e) => { e.preventDefault(); insertSong(m); } },
       "♪ ", m.name)) : [h("div", { class: "progress-text" }, v.music.length ? "No song matches." : "No Music files in this project yet. Sort them in the Media tab first.")]));
     pop.classList.remove("hidden");
   };
@@ -296,4 +303,126 @@ function planScript(body) {
           h("button", { class: "chip", title: "Insert at the cursor", onmousedown: (e) => { e.preventDefault(); insertSong(m); } }, "♪ ", m.name)))
           : h("p", { class: "progress-text" }, "No Music files yet. Sort the folder in the Media tab (category Music)."),
         h("h4", {}, "Music cues, in order"), cueBox)));
+}
+
+// ---------- edit order & retention ----------
+const fmtClock = (t) => { t = Math.max(0, Math.round(t)); const m = Math.floor(t / 60); return `${m}:${String(t % 60).padStart(2, "0")}`; };
+
+const catName = (id) => (S.settings.categories.find((c) => c.id === id) || {}).name || id || "—";
+
+function planRetention(body) {
+  const v = P.view, edit = v.plan.edit || {}, order = (edit.order || []).map((x) => ({ ...x }));
+  const clipsById = Object.fromEntries(v.clips.map((c) => [c.fid, c]));
+  const status = h("span", { class: "progress-text" });
+  let saveTimer;
+  const save = () => {
+    clearTimeout(saveTimer); status.textContent = "Saving…";
+    saveTimer = setTimeout(async () => {
+      try { P.view = await api.post("/api/plan/edit-order", { items: order.map((x) => ({ fid: x.fid, seconds: x.seconds })) }); status.textContent = "Saved"; drawChart(); }
+      catch (e) { status.textContent = ""; toast(e.message, true); }
+    }, 500);
+  };
+  const list = h("ol", { class: "edit-list" });
+  let dragFrom = null;
+  const drawList = () => {
+    let t = 0;
+    put(list, ...order.map((x, i) => {
+      const c = clipsById[x.fid] || {};
+      const start = t; t += Number(x.seconds) || 0;
+      const secs = h("input", { class: "input secs", type: "number", min: 0.1, step: 0.1, value: x.seconds,
+        onchange: (e) => { x.seconds = Number(e.target.value) || 0.1; drawList(); save(); } });
+      const li = h("li", { class: "edit-item", draggable: "true", style: { "--cat": c.color || x.color || "var(--sage)" } },
+        h("span", { class: "grip", title: "Drag to reorder" }, "⋮⋮"),
+        h("span", { class: "at" }, fmtClock(start)),
+        h("span", { class: "clip-name", title: x.name }, x.name || c.name || x.fid),
+        h("span", { class: "tag" }, c.category_name || x.category || "—"),
+        secs, h("span", { class: "progress-text" }, "s"),
+        h("button", { class: "icon-btn", title: "Take out of the edit", onclick: () => { order.splice(i, 1); drawList(); save(); } }, "×"));
+      li.addEventListener("dragstart", () => { dragFrom = i; li.classList.add("dragging"); });
+      li.addEventListener("dragend", () => li.classList.remove("dragging"));
+      li.addEventListener("dragover", (e) => e.preventDefault());
+      li.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (dragFrom === null || dragFrom === i) return;
+        const [moved] = order.splice(dragFrom, 1); order.splice(i, 0, moved); dragFrom = null; drawList(); save();
+      });
+      return li;
+    }));
+    total.textContent = `Total ${fmtClock(t)}` + (edit.duration ? ` · video ${fmtClock(edit.duration)}` : "");
+    total.classList.toggle("warn-text", !!edit.duration && Math.abs(t - edit.duration) > Math.max(2, edit.duration * 0.02));
+  };
+  const total = h("span", { class: "progress-text" });
+  const pool = h("div", { class: "clip-pool" }, ...(v.clips.length ? v.clips.map((c) =>
+    h("button", { class: "chip", title: `Add ${c.name} to the end`, onclick: () => {
+      order.push({ fid: c.fid, name: c.name, category: c.category, seconds: Math.round((c.seconds || 3) * 10) / 10 }); drawList(); save();
+    } }, h("span", { class: "dot", style: { background: c.color || "var(--sage)" } }), c.name))
+    : [h("p", { class: "progress-text" }, v.media_open ? "No analyzed clips yet." : "Plug in the T7 and click this project in the sidebar to list its clips.")]));
+
+  const link = h("input", { class: "input", placeholder: "https://youtu.be/…", value: edit.video_id ? `https://youtu.be/${edit.video_id}` : "" });
+  const chart = h("div");
+  const drawChart = () => {
+    const ret = P.view.plan.retention || {};
+    const labels = ["7d", "48h", "now"].filter((k) => ret[k]);
+    const show = labels.find((k) => (ret[k].points || []).length) || labels[0];
+    const snap = show ? ret[show] : null;
+    const e = P.view.plan.edit || {};
+    const pub = e.published ? new Date(e.published) : null;
+    const dueText = (hrs) => pub ? new Date(pub.getTime() + hrs * 3600e3).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric" }) : "";
+    put(chart, 
+      h("div", { class: "pulls" },
+        ...[["48h", 48], ["7d", 168]].map(([k, hrs]) => h("span", { class: "tag" + (ret[k]?.points?.length ? " done" : "") },
+          ret[k]?.points?.length ? `${k}: pulled ${new Date(ret[k].pulled).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+            : ret[k]?.error ? `${k}: will retry (${ret[k].error.slice(0, 60)})` : `${k}: ${pub ? "due " + dueText(hrs) : "after you link the video"}`)),
+        h("button", { class: "btn small", disabled: !e.video_id, onclick: async (ev) => {
+          ev.target.disabled = true;
+          try { P.view = await api.post("/api/plan/retention/pull", { label: "now" }); drawChart(); toast("Retention pulled."); }
+          catch (er) { toast(er.message, true); ev.target.disabled = false; }
+        } }, "Pull now")),
+      snap ? retentionChart(snap, e.order || []) : h("p", { class: "progress-text" }, "The curve shows up here after the first pull (48 hours after posting, or click Pull now)."),
+      snap?.note ? h("div", { class: "banner" }, snap.note) : null,
+      snap?.drops?.length ? h("table", { class: "ops" }, h("thead", {}, h("tr", {}, ...["When", "Lost", "Clip playing", "Category"].map((x) => h("th", {}, x)))),
+        h("tbody", {}, ...snap.drops.map((d) => h("tr", {}, h("td", {}, `${fmtClock(d.from)}–${fmtClock(d.to)}`),
+          h("td", { class: "flag" }, `−${Math.round(d.lost * 100)} pts`), h("td", {}, d.clip || "—"), h("td", {}, catName(d.category))))))
+        : snap?.points?.length ? h("p", { class: "progress-text" }, "No drop of 5 points or more. Nice.") : null);
+  };
+  append(body,
+    h("div", { class: "row-head" }, h("div", {}, h("h3", {}, "Edit & retention"),
+      h("p", { class: "lead" }, "List the clips in the order they play in your edit (CapCut can't export this). Link the posted video, and 48 hours and 7 days after it posts the app pulls its retention curve and names the clip playing at every drop of 5 points or more.")), status),
+    h("div", { class: "retention-grid" },
+      h("div", { class: "card-box" }, h("div", { class: "row-head" }, h("h4", {}, "Clip order"), total), list,
+        h("h4", {}, "Add a clip"), pool),
+      h("div", { class: "card-box" },
+        h("h4", {}, "Posted video"),
+        edit.video_id ? h("p", {}, h("b", {}, edit.title), h("br"), h("span", { class: "progress-text" },
+          `${edit.published ? new Date(edit.published).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) : ""} · ${fmtClock(edit.duration || 0)} · `),
+          h("a", { href: `https://youtu.be/${edit.video_id}`, target: "_blank", rel: "noopener" }, "open on YouTube")) : null,
+        h("div", { class: "inline" }, link,
+          h("button", { class: "btn small", disabled: !v.youtube_connected, title: v.youtube_connected ? "" : "Connect YouTube in Settings → Connections first",
+            onclick: () => planPost("/api/plan/video", { url: link.value }, "Video linked.") }, edit.video_id ? "Change" : "Link"),
+          edit.video_id ? h("button", { class: "btn small", onclick: () => planPost("/api/plan/video/unlink", {}, "Unlinked. Past pulls are kept.") }, "Unlink") : null),
+        h("h4", {}, "Retention"), chart)));
+  drawList(); drawChart();
+}
+
+function retentionChart(snap, order) {
+  const W = 640, H = 220, L = 40, R = 10, T = 10, B = 24, dur = snap.duration || 1;
+  const pts = snap.points || [];
+  const sx = (sec) => L + (sec / dur) * (W - L - R);
+  const sy = (y) => T + (1 - Math.min(1.2, y) / 1.2) * (H - T - B);
+  const path = pts.map(([x, y], i) => `${i ? "L" : "M"}${sx(x * dur).toFixed(1)},${sy(y).toFixed(1)}`).join("");
+  let t = 0;
+  const total = order.reduce((a, x) => a + x.seconds, 0) || dur;
+  const scale = dur / total;
+  const bounds = order.map((x) => { const a = t; t += x.seconds; return { a: a * scale, b: t * scale, name: x.name }; });
+  const wrap = h("div", { class: "chart-wrap" });
+  wrap.innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Audience retention">
+    ${[0, 0.25, 0.5, 0.75, 1].map((f) => `<line x1="${L}" x2="${W - R}" y1="${sy(f)}" y2="${sy(f)}" class="grid"/><text x="${L - 6}" y="${sy(f) + 4}" text-anchor="end" class="axis">${Math.round(f * 100)}%</text>`).join("")}
+    ${(snap.drops || []).map((d) => `<rect x="${sx(d.from)}" y="${T}" width="${Math.max(2, sx(d.to) - sx(d.from))}" height="${H - T - B}" class="drop-band"><title>−${Math.round(d.lost * 100)} pts · ${escapeHtml(d.clip || "")}</title></rect>`).join("")}
+    ${bounds.slice(1).map((b) => `<line x1="${sx(b.a)}" x2="${sx(b.a)}" y1="${H - B}" y2="${H - B + 5}" class="clip-tick"/>`).join("")}
+    ${[0, 0.25, 0.5, 0.75, 1].map((f) => `<text x="${sx(f * dur)}" y="${H - 6}" text-anchor="middle" class="axis">${fmtClock(f * dur)}</text>`).join("")}
+    <path d="${path}" class="line cur"/>
+  </svg>`;
+  return h("div", {}, wrap, h("p", { class: "progress-text" },
+    `Share of viewers still watching (${snap.label} pull). Shaded = drops of 5+ points. Ticks under the axis = where each clip starts. YouTube reports in steps of ${snap.step_seconds || "?"}s.` +
+    (snap.hold_30s != null ? ` Still watching at 0:30: ${Math.round(snap.hold_30s * 100)}%.` : "")));
 }

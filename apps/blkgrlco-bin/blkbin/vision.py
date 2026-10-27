@@ -14,8 +14,9 @@ from pathlib import Path
 log = logging.getLogger("blkbin.vision")
 
 SYSTEM = """You sort raw footage for a YouTube creator (BLKGRLCO Studios).
-She films vertical vlogs on a DJI Osmo Pocket 3 in D-Log M, so DJI frames look flat,
-grey and low-contrast. That is normal and says nothing about the content.
+She films vertical vlogs on a DJI Osmo Pocket 3 in D-Log M. Usually the D-Log M to Rec.709
+LUT has already been applied to DJI frames (the facts say so); if not, they look flat, grey and
+low-contrast. That is normal and says nothing about the content.
 She also films on an iPhone, and some clips are horizontal.
 You get up to 3 frames from a clip (at 15%, 50% and 85% of its length), plus facts
 measured locally: file type, device, duration, orientation, how much talking the
@@ -96,6 +97,8 @@ def _prompt(facts: dict, settings: dict) -> str:
         f"- device: {facts.get('device')}",
         f"- duration: {facts.get('duration_text')}",
         f"- orientation: {facts.get('orientation') or 'n/a'}",
+        *([f"- color: {'D-Log M converted to Rec.709 with the LUT' if facts['lut'] == 'applied' else 'flat D-Log M (no LUT installed)'}"]
+          if facts.get("lut") else []),
         f"- talking heard: {facts.get('speech_level')} ({round((facts.get('speech_ratio') or 0) * 100)}% of the clip,"
         f" detector: {facts.get('speech_engine')})",
     ]

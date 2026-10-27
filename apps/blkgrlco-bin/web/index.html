@@ -17,10 +17,13 @@
       <button role="tab" data-tab="media" class="active">Media</button>
       <button role="tab" data-tab="plan">Plan</button>
       <button role="tab" data-tab="overview">Overview</button>
+      <button role="tab" data-tab="strategy">Strategy</button>
       <button role="tab" data-tab="settings">Settings</button>
     </nav>
     <div class="project-pill">
+      <button class="btn small card-alert hidden" id="card-alert"></button>
       <span id="project-name" title="">No project open</span>
+      <button class="btn small light" id="ingest-btn" title="Copy a camera card onto the T7 with checksums">Ingest</button>
       <button class="btn small light" id="pick-btn">Pick folder</button>
     </div>
   </header>
@@ -31,6 +34,7 @@
     <section id="tab-media" class="tab-panel active"></section>
     <section id="tab-plan" class="tab-panel"></section>
     <section id="tab-overview" class="tab-panel"></section>
+    <section id="tab-strategy" class="tab-panel"></section>
     <section id="tab-settings" class="tab-panel"></section>
   </main>
   </div>
@@ -40,5 +44,7 @@
   <script src="/app.js"></script>
   <script src="/plan.js"></script>
   <script src="/overview.js"></script>
+  <script src="/tools.js"></script>
+  <script src="/strategy.js"></script>
 </body>
 </html>

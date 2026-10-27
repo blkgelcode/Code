@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from . import frames, media, naming, settings as settings_mod, speech, vision
+from . import frames, lut, media, naming, proxy, settings as settings_mod, speech, vision
 
 log = logging.getLogger("blkbin.project")
 
@@ -182,7 +182,12 @@ class Project:
             src = self.root / e["path"]
             self.save()
 
-        info = media.probe(src) if e["kind"] != "photo" else _photo_probe(src)
+        try:
+            info = media.probe(src) if e["kind"] != "photo" else _photo_probe(src)
+        except RuntimeError as exc:
+            with self.lock:
+                e["broken"] = str(exc)[:200]
+            raise ProjectError("Can't read this file. Use “Fix + proxies” to make a _fixed copy.") from None
         facts = {
             "kind": e["kind"],
             "duration": info.get("duration") if e["kind"] != "photo" else None,
@@ -190,7 +195,12 @@ class Project:
             "device": media.device(src, info),
             "date": media.shot_date(src, info),
         }
-        frame_names = frames.extract(src, e["kind"], facts["duration"], self.state_dir / "frames", fid)
+        broken = proxy.decode_check(src, facts["duration"]) if e["kind"] == "video" else None
+        # LUT FIRST: D-Log M frames are converted to Rec.709 before Claude (or you) sees them
+        use_lut = lut.wanted(e, facts["device"])
+        pre = lut.filter_for() if use_lut else None
+        facts["lut"] = "applied" if pre else "missing" if use_lut else None
+        frame_names = frames.extract(src, e["kind"], facts["duration"], self.state_dir / "frames", fid, pre)
         if e["kind"] == "photo":
             sp = {"level": "none", "ratio": 0.0, "transcript": "", "engine": "photo"}
         else:
@@ -201,6 +211,11 @@ class Project:
                                                    "has_audio", "color_transfer")}
             e["frames"] = frame_names
             e["speech"] = sp
+            e["lut"] = facts["lut"]
+            if broken:
+                e["broken"] = broken
+            else:
+                e.pop("broken", None)
             self.save()
 
         result = vision.classify({
@@ -235,6 +250,8 @@ class Project:
             if "title" in changes:
                 t = naming.slugify(str(changes["title"] or ""))
                 e["title_override"] = t or None
+            if "lut" in changes:  # the card's LUT switch; the caller re-analyzes
+                e["lut_override"] = None if changes["lut"] is None else bool(changes["lut"])
             self.save()
             return e
 
@@ -292,6 +309,7 @@ class Project:
                 "kind": e["kind"],
                 "size": media.human_size(e["size"]),
                 "duration": media.human_duration(e.get("duration")) if e["kind"] != "photo" else None,
+                "seconds": e.get("duration"),
                 "device": e.get("device"),
                 "orientation": e.get("orientation"),
                 "date": e.get("date"),
@@ -312,9 +330,18 @@ class Project:
                 "status": self.status(e, cfg, props),
                 "queued": e["state"] == "queued",
                 "error": e.get("error"),
+                "lut": e.get("lut"),
+                "broken": e.get("broken"),
+                "fixed_path": e.get("fixed_path"),
+                "proxy": (e.get("proxy") or {}).get("path") if (e.get("proxy") or {}).get("for_path") == e["path"] else None,
+                "flubs": _flub_summary(e.get("flubmap")),
             })
         journal = latest_journal(self)
+        todo = proxy.todo(self)
         return {
+            "fix_count": len(todo["fix"]),
+            "proxy_count": len(todo["proxy"]),
+            "lut": lut.status(),
             "path": str(self.root),
             "name": self.name,
             "cards": cards,
@@ -323,6 +350,14 @@ class Project:
             "claude": vision.available(),
             "whisper": speech.whisper_available(),
         }
+
+
+def _flub_summary(m: dict | None) -> dict | None:
+    if not m:
+        return None
+    return {"markers": sum(1 for f in m.get("flubs", []) if f["kind"] == "marker"),
+            "possible": sum(1 for f in m.get("flubs", []) if f["kind"] == "possible"),
+            "silences": len(m.get("silences", [])), "takes": len(m.get("takes", []))}
 
 
 def _photo_probe(src: Path) -> dict:

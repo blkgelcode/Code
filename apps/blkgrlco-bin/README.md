@@ -3,8 +3,8 @@
 A local web app for organizing footage and planning videos. It runs on your Mac at
 `http://localhost:4321` and works directly on the T7 (`Untitled/project hhh/<video>`).
 
-**Status:** Phases 1 (Media), 2 (Plan) and 3 (Overview) built. Phase 4 (add-ons) is next;
-Phase 5 (Strategy) is specced in `docs/PHASE5_STRATEGY_SPEC.md`.
+**Status:** all five phases built: Media, Plan, Overview, the Phase 4 add-ons and the Strategy tab.
+Real-footage, real-YouTube and real-Claude tests still have to run on the Mac (`run-tests.command`, options 1–5).
 
 ## Start it
 
@@ -73,6 +73,31 @@ The app asks for read-only YouTube and Analytics access, plus the earnings repor
 "not available" for a channel outside the Partner Program). Sign-in tokens stay in
 `~/Library/Application Support/BLKGRLCO Bin/youtube/`, readable only by you. Results are cached for an hour.
 
+## Phase 4 add-ons
+
+| Add-on | Where | What it does |
+|---|---|---|
+| Ingest | **Ingest** button (top bar). A pink "📷 DJI card" button appears by itself when a card is plugged in. | Copies everything from the card (or a folder of iPhone footage) into `project hhh/<new project>/_raw` on the T7, then reads every copy back and compares SHA-256 checksums. "Safe to wipe the card" shows only when every file matches. A report `_ingest-report-<time>.csv` goes in the project. Nothing on the card is ever deleted, moved or renamed. |
+| Fix + proxies | Media → **Fix + proxies** | A clip that ffprobe can't read, or that doesn't decode cleanly, gets a clean H.264 copy next to it: `<name>_fixed.mp4`. The original stays as it is. Every video gets a 720p proxy in `_proxies/` (hardware encoder on the M1). Make proxies after Submit, so they carry the final names. |
+| LUT first | Settings → Analysis → **D-Log M → Rec.709 LUT** | Choose DJI's "DJI OSMO Pocket 3 D-Log M to Rec.709" `.cube` file once. Every DJI clip's preview frames go through it before Claude looks at them, so cards, categories and descriptions work on normal-looking color. DJI tags D-Log M as bt709, so the app doesn't trust the tag: all DJI clips get the LUT unless you switch it off on a card (the **LUT** tag). Your clips are never changed. |
+| Flub + silence map | Media → **Flub map** | Whisper listens to every clip with talking and marks your "lululu" / "la la la" flub marker, silences over 0.7 s, and the same line said more than once (ranked: complete, confident, no fillers or pauses; the last take gets a small bonus). It all goes into `_footage-master.md`. Click a card's **flubs** tag to see the map and the transcript. Whisper sometimes drops nonsense syllables, so a stretch of sound with no words shows up as a "possible" flub. |
+| Retention loop | Plan → **Edit & retention**, Overview → **What loses viewers** | List the edit's clips in order (drag to reorder, set the seconds used: CapCut can't export this) and link the posted video. 48 hours and 7 days after it posts, the app pulls the audience retention curve and names the clip playing at every drop of 5 points or more. Overview keeps a running table by clip category. Pulls happen while the app is open; if the Mac was off, they catch up on the next start. |
+
+## The Strategy tab (Phase 5)
+
+Pick a channel at the top: @blkgrlco → Nia, @blkgrlcotoo → Zara, the podcast → Amara.
+
+| Sub-tab | What it does |
+|---|---|
+| Profiles & rules | Her audience profiles (who she is, goals, what she's tried, where she watches, search lanes, channels she follows) and your rules (the Oct 21 hook/title rules, what you can film Thu–Sat, your voice). Missing answers are flagged. **A saved answer is never replaced without your "Yes, replace".** |
+| Audience Bullseye | Finds 10–15 channels in her lane (favoring under 100K subscribers with high views), their 3x+ outliers from the last 12 months (outlier = views ÷ the median of that channel's last 30 uploads), groups them into topics and scores each out of 16: audience fit + demand (how many outliers) + competition gap (how many come from small channels) + Thu–Sat filmable, 4 points each. Bullseye chart + ranked list tagged Top / Middle / Bottom of funnel, every number linked to its video. **Send to idea bank** adds the topic's idea to Not started and the dashboard file. |
+| Hook Machine | Reusable skeletons (e.g. "i tried [thing] for [time]") found in the top outliers, each with its outlier count, median outlier score and 3 examples. **Generate hooks** writes 5 for one of your ideas in your voice (casual lowercase, one sentence, opinion + curiosity), checks each one (one sentence? lowercase? "day N of 90" kept? "would Nia stop scrolling?") and applies the Oct 21 rules to @blkgrlco dailies and long-forms. **Save to plan** puts the hook (and its title) in that project's Plan → Titles. **Check skeletons against my last 5 videos** compares each skeleton's score with your real 3-second hold. |
+| Channel Audit | Your last 50 uploads (12 months): above-median vs below-median views compared by topic, format (from your clip list when there is one), hook skeleton, story map (B1–B5, judged only from a script) and how many viewers are still watching at 0:30. Named patterns, each with a template and 2 of your own videos as proof, plus the "what loses viewers" table. Runs again every Sunday after 6 pm (after the weekly long-form posts), or the next time the app starts. |
+
+Limits, said plainly: YouTube only gives captions for your own videos, so other creators' first 5 seconds are pasted in
+(Hook Machine → Opening lines), and their videos are never downloaded. A search costs 100 of the 10,000 daily YouTube
+quota units; results are cached for a day.
+
 ## How the dashboard is connected
 
 Every time you tick a title or change a video's details, Bin rewrites
@@ -106,6 +131,12 @@ Analysis data (frames, Whisper output, Claude's notes, undo journals) is kept in
   - **Option 3:** scores your past thumbnail A/B tests. Put each test in its own folder in
     `~/bin-test/ab/` (the thumbnails plus a `winner.txt` with the winning file's name). The
     report says whether the app's #1 matches the real winner for each test.
+  - **Option 4 (Phase 4):** drag in the DJI card or a footage folder. It ingests into `~/bin-test` (not the T7)
+    with the checksum report, proves the card is unchanged, makes fixes and proxies, saves one before/after LUT
+    frame, prints the flub map of one talking-head clip (with its transcript, to check against what you said),
+    and prints the "what loses viewers" table.
+  - **Option 5 (Phase 5):** the Audience Bullseye for @blkgrlco only (top 10 topics with their source videos), then
+    each hook skeleton's score against the real 3-second hold of your last 5 videos.
 
 ## Layout
 
@@ -121,9 +152,14 @@ blkbin/        Python server (standard library HTTP server) and logic
   registry.py  every video's plan + the dashboard export
   planning.py  thumbnails, title links, script & music cues
   thumbs.py    thumbnail checks and the click-appeal score
-  youtube.py   Google sign-in (desktop OAuth + PKCE) and channel analytics
+  youtube.py   Google sign-in (desktop OAuth + PKCE), channel analytics, videos, retention
+  ingest.py    card → _raw with checksums          proxy.py     _fixed copies + 720p proxies
+  lut.py       the D-Log M → Rec.709 LUT           flubs.py     flub + silence map
+  retention.py edit order, retention pulls, what loses viewers
+  strategy.py  profiles, Bullseye, Hook Machine, Channel Audit
+  jobs.py      background jobs with progress       scheduler.py retention pulls + Sunday audit
   server.py    API + static files, bound to 127.0.0.1 only
   cli.py       command-line tools used by run-tests.command
-web/           the interface (HTML/CSS/JS, no build step)
+web/           the interface (HTML/CSS/JS, no build step): app.js, plan.js, overview.js, tools.js, strategy.js
 tests/         unit tests + synthetic footage generator
 ```

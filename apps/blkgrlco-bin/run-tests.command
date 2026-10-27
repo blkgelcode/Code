@@ -4,6 +4,9 @@
 #
 #   1  Full test: copy a folder to ~/bin-test, analyze, submit, undo, prove it's identical
 #   2  Score your labels: compare your 30 hand labels with the app's categories
+#   3  Score past thumbnail A/B tests
+#   4  Phase 4: ingest + checksums, fix + proxies, LUT before/after, flub map, retention
+#   5  Phase 5: Bullseye top 10 for @blkgrlco, hook skeletons vs your 3-second hold
 
 cd "$(dirname "$0")" || exit 1
 APP="$(pwd)"
@@ -19,7 +22,66 @@ echo "BLKGRLCO Bin tests"
 echo "  1) Full test on a fresh copy of one T7 folder"
 echo "  2) Score my hand labels"
 echo "  3) Score my past thumbnail A/B tests"
-read -r -p "Choose 1, 2 or 3: " MODE
+echo "  4) Phase 4: ingest + checksums, fix + proxies, LUT before/after, flub map, retention"
+echo "  5) Phase 5: Audience Bullseye top 10 for @blkgrlco, hook skeletons vs your 3-second hold"
+read -r -p "Choose 1-5: " MODE
+
+if [ "$MODE" = "4" ]; then
+  read -r -p "Drag the DJI card (or a folder of footage) into this window, then Return: " RAW
+  SRC="$(unquote "$RAW")"
+  [ -d "$SRC" ] || { echo "That isn't a folder: $SRC"; read -r _; exit 1; }
+  STAMP="$(date +%Y%m%d-%H%M%S)"
+  NAME="phase4-$STAMP"
+  DEST="$TEST_ROOT/$NAME"
+  REPORT="$TEST_ROOT/phase4-report-$STAMP.txt"
+  {
+  echo "BLKGRLCO Bin Phase 4 test  $(date)"
+  echo "Source (only read, never changed): $SRC"
+  echo "Test project: $DEST   (ingest goes to ~/bin-test here, not the T7)"
+  echo
+  echo "== 1. INGEST: checksum report =="
+  cli snapshot "$SRC" "$TEST_ROOT/.card-before-$STAMP.tsv" >/dev/null
+  cli ingest "$SRC" "$NAME" --dest "$TEST_ROOT"
+  cli snapshot "$SRC" "$TEST_ROOT/.card-after-$STAMP.tsv" >/dev/null
+  echo "-- the card after ingest vs before (must be IDENTICAL):"
+  cli compare "$TEST_ROOT/.card-before-$STAMP.tsv" "$TEST_ROOT/.card-after-$STAMP.tsv"
+  echo
+  echo "== 2. FIX + PROXY =="
+  cli analyze "$DEST" >/dev/null
+  cli fix-proxy "$DEST"
+  echo
+  echo "== 3. LUT FIRST: one frame before / after =="
+  DJI="$(find "$DEST/_raw" -iname 'DJI_*.MP4' | head -1)"
+  if [ -n "$DJI" ]; then cli lut-compare "$DJI" "$TEST_ROOT/lut-before-after-$STAMP.jpg"; else echo "No DJI clip in this footage."; fi
+  echo
+  echo "== 4. FLUB + SILENCE MAP: one talking-head clip (check it against what you actually said) =="
+  cli flubmap "$DEST"
+  echo
+  echo "== 5. RETENTION LOOP =="
+  cli retention
+  } 2>&1 | tee "$REPORT"
+  echo; echo "Report: $REPORT"
+  [ -f "$TEST_ROOT/lut-before-after-$STAMP.jpg" ] && open "$TEST_ROOT/lut-before-after-$STAMP.jpg" 2>/dev/null
+  read -r -p "Done. Press Return to close." _
+  exit 0
+fi
+
+if [ "$MODE" = "5" ]; then
+  STAMP="$(date +%Y%m%d-%H%M%S)"
+  REPORT="$TEST_ROOT/phase5-report-$STAMP.txt"
+  {
+  echo "BLKGRLCO Bin Phase 5 test  $(date)"
+  echo
+  echo "== Audience Bullseye: @blkgrlco only, top 10 topics with sources =="
+  cli bullseye @blkgrlco
+  echo
+  echo "== Hook Machine: skeleton score vs the real 3-second hold (your last 5 videos) =="
+  cli skeleton-check @blkgrlco
+  } 2>&1 | tee "$REPORT"
+  echo; echo "Report: $REPORT"
+  read -r -p "Done. Press Return to close." _
+  exit 0
+fi
 
 if [ "$MODE" = "3" ]; then
   AB="$TEST_ROOT/ab"
