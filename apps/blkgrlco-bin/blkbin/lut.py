@@ -70,10 +70,34 @@ def parse(text: str) -> dict:
     return {"size": size, "title": title, "rows": rows}
 
 
-def install(text: str, original_name: str) -> dict:
+class NotAConversion(LutError):
+    """The file looks like a creative grade, not a log → Rec.709 conversion."""
+
+
+def gray_stretch(text: str, size: int) -> float:
+    """How much the LUT stretches the middle of the gray axis (input 0.2 → 0.6).
+    A log → Rec.709 conversion pulls flat log footage apart (well above 1); a creative
+    grade made for Rec.709 footage (like "The Everyday LUT") stays near 1 or below."""
+    rows = [line.split() for line in text.splitlines() if re.match(r"^\s*[-+0-9.]", line) and len(line.split()) == 3]
+
+    def gray(x: float) -> float:
+        i = round(x * (size - 1))
+        r = rows[i + i * size + i * size * size]  # red changes fastest in .cube files
+        return sum(float(v) for v in r) / 3
+    lo, hi = round(0.2 * (size - 1)) / (size - 1), round(0.6 * (size - 1)) / (size - 1)
+    return (gray(hi) - gray(lo)) / (hi - lo)
+
+
+def install(text: str, original_name: str, force: bool = False) -> dict:
     if len(text.encode()) > MAX_BYTES:
         raise LutError("That file is too big to be a LUT.")
     info = parse(text)
+    stretch = gray_stretch(text, info["size"])
+    if stretch < 1.2 and not force:
+        raise NotAConversion(
+            f"“{Path(original_name).name}” looks like a creative grade, not the D-Log M → Rec.709 conversion: it "
+            f"barely changes contrast (×{stretch:.2f}), so flat D-Log M frames would stay flat. Use DJI's free "
+            "“DJI OSMO Pocket 3 D-Log M to Rec.709” LUT here. Creative LUTs like The Everyday LUT go after it, in CapCut.")
     target = lut_dir() / FILE_NAME
     if target.exists():  # keep the one it replaces
         n = 1

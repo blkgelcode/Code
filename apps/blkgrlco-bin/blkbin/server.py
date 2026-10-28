@@ -373,7 +373,9 @@ def r_lut_status(_body):
 
 def r_lut_install(body):
     try:
-        return lut.install(str(body.get("text", "")), str(body.get("name", "")))
+        return lut.install(str(body.get("text", "")), str(body.get("name", "")), bool(body.get("force")))
+    except lut.NotAConversion as exc:
+        raise HttpError(422, str(exc))
     except lut.LutError as exc:
         raise HttpError(400, str(exc))
 

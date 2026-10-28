@@ -137,6 +137,19 @@ class TestLut(Base):
         with self.assertRaises(lut.LutError):
             lut.parse("hello")
 
+    def test_creative_grade_is_not_taken_for_the_conversion(self):
+        everyday = Path(__file__).resolve().parents[3] / "brand-bible/brands/assets/luts/blkgrlco/The Everyday LUT.cube"
+        if not everyday.exists():
+            self.skipTest("brand LUT not in this checkout")
+        with self.assertRaises(lut.NotAConversion):
+            lut.install(everyday.read_text(), everyday.name)
+        self.assertIsNone(lut.path())
+        lut.install(everyday.read_text(), everyday.name, force=True)  # her explicit "use it anyway"
+        self.assertTrue(lut.status()["installed"])
+        flat = make_cube(self.tmp / "flat.cube", gain=1.0).read_text()
+        with self.assertRaises(lut.NotAConversion):
+            lut.install(flat, "identity.cube")
+
     def test_install_keeps_the_previous_one(self):
         text = make_cube(self.tmp / "a.cube").read_text()
         lut.install(text, "DJI OSMO Pocket 3 D-Log M to Rec.709.cube")

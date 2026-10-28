@@ -196,7 +196,12 @@ function lutSettings() {
       const f = file.files[0];
       if (!f) return;
       try {
-        await api.post("/api/lut", { name: f.name, text: await f.text() });
+        const text = await f.text();
+        try { await api.post("/api/lut", { name: f.name, text }); }
+        catch (e) {
+          if (e.status !== 422 || !confirm(`${e.message}\n\nUse it anyway?`)) throw e;
+          await api.post("/api/lut", { name: f.name, text, force: true });
+        }
         toast("LUT saved. Re-analyze DJI clips to see their frames in normal color."); renderSettings();
       } catch (e) { toast(e.message, true); }
     });
