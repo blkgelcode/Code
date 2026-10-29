@@ -146,9 +146,9 @@ class TestLut(Base):
         self.assertIsNone(lut.path())
         lut.install(everyday.read_text(), everyday.name, force=True)  # her explicit "use it anyway"
         self.assertTrue(lut.status()["installed"])
-        flat = make_cube(self.tmp / "flat.cube", gain=1.0).read_text()
-        with self.assertRaises(lut.NotAConversion):
-            lut.install(flat, "identity.cube")
+        for gain in (1.0, 1.25):  # identity, and a punchy creative look like DJI's "Autumn Pro" (×1.21)
+            with self.assertRaises(lut.NotAConversion):
+                lut.install(make_cube(self.tmp / "look.cube", gain=gain).read_text(), "look.cube")
 
     def test_install_keeps_the_previous_one(self):
         text = make_cube(self.tmp / "a.cube").read_text()

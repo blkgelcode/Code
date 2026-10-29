@@ -93,7 +93,7 @@ def install(text: str, original_name: str, force: bool = False) -> dict:
         raise LutError("That file is too big to be a LUT.")
     info = parse(text)
     stretch = gray_stretch(text, info["size"])
-    if stretch < 1.2 and not force:
+    if stretch < 1.5 and not force:  # D-Log M → Rec.709 stretches ~2x; creative looks stay ~0.9–1.25
         raise NotAConversion(
             f"“{Path(original_name).name}” looks like a creative grade, not the D-Log M → Rec.709 conversion: it "
             f"barely changes contrast (×{stretch:.2f}), so flat D-Log M frames would stay flat. Use DJI's free "
