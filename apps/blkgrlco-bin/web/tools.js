@@ -206,9 +206,9 @@ function lutSettings() {
       } catch (e) { toast(e.message, true); }
     });
     put(wrap, h("label", {}, "D-Log M → Rec.709 LUT"),
-      st.installed ? h("div", { class: "state-line" }, h("span", { class: "ok" }, "✓"), h("b", {}, st.name), h("span", { class: "progress-text" }, `${st.size}³ · ${st.title || ""}`))
+      st.installed ? h("div", { class: "state-line" }, h("span", { class: "ok" }, "✓"), h("b", {}, st.name), h("span", { class: "progress-text" }, `${st.size}³${st.source === "brand assets" ? " · from your brand assets" : ""}`))
         : h("div", { class: "state-line" }, h("span", { class: "off" }, "Not added yet:"), "DJI frames stay flat and grey until you add it."),
-      h("span", { class: "help" }, "Step 1. Choose DJI's “DJI OSMO Pocket 3 D-Log M to Rec.709” .cube file (dji.com/downloads/softwares/osmo-pocket-3-dlog-to-rec709). It's applied to the preview frames of every DJI clip before Claude looks at them. Your clips are never changed. A clip shot in normal color can be switched off on its card."),
+      h("span", { class: "help" }, "Step 1: DJI's “DJI OSMO Pocket 3 D-Log M to Rec.709” LUT (already included; choose a file only to replace it). It's applied to the preview frames of every DJI clip before Claude looks at them. Your clips are never changed. A clip shot in normal color can be switched off on its card."),
       h("div", { class: "inline" }, file),
       lookSettings(st.looks));
   }).catch((e) => put(wrap, h("label", {}, "LUT"), h("p", {}, e.message)));

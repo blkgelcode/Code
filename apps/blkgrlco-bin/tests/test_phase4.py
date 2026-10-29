@@ -23,14 +23,14 @@ from blkbin import (flubs, ingest, jobs, lut, media, project as project_mod, pro
 from blkbin.cli import listing  # noqa: E402
 
 
-def make_cube(path: Path, n: int = 9, gain: float = 1.8) -> Path:
+def make_cube(path: Path, n: int = 9, gain: float = 1.8, title: str = "test D-Log M to Rec.709") -> Path:
     rows = []
     for b in range(n):
         for g in range(n):
             for r in range(n):
                 f = lambda v: min(1, max(0, (v / (n - 1) - 0.5) * gain + 0.5))  # noqa: E731
                 rows.append(f"{f(r):.6f} {f(g):.6f} {f(b):.6f}")
-    path.write_text(f'TITLE "test contrast"\nLUT_3D_SIZE {n}\n' + "\n".join(rows) + "\n")
+    path.write_text(f'TITLE "{title}"\nLUT_3D_SIZE {n}\n' + "\n".join(rows) + "\n")
     return path
 
 
@@ -127,6 +127,13 @@ class TestIngest(Base):
 # ---- LUT FIRST ------------------------------------------------------------------------------------
 
 class TestLut(Base):
+    def setUp(self):
+        super().setUp()
+        self.real_brand = lut.BRAND_CONVERSION
+        p = mock.patch.object(lut, "BRAND_CONVERSION", self.tmp / "none.cube")  # start with no LUT at all
+        p.start()
+        self.addCleanup(p.stop)
+
     def test_parse_rejects_bad_files(self):
         good = make_cube(self.tmp / "good.cube").read_text()
         self.assertEqual(lut.parse(good)["size"], 9)
@@ -146,9 +153,17 @@ class TestLut(Base):
         self.assertIsNone(lut.path())
         lut.install(everyday.read_text(), everyday.name, force=True)  # her explicit "use it anyway"
         self.assertTrue(lut.status()["installed"])
-        for gain in (1.0, 1.25):  # identity, and a punchy creative look like DJI's "Autumn Pro" (×1.21)
-            with self.assertRaises(lut.NotAConversion):
-                lut.install(make_cube(self.tmp / "look.cube", gain=gain).read_text(), "look.cube")
+        look = make_cube(self.tmp / "look.cube", gain=1.2, title="Autumn").read_text()
+        with self.assertRaises(lut.NotAConversion):
+            lut.install(look, "DJI_OSMO_Pocket_3_Autumn_Pro.cube")  # DJI's seasonal looks aren't conversions
+        lut.install(look, "DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube")  # the name says it is
+
+    def test_dji_conversion_is_the_default(self):
+        self.assertTrue(self.real_brand.is_file())
+        with mock.patch.object(lut, "BRAND_CONVERSION", self.real_brand):
+            st = lut.status()
+            self.assertEqual((st["installed"], st["source"], st["size"]), (True, "brand assets", 33))
+            self.assertTrue(lut.says_conversion(self.real_brand.read_text(), self.real_brand.name))
 
     def test_install_keeps_the_previous_one(self):
         text = make_cube(self.tmp / "a.cube").read_text()

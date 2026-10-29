@@ -28,9 +28,17 @@ def lut_dir() -> Path:
     return d
 
 
+# DJI's conversion LUT, kept with the brand assets so a fresh install works without choosing it
+BRAND_CONVERSION = (Path(__file__).resolve().parents[3] / "brand-bible" / "brands" / "assets" / "luts" / "dji-pocket3"
+                    / "DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube")
+
+
 def path() -> Path | None:
+    """The conversion LUT: the one chosen in Settings, else DJI's file from the brand assets."""
     p = lut_dir() / FILE_NAME
-    return p if p.is_file() else None
+    if p.is_file():
+        return p
+    return BRAND_CONVERSION if BRAND_CONVERSION.is_file() else None
 
 
 def parse(text: str) -> dict:
@@ -71,33 +79,29 @@ def parse(text: str) -> dict:
 
 
 class NotAConversion(LutError):
-    """The file looks like a creative grade, not a log → Rec.709 conversion."""
+    """The file doesn't say it's a log → Rec.709 conversion (likely a creative look)."""
 
 
-def gray_stretch(text: str, size: int) -> float:
-    """How much the LUT stretches the middle of the gray axis (input 0.2 → 0.6).
-    A log → Rec.709 conversion pulls flat log footage apart (well above 1); a creative
-    grade made for Rec.709 footage (like "The Everyday LUT") stays near 1 or below."""
-    rows = [line.split() for line in text.splitlines() if re.match(r"^\s*[-+0-9.]", line) and len(line.split()) == 3]
+# Checking the curve doesn't work: DJI's own D-Log M → Rec.709 LUT barely changes the mids (it
+# mostly deepens the shadows), so it looks much like a creative grade. The file's name or header
+# naming the log profile is the dependable sign.
+LOG_WORDS = re.compile(r"d[-_ ]?log|log[-_ ]?m\b|s[-_ ]?log|v[-_ ]?log|c[-_ ]?log|f[-_ ]?log|n[-_ ]?log|\blog\b", re.I)
 
-    def gray(x: float) -> float:
-        i = round(x * (size - 1))
-        r = rows[i + i * size + i * size * size]  # red changes fastest in .cube files
-        return sum(float(v) for v in r) / 3
-    lo, hi = round(0.2 * (size - 1)) / (size - 1), round(0.6 * (size - 1)) / (size - 1)
-    return (gray(hi) - gray(lo)) / (hi - lo)
+
+def says_conversion(text: str, name: str) -> bool:
+    header = "\n".join(line for line in text.splitlines()[:40] if line.lstrip().startswith(("#", "TITLE")))
+    return bool(LOG_WORDS.search(Path(name).stem.replace("_", " ")) or LOG_WORDS.search(header))
 
 
 def install(text: str, original_name: str, force: bool = False) -> dict:
     if len(text.encode()) > MAX_BYTES:
         raise LutError("That file is too big to be a LUT.")
-    info = parse(text)
-    stretch = gray_stretch(text, info["size"])
-    if stretch < 1.5 and not force:  # D-Log M → Rec.709 stretches ~2x; creative looks stay ~0.9–1.25
+    parse(text)
+    if not force and not says_conversion(text, original_name):
         raise NotAConversion(
-            f"“{Path(original_name).name}” looks like a creative grade, not the D-Log M → Rec.709 conversion: it "
-            f"barely changes contrast (×{stretch:.2f}), so flat D-Log M frames would stay flat. Use DJI's free "
-            "“DJI OSMO Pocket 3 D-Log M to Rec.709” LUT here. Creative LUTs like The Everyday LUT go after it, in CapCut.")
+            f"“{Path(original_name).name}” doesn't say it converts D-Log M (no “D-Log” or “Log” in its name or "
+            "header), so it's probably a creative look. Step 1 needs DJI's “DJI OSMO Pocket 3 D-Log M to Rec.709” "
+            "LUT. Creative looks go in step 2.")
     target = lut_dir() / FILE_NAME
     if target.exists():  # keep the one it replaces
         n = 1
@@ -117,8 +121,9 @@ def status() -> dict:
         info = parse(p.read_text())
     except (OSError, LutError):
         return {"installed": False, "name": None, "error": "The saved LUT can't be read. Choose it again."}
-    return {"installed": True, "name": settings_mod.load().get("lut_name") or FILE_NAME,
-            "size": info["size"], "title": info["title"]}
+    mine = p == lut_dir() / FILE_NAME
+    return {"installed": True, "name": (settings_mod.load().get("lut_name") or FILE_NAME) if mine else p.name,
+            "source": "yours" if mine else "brand assets", "size": info["size"], "title": info["title"]}
 
 
 def is_log_device(device: str | None) -> bool:
