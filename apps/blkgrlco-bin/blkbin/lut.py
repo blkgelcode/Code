@@ -149,3 +149,95 @@ def filter_for(p: Path | None = None) -> str | None:
     if not p:
         return None
     return f"lut3d=file={_escape(p)}:interp=tetrahedral"
+
+
+# ---- step 2: the creative look (card thumbnails only) ------------------------------------------
+# Brand pipeline: D-Log M → Rec.709 conversion first, then the channel's creative grade.
+# Claude always analyzes the plain converted frames; the look is only for how cards look to her.
+
+LOOK_CHANNELS = {"@blkgrlco": "blkgrlco", "@blkgrlcotoo": "blkgrlcotoo", "podcast": "podcast"}
+BRAND_LOOKS = {  # used when she hasn't chosen one in Settings
+    "@blkgrlco": Path(__file__).resolve().parents[3] / "brand-bible" / "brands" / "assets" / "luts" / "blkgrlco" / "The Everyday LUT.cube",
+}
+
+
+def _look_file(channel: str) -> Path:
+    if channel not in LOOK_CHANNELS:
+        raise LutError("Unknown channel.")
+    return lut_dir() / "looks" / f"{LOOK_CHANNELS[channel]}.cube"
+
+
+def look_path(channel: str | None) -> Path | None:
+    """The creative look for a channel: hers from Settings, else the brand-bible default, else none.
+    A look switched off in Settings stays off."""
+    if channel not in LOOK_CHANNELS:
+        return None
+    if channel in (settings_mod.load().get("looks_off") or []):
+        return None
+    mine = _look_file(channel)
+    if mine.is_file():
+        return mine
+    brand = BRAND_LOOKS.get(channel)
+    return brand if brand and brand.is_file() else None
+
+
+def install_look(channel: str, text: str, original_name: str) -> dict:
+    if len(text.encode()) > MAX_BYTES:
+        raise LutError("That file is too big to be a LUT.")
+    parse(text)
+    target = _look_file(channel)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists():  # keep the one it replaces
+        n = 1
+        while target.with_name(f"{target.stem}.replaced-{n}.cube").exists():
+            n += 1
+        target.replace(target.with_name(f"{target.stem}.replaced-{n}.cube"))
+    target.write_text(text)
+    cfg = settings_mod.load()
+    names = dict(cfg.get("look_names") or {})
+    names[channel] = Path(original_name).name
+    settings_mod.save({"look_names": names, "looks_off": [c for c in cfg.get("looks_off") or [] if c != channel]})
+    return looks_status()
+
+
+def set_look_on(channel: str, on: bool) -> dict:
+    if channel not in LOOK_CHANNELS:
+        raise LutError("Unknown channel.")
+    off = [c for c in settings_mod.load().get("looks_off") or [] if c != channel]
+    settings_mod.save({"looks_off": off if on else off + [channel]})
+    return looks_status()
+
+
+def looks_status() -> dict:
+    cfg = settings_mod.load()
+    out = {}
+    for ch in LOOK_CHANNELS:
+        p = look_path(ch)
+        off = ch in (cfg.get("looks_off") or [])
+        mine = _look_file(ch).is_file()
+        brand = BRAND_LOOKS.get(ch)
+        out[ch] = {"on": bool(p), "off": off,
+                   "name": (cfg.get("look_names") or {}).get(ch, _look_file(ch).name) if mine
+                   else brand.stem if brand and brand.is_file() else None,
+                   "source": "yours" if mine else "brand bible" if brand and brand.is_file() else None}
+    return out
+
+
+def graded_frame(base: Path, look: Path, cache_dir: Path) -> Path:
+    """The card thumbnail with the look on top of the (already converted) frame. Cached per look
+    file, so choosing a new look regrades on the next view without re-analyzing anything."""
+    import hashlib
+    import subprocess
+    st = look.stat()
+    key = hashlib.sha1(f"{look}|{st.st_size}|{st.st_mtime_ns}".encode()).hexdigest()[:10]
+    out = cache_dir / f"look-{key}" / base.name
+    if out.is_file() and out.stat().st_mtime >= base.stat().st_mtime:
+        return out
+    out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_name(f".{out.name}.part.jpg")
+    r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(base), "-vf", f"{filter_for(look)},format=yuvj420p",
+                        "-q:v", "3", str(tmp)], capture_output=True, timeout=60)
+    if r.returncode != 0 or not tmp.exists():
+        return base  # show the plain frame rather than nothing
+    tmp.replace(out)
+    return out

@@ -286,7 +286,10 @@ function card(c) {
   let thumbs;
   if (c.kind === "video" && frames.length) {
     const pick = frames.length >= 3 ? [frames[0], frames[2]] : frames.slice(0, 2);
-    thumbs = h("div", { class: "thumbs" }, ...pick.map((f) => h("img", { src: `/api/frame/${f}`, alt: "", loading: "lazy" })));
+    // step 2: the channel's creative look on the thumbnails (Claude analyzed the plain converted frames)
+    const src = (f) => `/api/frame/${c.look ? f.replace(/\.jpg$/, ".look.jpg") : f}`;
+    thumbs = h("div", { class: "thumbs", title: c.look ? `With your ${S.view.look.name} look` : "" },
+      ...pick.map((f) => h("img", { src: src(f), alt: "", loading: "lazy" })));
   } else if (frames.length) {
     thumbs = h("div", { class: "thumbs single" }, h("img", { src: `/api/frame/${frames[0]}`, alt: "", loading: "lazy" }));
   } else {

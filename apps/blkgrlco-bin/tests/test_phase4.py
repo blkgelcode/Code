@@ -180,6 +180,73 @@ class TestLut(Base):
         self.assertEqual(after, [r for r in before if not r[0].startswith(".blkgrlco-bin")])  # originals untouched
 
 
+class TestLook(Base):
+    """Step 2: the channel's creative look, on card thumbnails only."""
+
+    def setUp(self):
+        super().setUp()
+        lut.install(make_cube(self.tmp / "c.cube").read_text(), "c.cube")
+        self.folder = make_fixtures.make(self.tmp / "proj")
+        self.proj = project_mod.open_project(str(self.folder))
+        self.pid = registry.for_folder(self.proj.root)["id"]
+        for e in self.proj.entries():
+            self.proj.analyze(e["fid"])
+
+    def cards(self):
+        return {c["original_name"]: c for c in self.proj.view()["cards"]}
+
+    def test_blkgrlco_uses_the_everyday_lut_from_the_brand_bible(self):
+        if not lut.BRAND_LOOKS["@blkgrlco"].is_file():
+            self.skipTest("brand LUT not in this checkout")
+        self.assertEqual(lut.look_path("@blkgrlco").name, "The Everyday LUT.cube")
+        self.assertEqual(lut.looks_status()["@blkgrlco"]["source"], "brand bible")
+        c = self.cards()
+        self.assertTrue(c["DJI_20261011101233_0001_D.MP4"]["look"])
+        self.assertTrue(c["IMG_4821.MOV"]["look"])                       # iPhone footage gets the grade too
+        self.assertFalse(c["RPReplay_Final1760190000.MP4"]["look"])     # screen recordings don't
+        self.assertFalse(c["IMG_4822.JPG"]["look"])
+
+    def test_graded_thumbnail_leaves_what_claude_sees_alone(self):
+        dji = self.cards()["DJI_20261011101233_0001_D.MP4"]
+        base = self.proj.state_dir / "frames" / dji["frames"][0]
+        before = base.read_bytes()
+        look = make_cube(self.tmp / "look.cube", gain=0.5)  # an obvious low-contrast look
+        graded = lut.graded_frame(base, look, self.proj.state_dir / "frames")
+        self.assertNotEqual(graded, base)
+        self.assertEqual(base.read_bytes(), before)                     # Claude's frame untouched
+        self.assertLess(_contrast(graded), _contrast(base) * 0.8)
+        self.assertEqual(lut.graded_frame(base, look, self.proj.state_dir / "frames"), graded)  # cached
+
+    def test_per_channel_choice_and_switch(self):
+        registry.update_details(self.pid, {"channel": "@blkgrlcotoo"})
+        self.assertFalse(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])  # no default for the travel kit
+        lut.install_look("@blkgrlcotoo", make_cube(self.tmp / "250d.cube").read_text(), "709to709_250D_x65_Clean_White.cube")
+        self.assertTrue(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])
+        self.assertEqual(lut.looks_status()["@blkgrlcotoo"]["name"], "709to709_250D_x65_Clean_White.cube")
+        lut.set_look_on("@blkgrlcotoo", False)
+        self.assertFalse(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])
+        self.assertTrue(lut.looks_status()["@blkgrlcotoo"]["off"])
+
+    def test_frame_route_serves_graded_and_plain(self):
+        import threading
+        import urllib.request
+        from blkbin import server
+        server._current.update(project=self.proj, plan_id=self.pid)
+        lut.install_look("@blkgrlco", make_cube(self.tmp / "look.cube", gain=0.5).read_text(), "look.cube")
+        httpd = server.serve(port=0)
+        threading.Thread(target=httpd.serve_forever, daemon=True).start()
+        try:
+            name = self.cards()["DJI_20261011101233_0001_D.MP4"]["frames"][0]
+            url = f"http://127.0.0.1:{httpd.server_address[1]}/api/frame/"
+            plain = urllib.request.urlopen(url + name).read()
+            graded = urllib.request.urlopen(url + name.replace(".jpg", ".look.jpg")).read()
+            self.assertEqual(plain, (self.proj.state_dir / "frames" / name).read_bytes())
+            self.assertNotEqual(plain, graded)
+        finally:
+            httpd.shutdown()
+            httpd.server_close()
+
+
 def _contrast(p: Path) -> float:
     from PIL import Image, ImageStat
     with Image.open(p) as im:

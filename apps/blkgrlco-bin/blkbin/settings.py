@@ -65,6 +65,8 @@ DEFAULTS = {
     "default_picker_location": "/Volumes/Untitled/project hhh",
     "export_path": "",
     "lut_name": "",
+    "look_names": {},           # channel -> file name of her creative look (step 2, card thumbnails)
+    "looks_off": [],            # channels whose look she switched off
     "silence_db": -35,          # quieter than this counts as silence (flub map)
     "silence_min": 0.7,         # seconds
     "audit_hour": 18,           # Sunday channel audit runs after this hour

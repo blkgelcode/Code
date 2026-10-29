@@ -208,8 +208,33 @@ function lutSettings() {
     put(wrap, h("label", {}, "D-Log M → Rec.709 LUT"),
       st.installed ? h("div", { class: "state-line" }, h("span", { class: "ok" }, "✓"), h("b", {}, st.name), h("span", { class: "progress-text" }, `${st.size}³ · ${st.title || ""}`))
         : h("div", { class: "state-line" }, h("span", { class: "off" }, "Not added yet:"), "DJI frames stay flat and grey until you add it."),
-      h("span", { class: "help" }, "Choose DJI's “DJI OSMO Pocket 3 D-Log M to Rec.709” .cube file (from DJI's Pocket 3 downloads page). It's applied to the preview frames of every DJI clip before Claude looks at them. Your clips are never changed. A clip shot in normal color can be switched off on its card."),
-      h("div", { class: "inline" }, file));
+      h("span", { class: "help" }, "Step 1. Choose DJI's “DJI OSMO Pocket 3 D-Log M to Rec.709” .cube file (dji.com/downloads/softwares/osmo-pocket-3-dlog-to-rec709). It's applied to the preview frames of every DJI clip before Claude looks at them. Your clips are never changed. A clip shot in normal color can be switched off on its card."),
+      h("div", { class: "inline" }, file),
+      lookSettings(st.looks));
   }).catch((e) => put(wrap, h("label", {}, "LUT"), h("p", {}, e.message)));
   return wrap;
+}
+
+function lookSettings(looks) {
+  const label = { "@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotoo", podcast: "Podcast" };
+  const post = async (body, msg) => {
+    try { await api.post("/api/lut/look", body); toast(msg); if (S.view) setView(await api.get("/api/project")); renderSettings(); }
+    catch (e) { toast(e.message, true); }
+  };
+  return h("div", { class: "looks" },
+    h("label", {}, "Step 2: creative look on card thumbnails"),
+    h("span", { class: "help" }, "Your channel's grade, applied after the conversion so the cards look like your finished videos. Thumbnails only: Claude still analyzes the plain converted frames, and your clips are never changed. Screen recordings are left alone."),
+    ...Object.entries(looks).map(([ch, l]) => {
+      const file = h("input", { type: "file", accept: ".cube" });
+      file.addEventListener("change", async () => {
+        const f = file.files[0];
+        if (f) post({ channel: ch, name: f.name, text: await f.text() }, `Look saved for ${label[ch]}.`);
+      });
+      return h("div", { class: "look-row" },
+        h("b", {}, label[ch]),
+        l.on ? h("span", {}, h("span", { class: "ok" }, "✓ "), l.name, h("span", { class: "progress-text" }, l.source === "brand bible" ? " (from your brand bible)" : ""))
+          : h("span", { class: "progress-text" }, l.off ? `Off${l.name ? ` (${l.name})` : ""}` : "No look"),
+        file,
+        l.name ? h("button", { class: "btn small", onclick: () => post({ channel: ch, on: !l.on }, l.on ? "Look off." : "Look on.") }, l.on ? "Turn off" : "Turn on") : null);
+    }));
 }

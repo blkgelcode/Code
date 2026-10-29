@@ -136,6 +136,15 @@ def for_folder(folder: Path) -> dict:
         return plan
 
 
+def channel_for_folder(folder: Path) -> str | None:
+    """The channel of the plan a T7 folder belongs to, without creating anything."""
+    try:
+        pid = json.loads((folder / ".blkgrlco-bin" / "project.json").read_text())["id"]
+        return get(pid)["details"]["channel"]
+    except (OSError, ValueError, KeyError):
+        return None
+
+
 def attach_folder(pid: str, folder: Path) -> dict:
     plan = get(pid)
     plan["folder"] = str(folder)

@@ -12,7 +12,7 @@
   python -m blkbin.cli score-ab AB_FOLDER        does the app's #1 thumbnail match the real winner?
   python -m blkbin.cli ingest   SRC NAME --dest D copy a card into D/NAME/_raw with checksums
   python -m blkbin.cli fix-proxy FOLDER         rescue broken clips + make 720p proxies
-  python -m blkbin.cli lut-compare CLIP OUT.jpg  one frame before / after the D-Log M LUT
+  python -m blkbin.cli lut-compare CLIP OUT.jpg  one frame: D-Log M | converted | + the channel's creative look
   python -m blkbin.cli flubmap  CLIP            print a clip's flub & silence map to check by ear
   python -m blkbin.cli retention                pull any due retention curves, print what loses viewers
   python -m blkbin.cli bullseye @CHANNEL        run the Audience Bullseye, print the top 10 topics
@@ -289,15 +289,22 @@ def cmd_lut_compare(a):
     before, after = tmp / "before.jpg", tmp / "after.jpg"
     frames.frame_at(src, d * 0.5, before, None, 720)
     frames.frame_at(src, d * 0.5, after, lut.filter_for(), 720)
+    panels = [(before, "BEFORE (D-Log M)"), (after, "STEP 1 (Rec.709)")]
+    look = lut.look_path(a.channel)
+    if look:
+        panels.append((lut.graded_frame(after, look, tmp), f"STEP 2 ({look.stem})"))
     out = Path(a.out)
-    r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(before), "-i", str(after), "-filter_complex",
-                        "[0]drawtext=text='BEFORE (D-Log M)':x=12:y=12:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.6[a];"
-                        "[1]drawtext=text='AFTER (LUT)':x=12:y=12:fontsize=28:fontcolor=white:box=1:boxcolor=black@0.6[b];"
-                        "[a][b]hstack", str(out)], capture_output=True, text=True)
+    inputs = [x for p, _ in panels for x in ("-i", str(p))]
+    labels = "".join(f"[{i}]drawtext=text='{t}':x=12:y=12:fontsize=26:fontcolor=white:box=1:boxcolor=black@0.6[p{i}];"
+                     for i, (_, t) in enumerate(panels))
+    stack = "".join(f"[p{i}]" for i in range(len(panels))) + f"hstack=inputs={len(panels)}"
+    r = subprocess.run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex", labels + stack, str(out)],
+                       capture_output=True, text=True)
     if r.returncode != 0:  # ffmpeg without drawtext: no labels
-        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(before), "-i", str(after), "-filter_complex",
-                        "hstack", str(out)], check=True)
-    print(f"Before | after: {out}  (left = original D-Log M, right = with the LUT; the clip itself is unchanged)")
+        subprocess.run(["ffmpeg", "-y", "-v", "error", *inputs, "-filter_complex",
+                        "".join(f"[{i}]" for i in range(len(panels))) + f"hstack=inputs={len(panels)}", str(out)], check=True)
+    print(f"Saved: {out}")
+    print("Left to right: " + " | ".join(t for _, t in panels) + ". The clip itself is unchanged.")
 
 
 def cmd_flubmap(a):
@@ -404,7 +411,8 @@ def main(argv=None):
     s = sub.add_parser("ingest"); s.add_argument("src"); s.add_argument("name"); s.add_argument("--dest", required=True)
     s.add_argument("--allow-t7", action="store_true", help=argparse.SUPPRESS); s.set_defaults(fn=cmd_ingest)
     s = sub.add_parser("fix-proxy"); s.add_argument("folder"); s.set_defaults(fn=cmd_fix_proxy)
-    s = sub.add_parser("lut-compare"); s.add_argument("clip"); s.add_argument("out"); s.set_defaults(fn=cmd_lut_compare)
+    s = sub.add_parser("lut-compare"); s.add_argument("clip"); s.add_argument("out")
+    s.add_argument("--channel", default="@blkgrlco", help="whose creative look to show as step 2"); s.set_defaults(fn=cmd_lut_compare)
     s = sub.add_parser("flubmap"); s.add_argument("clip"); s.set_defaults(fn=cmd_flubmap)
     s = sub.add_parser("retention"); s.set_defaults(fn=cmd_retention)
     s = sub.add_parser("bullseye"); s.add_argument("channel"); s.set_defaults(fn=cmd_bullseye)

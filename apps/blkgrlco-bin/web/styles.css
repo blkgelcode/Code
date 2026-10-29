@@ -467,3 +467,6 @@ tr.ev-silence td { color: var(--muted); }
 .diff .new { color: var(--olive); font-weight: 600; white-space: pre-wrap; }
 .side-note { margin-top: auto; padding: 0 12px; font-size: 11px; color: var(--muted); }
 .lut-field { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 16px; }
+.looks { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; }
+.look-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; }
+.look-row .ok { color: var(--olive); font-weight: 600; }

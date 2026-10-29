@@ -368,7 +368,17 @@ def r_ingest_start(body):
 
 
 def r_lut_status(_body):
-    return lut.status()
+    return {**lut.status(), "looks": lut.looks_status()}
+
+
+def r_look(body):
+    ch = str(body.get("channel", ""))
+    try:
+        if "on" in body:
+            return lut.set_look_on(ch, bool(body["on"]))
+        return lut.install_look(ch, str(body.get("text", "")), str(body.get("name", "")))
+    except lut.LutError as exc:
+        raise HttpError(400, str(exc))
 
 
 def r_lut_install(body):
@@ -563,6 +573,7 @@ POST_ROUTES = {
     "/api/ingest/plan": r_ingest_plan,
     "/api/ingest/start": r_ingest_start,
     "/api/lut": r_lut_install,
+    "/api/lut/look": r_look,
     "/api/proxy/start": r_proxy_start,
     "/api/flubs/start": r_flubs_start,
     "/api/plan/edit-order": r_edit_order,
@@ -582,7 +593,7 @@ POST_ROUTES = {
     "/api/strategy/skeleton-check": r_skcheck_run,
 }
 
-FRAME_RE = re.compile(r"^/api/frame/([0-9a-f]{16}(?:~\d+)?_\d)\.(jpg|png)$")
+FRAME_RE = re.compile(r"^/api/frame/([0-9a-f]{16}(?:~\d+)?_\d)(\.look)?\.(jpg|png)$")
 THUMB_RE = re.compile(r"^/api/thumb/(p-[0-9a-f]{8})/(th-[0-9a-f]{6}(?:\.cb|\.phone)?\.(?:png|jpg|webp))$")
 
 
@@ -628,7 +639,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._oauth_callback(parse_qs(url.query))
             m = FRAME_RE.match(path)
             if m:
-                return self._frame(m.group(1) + "." + m.group(2))
+                return self._frame(m.group(1) + "." + m.group(3), look=bool(m.group(2)))
             m = THUMB_RE.match(path)
             if m:
                 return self._thumb(m.group(1), m.group(2))
@@ -685,11 +696,15 @@ class Handler(BaseHTTPRequestHandler):
                 f"</div></body>")
         self._send(200 if ok else 400, page.encode(), "text/html; charset=utf-8")
 
-    def _frame(self, name: str):
+    def _frame(self, name: str, look: bool = False):
         proj = current()
         p = proj.state_dir / "frames" / name
         if not p.is_file():
             raise HttpError(404, "no frame")
+        if look and name.endswith(".jpg"):
+            lp = lut.look_path(registry.channel_for_folder(proj.root))
+            if lp:
+                p = lut.graded_frame(p, lp, proj.state_dir / "frames")
         ctype = "image/png" if name.endswith(".png") else "image/jpeg"
         self._send(200, p.read_bytes(), ctype)
 

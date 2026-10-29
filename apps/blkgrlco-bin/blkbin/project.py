@@ -295,6 +295,9 @@ class Project:
     def view(self) -> dict:
         cfg = settings_mod.load()
         props = self.proposals(cfg)
+        from . import registry
+        channel = registry.channel_for_folder(self.root)
+        look = lut.look_path(channel)
         cards = []
         for e in sorted(self.entries(), key=lambda x: x["path"].lower()):
             cat = settings_mod.category(cfg, e.get("category"))
@@ -331,6 +334,9 @@ class Project:
                 "queued": e["state"] == "queued",
                 "error": e.get("error"),
                 "lut": e.get("lut"),
+                # step 2: the channel's creative look on the card thumbnails (never on what Claude sees)
+                "look": bool(look) and e["kind"] == "video" and e.get("lut") != "missing" and bool(e.get("frames"))
+                and e.get("device") != "Screen recording",
                 "broken": e.get("broken"),
                 "fixed_path": e.get("fixed_path"),
                 "proxy": (e.get("proxy") or {}).get("path") if (e.get("proxy") or {}).get("for_path") == e["path"] else None,
@@ -342,6 +348,8 @@ class Project:
             "fix_count": len(todo["fix"]),
             "proxy_count": len(todo["proxy"]),
             "lut": lut.status(),
+            "channel": channel,
+            "look": {"on": bool(look), "name": look.stem if look else None},
             "path": str(self.root),
             "name": self.name,
             "cards": cards,
