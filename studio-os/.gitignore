@@ -1,0 +1,9 @@
+# Secrets and per-machine state never leave this Mac.
+.env
+.env.*
+!.env.example
+# Tool source clones, backups, logs and runtime files.
+src/
+backups/
+logs/
+run/

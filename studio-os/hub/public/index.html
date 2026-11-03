@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLKGRLCO Studio OS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23F26A1B'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --cream: #F4EDDF;
+    --paper: #FBF7EF;
+    --ink: #111111;
+    --muted: #5E5648;
+    --faint: #8B8272;
+    --line: #E2D7C3;
+    --orange: #F26A1B;
+    --radius: 18px;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Inter, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font: 16px/1.45 var(--font);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  /* ── header ── */
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .brand { line-height: 1; }
+  .brand .mark { font-size: 15px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+  .brand h1 { margin: 6px 0 0; font-size: clamp(34px, 6vw, 56px); font-weight: 900; letter-spacing: -.035em; }
+  .brand h1 span { color: var(--orange); }
+  .summary { text-align: right; font-size: 14px; color: var(--muted); }
+  .summary strong { display: block; color: var(--ink); font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+
+  /* ── tabs ── */
+  nav[role="tablist"] {
+    display: flex; gap: 6px; margin: 28px 0 8px; padding: 6px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  nav[role="tablist"]::-webkit-scrollbar { display: none; }
+  [role="tab"] {
+    flex: 1 0 auto; position: relative;
+    font: 700 16px var(--font); letter-spacing: -.01em; color: var(--ink);
+    background: transparent; border: 0; border-radius: 999px; padding: 12px 20px; cursor: pointer;
+  }
+  [role="tab"]:hover { background: var(--cream); }
+  [role="tab"][aria-selected="true"] { background: var(--ink); color: var(--cream); }
+  [role="tab"]:focus-visible, .btn:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  [role="tab"] .alert {
+    display: none; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); margin-left: 6px; vertical-align: 2px;
+  }
+  [role="tab"].has-alert .alert { display: inline-block; }
+
+  .blurb { margin: 22px 4px 18px; font-size: 15px; color: var(--muted); }
+  .blurb strong { color: var(--ink); font-size: 26px; font-weight: 800; letter-spacing: -.02em; display: block; margin-bottom: 2px; }
+
+  /* ── cards ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 22px 18px; display: flex; flex-direction: column; gap: 10px; min-height: 210px;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .card h2 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -.025em; line-height: 1.1; }
+  .replaces { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+  .desc { margin: 0; color: var(--ink); font-size: 16px; }
+  .card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 8px; }
+  .detail { font-size: 13px; color: var(--muted); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    font: 700 15px var(--font); color: var(--cream); background: var(--ink);
+    border: 0; border-radius: 999px; padding: 11px 20px; cursor: pointer; white-space: nowrap;
+  }
+  .btn:hover { background: var(--orange); color: var(--ink); }
+  .btn[aria-disabled="true"] { background: transparent; color: var(--faint); border: 1px solid var(--line); cursor: not-allowed; }
+  .btn .arrow { font-size: 13px; }
+
+  /* ── status pill: orange = live, black ring = down, grey = closed/off ── */
+  .pill { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; white-space: nowrap; padding: 5px 11px 5px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--cream); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .s-up .dot { background: var(--orange); }
+  .s-starting .dot { border: 2px solid var(--orange); animation: pulse 1.2s ease-in-out infinite; }
+  .s-down { border-color: var(--ink); }
+  .s-down .dot { border: 2px solid var(--ink); }
+  .s-closed, .s-missing, .s-off, .s-unknown, .s-loading { color: var(--muted); }
+  .s-closed .dot, .s-off .dot, .s-unknown .dot, .s-loading .dot { border: 2px solid var(--faint); }
+  .s-missing .dot { border: 2px dashed var(--faint); }
+  @keyframes pulse { 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) { .s-starting .dot { animation: none; } }
+
+  /* ── status tab ── */
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; }
+  .panel h3 { margin: 0 0 14px; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+  .panel h3 small { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 700; padding: 0 10px 8px 0; }
+  td { padding: 11px 10px 11px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  td.name { font-weight: 700; }
+  td .sub { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .bar { height: 14px; background: var(--cream); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin: 6px 0 10px; }
+  .bar > i { display: block; height: 100%; background: var(--ink); border-radius: 999px; }
+  .bar.high > i { background: var(--orange); }
+  .big { font-size: 30px; font-weight: 900; letter-spacing: -.03em; }
+  .kv { display: flex; justify-content: space-between; padding: 7px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .kv span:last-child { font-weight: 700; }
+  .key-row td:first-child { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; font-weight: 700; word-break: break-all; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); }
+  .tag.req { border-color: var(--ink); }
+  .tag.ok { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  details summary { cursor: pointer; font-weight: 700; margin: 6px 0; }
+  .note { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+  .empty { color: var(--muted); }
+  .banner { background: var(--ink); color: var(--cream); border-radius: var(--radius); padding: 14px 18px; margin: 16px 0 0; font-weight: 600; display: none; }
+  .banner b { color: var(--orange); }
+  footer { margin-top: 28px; font-size: 13px; color: var(--faint); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .9em; background: var(--cream); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 20px 16px 48px; }
+    .summary { text-align: left; }
+    .two { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    nav[role="tablist"] { gap: 2px; padding: 4px; }
+    [role="tab"] { flex: 1 1 auto; padding: 11px 8px; font-size: 14px; }
+    [role="tab"] .alert { margin-left: 3px; }
+    .hide-sm { display: none; }
+    .keys-table thead { display: none; }
+    .keys-table .key-row td { display: block; border-top: 0; padding: 2px 0; }
+    .keys-table .key-row td:first-child { border-top: 1px solid var(--line); padding-top: 12px; }
+    .keys-table .key-row td:last-child { padding-bottom: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="mark">BLKGRLCO</div>
+      <h1>Studio OS<span>.</span></h1>
+    </div>
+    <div class="summary" id="summary" aria-live="polite"><strong>Checking…</strong>&nbsp;</div>
+  </header>
+
+  <div class="banner" id="banner" role="alert"></div>
+
+  <nav role="tablist" aria-label="Studio sections" id="tabs"></nav>
+  <main id="panels"></main>
+
+  <footer>
+    <span>Start <code>./start.sh</code> · Stop <code>./stop.sh</code> · Back up <code>./backup.sh</code></span>
+    <span id="checked">&nbsp;</span>
+  </footer>
+</div>
+
+<script>
+const TABS = [
+  { id: "create", label: "Create", title: "Create", blurb: "Video, voice and screen recording." },
+  { id: "write", label: "Write", title: "Write", blurb: "Scripts, notes and dictation." },
+  { id: "grow", label: "Grow", title: "Grow", blurb: "Keywords, rankings and audits." },
+  { id: "business", label: "Business", title: "Business", blurb: "Brand-deal calls and messages." },
+  { id: "status", label: "Status", title: "Status", blurb: "Service health, disk use and missing keys." },
+];
+const LABEL = { up: "Up", starting: "Starting", down: "Down", closed: "Closed", missing: "Not installed", off: "Off", unknown: "Unknown", loading: "Checking" };
+const PORT = { video: 4101, seo: 4102, calcom: 4103, chatwoot: 4104 };
+let state = null;
+let current = null;
+
+const $ = (sel, el = document) => el.querySelector(sel);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const gb = (bytes) => bytes == null ? "–" : (bytes / 1e9 >= 100 ? Math.round(bytes / 1e9) : (bytes / 1e9).toFixed(1)) + " GB";
+const pill = (s) => `<span class="pill s-${esc(s)}"><span class="dot" aria-hidden="true"></span>${LABEL[s] || esc(s)}</span>`;
+
+// ── tabs ────────────────────────────────────────────────────────────────────
+function buildTabs() {
+  const nav = $("#tabs"), main = $("#panels");
+  nav.innerHTML = TABS.map((t) =>
+    `<button role="tab" id="tab-${t.id}" aria-controls="panel-${t.id}" aria-selected="false" tabindex="-1" data-tab="${t.id}">${t.label}<span class="alert" aria-hidden="true"></span></button>`).join("");
+  main.innerHTML = TABS.map((t) =>
+    `<section role="tabpanel" id="panel-${t.id}" aria-labelledby="tab-${t.id}" hidden>
+       <p class="blurb"><strong>${t.title}</strong>${t.blurb}</p>
+       <div class="body"></div>
+     </section>`).join("");
+  nav.addEventListener("click", (e) => { const b = e.target.closest("[role=tab]"); if (b) select(b.dataset.tab, true); });
+  nav.addEventListener("keydown", (e) => {
+    const i = TABS.findIndex((t) => t.id === current);
+    let j = null;
+    if (e.key === "ArrowRight") j = (i + 1) % TABS.length;
+    if (e.key === "ArrowLeft") j = (i - 1 + TABS.length) % TABS.length;
+    if (e.key === "Home") j = 0;
+    if (e.key === "End") j = TABS.length - 1;
+    if (j !== null) { e.preventDefault(); select(TABS[j].id, true); }
+  });
+  window.addEventListener("hashchange", () => select(location.hash.slice(1), false));
+}
+
+function select(id, focus) {
+  if (!TABS.some((t) => t.id === id)) id = "create";
+  current = id;
+  for (const t of TABS) {
+    const b = $(`#tab-${t.id}`), p = $(`#panel-${t.id}`), on = t.id === id;
+    b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; p.hidden = !on;
+  }
+  if (focus) $(`#tab-${id}`).focus();
+  $(`#tab-${id}`).scrollIntoView({ block: "nearest", inline: "nearest" });
+  if (location.hash.slice(1) !== id) history.replaceState(null, "", `#${id}`);
+  try { localStorage.setItem("studio-tab", id); } catch {}
+}
+
+// ── cards ───────────────────────────────────────────────────────────────────
+function card(t) {
+  let action;
+  if (t.kind === "docker") {
+    action = `<a class="btn" href="${esc(t.url)}" target="_blank" rel="noopener">Open <span class="arrow">↗</span></a>`;
+  } else {
+    action = t.status === "missing"
+      ? `<span class="btn" aria-disabled="true" title="${esc(t.detail)}">Not installed</span>`
+      : `<button class="btn" data-open="${esc(t.id)}">${t.status === "up" || t.status === "starting" ? "Show" : "Open"} <span class="arrow">↗</span></button>`;
+  }
+  const where = t.kind === "docker" ? `localhost:${PORT[t.id]}` : "Mac app";
+  return `<article class="card" data-id="${esc(t.id)}">
+    <div class="card-top">
+      <div><h2>${esc(t.name)}</h2><div class="replaces">Replaces ${esc(t.replaces)}</div></div>
+      ${pill(t.status)}
+    </div>
+    <p class="desc">${esc(t.description)}</p>
+    <div class="card-foot"><span class="detail">${esc(where)} · ${esc(t.detail)}</span>${action}</div>
+  </article>`;
+}
+
+function renderTools() {
+  for (const tab of TABS.filter((t) => t.id !== "status")) {
+    const tools = state ? state.tools.filter((t) => t.tab === tab.id) : [];
+    $(`#panel-${tab.id} .body`).innerHTML = `<div class="grid">${tools.map(card).join("") || `<p class="empty">Loading…</p>`}</div>`;
+    const bad = tools.some((t) => t.status === "down");
+    $(`#tab-${tab.id}`).classList.toggle("has-alert", bad);
+  }
+}
+
+// ── status tab ──────────────────────────────────────────────────────────────
+function renderStatus() {
+  const body = $("#panel-status .body");
+  if (!state) { body.innerHTML = `<p class="empty">Loading…</p>`; return; }
+  const { tools, storage, keys, docker } = state;
+
+  const svcRows = tools.map((t) => `<tr>
+      <td class="name">${esc(t.name)}<span class="sub">Replaces ${esc(t.replaces)}</span></td>
+      <td>${pill(t.status)}</td>
+      <td class="hide-sm">${t.kind === "docker" ? `Docker · :${PORT[t.id]}` : "Mac app"}</td>
+      <td>${esc(t.detail)}${t.containers && t.containers.length ? `<span class="sub">${t.containers.map((c) => `${esc(c.service)}: ${esc(c.state)}`).join(" · ")}</span>` : ""}</td>
+    </tr>`).join("");
+
+  const d = storage.disk;
+  const diskHtml = d ? `
+      <div class="big">${gb(d.free)} free</div>
+      <div class="bar ${d.pct >= 85 ? "high" : ""}" role="img" aria-label="Disk ${d.pct}% used"><i style="width:${d.pct}%"></i></div>
+      <div class="kv"><span>Used</span><span>${gb(d.used)} of ${gb(d.total)} (${d.pct}%)</span></div>` : `<p class="empty">Couldn't read disk usage.</p>`;
+  const dockerHtml = storage.docker ? storage.docker.map((r) =>
+      `<div class="kv"><span>Docker ${esc(r.type.toLowerCase())} (${esc(r.count)})</span><span>${esc(r.size)}</span></div>`).join("")
+    : `<div class="kv"><span>Docker</span><span>${docker.running ? "–" : "not running"}</span></div>`;
+  const b = storage.backups;
+  const backupHtml = `<div class="kv"><span>Backups</span><span>${b && b.count ? `${b.count} · ${gb(b.size)} · latest ${esc(b.latest)}` : "none yet: run ./backup.sh"}</span></div>`;
+
+  const missingReq = keys.keys.filter((k) => !k.set && k.need === "required");
+  const missingRec = keys.keys.filter((k) => !k.set && k.need === "recommended");
+  const missingOpt = keys.keys.filter((k) => !k.set && k.need === "optional");
+  const setKeys = keys.keys.filter((k) => k.set);
+  const genMissing = keys.generated.filter((g) => !g.set);
+  const keyRow = (k) => `<tr class="key-row">
+      <td>${esc(k.name)}</td>
+      <td><span class="tag ${k.need === "required" ? "req" : ""}">${esc(k.need)}</span><span class="sub">${esc(k.tool)}</span></td>
+      <td>${esc(k.cost)}<span class="sub">${esc(k.where)}</span></td>
+      <td>${/^https?:/.test(k.get) ? `<a href="${esc(k.get.split(" ")[0])}" target="_blank" rel="noopener">Get it ↗</a>` : esc(k.get)}</td>
+    </tr>`;
+  const keyTable = (rows) => `<table class="keys-table"><thead><tr><th>Key</th><th>Need</th><th>Cost · where it goes</th><th></th></tr></thead><tbody>${rows.map(keyRow).join("")}</tbody></table>`;
+
+  const keysHtml = !keys.envExists
+    ? `<p><strong>No .env file yet.</strong> Run <code>./install.sh</code> to create it.</p>`
+    : `
+      ${missingReq.length ? `<p><strong>${missingReq.length} required key${missingReq.length > 1 ? "s" : ""} missing.</strong> These tools won't fully work without them.</p>${keyTable(missingReq)}` : `<p><span class="tag ok">All required keys set</span></p>`}
+      ${missingRec.length ? `<details ${missingReq.length ? "" : "open"}><summary>${missingRec.length} recommended (email for booking confirmations)</summary>${keyTable(missingRec)}</details>` : ""}
+      ${missingOpt.length ? `<details><summary>${missingOpt.length} optional, not set</summary>${keyTable(missingOpt)}</details>` : ""}
+      ${setKeys.length ? `<details><summary>${setKeys.length} set</summary><p class="note">${setKeys.map((k) => `<code>${esc(k.name)}</code>`).join(" ")}</p></details>` : ""}
+      <p class="note">Generated secrets: ${genMissing.length ? `<strong>${genMissing.length} missing</strong>. Run <code>./install.sh</code>` : `all ${keys.generated.length} in place`}. Keys live in <code>~/studio-os/.env</code>; this page only checks whether each one is filled in, never the value.</p>`;
+
+  body.innerHTML = `
+    <div class="panel"><h3>Services <small>${tools.filter((t) => t.status === "up").length} of ${tools.length} up</small></h3>
+      <table><thead><tr><th>Tool</th><th>Status</th><th class="hide-sm">Runs as</th><th>Detail</th></tr></thead><tbody>${svcRows}</tbody></table>
+      ${state.publicTunnel ? `<p class="note">Public tunnel is on: Cal.com and Chatwoot are reachable from the internet through Cloudflare.</p>` : ""}
+    </div>
+    <div class="two">
+      <div class="panel"><h3>Disk</h3>${diskHtml}${dockerHtml}${backupHtml}</div>
+      <div class="panel"><h3>Video tool</h3>
+        <div class="kv"><span>In use</span><span>${state.videoTool === "open-generative-ai" ? "Open Generative AI (fallback)" : "OpenHiggsfield"}</span></div>
+        <p class="note">Switch with <code>COMPOSE_PROFILES</code> in .env, then run <code>./install.sh video</code>.</p>
+        <div class="kv"><span>Docker</span><span>${docker.running ? "running" : "not running"}</span></div>
+      </div>
+    </div>
+    <div class="panel"><h3>Keys</h3>${keysHtml}</div>`;
+
+  $("#tab-status").classList.toggle("has-alert", tools.some((t) => t.status === "down") || missingReq.length > 0 || !keys.envExists);
+}
+
+function renderSummary() {
+  if (!state) return;
+  const tools = state.tools;
+  const up = tools.filter((t) => t.status === "up").length;
+  const down = tools.filter((t) => t.status === "down");
+  $("#summary").innerHTML = `<strong>${up} of ${tools.length} up</strong>${down.length ? `${down.map((t) => esc(t.name)).join(", ")} down` : "Everything that's open is healthy"}`;
+  $("#checked").textContent = `Checked ${new Date(state.generatedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" })} · refreshes every 10 s`;
+}
+
+function render() { renderTools(); renderStatus(); renderSummary(); }
+
+// ── data ────────────────────────────────────────────────────────────────────
+async function refresh() {
+  try {
+    const res = await fetch("/api/status", { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    state = await res.json();
+    $("#banner").style.display = "none";
+    render();
+  } catch {
+    $("#banner").innerHTML = `<b>The hub server isn't answering.</b> Run <code>./start.sh</code> in ~/studio-os.`;
+    $("#banner").style.display = "block";
+  }
+}
+
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-open]");
+  if (!b) return;
+  b.disabled = true;
+  try {
+    const res = await fetch(`/api/open/${b.dataset.open}`, { method: "POST" });
+    if (!res.ok) { const j = await res.json().catch(() => ({})); alert(j.error || "Couldn't open the app."); }
+  } finally { b.disabled = false; setTimeout(refresh, 1500); }
+});
+
+buildTabs();
+let start = location.hash.slice(1);
+if (!start) { try { start = localStorage.getItem("studio-tab") || ""; } catch {} }
+select(start, false);
+render();
+refresh();
+setInterval(() => { if (!document.hidden) refresh(); }, 10000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+</script>
+</body>
+</html>

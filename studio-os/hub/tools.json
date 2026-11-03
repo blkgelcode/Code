@@ -1,0 +1,289 @@
+{
+  "_about": "Single source of truth for the hub and the scripts: which tools exist, where they live, how to check them, and which keys they need.",
+  "tools": [
+    {
+      "id": "video",
+      "order": 1,
+      "tab": "create",
+      "kind": "docker",
+      "name": "OpenHiggsfield",
+      "replaces": "Higgsfield",
+      "description": "Generate AI images and video from one prompt bar, paying per clip instead of a subscription.",
+      "url": "http://localhost:4101",
+      "health": "http://localhost:4101/",
+      "services": [
+        "open-higgsfield"
+      ],
+      "repo": "wide-trace/open-higgsfield",
+      "variants": {
+        "open-higgsfield": {
+          "name": "OpenHiggsfield",
+          "services": [
+            "open-higgsfield"
+          ],
+          "repo": "wide-trace/open-higgsfield",
+          "description": "Generate AI images and video from one prompt bar, paying per clip instead of a subscription."
+        },
+        "open-generative-ai": {
+          "name": "Open Generative AI",
+          "services": [
+            "open-generative-ai"
+          ],
+          "repo": "Anil-matcha/Open-Generative-AI",
+          "description": "AI image, video and lip-sync studios with hundreds of models, paying per generation."
+        }
+      }
+    },
+    {
+      "id": "voice",
+      "order": 2,
+      "tab": "create",
+      "kind": "desktop",
+      "name": "VoiceStudio",
+      "replaces": "ElevenLabs",
+      "description": "Clone your voice, design new ones and dub video, all on your own Mac.",
+      "app": "VoiceStudio",
+      "health": "http://localhost:3900/health",
+      "brewCask": "debpalash/tap/voicestudio",
+      "brewTap": "debpalash/tap",
+      "download": "https://github.com/debpalash/VoiceStudio/releases/latest",
+      "repo": "debpalash/VoiceStudio"
+    },
+    {
+      "id": "record",
+      "order": 8,
+      "tab": "create",
+      "kind": "desktop",
+      "name": "Cap",
+      "replaces": "Loom",
+      "description": "Record your screen and camera, then trim and export in seconds.",
+      "app": "Cap",
+      "brewCask": "cap",
+      "download": "https://cap.so/download",
+      "repo": "CapSoftware/Cap"
+    },
+    {
+      "id": "notes",
+      "order": 4,
+      "tab": "write",
+      "kind": "desktop",
+      "name": "AppFlowy",
+      "replaces": "Notion",
+      "description": "Docs, databases and boards for scripts, shot lists and brand-deal notes.",
+      "app": "AppFlowy",
+      "brewCask": "appflowy",
+      "download": "https://github.com/AppFlowy-IO/AppFlowy/releases",
+      "repo": "AppFlowy-IO/AppFlowy"
+    },
+    {
+      "id": "dictation",
+      "order": 5,
+      "tab": "write",
+      "kind": "desktop",
+      "name": "OpenWhispr",
+      "replaces": "Wispr Flow",
+      "description": "Hold a hotkey, talk, and your words appear in any app. Runs offline.",
+      "app": "OpenWhispr",
+      "brewCask": "openwhispr",
+      "download": "https://github.com/OpenWhispr/openwhispr/releases/latest",
+      "repo": "OpenWhispr/openwhispr"
+    },
+    {
+      "id": "seo",
+      "order": 3,
+      "tab": "grow",
+      "kind": "docker",
+      "name": "OpenSEO",
+      "replaces": "Semrush",
+      "description": "Keyword research, rank tracking, competitors and site audits, pay as you go.",
+      "url": "http://localhost:4102",
+      "health": "http://localhost:4102/api/health",
+      "services": [
+        "seo-storage",
+        "seo-runtime",
+        "seo-init",
+        "seo-crawl-gateway",
+        "seo-web"
+      ],
+      "repo": "every-app/open-seo"
+    },
+    {
+      "id": "calcom",
+      "order": 6,
+      "tab": "business",
+      "kind": "docker",
+      "name": "Cal.com",
+      "replaces": "Calendly",
+      "description": "Booking links for brand-deal calls that sync with your calendar.",
+      "url": "http://localhost:4103",
+      "health": "http://localhost:4103/auth/login",
+      "services": [
+        "calcom-db",
+        "calcom"
+      ],
+      "repo": "calcom/cal.diy"
+    },
+    {
+      "id": "chatwoot",
+      "order": 7,
+      "tab": "business",
+      "kind": "docker",
+      "name": "Chatwoot",
+      "replaces": "Intercom",
+      "description": "One inbox for brand and collab messages from email, your site and socials.",
+      "url": "http://localhost:4104",
+      "health": "http://localhost:4104/api",
+      "services": [
+        "chatwoot-db",
+        "chatwoot-redis",
+        "chatwoot-rails",
+        "chatwoot-sidekiq"
+      ],
+      "repo": "chatwoot/chatwoot"
+    }
+  ],
+  "keys": [
+    {
+      "name": "HIGGSFIELD_API_KEY",
+      "tool": "video",
+      "variant": "open-higgsfield",
+      "need": "required",
+      "where": "Paste into OpenHiggsfield's \"Add key\" box (keep the master copy in .env)",
+      "cost": "Pay per generation, about $0.08 per second of video (an 8s Kling 3.0 clip is about $0.67)",
+      "get": "https://platform.higgsfield.ai"
+    },
+    {
+      "name": "OPEN_HIGGSFIELD_READ_WRITE_TOKEN",
+      "tool": "video",
+      "variant": "open-higgsfield",
+      "need": "optional",
+      "where": ".env (read by the container)",
+      "cost": "Free on Vercel's Hobby plan. Only needed to upload start frames or reference images",
+      "get": "https://vercel.com/dashboard (Storage, then Blob, then Create)"
+    },
+    {
+      "name": "MUAPI_API_KEY",
+      "tool": "video",
+      "variant": "open-generative-ai",
+      "need": "required",
+      "where": "Paste into Open Generative AI's settings (keep the master copy in .env)",
+      "cost": "Pay per generation; price depends on the model",
+      "get": "https://muapi.ai"
+    },
+    {
+      "name": "HF_TOKEN",
+      "tool": "voice",
+      "need": "optional",
+      "where": "VoiceStudio Settings, then Credentials",
+      "cost": "Free",
+      "get": "https://huggingface.co/settings/tokens"
+    },
+    {
+      "name": "DATAFORSEO_API_KEY",
+      "tool": "seo",
+      "need": "required",
+      "where": ".env (read by OpenSEO)",
+      "cost": "$50 minimum top-up that never expires, then about $0.03 to $0.05 per keyword search",
+      "get": "https://app.dataforseo.com/api-access (run ./install.sh dataforseo-key to format it)"
+    },
+    {
+      "name": "OPENROUTER_API_KEY",
+      "tool": "seo",
+      "need": "optional",
+      "where": ".env (powers OpenSEO's AI assistant, SAM)",
+      "cost": "Pay as you go; usually cents per conversation",
+      "get": "https://openrouter.ai/keys"
+    },
+    {
+      "name": "SEO_GOOGLE_CLIENT_ID",
+      "tool": "seo",
+      "need": "optional",
+      "where": ".env (Google Search Console link)",
+      "cost": "Free",
+      "get": "https://console.cloud.google.com/apis/credentials"
+    },
+    {
+      "name": "SEO_GOOGLE_CLIENT_SECRET",
+      "tool": "seo",
+      "need": "optional",
+      "where": ".env (Google Search Console link)",
+      "cost": "Free",
+      "get": "https://console.cloud.google.com/apis/credentials"
+    },
+    {
+      "name": "OPENAI_API_KEY",
+      "tool": "dictation",
+      "need": "optional",
+      "where": "OpenWhispr settings, only if you want cloud transcription",
+      "cost": "Pay as you go; local transcription is free",
+      "get": "https://platform.openai.com/api-keys"
+    },
+    {
+      "name": "GROQ_API_KEY",
+      "tool": "dictation",
+      "need": "optional",
+      "where": "OpenWhispr settings, only if you want cloud transcription",
+      "cost": "Free tier available",
+      "get": "https://console.groq.com/keys"
+    },
+    {
+      "name": "SMTP_HOST",
+      "tool": "calcom",
+      "need": "recommended",
+      "where": ".env (Cal.com and Chatwoot send email with it)",
+      "cost": "Free: Resend (3,000 emails a month) or a Gmail app password",
+      "get": "https://resend.com/api-keys"
+    },
+    {
+      "name": "SMTP_USER",
+      "tool": "calcom",
+      "need": "recommended",
+      "where": ".env",
+      "cost": "Free",
+      "get": "Same place as SMTP_HOST"
+    },
+    {
+      "name": "SMTP_PASSWORD",
+      "tool": "calcom",
+      "need": "recommended",
+      "where": ".env",
+      "cost": "Free",
+      "get": "Same place as SMTP_HOST"
+    },
+    {
+      "name": "SMTP_FROM",
+      "tool": "calcom",
+      "need": "recommended",
+      "where": ".env",
+      "cost": "Free",
+      "get": "An address on a domain you've verified with your email provider"
+    },
+    {
+      "name": "CALCOM_GOOGLE_API_CREDENTIALS",
+      "tool": "calcom",
+      "need": "optional",
+      "where": ".env (Google Calendar sync)",
+      "cost": "Free",
+      "get": "https://console.cloud.google.com/apis/credentials"
+    },
+    {
+      "name": "CLOUDFLARE_TUNNEL_TOKEN",
+      "tool": "calcom",
+      "need": "optional",
+      "where": ".env (lets brands reach Cal.com and Chatwoot)",
+      "cost": "Free. You need a domain on Cloudflare (about $10 a year)",
+      "get": "https://one.dash.cloudflare.com (Networks, then Tunnels)"
+    }
+  ],
+  "generated": [
+    "SEO_STORAGE_SECRET_KEY",
+    "CALCOM_DB_PASSWORD",
+    "CALCOM_NEXTAUTH_SECRET",
+    "CALCOM_ENCRYPTION_KEY",
+    "CALCOM_VAPID_PUBLIC_KEY",
+    "CALCOM_VAPID_PRIVATE_KEY",
+    "CHATWOOT_SECRET_KEY_BASE",
+    "CHATWOOT_DB_PASSWORD",
+    "CHATWOOT_REDIS_PASSWORD"
+  ]
+}

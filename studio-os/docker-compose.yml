@@ -1,0 +1,307 @@
+# BLKGRLCO Studio OS — the server tools, one compose file.
+#
+# Every tool keeps its own containers, its own database and its own named
+# volumes. Nothing is shared between tools except this file and ~/studio-os/.env.
+#
+#   Port  Tool                    Replaces
+#   4101  Video & image gen       Higgsfield   (open-higgsfield, or the Open-Generative-AI fallback)
+#   4102  OpenSEO                 Semrush
+#   4103  Cal.com (Cal.diy)       Calendly
+#   4104  Chatwoot                Intercom
+#
+# (The hub is 4000 and runs natively, not in Docker. VoiceStudio's own backend is 3900.)
+#
+# Every port is bound to 127.0.0.1 only: nothing here is reachable from your
+# Wi-Fi network or the internet unless you turn on the optional `public`
+# tunnel profile at the bottom.
+#
+# Values like ${CALCOM_DB_PASSWORD} come from .env. ./install.sh generates the
+# secrets for you; API keys you paste in yourself. Never put a real key in this file.
+#
+# Which optional services run is decided by COMPOSE_PROFILES in .env:
+#   COMPOSE_PROFILES=open-higgsfield              (default video tool)
+#   COMPOSE_PROFILES=open-generative-ai           (fallback video tool)
+#   COMPOSE_PROFILES=open-higgsfield,public       (+ Cloudflare tunnel for brands)
+
+name: studio-os
+
+services:
+
+  # ───────────────────────── 1. VIDEO / IMAGE GENERATION ─────────────────────────
+  # Neither project publishes a Docker image, so ./install.sh clones the source
+  # into ./src/<tool> and we build it here. Only one of the two runs at a time.
+
+  open-higgsfield:
+    profiles: [open-higgsfield]
+    build:
+      context: ./src/open-higgsfield
+      # Our build recipe lives outside their code (we never edit their repo).
+      dockerfile: ../../build/open-higgsfield.Dockerfile
+    image: studio-os/open-higgsfield:local
+    environment:
+      # Higgsfield's own pay-per-generation API. Your key (id:secret) is pasted
+      # into the app's "Add key" box; the app keeps it in a browser cookie.
+      HF_API_BASE_URL: ${HF_API_BASE_URL:-https://platform.higgsfield.ai}
+      # Optional: Vercel Blob token, only needed to upload start frames / references.
+      OPEN_HIGGSFIELD_READ_WRITE_TOKEN: ${OPEN_HIGGSFIELD_READ_WRITE_TOKEN:-}
+      NEXT_PUBLIC_SITE_URL: http://localhost:4101
+    ports: ["127.0.0.1:4101:3000"]
+    restart: unless-stopped
+
+  open-generative-ai:
+    profiles: [open-generative-ai]
+    build:
+      context: ./src/open-generative-ai   # uses the project's own Dockerfile
+    image: studio-os/open-generative-ai:local
+    environment:
+      NODE_ENV: production
+    ports: ["127.0.0.1:4101:3000"]
+    restart: unless-stopped
+
+  # ───────────────────────────────── 3. OPENSEO ──────────────────────────────────
+  # The project's official "standalone" Docker setup (deploy/standalone/compose.yaml),
+  # with its services prefixed `seo-` and kept on their own private network. The
+  # network aliases keep the hostnames OpenSEO expects (storage, runtime, crawl-gateway).
+
+  seo-storage:
+    image: rustfs/rustfs:1.0.3@sha256:9ca9559533b537d10482fe923288b676ad08f92a7069d9a17327fbae3cab688b
+    environment:
+      RUSTFS_ACCESS_KEY: ${SEO_STORAGE_ACCESS_KEY:-openseo}
+      RUSTFS_SECRET_KEY: ${SEO_STORAGE_SECRET_KEY:?Run ./install.sh to generate SEO_STORAGE_SECRET_KEY}
+    volumes: [seo_storage:/data]
+    networks: { seo: { aliases: [storage] } }
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:9000/health]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  seo-runtime:
+    image: ${OPENSEO_IMAGE:-ghcr.io/every-app/open-seo-standalone:latest}
+    environment:
+      CELLD_BUCKET: openseo
+      S3_ENDPOINT: http://storage:9000
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: ${SEO_STORAGE_ACCESS_KEY:-openseo}
+      AWS_SECRET_ACCESS_KEY: ${SEO_STORAGE_SECRET_KEY:?Run ./install.sh to generate SEO_STORAGE_SECRET_KEY}
+      CELLD_MAX_RSS_MB: "1536"
+      CELLD_MAX_RESIDENT_CELLS: "64"
+      CELLD_V8_HEAP_LIMIT_MB: "256"
+      CELLD_MAX_REQUEST_BODY_BYTES: "33554432"
+      RUST_LOG: warn,cell_console=info
+    mem_limit: 2g
+    logging:
+      driver: json-file
+      options: { max-size: 10m, max-file: "3" }
+    volumes: [seo_runtime:/data, seo_config:/config:ro]
+    networks: { seo: { aliases: [runtime] } }
+    depends_on:
+      seo-storage: { condition: service_healthy }
+    restart: unless-stopped
+    stop_grace_period: 60s
+    healthcheck:
+      test: [CMD, curl, -fsS, http://localhost:8080/api/health]
+      interval: 10s
+      timeout: 5s
+      start_period: 120s
+      retries: 5
+
+  seo-init:
+    # Runs once at every start: generates secrets on first run, applies migrations, then exits.
+    image: ${OPENSEO_IMAGE:-ghcr.io/every-app/open-seo-standalone:latest}
+    command: [sh, /opt/standalone/init.sh]
+    network_mode: service:seo-runtime
+    environment:
+      CELLD_BUCKET: openseo
+      S3_ENDPOINT: http://storage:9000
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: ${SEO_STORAGE_ACCESS_KEY:-openseo}
+      AWS_SECRET_ACCESS_KEY: ${SEO_STORAGE_SECRET_KEY:?Run ./install.sh to generate SEO_STORAGE_SECRET_KEY}
+      AUTH_MODE: ${SEO_AUTH_MODE:-password}
+      BETTER_AUTH_URL: http://localhost:4102
+      DATAFORSEO_API_KEY: ${DATAFORSEO_API_KEY:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-}
+      GOOGLE_CLIENT_ID: ${SEO_GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${SEO_GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_MAPS_API_KEY: ${SEO_GOOGLE_MAPS_API_KEY:-}
+      CONTEXT_API_KEY: ${SEO_CONTEXT_API_KEY:-}
+    volumes: [seo_config:/config, seo_web_config:/web-config]
+    depends_on:
+      seo-runtime: { condition: service_started }
+    restart: "no"
+
+  seo-crawl-gateway:
+    image: ${OPENSEO_IMAGE:-ghcr.io/every-app/open-seo-standalone:latest}
+    command: [node, /opt/standalone/crawl-gateway.mjs]
+    volumes: [seo_config:/config:ro]
+    networks: { seo: { aliases: [crawl-gateway] } }
+    depends_on:
+      seo-init: { condition: service_completed_successfully }
+    restart: unless-stopped
+
+  seo-web:
+    image: nginx:1.28-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
+    ports: ["127.0.0.1:4102:80"]
+    volumes:
+      - type: volume
+        source: seo_web_config
+        target: /etc/nginx/conf.d
+        read_only: true
+        volume: { nocopy: true }
+    networks: [seo]
+    depends_on:
+      seo-init: { condition: service_completed_successfully }
+      seo-crawl-gateway: { condition: service_started }
+    restart: unless-stopped
+
+  # ─────────────────────────────── 6. CAL.COM ────────────────────────────────────
+  # The repo is now "Cal.diy" (calcom/cal.com redirects to calcom/cal.diy). The
+  # newest prebuilt image is calcom/cal.com v6.2.0 (March 2026). Apple Silicon
+  # needs the "-arm" tag; ./preflight.sh writes the right one into .env.
+
+  calcom-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: calcom
+      POSTGRES_PASSWORD: ${CALCOM_DB_PASSWORD:?Run ./install.sh to generate CALCOM_DB_PASSWORD}
+      POSTGRES_DB: calcom
+    volumes: [calcom_db:/var/lib/postgresql/data]
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U calcom -d calcom]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  calcom:
+    image: calcom/cal.com:${CALCOM_IMAGE_TAG:-v6.2.0-arm}
+    environment:
+      DATABASE_HOST: calcom-db:5432
+      DATABASE_URL: postgresql://calcom:${CALCOM_DB_PASSWORD}@calcom-db:5432/calcom
+      DATABASE_DIRECT_URL: postgresql://calcom:${CALCOM_DB_PASSWORD}@calcom-db:5432/calcom
+      NEXT_PUBLIC_WEBAPP_URL: ${CALCOM_PUBLIC_URL:-http://localhost:4103}
+      NEXTAUTH_URL: ${CALCOM_PUBLIC_URL:-http://localhost:4103}/api/auth
+      NEXTAUTH_SECRET: ${CALCOM_NEXTAUTH_SECRET:?Run ./install.sh to generate CALCOM_NEXTAUTH_SECRET}
+      CALENDSO_ENCRYPTION_KEY: ${CALCOM_ENCRYPTION_KEY:?Run ./install.sh to generate CALCOM_ENCRYPTION_KEY}
+      NEXT_PUBLIC_VAPID_PUBLIC_KEY: ${CALCOM_VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${CALCOM_VAPID_PRIVATE_KEY:-}
+      NEXT_PUBLIC_LICENSE_CONSENT: agree
+      CALCOM_TELEMETRY_DISABLED: "1"
+      # Booking-confirmation emails to brands (optional but recommended).
+      EMAIL_FROM: ${SMTP_FROM:-}
+      EMAIL_SERVER_HOST: ${SMTP_HOST:-}
+      EMAIL_SERVER_PORT: ${SMTP_PORT:-587}
+      EMAIL_SERVER_USER: ${SMTP_USER:-}
+      EMAIL_SERVER_PASSWORD: ${SMTP_PASSWORD:-}
+      # Google Calendar sync (optional): the OAuth client JSON, on one line.
+      GOOGLE_API_CREDENTIALS: ${CALCOM_GOOGLE_API_CREDENTIALS:-}
+      GOOGLE_LOGIN_ENABLED: "false"
+    ports: ["127.0.0.1:4103:3000"]
+    depends_on:
+      calcom-db: { condition: service_healthy }
+    restart: unless-stopped
+
+  # ─────────────────────────────── 7. CHATWOOT ───────────────────────────────────
+  # Official image, community edition ("-ce"), multi-arch (runs natively on M-series).
+
+  chatwoot-db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: chatwoot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${CHATWOOT_DB_PASSWORD:?Run ./install.sh to generate CHATWOOT_DB_PASSWORD}
+    volumes: [chatwoot_db:/var/lib/postgresql/data]
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d chatwoot]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  chatwoot-redis:
+    image: redis:7-alpine
+    command: [sh, -c, 'redis-server --requirepass "$$REDIS_PASSWORD"']
+    environment:
+      REDIS_PASSWORD: ${CHATWOOT_REDIS_PASSWORD:?Run ./install.sh to generate CHATWOOT_REDIS_PASSWORD}
+    volumes: [chatwoot_redis:/data]
+    restart: unless-stopped
+
+  chatwoot-rails:
+    image: chatwoot/chatwoot:${CHATWOOT_IMAGE_TAG:-v4.19.1-ce}
+    environment: &chatwoot-env
+      NODE_ENV: production
+      RAILS_ENV: production
+      INSTALLATION_ENV: docker
+      SECRET_KEY_BASE: ${CHATWOOT_SECRET_KEY_BASE:?Run ./install.sh to generate CHATWOOT_SECRET_KEY_BASE}
+      FRONTEND_URL: ${CHATWOOT_PUBLIC_URL:-http://localhost:4104}
+      FORCE_SSL: "false"
+      ENABLE_ACCOUNT_SIGNUP: "false"
+      POSTGRES_HOST: chatwoot-db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DATABASE: chatwoot
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: ${CHATWOOT_DB_PASSWORD}
+      REDIS_URL: redis://chatwoot-redis:6379
+      REDIS_PASSWORD: ${CHATWOOT_REDIS_PASSWORD}
+      ACTIVE_STORAGE_SERVICE: local
+      RAILS_LOG_TO_STDOUT: "true"
+      LOG_LEVEL: info
+      # Outgoing email (replies, notifications). Optional; same SMTP as Cal.com.
+      MAILER_SENDER_EMAIL: ${SMTP_FROM:-}
+      SMTP_ADDRESS: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
+      SMTP_ENABLE_STARTTLS_AUTO: "true"
+    entrypoint: docker/entrypoints/rails.sh
+    # db:chatwoot_prepare creates the database on the first run and applies
+    # migrations after an update; on a normal start it is a quick no-op.
+    command: [sh, -c, "bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0"]
+    volumes: [chatwoot_storage:/app/storage]
+    ports: ["127.0.0.1:4104:3000"]
+    depends_on:
+      chatwoot-db: { condition: service_healthy }
+      chatwoot-redis: { condition: service_started }
+    restart: unless-stopped
+
+  chatwoot-sidekiq:
+    image: chatwoot/chatwoot:${CHATWOOT_IMAGE_TAG:-v4.19.1-ce}
+    environment: *chatwoot-env
+    command: [bundle, exec, sidekiq, -C, config/sidekiq.yml]
+    volumes: [chatwoot_storage:/app/storage]
+    depends_on:
+      chatwoot-db: { condition: service_healthy }
+      chatwoot-redis: { condition: service_started }
+    restart: unless-stopped
+
+  # ─────────────────────── OPTIONAL: let brands reach you ────────────────────────
+  # Cal.com booking links and Chatwoot's website chat only work for other people
+  # if they can reach your Mac. A free Cloudflare Tunnel does that without opening
+  # ports on your router. Turn it on by adding `public` to COMPOSE_PROFILES and
+  # setting CLOUDFLARE_TUNNEL_TOKEN, CALCOM_PUBLIC_URL and CHATWOOT_PUBLIC_URL.
+  # In the Cloudflare dashboard, point the hostnames at http://calcom:3000 and
+  # http://chatwoot-rails:3000. See README → "Letting brands book you".
+
+  tunnel:
+    profiles: [public]
+    image: cloudflare/cloudflared:latest
+    command: [tunnel, --no-autoupdate, run]
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    restart: unless-stopped
+
+networks:
+  seo: {}
+
+volumes:
+  seo_storage:
+  seo_runtime:
+  seo_config:
+  seo_web_config:
+  calcom_db:
+  chatwoot_db:
+  chatwoot_redis:
+  chatwoot_storage:
