@@ -6,6 +6,7 @@ says so in the result.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import threading
 from pathlib import Path
@@ -18,6 +19,8 @@ _lock = threading.Lock()
 
 
 def whisper_available() -> bool:
+    if os.environ.get("BLKBIN_SPEECH_ENGINE") == "energy":  # tests force the fallback
+        return False
     try:
         import faster_whisper  # noqa: F401
         return True

@@ -9,9 +9,14 @@ and a macOS ._ junk file that must be ignored.
 """
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
+
+# The fixture "speech" is shaped noise, not words, so real Whisper hears none.
+# Every test that uses these clips expects the audio-energy estimate instead.
+os.environ["BLKBIN_SPEECH_ENGINE"] = "energy"
 
 
 def ff(*args):
