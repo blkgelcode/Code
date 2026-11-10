@@ -15,6 +15,7 @@ closed set — more may follow.
 | **TAN Memories** | Regular, Italic | @blkgrlcotoo | **Thumbnail headline font** (Advercase's role for @blkgrlco), confirmed 2026-09-11. |
 | **Perfectly Nineties** | Regular, Italic | @blkgrlcotoo | Secondary/accent use, confirmed 2026-09-11. |
 | **Eighties Comeback** | 35 weights/widths × Regular+Italic (70 files) | @iwishsomeonetoldme (**under review** since the 2026-10-03 rename) | **Thumbnail headline font**, confirmed 2026-09-11 — stated directly as "for uglyinbetween thumbnails." Supersedes Garamond Italic in that specific role only; Garamond Italic/Helvetica Neue Light otherwise still stands. See `brands/uglyinbetween.md`. |
+| **Bricolage Grotesque** | Medium, SemiBold, Bold, ExtraBold (Open Font License) | Ugly Duckling Studios | **The only font** for every graphic, title card, lower third and thumbnail, per her Brand File v2 (2026-11-10). Files: `brands/assets/uglyduckling/fonts/`. |
 
 ## Unassigned — in the library, not yet locked to a brand
 

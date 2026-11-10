@@ -1,7 +1,7 @@
-# Film 101 — Ugly Ducklings Studios
+# Film 101 — Ugly Duckling Studios
 
 Episode pipeline for the Film 101 series. Brand rules live in
-`../brand-bible/brands/uglyducklingsstudios.md`.
+`../brand-bible/brands/uglyducklingstudios.md`.
 
 | Command | Input | Output |
 |---|---|---|
@@ -15,7 +15,7 @@ Not in this pipeline: her short film (it has its own channel).
 
 ## Episode index
 
-Ep N = course Week N, uploaded the Sunday after (see brand guide §10).
+Ep N = course Week N, uploaded the Sunday after (see brand guide §11).
 
 | Ep | Course week | Lesson | Upload | Title | Status |
 |---|---|---|---|---|---|

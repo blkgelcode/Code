@@ -10,7 +10,7 @@ three-brand creative studio:
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
 | I Wish Somebody Had Told Me | @iwishsomeonetoldme (formerly @uglyinbetween) | Scripted solo video podcast |
-| Ugly Ducklings Studios | handle TBD | YouTube: learning filmmaking in public (Film 101 series) |
+| Ugly Duckling Studios | handle TBD | YouTube: learning filmmaking in public (Film 101 series). Visual identity: Brand File v2 in `brand-bible/brands/assets/uglyduckling/` |
 
 It is not a content generator. It is a **memory system + workflow** so that
 every piece of content gets better because of everything made before it.
@@ -23,7 +23,7 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
 | `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotoo identity, series, production constraints, SEO. |
 | `brand-bible/brands/uglyinbetween.md` | I Wish Somebody Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
-| `brand-bible/brands/uglyducklingsstudios.md` | Ugly Ducklings Studios living brand guide: positioning, Film 101 naming, thumbnail system, channel assets, analytics order. Mostly `[PROPOSED]`. |
+| `brand-bible/brands/uglyducklingstudios.md` | Ugly Duckling Studios living brand guide: positioning, Film 101 naming, thumbnail system, channel assets, season map, analytics order. Visuals locked by Brand File v2; the rest mostly `[PROPOSED]`. |
 | `film101/` | Film 101 episode pipeline: templates for `Episode_NN_to_strategy.md`, `_to_editor.md`, `_lessons.md`, plus episode index. |
 | `brand-bible/STYLE_GUIDE.md` | Cross-brand editorial toolkit: documentarian rule, the 7 Narrative Cuts, graphics/SFX reference, technical/delivery specs, thumbnail workflow. |
 | `brand-bible/SCRIPTWRITING_GUIDE.md` | Cross-brand voice rules + per-brand voice link-out. |

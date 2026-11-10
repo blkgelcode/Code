@@ -146,6 +146,9 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | "comment your own rule" (CTA) | "make your own Pin Board" | @blkgrlco (90-Day HHH Run) |
 | #stamped, #fuckitbookit, #younghotandoutside (hashtags) | current brand/series hashtags | @blkgrlcotoo |
 | "The Ugly In Between" (show name, retired 2026-10-03) | "I Wish Somebody Had Told Me" | podcast |
+| "Ugly Ducklings Studios" / "UGLY DUCKLINGS studios" caps styling (2026-11-10, same day) | *ugly duckling studios*, singular, lowercase wordmark (Brand File v2) | Ugly Duckling Studios |
+| Duckling Yellow `#FFD23F` + Pond Teal `#1F6F78` + ink/cream (2026-11-10, same day); buttermilk, butter yellow, Nebula | Copper / Seashell / Pastel Blue / Burgundy (Brand File v2) | Ugly Duckling Studios |
+| Old swash-U logo set (swash U, stepped "U G L Y", UD circles, "ugly reclaimed" badge) | Brand v2 duck + lowercase wordmark | Ugly Duckling Studios |
 
 ## Scrapped decisions (kept for context — do not resurrect without her explicit ask)
 
@@ -167,6 +170,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Editor's Hand** (handwritten captions/quotes only) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
 | @blkgrlcotoo | **TAN Memories** (thumbnail headline font) + **Perfectly Nineties** (secondary/accent), confirmed 2026-09-11 | Fully resolved — no open items on this brand's typography. |
+| Ugly Duckling Studios | **Bricolage Grotesque** (ExtraBold titles, Bold labels, SemiBold lower thirds) | 2026-11-10, her Brand File v2. Supersedes strategy's proposed Seriously Nostalgic / Hello Scratchy (never locked). |
 | @iwishsomeonetoldme | Garamond Italic (headlines) / Helvetica Neue Light (body); **thumbnail headline role superseded 2026-09-11 by Eighties Comeback** (stated directly as "for uglyinbetween thumbnails") | **Under review since the 2026-10-03 rename.** Previously: Garamond/Helvetica Neue pre-existing, locked. Eighties Comeback replaces the thumbnail-headline role specifically — flagged as a deliberate change to a previously locked font, not silently swapped. |
 
 ## Confirmed brand palettes
@@ -175,6 +179,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | @blkgrlcotoo | `#284376` navy, `#E58E47` marigold, `#D9D1C7` sand, `#CA5278` raspberry, `#6177A8` periwinkle | 2026-09-11, via coolors.co link — explicit, high confidence, supersedes the earlier "no palette locked" placeholder. |
 | @blkgrlco | `#F0DAC2` cream, `#B68A71` tan, `#B4AD7F` sage-tan, `#636407` moss olive, `#A8B118` olive-chartreuse, `#EBB9BA` blush, `#8C0532` wine, `#49001B` oxblood, `#2E1500` espresso | 2026-09-11, confirmed directly (color-generator screenshot) — supersedes the PDF's named colors and the earlier proposed-hex guesses. `#A8B118` matches the already-locked label-card color exactly. |
+| Ugly Duckling Studios | `#775537` old copper, `#F1F1F1` seashell, `#C1DBE8` pastel blue, `#43302E` old burgundy | 2026-11-10, her Brand File v2 (`brands/assets/uglyduckling/BRAND.md`). Supersedes the yellow/teal set she approved earlier the same day; she chose v2 colors for thumbnails too. |
 | @iwishsomeonetoldme | `#3A2E39` aubergine, `#DDBEA9` terracotta | **Under review since the 2026-10-03 rename** (previously locked). |
 
 ## Source documents ingested (continued)
@@ -182,6 +187,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 |---|---|---|
 | 2026-09-11 | Transcript of TikTok clip "v15044gf0000d8slninog65gq077jn50" — "Cut Theory Part 3" (sound design) by creator Arthur | Resolves one of the 5 originally-unwatchable TikTok clips flagged earlier. Applied directly into `STYLE_GUIDE.md` (new Sound Design Toolkit section) and `SOUND_LIBRARY.md` (SFX-as-a-set rule, music editing technique notes). The other 4 clips from that original batch remain unresolved. |
 | 2026-09-11 | Pinterest "BeautyPlus moodboard" — graphic element library screenshots (digicam frames, webcore/iOS UI, outer frame objects, fruit cutouts, paper cutouts) | **Medium confidence** — stated as "elements I want on hand" (real intent, not passive inspiration), but not yet applied to specific content. Logged into `STYLE_GUIDE.md`'s Graphics/Pop-Up/SFX Reference section. Connects to the existing camcorder-viewfinder and mock-UI SFX rules, and adds more evidence toward the still-open sticker/decorative-element question for @blkgrlcotoo. |
+| 2026-11-10 | `UglyDuckling_Brand_v2.zip` (Brand File v2: BRAND.md, logos in 3 colors, Bricolage Grotesque fonts, overview + title-card example) | **Locked as Ugly Duckling Studios' visual identity.** Copied to `brands/assets/uglyduckling/`. Conflicted with two same-day locks (plural caps name, yellow/teal palette); asked via AskUserQuestion, she chose v2 for both, thumbnails included. |
 
 ## Notion Content Calendar cross-referenced with Metricool (2026-09-11)
 
