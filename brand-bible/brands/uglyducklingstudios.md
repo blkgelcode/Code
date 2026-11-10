@@ -101,18 +101,19 @@ high contrast, 3 words or fewer, and a readable face or moment. Use real
 frames from her footage only, never AI images (studio non-negotiable).
 Make two concepts per video for testing.
 
-**Palette** (ink, cream, and one bright yellow, so it feels like a
-notebook):
+**Palette** `[LOCKED 2026-11-10]` (ink, cream, bright lemon yellow, and
+the teal-blue, so it feels like a notebook):
 
 | Role | Name | Hex |
 |---|---|---|
 | Text, outlines | Pond Ink | `#141414` |
 | Text panel, background block | Swan Cream | `#F7F3E8` |
 | Accent: series tab, one highlighted word | Duckling Yellow | `#FFD23F` |
-| Optional second accent (sparingly) | Pond Teal | `#1F6F78` |
+| Second accent, the blue (sparingly) | Pond Teal | `#1F6F78` |
 
-*Flag:* @blkgrlcotoo locks marigold. Duckling Yellow is a cooler, brighter
-lemon so the two don't blur together. Confirm she's happy with that.
+Duckling Yellow is a brighter lemon than @blkgrlcotoo's marigold, so the
+two brands don't blur together. She confirmed the yellow and the blue on
+2026-11-10.
 
 **Fonts** (from her unassigned library, `../FONT_LIBRARY.md`):
 - Headline: **Seriously Nostalgic, Condensed Bold** (or the boldest
@@ -179,7 +180,16 @@ the next episode. The description links the previous and next ones. When a
 new episode goes up, update the previous episode's end screen and
 description to point to it.
 
-## 9. Analytics diagnosis order
+## 9. Hashtag, schedule, and system of record `[LOCKED 2026-11-10]`
+
+- **`#stayugly` is shared on purpose** with the podcast. She confirmed
+  the overlap is fine.
+- **Weekly upload and review day: Sunday**, matching the studio's
+  Sunday edit/upload/reflect rhythm.
+- **Dashboard:** she's building one so strategy can read it. Link it here
+  when it's ready. `[NEEDS INPUT]`
+
+## 10. Analytics diagnosis order
 
 Check problems in this order and fix one or two things at a time:
 1. **Low impressions** → the topic or search is the problem
@@ -194,14 +204,10 @@ Check problems in this order and fix one or two things at a time:
 Early numbers on a new channel are noisy. Judge trends across 3–4
 episodes, not one upload.
 
-## 10. Open questions
+## 11. Open questions
 
-1. **"Ugly" overlap:** the podcast's old name (*The Ugly In Between*,
-   @uglyinbetween) and its hashtag `#stayugly` are close to this
-   channel's name. Keep the hashtag off this channel, or share it on
-   purpose? `[NEEDS INPUT]`
-2. YouTube handle for the channel. `[NEEDS INPUT]`
-3. Is it connected to Metricool / vidIQ yet? `[NEEDS INPUT]`
-4. Upload day and time for the weekly slot. `[NEEDS INPUT]`
-5. How many lessons are in the Filmmaking 101 course? This sets the
+1. YouTube handle for the channel. `[NEEDS INPUT]`
+2. Is it connected to Metricool / vidIQ yet? `[NEEDS INPUT]`
+3. Upload time on Sunday. `[NEEDS INPUT]`
+4. How many lessons are in the Filmmaking 101 course? This sets the
    season length. `[NEEDS INPUT]`
