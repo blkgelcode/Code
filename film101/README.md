@@ -15,6 +15,10 @@ Not in this pipeline: her short film (it has its own channel).
 
 ## Episode index
 
-| Ep | Lesson | Title | Status |
-|---|---|---|---|
-| — | — | — | — |
+Ep N = course Week N, uploaded the Sunday after (see brand guide §10).
+
+| Ep | Course week | Lesson | Upload | Title | Status |
+|---|---|---|---|---|---|
+| 1 | Nov 12–15 | The shot is a word: sizes, angles, 180° line, eyeline, match on action, Kuleshov | Sun Nov 22 | — | Not filmed |
+| 2 | Nov 19–22 | Ten shot sizes (HW 2) | Sun Nov 29 | — | — |
+| 3 | Nov 26–29 | 6-Shot Silent Sequence project + Quiz 1 | Sun Dec 6 | — | — |

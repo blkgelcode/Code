@@ -189,7 +189,64 @@ description to point to it.
 - **Dashboard:** she's building one so strategy can read it. Link it here
   when it's ready. `[NEEDS INPUT]`
 
-## 10. Analytics diagnosis order
+## 10. Season map — FILM 101 course `[PROPOSED]`
+
+Source: her FILM 101 Course Reader (received 2026-11-10). The course runs
+36 weeks in 12 units, from Thu Nov 12, 2026 to about Aug 2027, with 2
+break weeks she picks. Lecture and lab are on Thursday, homework and
+project shooting on Saturday, and homework is due Sunday.
+
+- **One Film 101 episode per course week**, so 36 episodes in total.
+  Episode N = course Week N.
+- **Upload lag of one week:** the Episode N video goes up on the Sunday
+  of Week N+1. Week N's Thursday and Saturday footage gets edited during
+  Week N+1. Same-week turnaround (Thursday class, Sunday upload) leaves
+  about 2 days to edit, which isn't sustainable solo on top of the course.
+  Episode 1 goes up **Sun Nov 22**.
+- **Her course reader says she works Sundays.** Schedule uploads ahead
+  in YouTube Studio or Metricool on Saturday, so Sunday needs nothing
+  from her.
+- **Break weeks:** no Film 101 upload. Post a bonus video (behind the
+  scenes, or her reaction to her own old footage) so the weekly streak
+  holds. Bank one bonus video early for this.
+- **Unit projects become "Project Reveal" bonus videos** (12 total): her
+  finished project, then what she'd change. This replaces "Homework
+  Reveal" for project weeks. Weekly homework (shot logs and drills)
+  goes inside the episodes, not into separate videos.
+- **Playlists:** `Film 101 (Start Here)` holds every episode in order.
+  Each unit also gets its own playlist, e.g. `Film 101 · Unit 1: Film
+  Language`, so a stranger searching "lighting for beginners" lands in
+  a 3-episode set.
+- **Never publish quiz or exam content** (questions or answers). The
+  course rules make tests closed and one attempt. Homework she's already
+  submitted is fine to show.
+- **Kit honesty:** the Pocket 3 has a fixed lens and can't show aperture
+  or focal-length changes. Any episode whose package promises those
+  shows them on the iPhone (Blackmagic Camera app).
+- **Out of scope:** the Canon First Cut entry and the Sudan series. The
+  Canon entry is short-film work; the Sudan series is a separate
+  project. Neither gets packaged here unless she says otherwise.
+
+| Unit | Weeks / Eps | Topic | Unit project → Project Reveal |
+|---|---|---|---|
+| 1 | 1–3 | Film Language | 6-shot silent sequence, edited in camera |
+| 2 | 4–6 | Camera & Exposure | Exposure test reel |
+| 3 | 7–9 | Lenses, Focus & Composition | 60-sec "Waiting" scene |
+| 4 | 10–12 | Lighting | Look-book + matched scene |
+| 5 | 13–15 | Production Sound | 2-person dialogue scene |
+| 6 | 16–18 | Editing & Post | Semester film (3–5 min)* |
+| 7 | 19–21 | Screenwriting | 5–8 page shooting script |
+| 8 | 22–24 | Directing & Coverage | Same pages shot two ways |
+| 9 | 25–27 | Movement & Color | Oner + graded day/night pair |
+| 10 | 28–29 | Documentary | 3-minute profile |
+| 11 | 30–34 | Capstone Production | Capstone (7–10 min)* |
+| 12 | 35–36 | Distribution & Portfolio | Reel + screening |
+
+\* The semester film and capstone are films in their own right. Ask her
+whether they premiere here or on the short-film channel before
+packaging them. `[NEEDS INPUT]`
+
+## 11. Analytics diagnosis order
 
 Check problems in this order and fix one or two things at a time:
 1. **Low impressions** → the topic or search is the problem
@@ -204,10 +261,8 @@ Check problems in this order and fix one or two things at a time:
 Early numbers on a new channel are noisy. Judge trends across 3–4
 episodes, not one upload.
 
-## 11. Open questions
+## 12. Open questions
 
 1. YouTube handle for the channel. `[NEEDS INPUT]`
 2. Is it connected to Metricool / vidIQ yet? `[NEEDS INPUT]`
 3. Upload time on Sunday. `[NEEDS INPUT]`
-4. How many lessons are in the Filmmaking 101 course? This sets the
-   season length. `[NEEDS INPUT]`
