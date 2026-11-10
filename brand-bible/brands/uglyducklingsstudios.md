@@ -145,6 +145,14 @@ metric it picks the winner by before reading too much into a result.
 
 ## 7. Channel assets `[PROPOSED]`
 
+**Name styling `[LOCKED 2026-11-10]`:** the wordmark is **UGLY DUCKLINGS**
+in all caps with **studios** in lowercase. Use it on the logo, banner,
+profile image, trailer title card, and the thumbnail logo mark.
+- In running text (descriptions, titles, pinned comments), write it as
+  *Ugly Ducklings Studios*. The caps styling is for the visual mark only;
+  all caps in a title would read as shouting.
+- The wordmark's font follows the thumbnail system (§6).
+
 - **Channel description (draft):**
   > I'm learning filmmaking from zero, in public. Film 101 is my course,
   > taught one lesson at a time: I learn it, I try it, and I show you what
