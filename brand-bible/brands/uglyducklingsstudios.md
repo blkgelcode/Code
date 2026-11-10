@@ -1,4 +1,4 @@
-# Ugly Duckling Studios — Living Brand Guide
+# Ugly Ducklings Studios — Living Brand Guide
 
 > **Started 2026-11-10.** Fourth channel in the studio. A YouTube channel
 > that documents her becoming a filmmaker, in public.

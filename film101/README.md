@@ -1,7 +1,7 @@
-# Film 101 — Ugly Duckling Studios
+# Film 101 — Ugly Ducklings Studios
 
 Episode pipeline for the Film 101 series. Brand rules live in
-`../brand-bible/brands/uglyducklingstudios.md`.
+`../brand-bible/brands/uglyducklingsstudios.md`.
 
 | Command | Input | Output |
 |---|---|---|

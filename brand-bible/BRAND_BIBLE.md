@@ -33,7 +33,7 @@ visual identity. Don't average them into one generic "BLKGRLCO style."
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form | `brands/blkgrlco.md` |
 | Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming | `brands/blkgrlcotoo.md` |
 | I Wish Somebody Had Told Me (renamed 2026-10-03) | @iwishsomeonetoldme (formerly @uglyinbetween) | Scripted solo video podcast | `brands/uglyinbetween.md` |
-| Ugly Duckling Studios (added 2026-11-10) | handle TBD | YouTube: learning filmmaking in public (Film 101) | `brands/uglyducklingstudios.md` |
+| Ugly Ducklings Studios (added 2026-11-10) | handle TBD | YouTube: learning filmmaking in public (Film 101) | `brands/uglyducklingsstudios.md` |
 
 **Confirm brand + platform before producing anything** — pillars, voice,
 hashtag tiers, and title conventions all differ by brand.
