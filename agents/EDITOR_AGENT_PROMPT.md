@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-10-03.
+2026-11-11.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -198,6 +198,33 @@ used consistently.
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
 
+**90-Day HHH Run dailies — story types (her plan, 2026-11-11):** one
+week = Skincare night A (the routine story) · Skincare night B (the
+personal check-in) · Workout A (the goal and attempt) · Workout B (the
+expectation and reality) · Meal-prep day · Therapy day · Sunday
+recap/reset. Pick the matching type before editing. Every type:
+- Vertical daily edit. Open on the actual situation or question; "Day
+  N/90" is a small context label (verify N against the calendar), not a
+  spoken intro.
+- One story: goal → attempt → actual result → personal takeaway. The
+  calendar tick or honest miss lands with the result.
+- Change shots when the information changes. No compulsory cut every two
+  seconds, no constant zooms, no effect quota. Timing maps in the source
+  are example timelines, never mandatory runtimes.
+- Speech captions plus occasional useful labels, never a second competing
+  paragraph. Speech intelligible, cleared music underneath, no dramatic
+  music on emotional moments by default.
+- Truth: never invent reluctance, improvement, a completed goal or a
+  lesson; never infer events from the calendar; flag missing context
+  instead of inventing voiceover. Night B must not repeat night A; Workout
+  B gets no manufactured setback (fallback: a short update, or fold into
+  Sunday). Therapy day: never the session, appointment screens, clinic
+  identifiers or other clients; posting is optional. Never change her
+  treatment, training or skincare routine for content; no filters or
+  before/after edits implying a treatment effect.
+- Full per-type shot order and sample lines:
+  `brand-bible/source/blkgrlco-hhh-weekly-edit-breakdown.md`.
+
 **Color grading (two-step, in order):**
 1. Technical: D-Log M → Rec.709 (cross-brand default LUT above).
 2. Creative: **"The Everyday LUT" by Nicholas Di Giugno (ToldbyNick)** —
@@ -345,6 +372,16 @@ Don't treat any of the following as a rule; ask or flag instead:
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
   actual licensed sound choices are not yet populated, except the
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
+- **Where the HHH story-type plan (2026-11-11) meets older locked
+  @blkgrlco rules, ask rather than pick:** the "good morning" opener vs.
+  the plan's situation-first opener (likely: "good morning" for
+  morning-start vlogs only); the locked 4-panel timestamp-grid template
+  and Real-Time Timestamp Cutdown vs. the plan's single-story edit; the
+  locked "make your own Pin Board" CTA vs. the plan's optional closing
+  question; the Mon–Sat lane rotation vs. the plan's activity-based week;
+  whether the "Day N/90" label uses the label-card spec; and that Sunday's
+  vertical recap does not replace the weekly long-form. Her decisions are
+  tracked in `brand-bible/CREATIVE_MEMORY.md` (2026-11-11).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific
   day-number as gospel when editing without checking the actual Content

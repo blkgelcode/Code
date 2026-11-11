@@ -85,6 +85,69 @@ silently merged into one strategy.
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
 
+## HHH Weekly Edit Breakdown (ingested 2026-11-11)
+
+Her editorial plan for the 90-Day HHH Run dailies, addressed to Claude
+Code. Source, verbatim: `../source/blkgrlco-hhh-weekly-edit-breakdown.md`
+(use it for the full per-type shot order, sample lines and timing maps).
+This is **approved guidance for how an HHH daily tells its story**; it
+sits next to the Daily Vlog Editing Standard above rather than replacing
+it. Where the two disagree, the conflict is flagged in
+`../CREATIVE_MEMORY.md` (2026-11-11 entry) for her decision, not resolved
+here.
+
+**One week = seven repeatable story types:**
+
+| Type | The story it tells | Payoff |
+|---|---|---|
+| Skincare night A: the routine story | Making time for the existing routine; the habit, not a product demo | Whether the intended routine got done, never a skin-transformation claim |
+| Skincare night B: the personal check-in | One real observation, with the routine as the setting; must not repeat night A | A clearer understanding of her experience, not a forced lesson |
+| Workout A: the goal and attempt | One real objective from the planned session (not necessarily a PR) | An answer to the opening objective, including a modified or unfinished goal |
+| Workout B: the expectation and reality | What she expected vs. what stood out; never a manufactured setback | What she learned or felt. Fallback: a short update, or fold into Sunday |
+| Meal-prep day | One preparation goal and its real outcome; a diary, not a recipe tutorial | What she prepared. "Made tomorrow easier" only after a real follow-up |
+| Therapy day | Making room for care; the session itself is never the content | Showing up, rescheduling, or what actually happened. Posting is optional |
+| Sunday: recap and reset | What the week taught her plus one manageable reset, with new reflection | One clear adjustment for next week and the real reset outcome |
+
+**Shared editing standard for every type:**
+
+- **Format:** vertical daily edit for Reels, TikTok and Shorts. Sunday is
+  a vertical recap/reset too; a longer YouTube recap is a separate
+  deliverable, not an automatic extra.
+- **Opening:** the actual situation or question first. "Day [verified
+  number]/90" goes in a small context label, not a long spoken intro.
+  (Verify the day number against the Content Calendar first; her day
+  count has known drift.)
+- **Story:** one goal → attempt → actual result → personal takeaway.
+- **Text:** readable speech captions plus occasional useful labels, never
+  a second competing paragraph. Verify names, numbers and transcription.
+- **Pacing:** change shots when the information changes. No compulsory
+  cut every two seconds, constant zooms, or effect quota.
+- **Sound:** speech stays intelligible, natural sound where relevant,
+  cleared music underneath. Emotional moments don't need dramatic music.
+- **Ending:** the calendar tick or honest miss lands with the result. A
+  short audience question is optional.
+- **Truth:** every sample line in the source is conditional. Never invent
+  reluctance, improvement, a completed goal, or a lesson. Never assume
+  attendance or completion from the calendar.
+- **Timing maps are example output timelines**, not mandatory durations
+  or source timecodes. Expand or shorten to fit the real story; don't add
+  filler or truncate a thought to hit a number.
+- **Boundaries:** never alter her treatment, training or skincare routine
+  for content. No filters or before/after edits implying an unverified
+  treatment effect. No private session material, appointment screens,
+  clinic identifiers or other clients on therapy day. No clip turned into
+  exercise advice.
+
+**Retention baseline the plan is testing against:** one 1:49 Reel with a
+sharp early retention decline (details and caveats in
+`../CREATIVE_MEMORY.md`). The test: make the premise clear earlier and
+remove repeated information while keeping honest reactions. Do not cut
+every video to 14 seconds.
+
+**How Claude Code applies it:** the editing procedure is in
+`../../agents/PRODUCTION_WORKFLOW.md` → "Editing an HHH daily". The
+two-week evaluation is in `../../growth/ANALYTICS_SYSTEM.md`.
+
 ## Technical Specs (this channel's daily/vlog footage)
 - Camera: DJI Osmo Pocket 3, D-Log M → apply "DJI OSMO Pocket 3 D-Log M to
   Rec.709" LUT (don't trust the file's own bt709 tag).

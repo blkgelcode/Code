@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-11 | `source/blkgrlco-hhh-weekly-edit-breakdown.md` (BLKGRLCO: HHH Weekly Edit Breakdown, her editorial plan addressed to Claude Code) | Merged as approved story-type guidance for the 90-Day HHH Run dailies into `brands/blkgrlco.md`, `../agents/PRODUCTION_WORKFLOW.md` (editing procedure), `../growth/ANALYTICS_SYSTEM.md` (two-week test) and `../agents/EDITOR_AGENT_PROMPT.md`. **Six conflicts/gaps with already-locked rules flagged below for her decision, not resolved.** |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
 
 ## Podcast renamed: "I Wish Somebody Had Told Me" (2026-10-03)
@@ -97,6 +98,69 @@ newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
 edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
+
+## HHH Weekly Edit Breakdown received (2026-11-11)
+
+She handed over an editorial plan for the 90-Day HHH Run dailies: seven
+repeatable story types for one week (two skincare nights, two workouts,
+one meal-prep day, one therapy day, Sunday recap/reset), a shared editing
+standard (situation first, one goal → attempt → result → takeaway, cut
+when the information changes, honest outcomes only), a Claude Code
+editing procedure, and a two-week evaluation. Summary in
+`brands/blkgrlco.md`; procedure in `../agents/PRODUCTION_WORKFLOW.md`;
+evaluation in `../growth/ANALYTICS_SYSTEM.md`.
+
+**Retention baseline she supplied (one Reel, logged as reference only):**
+a 1:49 Reel with 14 s average watch time and a sharp early decline; one
+follow; 37.8% skip rate labeled "Lower"; 348 views = 59 Instagram + 289
+Facebook, with the views-over-time graph Instagram-only. Her own caveat:
+one snapshot, not proof of a channel-wide problem or a cause, and 14/109
+is not a completion rate (Instagram's average watch time is watch time ÷
+initial views). What's being tested: make the premise clear earlier and
+remove repeated information while keeping honest reactions. Not "cut
+everything to 14 seconds."
+
+**Conflicts and gaps with locked rules, flagged for her decision (per
+BRAND_BIBLE §10, not silently resolved):**
+
+1. **Opener.** Locked daily-vlog rule: open every vlog on "good morning"
+   and let the sentence finish. The plan: open on the actual situation or
+   question, with "Day N/90" as a small label, and its sample openers are
+   evening ("Tonight's goal…"), workout and therapy lines. Likely
+   reading: "good morning" stays for vlogs that start in the morning and
+   the plan's openers apply to the rest. Needs her confirmation.
+2. **Template.** Locked vertical daily-vlog template: the 4-panel
+   edge-to-edge stacked timestamp grid (6AM/12PM/6PM/10PM) with bold plain
+   white captions, and the Real-Time Timestamp Cutdown framework. The
+   plan describes a single-story edit (goal → attempt → result) with speech
+   captions and occasional labels. These are two different edits. Which
+   one the HHH dailies use going forward, or whether the grid is for a
+   different video type, is her call.
+3. **CTA.** Locked for the 90-Day HHH Run: "make your own Pin Board." The
+   plan ends each type with an optional audience question ("What's the
+   last thing you do before bed?"). Not resolved whether the question
+   replaces, precedes, or alternates with the locked CTA.
+4. **Week structure.** Locked lane rotation: Mon/Thu HOT, Tue/Fri
+   HEALTHY, Wed/Sat HAPPY. The plan's week is activity-based (skincare ×2,
+   workout ×2, meal prep, therapy, Sunday). It maps roughly (skincare →
+   HOT, workouts/meal prep → HEALTHY, therapy → HAPPY) but the day
+   assignments differ. Treated as the HHH Run's week, not a rewrite of
+   the lane rotation, until she says otherwise.
+5. **"Day N/90" label style.** The plan asks for a small context label.
+   Assumption: it uses the locked label-card spec (Arial Rounded Bold,
+   `#A8B118`, lowercase). Unconfirmed.
+6. **Sunday.** Locked: Sunday = long-form vlog (13 Weekly Vlogs exist in
+   the calendar). The plan: Sunday is a vertical recap/reset, and a longer
+   YouTube recap is a separate deliverable, not automatic. Read as
+   compatible (both exist); confirming that the vertical recap doesn't
+   replace the weekly long-form.
+
+**Referenced but missing from this repo:** the "Workflow Reset prompt"
+the plan says to use alongside it; the "project's existing schema" for
+edit decision lists (closest here: the Bin's Plan → Edit & retention clip
+order, `{fid, seconds}` per clip); the footage `afv5.mov`; the Insights
+screenshots. Also still missing from before: `_tools/preflight.py`, which
+the standing rules require before any master.
 
 ## Corrections log
 *(mistake → correction → date. Referenced before every new piece of content so it isn't repeated.)*
@@ -358,7 +422,7 @@ minimize risk of losing anything.
 ## Poor-performing patterns to avoid
 | Type | What underperformed | Suspected reason | Confidence |
 |---|---|---|---|
-| `[none yet]` | | | |
+| Format (Reel) | One 1:49 HHH Reel: 14 s average watch time, sharp early retention decline (2026-11-11 baseline) | Premise not clear early; repeated information (her hypothesis) | Low — one Reel, Instagram-only graph, 59 IG views. Reference, not a rule |
 
 ## Successful experiments
 | Variable tested | Result | Applied to future content? |

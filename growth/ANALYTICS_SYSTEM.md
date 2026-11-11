@@ -47,6 +47,39 @@ Rules:
 - One variable at a time in a controlled experiment, unless there's a
   stated strategic reason to change more than one.
 
+## HHH weekly edit test (@blkgrlco, from 2026-11-11)
+
+Her HHH Weekly Edit Breakdown (verbatim in
+`../brand-bible/source/blkgrlco-hhh-weekly-edit-breakdown.md`) sets up a
+two-week test of seven repeatable story types. How to read it, in her
+own framing:
+
+- Repeat each story type when it fits the real week. Record results
+  seven days after each approved publication.
+- Compare matching topics, similar lengths, and the same platform. One
+  previous Reel is a reference, not a universal baseline.
+- **Opening:** early-retention or chose-to-watch/skip measures, without
+  treating differently defined platform metrics as interchangeable
+  (Instagram's "average watch time" is watch time ÷ initial views, not a
+  completion rate; YouTube Shorts report chose-to-view, average view
+  duration and average percentage viewed).
+- **Story progression:** where viewers leave relative to the setup,
+  attempt and payoff. The Bin's retention loop (Plan → Edit & retention)
+  answers this for YouTube uploads with a clip order.
+- **Depth:** average watch time read alongside runtime and the platform's
+  percentage viewed where available.
+- **Connection:** substantive comments, shares, saves and attributed
+  follows where the platform exposes them.
+- **Decision:** repeat an approach that improves across more than one
+  post; mixed results mean test again, not rebuild the channel.
+
+The seven-day checkpoint and the two-week window are practical choices,
+not platform rules or a controlled experiment. YouTube's own guidance:
+compare stronger and weaker Shorts on watch time, likes and comments
+rather than against a viral hit; it does not favor a particular Shorts
+format or require a posting cadence. This stays craft feedback per §9 of
+the Brand Bible.
+
 ## Experiment types
 
 Hooks, titles, thumbnails, video length, editing style, topics, posting

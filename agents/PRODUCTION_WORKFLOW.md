@@ -39,6 +39,46 @@ Shortcut rule: if you only ask for one step ("write the script", "make the
 thumbnail"), you get only that step's output — not the full pipeline. Full
 pipeline runs only when you hand off a new idea to build out end-to-end.
 
+## Editing an HHH daily (@blkgrlco) — Claude Code procedure
+
+From her HHH Weekly Edit Breakdown (ingested 2026-11-11, verbatim in
+`../brand-bible/source/blkgrlco-hhh-weekly-edit-breakdown.md`; the seven
+story types are summarized in `../brand-bible/brands/blkgrlco.md`). It
+supplies the video-specific editing approach for step 5 above. It does
+not reinstate fixed durations, and it does not override privacy,
+source-preservation, or approval rules.
+
+```text
+Select the matching weekly video type before editing.
+Inspect the source footage and transcript; do not infer events from the calendar.
+Write the episode's true goal, outcome, and story question in one sentence each.
+Use its example timeline as a starting structure, never a compulsory runtime.
+Create a source-timecoded edit decision list using the project's existing schema.
+For each cut or reorder, explain its effect on clarity, progress, or connection.
+Keep meaningful personality and remove repeated information.
+If essential context or a result is missing, flag it; never invent a voiceover or outcome.
+Render one low-resolution preview and validate captions, audio, framing, and chronology.
+Report what changed and why; do not claim retention has improved before audience data exists.
+Do not publish, overwrite originals, or change my treatment/training routine.
+```
+
+Two things the procedure refers to are not in this repo (flagged in
+`../brand-bible/CREATIVE_MEMORY.md`, 2026-11-11):
+
+- **"The Workflow Reset prompt"** — she said to use the breakdown
+  alongside it. Not found here. Until she supplies it, the standing rules
+  above and in `../brand-bible/` apply.
+- **"The project's existing schema"** for the edit decision list. The
+  closest thing here is BLKGRLCO Bin's clip order (Plan → Edit &
+  retention: an ordered list of `{fid, seconds}` per clip, names and
+  categories from the Media tab, which the retention loop matches against
+  drops) plus the per-clip flub/silence map in `_footage-master.md`. An
+  edit decision list written for an HHH daily should at least be
+  reducible to that clip order so the retention loop can read it.
+
+The Daily Vlog Editing Standard (`../brand-bible/brands/blkgrlco.md`) and
+the pre-flight check in step 12 still apply to every HHH daily.
+
 ## Human approval system
 
 Before a major/irreversible decision, present:
