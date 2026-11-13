@@ -111,6 +111,9 @@ Verbatim source: `../brand-bible/source/blkgrlco-story-and-growth-checklist.md`.
 
 Verbatim source: `../brand-bible/source/blkgrlco-platform-packaging-checklist.md`.
 Per-platform detail and the per-episode table: `../growth/SEO_GUIDE.md`.
+The full operating prompt for a packaging task, with the inspect-first
+steps, pickup-line rule, crop check and deliverable format:
+`PLATFORM_PACKAGING_PROMPT.md`.
 
 **Core story**
 - [ ] Keep the video connected to her 90-day Hot, Happy, Healthy

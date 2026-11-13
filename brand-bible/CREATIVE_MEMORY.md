@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-13 | `source/blkgrlco-claude-code-platform-packaging-prompt.md` (her copy-ready Claude Code Platform Packaging Prompt) | Kept as `../agents/PLATFORM_PACKAGING_PROMPT.md`, the standing instruction for packaging tasks; linked from the checklist's §7. Adds inspect-first steps, pickup lines as suggestions, crop checks, one package per platform and a fixed deliverable. |
 | 2026-11-13 | `source/blkgrlco-platform-packaging-checklist.md` (her Platform Packaging Checklist, her own words) | Replaces the guide's copy-ready block as §7 of `../agents/EDITOR_CHECKLIST.md`; the "return for each platform" list in `../growth/SEO_GUIDE.md` updated to hers (adds on-screen text and the story promise). |
 | 2026-11-13 | `source/blkgrlco-platform-packaging-guide.md` (BLKGRLCO: Platform Packaging Guide, research checked 2026-11-12) | Merged into `../growth/SEO_GUIDE.md` (new Platform packaging section; the "Day 1 of 90" title example and the "locked CTA" description line updated to match the Nov 11 retirements; hashtag tiers made a menu, not a quota), `../growth/CONTENT_STRATEGY.md`, `../growth/ANALYTICS_SYSTEM.md`, `../agents/EDITOR_CHECKLIST.md` §7, `brands/blkgrlco.md`, `STYLE_GUIDE.md` (watermark rule), editor prompt. One framing note flagged below. |
 | 2026-11-13 | `source/blkgrlco-story-and-growth-checklist.md` (her Story and Growth Checklist, her own words) | Adopted as section 0 of `../agents/EDITOR_CHECKLIST.md`; analytics rules into `../growth/ANALYTICS_SYSTEM.md`; summarized in `brands/blkgrlco.md` and the editor prompt. |
@@ -103,6 +104,31 @@ newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
 edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
+
+## Google Drive reorganized for footage (2026-11-13)
+
+She asked for the most optimal footage location on Drive. Found two
+competing homes (empty `Footage/<brand>` folders at the root from Aug 29,
+and every 2026 project under `Archive/Raw Footage/2026/BLKGRLCO/`), 13
+loose iPhone clips at the root, travel material scattered, and
+duplicates. With her "Go": moved the seven project folders into
+`Footage/blkgrlco` (brazil into `Footage/blkgrlcotoo`), renamed each
+with its shoot-date prefix, created two dated `iphone-clips` folders for
+the loose root clips, and moved Turkey and CDMX under
+`Footage/blkgrlcotoo`. Nothing deleted. Convention written into
+`BRAND_BIBLE.md` §7 and `STYLE_GUIDE.md`.
+
+**Left for her to check and trash:** the folder now named
+"2026-11-02 therapy-declutter DUPLICATE (check, then trash)" (same clip,
+same byte size, as therapy-declutter); in gym-session's `00_raw`, the
+7.5 GB `DJI_20261106182810_0685_D.MP4.partial` (a full copy of 0685) and
+the 0-byte `DJI_20261106180659_0682_D.MP4.partial`; "JUPS6941 (1).MOV"
+in the iPhone sync folder; two copies of IMG_4565.MOV in CDMX; a 0-byte
+"IMG_5014 (1).MOV" in the sync folder. Photos at the root (Sep 17) were
+left alone: not footage.
+
+**Assumptions taken on "Go":** brazil 2025-12 is @blkgrlcotoo; `00_raw`
+stays the Drive folder name (the Bin writes `_raw` on the T7).
 
 ## Poppins role confirmed (2026-11-13)
 

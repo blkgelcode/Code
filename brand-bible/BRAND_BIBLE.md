@@ -99,6 +99,16 @@ confirmed; don't presume identical targeting without checking.
 - **Samsung T7 SSD** — raw footage, `project hhh` folder, one subfolder
   per video. The reliable path.
 - **Google Drive** — backup/transfer only; chokes on large files.
+  **Layout (reorganized 2026-11-13):** one root, `My Drive/Footage/`, split
+  by brand, one folder per video named `YYYY-MM-DD name` (shoot date), raw
+  clips in its `00_raw/`. @blkgrlco projects under `Footage/blkgrlco/`,
+  travel projects (Brazil, Turkey, CDMX) under `Footage/blkgrlcotoo/`.
+  Loose iPhone clips go in a dated `iphone-clips` folder under the brand.
+  `Archive/Raw Footage/<year>/` is retired for anything after 2025. The
+  Drive for Desktop sync folder "USB and External Devices/Omnia's iPhone"
+  is the iPhone import inbox and is never moved; copy what a video needs
+  into that video's `00_raw/`. `Vlog Masters` at the root holds finished
+  masters. Drive uses `00_raw`; the Bin uses `_raw` on the T7.
 
 ## 8. Connected Tools & Publishing
 

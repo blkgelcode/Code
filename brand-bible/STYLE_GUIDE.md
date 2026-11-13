@@ -180,7 +180,7 @@ exists but wasn't captured):
 | Editor | CapCut (primary). |
 | Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 — fixes files that fail direct import/transcription. |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video. |
-| Storage — secondary | Google Drive (backup only). |
+| Storage — secondary | Google Drive (backup only): `My Drive/Footage/<brand>/<YYYY-MM-DD name>/00_raw/`, one folder per video, reorganized 2026-11-13 (see `BRAND_BIBLE.md` §7). |
 | Skin-tone treatment | Natural, never distorted. Standard rule, not project-specific. |
 | Cross-posting | Export a clean master per platform: no other platform's visible watermark, readable captions, correct framing (2026-11-13; Instagram may show watermarked or low-resolution Reels less). |
 | Exposure/contrast/highlights/shadows/saturation/mood beyond the LUT | `[NEEDS INPUT]` — approximation only until confirmed against a graded reference clip. |
