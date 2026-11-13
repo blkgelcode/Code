@@ -130,6 +130,14 @@ left alone: not footage.
 **Assumptions taken on "Go":** brazil 2025-12 is @blkgrlcotoo; `00_raw`
 stays the Drive folder name (the Bin writes `_raw` on the T7).
 
+**Found afterwards:** the Aug 29 scaffold under each brand folder (six
+category folders, each with Long-Form and Short-Form) still existed. All
+empty except `blkgrlco/Personal Growth & Lifestyle/Long-Form/Media`,
+which held six DJI clips from 2026-08-31; moved to
+`Footage/blkgrlco/2026-08-31 media`. The three other folders in that
+scaffold (WVLOG5, V16 PT Homework, V17) are empty. The scaffold's 12
+category folders are now all empty and can be trashed; left for her.
+
 ## Poppins role confirmed (2026-11-13)
 
 Her answer: "Poppins is for captions and on-screen text only." Locked for
