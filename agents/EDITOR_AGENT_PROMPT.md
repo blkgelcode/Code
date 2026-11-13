@@ -6,7 +6,8 @@ This file is generated from the git-tracked Brand Bible
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
 2026-11-13 (SFX correction, Shoot day section, Story and growth rules,
-platform delivery rules and the Poppins role applied).
+platform delivery rules, the Poppins role and the product-names rule
+applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -221,8 +222,8 @@ time; motion specs (pop-ups scale 0 → 105% → 100%, opacity 0 → 100, slide
 in from the edge over 8–10 frames; titles slide in with ease-in; PNG
 titles on the track above); one low-res preview judged on curiosity, cut,
 clarity, connection; her sign-off. House rules: no employer or job named
-or shown; phone on screen only when essential; skincare has no product
-labels and no SFX; SFX optional everywhere else; YouTube original stickers only, TikTok/IG stickers
+or shown; phone on screen only when essential; skincare shows product
+names, never blurred or cropped out, and has no SFX; SFX optional everywhere else; YouTube original stickers only, TikTok/IG stickers
 from her cue list; Poppins for @blkgrlco only, captions and on-screen
 text (confirmed 2026-11-13); three thumbnails and three
 titles per long-form; 3:00 PM CT, numerical order. **Priority through

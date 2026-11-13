@@ -93,7 +93,8 @@ Verbatim source: `../brand-bible/source/blkgrlco-story-and-growth-checklist.md`.
 
 - [ ] No employer or job named or shown.
 - [ ] Phone on screen only when essential.
-- [ ] Skincare: no product labels, no sound effects.
+- [ ] Skincare: product names are shown, never blurred or cropped out
+      (her call, 2026-11-13). No sound effects.
 - [ ] YouTube uses original stickers only. TikTok/IG stickers come from
       her cue list.
 - [ ] Poppins for @blkgrlco only: captions and on-screen text, nothing
@@ -192,5 +193,9 @@ or hook format.
   Poppins is flagged in `../brand-bible/FONT_LIBRARY.md`.
 - Settled 2026-11-13: **SFX are no requirement.** Sound effects are
   optional on every @blkgrlco edit and banned on skincare nights.
+- Settled 2026-11-13: **product names stay on screen.** The tret night 1
+  preview first went out with the bottles blurred; she said "Don't blur
+  or crop, show product names." The blurs came off and the rule below
+  is retired.
 - **Her sticker cue list** and what "original stickers" means on YouTube
   are not in this repo yet.
