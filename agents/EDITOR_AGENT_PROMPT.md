@@ -7,7 +7,7 @@ there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
 2026-11-13 (SFX correction, Shoot day section, Story and growth rules,
 platform delivery rules, the Poppins role and the product-names rule
-applied).
+applied; retired-rule audit: cut-all-silence wording removed).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -53,8 +53,9 @@ end cold, name the specific activity — never the vague vibe.
 
 - No filler sign-offs, except "bye bye" (always keep it).
 - **Default:** keep pauses/sighs/dead air where they carry emotional truth.
-- **Explainer exception:** for pure talking-head/explainer content, cut ALL
-  dead air and streamline hard.
+- **Talking-heads / explainers:** cut dead air, ums, false starts and
+  re-said lines; keep a pause only when it carries the moment. The old
+  "cut ALL dead air" exception was retired 2026-11-11.
 - **The podcast follows its own playbook:** the long-form is cut like the
   daily vlogs (script cut tight, punch-ins, b-roll over heavy talking). The
   old "never streamline the podcast's silence" rule is superseded (retired, confirmed by her 2026-10-03).
@@ -286,8 +287,8 @@ recap/reset. Pick the matching type before editing. Every type:
 **Editorial frameworks that apply:** Real-Time Timestamp Cutdown (rapid
 micro-cuts stamped with real clock time, used for shorts); Challenge/
 Experiment Script Structure for arcs with a real finale (e.g. 90-Day HHH
-Run milestones); talking-head explainer exception (cut all dead silence
-for pure explainer segments).
+Run milestones); talking-heads: cut dead air, keep a pause only when it
+carries the moment (the cut-all-silence exception is retired).
 
 **Fonts:** **Advercase** = thumbnail headline font (the only thumbnail
 font — do not substitute). **Editor's Note** = secondary/supporting

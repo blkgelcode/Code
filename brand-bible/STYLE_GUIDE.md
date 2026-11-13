@@ -21,7 +21,7 @@ cold, name the specific activity — never the vague vibe.**
 |---|---|
 | Sign-off | No filler sign-offs — except "bye bye," which always stays. |
 | Silence — default | **Documentarian rule:** keep pauses, sighs, dead air where they carry emotional truth. |
-| Silence — explainer exception | For pure talking-head/explainer content, cut ALL dead air and streamline hard — a deliberate departure from the documentarian rule, "the best beat of talking videos." |
+| Silence — talking-heads / explainers | Cut dead air, ums, false starts and re-said lines; keep a pause only when it carries the moment. The older "cut ALL dead air and streamline hard" exception was retired 2026-11-11 (confirmed in her Nov 13 checklist). |
 | Silence — podcast (I Wish Somebody Had Told Me) | **Superseded 2026-10-03 (retired, confirmed by her 2026-10-03):** the show's playbook cuts the long-form like the daily vlogs (script cut tight, punch-ins, b-roll over heavy talking). It was previously fully exempt from the explainer exception. See `brands/uglyinbetween.md` and her Show Hub doc. |
 | Flub-take marker | A "lululu" sound on camera (may transcribe as "la, la, la") = cut that take. |
 | Montage rule | Every clip in a montage must move the story forward — cut any shot that just sits on a state already shown. |

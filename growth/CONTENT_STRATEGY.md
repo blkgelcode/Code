@@ -59,7 +59,7 @@ copy/paste of the same asset everywhere.
 ```
 ONE LONG-FORM VIDEO
  ├─ YouTube video (full)
- ├─ YouTube Shorts (1–3 cutdowns)
+ ├─ YouTube Short (one per long-form, opens mid-action; no automatic Short per daily)
  ├─ TikTok (native hook/pacing, not a Shorts re-upload)
  ├─ Instagram Reel
  ├─ Instagram Carousel (key points as slides)

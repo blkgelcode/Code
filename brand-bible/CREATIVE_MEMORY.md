@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-13 | Her ask: "Recheck old rules no longer are active and not being used" (retired-rule audit) | Every active file (agents, brand bible, growth, Bin code, skills) grepped for the eleven retired rules and names. Five live leftovers fixed: the SEO guide still called the Pin Board CTA "locked"; the style guide and the agent prompt (two places) still carried the "cut ALL dead air" explainer exception; the content strategy's distribution tree still said "1–3 cutdowns" per long-form. Three history entries in this file annotated as resolved so they can't be read as live. Dashboard records checked: the two planned scripts that mention the Pin Board both say to leave it out; 49 planned records (d42–d90) still carry "Day N of 90" as a placeholder title, left as-is pending her call. Verbatim `source/` docs untouched by design. |
 | 2026-11-13 | Chat instruction on the tret night 1 preview: "Don't blur or crop show product names" | **Rule change.** The "skincare: no product labels" house rule from her Nov 13 checklist is retired; product names are shown in skincare edits, never blurred or cropped out. Applied to `../agents/EDITOR_CHECKLIST.md` §5, `brands/blkgrlco.md`, `../agents/EDITOR_AGENT_PROMPT.md` and the Retired table. The preview was rebuilt without blurs. |
 | 2026-11-13 | `source/blkgrlco-claude-code-platform-packaging-prompt.md` (her copy-ready Claude Code Platform Packaging Prompt) | Kept as `../agents/PLATFORM_PACKAGING_PROMPT.md`, the standing instruction for packaging tasks; linked from the checklist's §7. Adds inspect-first steps, pickup lines as suggestions, crop checks, one package per platform and a fixed deliverable. |
 | 2026-11-13 | `source/blkgrlco-platform-packaging-checklist.md` (her Platform Packaging Checklist, her own words) | Replaces the guide's copy-ready block as §7 of `../agents/EDITOR_CHECKLIST.md`; the "return for each platform" list in `../growth/SEO_GUIDE.md` updated to hers (adds on-screen text and the story promise). |
@@ -250,16 +251,19 @@ chat session from her Nov 11 reset and the retention video. Adopted as
 here (LUT then reframe, punch-ins on real reactions, honest result gets
 its time, her sign-off). New rules written down for the first time: no
 employer or job named or shown; phone on screen only when essential;
-skincare has no product labels and no SFX; YouTube original stickers
+skincare has no product labels (retired the same day: product names are
+shown, see the Retired table) and no SFX; YouTube original stickers
 only, TikTok/IG stickers from her cue list; Poppins for @blkgrlco only;
 three thumbnails and three titles per long-form; 3:00 PM CT posting in
 numerical order; the edit list goes to her before any render; one
 low-res preview judged on curiosity, cut, clarity, connection.
 
-**Reported replaced on Nov 11, pending her confirmation.** The chat told
-her it left these out and asked "tell me if any should stay." She hasn't
-answered, so they stay locked in the brand file with an annotation, and
-the editor asks before relying on either version:
+**Reported replaced on Nov 11, pending her confirmation.** *(Resolved: all
+five confirmed retired by her Nov 13 checklist; kept here as history.)*
+The chat told her it left these out and asked "tell me if any should
+stay." At the time she hadn't answered, so they stayed locked in the
+brand file with an annotation, and the editor asked before relying on
+either version:
 
 1. The "Day N of 90" **title** format (the Nov 11 plan still uses "Day
    N/90" as a small context label). Resolves the 11-11 flag #5 if
@@ -319,7 +323,8 @@ BRAND_BIBLE §10, not silently resolved):**
    captions and occasional labels. These are two different edits. Which
    one the HHH dailies use going forward, or whether the grid is for a
    different video type, is her call.
-3. **CTA.** Locked for the 90-Day HHH Run: "make your own Pin Board." The
+3. **CTA.** *(Resolved 2026-11-11, confirmed 2026-11-13: no forced CTA.)*
+   Was locked for the 90-Day HHH Run as "make your own Pin Board." The
    plan ends each type with an optional audience question ("What's the
    last thing you do before bed?"). Not resolved whether the question
    replaces, precedes, or alternates with the locked CTA.

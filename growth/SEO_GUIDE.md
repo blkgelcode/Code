@@ -150,8 +150,9 @@ post proves suppression.
 - Core terms: hot healthy happy, glow up, confidence, beauty, fitness,
   nutrition, self-improvement, accountability.
 - Series: Weekly Vlogs, 90-Day HHH Run, "Who Is She?"
-- **Locked CTA (90-Day HHH Run):** "make your own Pin Board" — not older
-  variants like "comment your own rule."
+- **CTA (90-Day HHH Run):** none forced. "make your own Pin Board" was
+  retired 2026-11-11 (and "comment your own rule" before it); an optional
+  audience question may close a daily.
 - Locked opener style: declarative present-tense ("I'm hot... so I need to
   beautymaxx").
 - Hashtag tiers: broad #glowup · niche #90dayplan · brand #blkgrlco,

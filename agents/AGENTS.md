@@ -78,8 +78,9 @@ guessing.
 
 **BLKGRLCO-specific:** a transcript take marked "lululu"/"la la la" is a flub
 marker — cut that take. Silence/dead-air handling is project-dependent (see
-`brand-bible/STYLE_GUIDE.md`) — talking-head/daily-vlog content gets all
-dead air cut, the podcast follows its own playbook (script cut tight; see its Show Hub doc). Every cut lands on a body
+`brand-bible/STYLE_GUIDE.md`) — talking-head/daily-vlog content gets dead
+air cut but keeps a pause that carries the moment (cut-all-silence retired
+2026-11-11), the podcast follows its own playbook (script cut tight; see its Show Hub doc). Every cut lands on a body
 movement, never a camera reposition.
 
 Learns from examples into `brand-bible/STYLE_GUIDE.md` (editing section):
