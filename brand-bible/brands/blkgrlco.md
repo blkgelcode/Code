@@ -50,7 +50,7 @@ silently merged into one strategy.
   days."*
 - Reference standard: **"Day1of90"** — later days match its cut/pacing.
 - Locked CTA: **"make your own Pin Board"** — do not use older variants
-  like "comment your own rule."
+  like "comment your own rule." *(Reported replaced on 2026-11-11 by her editor checklist; pending her confirmation, see `../CREATIVE_MEMORY.md` 2026-11-13.)*
 - Locked opener style: declarative present-tense ("I'm hot... so I need to
   beautymaxx") — echo where it fits naturally, don't force into every line.
 
@@ -70,7 +70,7 @@ silently merged into one strategy.
 - Check the head of every clip before cutting — she often starts talking
   1–2s in; cutting from 0:00 buries the first line in silence.
 - Cut all dead air, ums, false starts, repeated/re-said phrases (keep one
-  clean instance).
+  clean instance). *(Reported replaced on 2026-11-11 by her editor checklist; pending her confirmation, see `../CREATIVE_MEMORY.md` 2026-11-13.)*
 - Every cut lands on a body movement, never on her repositioning the
   camera.
 - Show a routine's real steps in order (opening the bottle → pouring →
@@ -81,7 +81,7 @@ silently merged into one strategy.
 - Label card on every scene change: Arial Rounded Bold ~170pt,
   RGB(168,177,24), lowercase, centered on a 1920x1080 transparent canvas →
   `assets/cards/l_<name>.png`.
-- Always deliver a Shorts cut under 3:00 alongside the master.
+- Always deliver a Shorts cut under 3:00 alongside the master. *(Reported replaced on 2026-11-11 by her editor checklist; pending her confirmation, see `../CREATIVE_MEMORY.md` 2026-11-13.)*
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
 
@@ -147,6 +147,19 @@ every video to 14 seconds.
 **How Claude Code applies it:** the editing procedure is in
 `../../agents/PRODUCTION_WORKFLOW.md` → "Editing an HHH daily". The
 two-week evaluation is in `../../growth/ANALYTICS_SYSTEM.md`.
+
+## Editor checklist (received 2026-11-13)
+
+Her pasteable checklist for Claude Code as editor:
+`../../agents/EDITOR_CHECKLIST.md` (verbatim source:
+`../source/blkgrlco-editor-checklist-2026-11-13.md`). Run it on every
+@blkgrlco edit. New house rules it adds: no employer or job named or
+shown; phone on screen only when essential; skincare gets no product
+labels and no sound effects; YouTube uses original stickers only and
+TikTok/IG stickers come from her cue list; Poppins for @blkgrlco only
+(role unstated, see the checklist's open questions); every long-form
+ships with three thumbnails and three titles; posts go out 3:00 PM CT in
+numerical order; she signs off.
 
 ## Technical Specs (this channel's daily/vlog footage)
 - Camera: DJI Osmo Pocket 3, D-Log M → apply "DJI OSMO Pocket 3 D-Log M to

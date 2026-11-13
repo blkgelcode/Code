@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-11.
+2026-11-13.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -198,6 +198,16 @@ used consistently.
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
 
+**Editor checklist (2026-11-13):** run `agents/EDITOR_CHECKLIST.md`
+top to bottom on every @blkgrlco edit: one-line story, hook in the first
+5 seconds matching the title, edit list with a reason per clip sent to
+her before any render, one low-res preview judged on curiosity / cut /
+clarity / connection, her sign-off. House rules: no employer or job named
+or shown; phone on screen only when essential; skincare has no product
+labels and no SFX; YouTube original stickers only, TikTok/IG stickers
+from her cue list; Poppins for @blkgrlco only; three thumbnails and
+three titles per long-form; 3:00 PM CT, numerical order.
+
 **90-Day HHH Run dailies — story types (her plan, 2026-11-11):** one
 week = Skincare night A (the routine story) · Skincare night B (the
 personal check-in) · Workout A (the goal and attempt) · Workout B (the
@@ -372,6 +382,12 @@ Don't treat any of the following as a rule; ask or flag instead:
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
   actual licensed sound choices are not yet populated, except the
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
+- **Reported replaced on Nov 11, unconfirmed by her:** the "Day N of 90"
+  title format, the automatic Shorts cut per video, the forced Pin Board
+  CTA, cutting all silence, and the 5-line story-map approval step. Ask
+  before relying on either the old or the new version.
+- **Poppins for @blkgrlco only**: role unstated next to the locked fonts
+  above. Ask.
 - **Where the HHH story-type plan (2026-11-11) meets older locked
   @blkgrlco rules, ask rather than pick:** the "good morning" opener vs.
   the plan's situation-first opener (likely: "good morning" for

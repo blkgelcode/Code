@@ -78,6 +78,8 @@ Two things the procedure refers to are not in this repo (flagged in
 
 The Daily Vlog Editing Standard (`../brand-bible/brands/blkgrlco.md`) and
 the pre-flight check in step 12 still apply to every HHH daily.
+Run `EDITOR_CHECKLIST.md` (her 2026-11-13 checklist) on every @blkgrlco
+edit: edit list to her before any render, one low-res preview, her sign-off.
 
 ## Human approval system
 

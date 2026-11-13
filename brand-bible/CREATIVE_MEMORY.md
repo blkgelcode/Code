@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-13 | `source/blkgrlco-editor-checklist-2026-11-13.md` (pasteable editor checklist for Claude Code, written in a chat session from her Nov 11 reset, pasted by her without comment) | Adopted as `../agents/EDITOR_CHECKLIST.md`; house rules merged into `brands/blkgrlco.md` and the editor prompt. **Five locked rules it reports replaced on Nov 11 are logged as pending her confirmation, not retired** (see below). |
 | 2026-11-11 | `source/blkgrlco-hhh-weekly-edit-breakdown.md` (BLKGRLCO: HHH Weekly Edit Breakdown, her editorial plan addressed to Claude Code) | Merged as approved story-type guidance for the 90-Day HHH Run dailies into `brands/blkgrlco.md`, `../agents/PRODUCTION_WORKFLOW.md` (editing procedure), `../growth/ANALYTICS_SYSTEM.md` (two-week test) and `../agents/EDITOR_AGENT_PROMPT.md`. **Six conflicts/gaps with already-locked rules flagged below for her decision, not resolved.** |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
 
@@ -98,6 +99,46 @@ newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
 edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
+
+## Editor checklist received (2026-11-13)
+
+She pasted a checklist "for Claude Code as your editor," written in a
+chat session from her Nov 11 reset and the retention video. Adopted as
+`../agents/EDITOR_CHECKLIST.md`. Its "(kept)" items match rules already
+here (LUT then reframe, punch-ins on real reactions, honest result gets
+its time, her sign-off). New rules written down for the first time: no
+employer or job named or shown; phone on screen only when essential;
+skincare has no product labels and no SFX; YouTube original stickers
+only, TikTok/IG stickers from her cue list; Poppins for @blkgrlco only;
+three thumbnails and three titles per long-form; 3:00 PM CT posting in
+numerical order; the edit list goes to her before any render; one
+low-res preview judged on curiosity, cut, clarity, connection.
+
+**Reported replaced on Nov 11, pending her confirmation.** The chat told
+her it left these out and asked "tell me if any should stay." She hasn't
+answered, so they stay locked in the brand file with an annotation, and
+the editor asks before relying on either version:
+
+1. The "Day N of 90" **title** format (the Nov 11 plan still uses "Day
+   N/90" as a small context label). Resolves the 11-11 flag #5 if
+   confirmed. The Bin's Hook Machine still checks "day N of 90 kept?";
+   change that once she confirms.
+2. The automatic short-form cut per video ("always deliver a Shorts cut
+   under 3:00").
+3. The forced "make your own Pin Board" CTA. Resolves the 11-11 flag #3
+   if confirmed.
+4. Cutting all silence (the daily-vlog "cut all dead air" rule and the
+   explainer exception for @blkgrlco). If confirmed, the cross-brand
+   documentarian default applies instead.
+5. The 5-line story-map approval step (not written in this repo; the
+   dashboard's Story map stage).
+
+**New open questions:** which role Poppins takes on @blkgrlco next to
+the locked Advercase / Editor's Note / Editor's Hand; whether "no sound
+effects" on skincare overrides "no graphic should be silent" (read as
+yes, for skincare only); where her sticker cue list lives. The chat's
+closing line about a "new code editor" possibly meaning a different tool
+is its question to her, unanswered here.
 
 ## HHH Weekly Edit Breakdown received (2026-11-11)
 
