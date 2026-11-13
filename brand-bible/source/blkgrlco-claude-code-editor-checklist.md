@@ -1,3 +1,17 @@
+<!--
+Source document, preserved verbatim. Her own revised Claude Code Editor
+Checklist, uploaded 2026-11-13 and revised the same day with a "Shoot
+day" section. Supersedes the chat-pasted draft
+(`blkgrlco-editor-checklist-2026-11-13.md`): it adds the simplify rule,
+exact-word pop-ups, shot variety, the punch-in hold, a dead-air rule,
+motion specs, the long-form → Short rule and the Dec 22 priority, and it
+states the Nov 11 retirements as fact. Ingested 2026-11-13. Merged into
+agents/EDITOR_CHECKLIST.md, agents/PRODUCTION_WORKFLOW.md (shoot-day
+coverage), brand-bible/brands/blkgrlco.md, agents/EDITOR_AGENT_PROMPT.md,
+CREATIVE_MEMORY.md (Retired table) and the Bin's Hook Machine check. If
+this file is ever updated, re-run the merge.
+-->
+
 # Claude Code Editor Checklist
 
 One checklist for every @blkgrlco edit. Built from the Nov 11 workflow reset plus retention, motion and shot-variety tips.
