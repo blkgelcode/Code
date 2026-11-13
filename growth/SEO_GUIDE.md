@@ -134,9 +134,12 @@ TikTok, cover themes for Instagram), conditional on the footage:
 | Therapy day | "Making Time for Myself During This Challenge" | "Today's goal is keeping an appointment I made for myself." | "MAKING TIME FOR ME" |
 | Sunday recap/reset | "My Sunday Reset: What I'm Keeping and Changing" | "Before another week starts, here's what I'm keeping and changing." | "ONE WIN. ONE ADJUSTMENT." |
 
-**For each requested platform, return:** title/caption, cover text or
-frame concept, opening line/text, intended audience, one test
-hypothesis, and the metrics to review. Generate only the platforms
+**For each requested platform, return** (her checklist, 2026-11-13):
+title or caption; cover text, thumbnail concept or selected frame;
+opening line and on-screen text; intended viewer and story promise; one
+test hypothesis and the metrics to review. Never publish, schedule or
+overwrite originals without authorization. The checklist itself is §7 of
+`../agents/EDITOR_CHECKLIST.md`. Generate only the platforms
 asked for. Avoid unsupported algorithm weights, universal runtime or CTR
 targets, hashtag quotas, compulsory trends, and any claim that one weak
 post proves suppression.
