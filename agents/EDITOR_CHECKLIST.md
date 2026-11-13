@@ -82,8 +82,7 @@ or hook format.
   (thumbnail headline), Editor's Note (secondary thumbnail text) and
   Editor's Hand (handwritten captions). Which role Poppins takes is
   unstated.
-- **Skincare "no sound effects"** is read as: no SFX at all on skincare
-  nights, graphics included, overriding the cross-brand "no graphic
-  should be silent" rule for those edits only.
+- Settled 2026-11-13: **SFX are no requirement.** Sound effects are
+  optional on every @blkgrlco edit and banned on skincare nights.
 - **Her sticker cue list** and what "original stickers" means on YouTube
   are not in this repo yet.

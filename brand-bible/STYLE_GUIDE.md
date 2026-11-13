@@ -119,7 +119,10 @@ film-grain border.
 - Paper-tear sound specifically for a wipe transition.
 - Soft whoosh on fast slides, zooms, or panel reveals.
 - Mouse-click sound on any mock-UI interaction.
-- Rule of thumb: **no graphic or transition should be silent.**
+- Rule of thumb: no graphic or transition should be silent. **Downgraded
+  2026-11-13 (her words: "SFX are no requirement"): sound effects are
+  optional, never required.** Her editor checklist bans them outright on
+  @blkgrlco skincare nights.
 
 **Transitions:** paper-tear wipe (center-out); jump cut + punch zoom
 (110–120% snap on key phrase); smooth ease-in zoom toward cursor during
@@ -129,8 +132,8 @@ screen recordings; white flash/snap on screenshot or camera-switch moments.
 1920×1080 (or 1080×1920 vertical), export as transparent PNGs. Layer:
 bottom = main footage/background pattern; middle = cutout subject/screen
 recording; top = transparent graphic/text overlays. Pacing rule: a visual
-change roughly every 3–5 seconds. Every graphic entrance gets a matching
-low-volume SFX.
+change roughly every 3–5 seconds. A graphic entrance may get a matching
+low-volume SFX; it's optional, not required (2026-11-13).
 
 ### Element library (Pinterest reference, "creative elements," 2026-09-11)
 

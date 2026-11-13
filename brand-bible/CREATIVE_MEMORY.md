@@ -130,8 +130,10 @@ replaces the chat-pasted draft logged below. Adopted as
   replaced by "doesn't open on day N of 90", and its prompt tells Claude
   the day goes in an on-screen label, not the hook.
 
-Still open: Poppins' role on @blkgrlco; skincare "no sound effects" read
-as overriding "no graphic should be silent" for skincare only; her
+**Her correction, same day: "SFX are no requirement."** Applied: sound
+effects are optional on every @blkgrlco edit, banned on skincare nights;
+the STYLE_GUIDE's "no graphic or transition should be silent" rule is
+downgraded to optional. Still open: Poppins' role on @blkgrlco; her
 sticker cue list.
 
 ## Editor checklist received (2026-11-13)

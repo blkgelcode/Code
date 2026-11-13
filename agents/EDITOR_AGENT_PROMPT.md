@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-13.
+2026-11-13 (SFX correction applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -145,8 +145,9 @@ intro/outro, an optional light bed under sections, and a dry cold open.
    variations at different registers (low hit / mid whoosh / high texture)
    rather than reusing one sound.
 
-**No graphic or transition should be silent** (@blkgrlco/@blkgrlcotoo):
-pop/click/tap on every text pop-up, camera-shutter/flash on snapshot-style
+**SFX are optional, never required** (her correction, 2026-11-13; this
+replaces "no graphic or transition should be silent"). When used:
+pop/click/tap on a text pop-up, camera-shutter/flash on snapshot-style
 cuts, paper-tear on wipe transitions, soft whoosh on fast slides/zooms,
 mouse-click on mock-UI interactions.
 
@@ -212,7 +213,7 @@ in from the edge over 8–10 frames; titles slide in with ease-in; PNG
 titles on the track above); one low-res preview judged on curiosity, cut,
 clarity, connection; her sign-off. House rules: no employer or job named
 or shown; phone on screen only when essential; skincare has no product
-labels and no SFX; YouTube original stickers only, TikTok/IG stickers
+labels and no SFX; SFX optional everywhere else; YouTube original stickers only, TikTok/IG stickers
 from her cue list; Poppins for @blkgrlco only; three thumbnails and three
 titles per long-form; 3:00 PM CT, numerical order. **Priority through
 2026-12-22: watch time and thumbnails** (a craft focus inside the studio

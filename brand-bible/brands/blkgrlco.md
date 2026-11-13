@@ -167,7 +167,8 @@ move; motion specs for pop-ups and titles; the edit list goes to her
 before any render; one low-res preview judged on curiosity, cut, clarity
 and connection. House rules: no employer or job named or shown; phone on
 screen only when essential; skincare gets no product labels and no sound
-effects; YouTube original stickers only, TikTok/IG stickers from her cue
+effects (and SFX are optional, never required, on any @blkgrlco edit;
+confirmed 2026-11-13); YouTube original stickers only, TikTok/IG stickers from her cue
 list; Poppins for @blkgrlco only (role unstated, open question). Before
 posting: she signs off; three thumbnails and three titles per long-form;
 every long-form cut into a mid-action Short; 3:00 PM CT, numerical order.
