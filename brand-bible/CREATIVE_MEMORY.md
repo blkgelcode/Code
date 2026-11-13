@@ -130,6 +130,15 @@ replaces the chat-pasted draft logged below. Adopted as
   replaced by "doesn't open on day N of 90", and its prompt tells Claude
   the day goes in an on-screen label, not the hook.
 
+**Revision, same day: a "Shoot day (new)" section.** Coverage of at
+least 5 shot types per scene, 3 takes at different energy levels for
+mechanical moments, one real take (no redo) for reactions and the
+honest result, b-roll mixed with handheld talking-through-the-struggle
+shots, frames without her, in-frame movement on a tripod, and shrinking
+every "wouldn't it be cool" idea to what she can film alone. Source file
+updated verbatim; merged into the checklist, the workflow's shot-list
+section, the brand file and the editor prompt.
+
 **Her correction, same day: "SFX are no requirement."** Applied: sound
 effects are optional on every @blkgrlco edit, banned on skincare nights;
 the STYLE_GUIDE's "no graphic or transition should be silent" rule is

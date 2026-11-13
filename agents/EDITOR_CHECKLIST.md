@@ -3,8 +3,26 @@
 One checklist for every @blkgrlco edit. Her own version, received
 2026-11-13 (verbatim: `../brand-bible/source/blkgrlco-claude-code-editor-checklist.md`),
 built from the Nov 11 workflow reset plus retention, motion and
-shot-variety tips. Run it top to bottom. Story-type guidance per video
+shot-variety tips; revised the same day with a Shoot day section. Run it
+top to bottom. Story-type guidance per video
 lives in `../brand-bible/brands/blkgrlco.md` → HHH Weekly Edit Breakdown.
+
+## Shoot day (new)
+
+- [ ] Coverage: at least 5 shot types per scene: wide to establish,
+      medium for action and talking, close-up for emotion, an insert for
+      a specific detail, and one creative shot.
+- [ ] Mechanical moments (walking in, pouring, setting things down):
+      shoot at least 3 takes at different energy levels.
+- [ ] Reactions and the honest result: one real take, no redo.
+- [ ] Mix a few great b-roll shots with simple handheld shots of her
+      talking through the struggle, so the contrast holds attention.
+- [ ] Not every frame has her in it. Use objects and the environment, and
+      stay behind the camera sometimes.
+- [ ] On a tripod, move something in the frame (her body or an object)
+      instead of the camera.
+- [ ] Write down every "wouldn't it be cool" idea, then shrink it to what
+      she can film alone.
 
 ## 1. Before the build
 

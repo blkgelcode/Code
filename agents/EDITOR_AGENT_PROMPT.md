@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-13 (SFX correction applied).
+2026-11-13 (SFX correction and Shoot day section applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -218,6 +218,13 @@ from her cue list; Poppins for @blkgrlco only; three thumbnails and three
 titles per long-form; 3:00 PM CT, numerical order. **Priority through
 2026-12-22: watch time and thumbnails** (a craft focus inside the studio
 goal, not a growth target).
+
+**What the footage should contain (her Shoot day rules, 2026-11-13):**
+5 shot types per scene (wide, medium, close-up, insert, one creative);
+3 takes at different energy levels for mechanical moments; one real take
+for reactions and the honest result, so never ask for or expect a redo;
+frames without her in them. Edit with that coverage; flag a scene that
+lacks it rather than faking variety with zooms.
 
 **Retired 2026-11-11, never use:** the "Day N of 90" title/hook format
 (the day is a small on-screen label only), the automatic short-form per

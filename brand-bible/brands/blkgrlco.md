@@ -159,7 +159,12 @@ two-week evaluation is in `../../growth/ANALYTICS_SYSTEM.md`.
 
 `../../agents/EDITOR_CHECKLIST.md` (verbatim source:
 `../source/blkgrlco-claude-code-editor-checklist.md`). Run it on every
-@blkgrlco edit. What it adds to the standard above: simplify (remove
+@blkgrlco edit. Its Shoot day section (added the same day) sets the
+coverage she films for: 5 shot types per scene, 3 takes at different
+energy levels for mechanical moments, one real take for reactions and
+the honest result, frames without her in them, movement inside the
+frame on a tripod (summarized in `../../agents/PRODUCTION_WORKFLOW.md`).
+What it adds to the editing standard above: simplify (remove
 context the viewer doesn't need); pop-ups land on the exact word, never
 early; shot variety from real footage (wide, tight detail, low angle,
 reaction close-up); punch-ins hold on identical keyframes before the

@@ -126,6 +126,18 @@ Each scene: FILMED checkbox, reference photo, B-ROLL IDEAS, SCRIPT lines
 tagged by shot type. Shots needed for the thumbnail get decided at this
 stage too, alongside the shot list — not found/cropped after filming.
 
+**Shoot-day coverage (@blkgrlco, her checklist, 2026-11-13):** at least 5
+shot types per scene (wide to establish, medium for action and talking,
+close-up for emotion, an insert for a specific detail, one creative
+shot). Mechanical moments (walking in, pouring, setting things down) get
+at least 3 takes at different energy levels; reactions and the honest
+result get one real take, no redo. Mix a few great b-roll shots with
+simple handheld shots of her talking through the struggle. Not every
+frame has her in it: use objects and the environment, stay behind the
+camera sometimes. On a tripod, move something in the frame instead of
+the camera. Write down every "wouldn't it be cool" idea, then shrink it
+to what she can film alone. Full list: `EDITOR_CHECKLIST.md` → Shoot day.
+
 Pipeline: **Plan → Film → Edit → Upload → Reflect** (this maps onto the
 13-step pipeline above: Plan = steps 1–3 + visual/audio/color planning,
 Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
