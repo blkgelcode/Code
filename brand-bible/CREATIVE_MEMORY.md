@@ -104,6 +104,15 @@ edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
 
+## Poppins role confirmed (2026-11-13)
+
+Her answer: "Poppins is for captions and on-screen text only." Locked for
+@blkgrlco in `FONT_LIBRARY.md`, `brands/blkgrlco.md`, the checklist and
+the editor prompt. Two older rules overlap and are flagged, not changed:
+Editor's Hand's "handwritten captions/quotes" role is now read as
+handwritten quotes only, and the daily-vlog label card is still specified
+as Arial Rounded Bold. Whether that card moves to Poppins is her call.
+
 ## Platform Packaging Checklist (her words, 2026-11-13)
 
 Her own condensed version of the packaging guide's instructions, saved
@@ -373,7 +382,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Thumbnail font | Locked |
 |---|---|---|
-| @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Editor's Hand** (handwritten captions/quotes only) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
+| @blkgrlco | **Advercase** (thumbnail headline); **Editor's Note** (secondary/supporting thumbnail text — mirrors the @blkgrlcotoo split); **Poppins** (captions and on-screen text only, confirmed 2026-11-13); **Editor's Hand** (handwritten quotes only; captions role passed to Poppins 2026-11-13) | 2026-09-11, confirmed directly. Fully resolved — no open items on this brand's typography. |
 | @blkgrlcotoo | **TAN Memories** (thumbnail headline font) + **Perfectly Nineties** (secondary/accent), confirmed 2026-09-11 | Fully resolved — no open items on this brand's typography. |
 | @iwishsomeonetoldme | Garamond Italic (headlines) / Helvetica Neue Light (body); **thumbnail headline role superseded 2026-09-11 by Eighties Comeback** (stated directly as "for uglyinbetween thumbnails") | **Under review since the 2026-10-03 rename.** Previously: Garamond/Helvetica Neue pre-existing, locked. Eighties Comeback replaces the thumbnail-headline role specifically — flagged as a deliberate change to a previously locked font, not silently swapped. |
 

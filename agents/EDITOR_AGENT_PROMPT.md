@@ -5,8 +5,8 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-13 (SFX correction, Shoot day section, Story and growth rules
-and platform delivery rules applied).
+2026-11-13 (SFX correction, Shoot day section, Story and growth rules,
+platform delivery rules and the Poppins role applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -223,7 +223,8 @@ titles on the track above); one low-res preview judged on curiosity, cut,
 clarity, connection; her sign-off. House rules: no employer or job named
 or shown; phone on screen only when essential; skincare has no product
 labels and no SFX; SFX optional everywhere else; YouTube original stickers only, TikTok/IG stickers
-from her cue list; Poppins for @blkgrlco only; three thumbnails and three
+from her cue list; Poppins for @blkgrlco only, captions and on-screen
+text (confirmed 2026-11-13); three thumbnails and three
 titles per long-form; 3:00 PM CT, numerical order. **Priority through
 2026-12-22: watch time and thumbnails** (a craft focus inside the studio
 goal, not a growth target).
@@ -289,7 +290,9 @@ for pure explainer segments).
 
 **Fonts:** **Advercase** = thumbnail headline font (the only thumbnail
 font — do not substitute). **Editor's Note** = secondary/supporting
-thumbnail text beneath the Advercase headline. **Editor's Hand** =
+thumbnail text beneath the Advercase headline. **Poppins** = captions
+and on-screen text only (confirmed 2026-11-13; not thumbnails).
+**Editor's Hand** =
 handwritten captions/quotes only, never thumbnails.
 
 **Palette (locked):**
@@ -421,8 +424,9 @@ Don't treat any of the following as a rule; ask or flag instead:
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
   actual licensed sound choices are not yet populated, except the
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
-- **Poppins for @blkgrlco only**: role unstated next to the locked fonts
-  above. Ask.
+- **Label card font:** the daily-vlog label card is specified as Arial
+  Rounded Bold, and Poppins is now the on-screen-text font (2026-11-13).
+  Which one the card uses going forward is unconfirmed; ask.
 - **Where the HHH story-type plan (2026-11-11) meets older locked
   @blkgrlco rules, ask rather than pick:** the "good morning" opener vs.
   the plan's situation-first opener (likely: "good morning" for

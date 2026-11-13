@@ -84,7 +84,9 @@ silently merged into one strategy.
 - Routine/step segments hold 2.5–3.5s per shot.
 - Keep personality moments (brain freeze, complaining through a workout,
   reactions).
-- Label card on every scene change: Arial Rounded Bold ~170pt,
+- Label card on every scene change: Arial Rounded Bold ~170pt, *(Poppins
+  became the on-screen-text font on 2026-11-13; whether this card spec
+  moves to Poppins is flagged in `../FONT_LIBRARY.md`, not changed.)*
   RGB(168,177,24), lowercase, centered on a 1920x1080 transparent canvas →
   `assets/cards/l_<name>.png`.
 - Every **long-form** is cut into a Short that starts mid-action. The
@@ -193,7 +195,8 @@ and connection. House rules: no employer or job named or shown; phone on
 screen only when essential; skincare gets no product labels and no sound
 effects (and SFX are optional, never required, on any @blkgrlco edit;
 confirmed 2026-11-13); YouTube original stickers only, TikTok/IG stickers from her cue
-list; Poppins for @blkgrlco only (role unstated, open question). Before
+list; Poppins for @blkgrlco only, **captions and on-screen text**
+(confirmed 2026-11-13). Before
 posting: she signs off; three thumbnails and three titles per long-form;
 every long-form cut into a mid-action Short; 3:00 PM CT, numerical order.
 
@@ -265,8 +268,9 @@ palette existed.
 - Typography: modern serif for titles/branding, clean sans-serif for body.
 - Aesthetic: clean, minimalistic, contemporary, soft organic shapes.
 - Licensed fonts already embedded in the toolkit: **Advercase** (bold
-  thumbnail headline font), **Editor's Hand** (handwritten
-  captions/quotes, Regular weight only), **Editor's Note** (clean
+  thumbnail headline font), **Poppins** (captions and on-screen text
+  only, confirmed 2026-11-13; Google Fonts), **Editor's Hand** (handwritten
+  quotes, Regular weight only; its captions role passed to Poppins), **Editor's Note** (clean
   editorial serif — **secondary/supporting thumbnail text**, beneath
   Advercase's headline; confirmed 2026-09-11, mirrors the TAN
   Memories/Perfectly Nineties primary+secondary split on @blkgrlcotoo).

@@ -96,7 +96,8 @@ Verbatim source: `../brand-bible/source/blkgrlco-story-and-growth-checklist.md`.
 - [ ] Skincare: no product labels, no sound effects.
 - [ ] YouTube uses original stickers only. TikTok/IG stickers come from
       her cue list.
-- [ ] Poppins for @blkgrlco only.
+- [ ] Poppins for @blkgrlco only: captions and on-screen text, nothing
+      else (confirmed 2026-11-13).
 
 ## 6. Before posting (watch time and thumbnails are the priority through Dec 22)
 
@@ -182,10 +183,10 @@ or hook format.
 
 ## Still open (ask, don't guess)
 
-- **Poppins for @blkgrlco only.** The locked fonts are Advercase
-  (thumbnail headline), Editor's Note (secondary thumbnail text) and
-  Editor's Hand (handwritten captions). Which role Poppins takes is
-  unstated.
+- Settled 2026-11-13: **Poppins is captions and on-screen text only** on
+  @blkgrlco. Thumbnails stay Advercase + Editor's Note; Editor's Hand is
+  handwritten quotes. Whether the Arial Rounded label card moves to
+  Poppins is flagged in `../brand-bible/FONT_LIBRARY.md`.
 - Settled 2026-11-13: **SFX are no requirement.** Sound effects are
   optional on every @blkgrlco edit and banned on skincare nights.
 - **Her sticker cue list** and what "original stickers" means on YouTube

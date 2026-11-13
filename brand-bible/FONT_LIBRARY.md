@@ -10,7 +10,8 @@ closed set — more may follow.
 | Font | Weights | Assigned to | Use |
 |---|---|---|---|
 | **Advercase** | Regular, Bold, Italic, BoldItalic | @blkgrlco | **Thumbnail headline font**, per `brands/blkgrlco.md`. |
-| **Editor's Hand** | Regular only | @blkgrlco | Handwritten captions/quotes only — not thumbnails. |
+| **Poppins** | Google Fonts (free, not in `brands/assets/fonts/`) | @blkgrlco only | **Captions and on-screen text only**, confirmed 2026-11-13. Not thumbnails. Also the BLKGRLCO Bin app's UI font. |
+| **Editor's Hand** | Regular only | @blkgrlco | Handwritten quotes only — not thumbnails. Its earlier "captions" role passed to Poppins on 2026-11-13; see the open item below. |
 | **Editor's Note** | Regular, Italic | @blkgrlco | **Secondary/supporting thumbnail text** beneath Advercase's headline, confirmed 2026-09-11 — mirrors the TAN Memories/Perfectly Nineties split on @blkgrlcotoo. |
 | **TAN Memories** | Regular, Italic | @blkgrlcotoo | **Thumbnail headline font** (Advercase's role for @blkgrlco), confirmed 2026-09-11. |
 | **Perfectly Nineties** | Regular, Italic | @blkgrlcotoo | Secondary/accent use, confirmed 2026-09-11. |
@@ -22,6 +23,12 @@ closed set — more may follow.
 |---|---|---|
 | **Seriously Nostalgic** | Nostalgic serif (large family) | Regular + Condensed/SemiCond/ExtraCond/UltraCond, each with a "Fn" (fine?) variant and italics — most versatile of the three |
 | **Hello Scratchy** | Scratchy hand-drawn doodle/texture font, 3-layer build (Solid/Outlines/Doodles — stack for a hand-drawn sticker effect) | Solid, Outlines, Doodles |
+
+**Open item (2026-11-13):** Poppins is now captions and on-screen text
+on @blkgrlco. Two older rules overlap it and are flagged, not changed:
+Editor's Hand was "handwritten captions/quotes" (read now as handwritten
+quotes only), and the daily-vlog label card is specified as Arial Rounded
+Bold. Whether the label card moves to Poppins is her call.
 
 **Open item:** @blkgrlcotoo now has two fonts (TAN Memories, Perfectly
 Nineties) but no stated division of labor between them — worth confirming
