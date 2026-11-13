@@ -62,6 +62,33 @@ three that govern every analytics read here:
   complicated edits without a clear purpose. A recommendation that adds
   work needs to say what it's for.
 
+## What to measure per platform (her Platform Packaging Guide, 2026-11-13)
+
+Compare similar topics and runtimes on the same platform at the same
+post age. Record an unavailable metric as unavailable. One winner is a
+clue to repeat, not proof of causation, and cross-platform comparison is
+not a controlled A/B test.
+
+- **YouTube long-form:** impressions and CTR by traffic source, then
+  opening retention, watch time, and whether the delivered story matched
+  the package. Appeal, engagement and satisfaction are separate
+  dimensions; never optimize clicks while ignoring disappointed viewers.
+- **YouTube Shorts:** chose-to-view vs. swiped away, average view
+  duration, average percentage viewed, meaningful audience response.
+- **TikTok:** watch time, retention/completion, shares, follows; search
+  performance separately in Creator Search Insights (7-day, 14-day and
+  custom ranges; the "searches by followers" filter needs 1,000+
+  followers).
+- **Instagram:** watch time, skip/retention, shares/saves, non-follower
+  distribution, attributed follows. Views include replays and average
+  watch time is watch time ÷ initial views, so neither is unique people
+  or a completion rate.
+
+Suggested first test: two weeks of the existing weekly plan with a
+seven-day checkpoint per post, core edit held stable, one packaging
+element tested per platform. Eligibility is separate: Instagram's
+Account Status shows a recommendation restriction; low views alone don't.
+
 ## HHH weekly edit test (@blkgrlco, from 2026-11-11)
 
 Her HHH Weekly Edit Breakdown (verbatim in

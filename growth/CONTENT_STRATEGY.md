@@ -28,9 +28,16 @@ research — not literal platform-algorithm access.
 - Always A/B test title and cover — never ship a first draft.
 - Specificity beats vibe — a number or named situation over a general
   topic.
-- Series numbering compounds retention.
+- Series numbering compounds retention, but on @blkgrlco's HHH Run the
+  day number is **secondary to the specific story** (2026-11-13): the
+  episode must make sense to someone meeting her for the first time.
 - Retention danger zone is around the 75% mark — that's where a
   texture/cutaway beat belongs.
+- **One core story, packaged per surface** (her Platform Packaging Guide,
+  2026-11-13, in `SEO_GUIDE.md`): reuse the core edit and change only
+  what has a clear platform-specific purpose. Keep the core edit stable
+  and test one packaging element per platform at a time, such as the
+  opening angle, not duration, topic, music and captions together.
 
 Per-brand hook patterns (Idea Bank):
 - **@blkgrlco:** Identity Call, Contrarian Strike, Open Loop, Confession,

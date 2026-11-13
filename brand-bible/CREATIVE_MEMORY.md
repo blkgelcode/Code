@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-13 | `source/blkgrlco-platform-packaging-guide.md` (BLKGRLCO: Platform Packaging Guide, research checked 2026-11-12) | Merged into `../growth/SEO_GUIDE.md` (new Platform packaging section; the "Day 1 of 90" title example and the "locked CTA" description line updated to match the Nov 11 retirements; hashtag tiers made a menu, not a quota), `../growth/CONTENT_STRATEGY.md`, `../growth/ANALYTICS_SYSTEM.md`, `../agents/EDITOR_CHECKLIST.md` §7, `brands/blkgrlco.md`, `STYLE_GUIDE.md` (watermark rule), editor prompt. One framing note flagged below. |
 | 2026-11-13 | `source/blkgrlco-story-and-growth-checklist.md` (her Story and Growth Checklist, her own words) | Adopted as section 0 of `../agents/EDITOR_CHECKLIST.md`; analytics rules into `../growth/ANALYTICS_SYSTEM.md`; summarized in `brands/blkgrlco.md` and the editor prompt. |
 | 2026-11-13 | `source/blkgrlco-claude-code-editor-checklist.md` (her own revised Claude Code Editor Checklist, uploaded) | **Checklist of record**, supersedes the pasted draft below. Adopted as `../agents/EDITOR_CHECKLIST.md`. Confirms the five Nov 11 retirements (moved to the Retired table), replaces cut-all-silence with "cut dead air, keep a pause only when it carries the moment", adds motion specs, shot variety, the long-form → Short rule and the Dec 22 priority. The Bin's Hook Machine no longer requires "day N of 90" in a hook. |
 | 2026-11-13 | `source/blkgrlco-editor-checklist-2026-11-13.md` (pasteable editor checklist for Claude Code, written in a chat session from her Nov 11 reset, pasted by her without comment) | Adopted as `../agents/EDITOR_CHECKLIST.md`; house rules merged into `brands/blkgrlco.md` and the editor prompt. **Five locked rules it reports replaced on Nov 11 are logged as pending her confirmation, not retired** (see below). |
@@ -101,6 +102,33 @@ newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
 edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
+
+## Platform Packaging Guide received (2026-11-13)
+
+Companion to the Nov 11 edit breakdown: one truthful core story,
+presented per surface (YouTube Home/Search, Shorts, TikTok For You and
+Search, Instagram Reels/Explore), with what each platform actually
+discloses about ranking and a per-episode table of proposed titles,
+opening lines and cover themes. Merged as described in the source table
+above. Three older lines updated to match it and the Nov 11 retirements:
+the SEO guide's "Day 1 of 90" title example, its "include the locked CTA"
+description rule, and the content strategy's "series numbering compounds
+retention" (now: the day number is secondary to the specific story).
+Hashtag tiers are a menu, not a quota.
+
+**Framing note, not a change:** the guide says to lead with a specific
+situation "not an assumed demographic or an unverified audience
+profile" and offers a working hypothesis (people building realistic
+self-care habits in an ordinary life). The brand's stated target
+audience in `brands/blkgrlco.md` (Black women, 25–40) stays as the
+brand identity; the guide's point is how a single episode opens, not
+who the channel is for. Flagged so the two aren't read as a conflict.
+
+**Evidence limits she stated:** no inspection of private analytics,
+keyword demand or recommendation eligibility; some cited platform pages
+are undated; no universal runtime, view threshold or impression count is
+established; TikTok "five-point" formulas and numerical Instagram
+ranking hierarchies are unverified.
 
 ## Story and Growth Checklist (her words, 2026-11-13)
 

@@ -5,8 +5,8 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-13 (SFX correction, Shoot day section and Story and growth
-rules applied).
+2026-11-13 (SFX correction, Shoot day section, Story and growth rules
+and platform delivery rules applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -234,6 +234,13 @@ goal, not a growth target).
 for reactions and the honest result, so never ask for or expect a redo;
 frames without her in them. Edit with that coverage; flag a scene that
 lacks it rather than faking variety with zooms.
+
+**Delivery per platform (her packaging guide, 2026-11-13):** a clean
+master per platform with no other platform's visible watermark; on
+Shorts the first frame is the action or her face starting the story,
+never a static cover inserted as an intro; the day number is a small
+label, secondary to the specific story. Titles, captions and covers are
+in `growth/SEO_GUIDE.md` → Platform packaging.
 
 **Retired 2026-11-11, never use:** the "Day N of 90" title/hook format
 (the day is a small on-screen label only), the automatic short-form per

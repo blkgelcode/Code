@@ -106,6 +106,41 @@ Verbatim source: `../brand-bible/source/blkgrlco-story-and-growth-checklist.md`.
 - [ ] Every long-form is cut into a Short that starts mid-action.
 - [ ] Posted at 3:00 PM CT, in numerical order.
 
+## 7. Platform packaging (her guide, 2026-11-13)
+
+Verbatim source: `../brand-bible/source/blkgrlco-platform-packaging-guide.md`.
+Per-platform detail and the per-episode table: `../growth/SEO_GUIDE.md`.
+
+- [ ] Keep one truthful core story connected to her 90-day HHH challenge.
+- [ ] Identify the intended viewer, the real promise, and the discovery
+      surface.
+- [ ] YouTube long-form: an accurate title plus a complementary thumbnail
+      concept, and an opening that delivers that promise. Do not generate
+      long-form automatically.
+- [ ] YouTube Shorts: prioritize the opening frame/line, a clear title and
+      a representative thumbnail frame. No static cover as a mandatory
+      intro.
+- [ ] TikTok: a relatable or search-intent opening, natural topic caption,
+      short cover label. Mark search phrases unvalidated unless real data
+      supports them.
+- [ ] Instagram Reels: clear opening, readable cover, caption combining
+      the topic with personal meaning. Genuine share/save value, not
+      engagement bait.
+- [ ] Keep day numbering secondary to the specific story. Verify every
+      day number.
+- [ ] Clean masters; preserve personality, privacy, captions and truthful
+      continuity. No other platform's visible watermark.
+- [ ] Avoid unsupported algorithm weights, universal runtime/CTR targets,
+      hashtag quotas, compulsory trends, and claims that one weak post
+      proves suppression.
+- [ ] Reuse the core edit; change only what has a clear platform-specific
+      purpose.
+- [ ] For each requested platform, return: title/caption, cover text or
+      frame concept, opening line/text, intended audience, one test
+      hypothesis, and metrics to review.
+- [ ] Generate only the requested platform packages. Do not publish or
+      claim improved retention without actual post-publication results.
+
 ## Retired on Nov 11
 
 "Day N of 90" title format, auto short-form per video, forced Pin Board

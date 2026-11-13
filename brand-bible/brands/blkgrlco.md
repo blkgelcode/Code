@@ -151,6 +151,12 @@ sharp early retention decline (details and caveats in
 remove repeated information while keeping honest reactions. Do not cut
 every video to 14 seconds.
 
+**Packaging per platform:** her Platform Packaging Guide (2026-11-13,
+verbatim at `../source/blkgrlco-platform-packaging-guide.md`) is merged
+into `../../growth/SEO_GUIDE.md`: one core story, presented per surface,
+with per-episode title / opening-line / cover starting points for
+YouTube, TikTok and Instagram. Day numbering is secondary to the story.
+
 **How Claude Code applies it:** the editing procedure is in
 `../../agents/PRODUCTION_WORKFLOW.md` → "Editing an HHH daily". The
 two-week evaluation is in `../../growth/ANALYTICS_SYSTEM.md`.
