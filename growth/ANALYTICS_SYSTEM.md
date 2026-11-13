@@ -47,6 +47,21 @@ Rules:
 - One variable at a time in a controlled experiment, unless there's a
   stated strategic reason to change more than one.
 
+## Her story and growth rules (2026-11-13)
+
+From her Story and Growth Checklist (verbatim:
+`../brand-bible/source/blkgrlco-story-and-growth-checklist.md`), the
+three that govern every analytics read here:
+
+- Use actual audience feedback to suggest **one specific experiment at
+  a time**. Distinguish observations from assumptions.
+- **Do not overhaul the strategy after one low-performing post**, and
+  never treat low views as a judgment of her personality. Look for
+  patterns across comparable posts.
+- Keep production manageable: no extra posts, footage requirements or
+  complicated edits without a clear purpose. A recommendation that adds
+  work needs to say what it's for.
+
 ## HHH weekly edit test (@blkgrlco, from 2026-11-11)
 
 Her HHH Weekly Edit Breakdown (verbatim in

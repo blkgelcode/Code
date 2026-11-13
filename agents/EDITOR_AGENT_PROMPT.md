@@ -5,7 +5,8 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-11-13 (SFX correction and Shoot day section applied).
+2026-11-13 (SFX correction, Shoot day section and Story and growth
+rules applied).
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -200,6 +201,14 @@ used consistently.
   automatic short-form per daily.
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
+
+**Her story and growth rules (2026-11-13), before any edit choice:**
+every episode connected to the 90-day Hot, Happy, Healthy challenge; one
+reason a new viewer would care; repeated activities vary the story angle,
+never her identity or routine; never invent drama, dialogue or results;
+clear opening, understandable progression, her personality and an honest
+payoff before any effects; keep production manageable (no extra posts,
+footage requirements or complicated edits without a clear purpose).
 
 **Editor checklist (her version, 2026-11-13):** run
 `agents/EDITOR_CHECKLIST.md` top to bottom on every @blkgrlco edit: one

@@ -155,6 +155,19 @@ every video to 14 seconds.
 `../../agents/PRODUCTION_WORKFLOW.md` → "Editing an HHH daily". The
 two-week evaluation is in `../../growth/ANALYTICS_SYSTEM.md`.
 
+## Story and growth rules (her words, 2026-11-13)
+
+Section 0 of `../../agents/EDITOR_CHECKLIST.md` (verbatim:
+`../source/blkgrlco-story-and-growth-checklist.md`). Every episode stays
+connected to the 90-day Hot, Happy, Healthy challenge; each one names
+one reason a new viewer would care; repeated activities vary the story
+angle, never her identity or routine; nothing invented (drama, dialogue,
+results); clear opening, understandable progression, her personality and
+an honest payoff come before effects; production stays manageable; one
+experiment at a time from real audience feedback, observations kept
+apart from assumptions; no strategy overhaul after one low post, and low
+views are never a judgment of her.
+
 ## Editor checklist (her version, 2026-11-13)
 
 `../../agents/EDITOR_CHECKLIST.md` (verbatim source:

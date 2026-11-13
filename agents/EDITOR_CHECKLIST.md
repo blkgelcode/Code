@@ -3,9 +3,29 @@
 One checklist for every @blkgrlco edit. Her own version, received
 2026-11-13 (verbatim: `../brand-bible/source/blkgrlco-claude-code-editor-checklist.md`),
 built from the Nov 11 workflow reset plus retention, motion and
-shot-variety tips; revised the same day with a Shoot day section. Run it
-top to bottom. Story-type guidance per video
+shot-variety tips; revised the same day with a Shoot day section and her Story and
+growth rules. Run it top to bottom. Story-type guidance per video
 lives in `../brand-bible/brands/blkgrlco.md` → HHH Weekly Edit Breakdown.
+
+## 0. Story and growth (her rules, 2026-11-13)
+
+Verbatim source: `../brand-bible/source/blkgrlco-story-and-growth-checklist.md`.
+
+- [ ] Keep every episode connected to her 90-day Hot, Happy, Healthy
+      challenge.
+- [ ] Identify one reason a new viewer would care: a relatable
+      situation, useful takeaway, or real question.
+- [ ] When activities repeat, vary the story angle, not her identity or
+      routine. Never invent drama, dialogue, or results.
+- [ ] Prioritize a clear opening, understandable progression, her
+      personality, and an honest payoff before adding effects.
+- [ ] Keep production manageable. Do not add extra posts, footage
+      requirements, or complicated edits without a clear purpose.
+- [ ] Use actual audience feedback to suggest one specific experiment at
+      a time. Distinguish observations from assumptions.
+- [ ] Do not overhaul the strategy after one low-performing post or treat
+      low views as a judgment of her personality. Look for patterns
+      across comparable posts.
 
 ## Shoot day (new)
 
