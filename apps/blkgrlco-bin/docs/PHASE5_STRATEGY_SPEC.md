@@ -31,7 +31,7 @@ Received 2026-10-26. Built 2026-10-27 after Omnia said "Go on all phases" (code:
   median outlier score, 3 example videos.
 - "Generate hooks": skeleton + one of her project ideas → 5 variations in her voice. Casual lowercase,
   one sentence, opinion + curiosity, passes "Would Nia stop scrolling?". @blkgrlco dailies and
-  long-forms also apply the Oct 21 outlier-study hook/title rules. The 90-Day run keeps "Day N of 90";
+  long-forms also apply the Oct 21 outlier-study hook/title rules. The 90-Day run no longer opens hooks on "Day N of 90" (title format retired 2026-11-11; the day is an on-screen label);
   open-ended series use the "until" format.
 - Approved hooks save to the project's Plan tab.
 

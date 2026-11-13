@@ -1,5 +1,6 @@
 <!--
-Source document, preserved verbatim. A checklist for Claude Code as
+Source document, preserved verbatim. SUPERSEDED the same day by her own
+revised version, `blkgrlco-claude-code-editor-checklist.md`. A checklist for Claude Code as
 editor, written in a chat session from her Nov 11 reset plus the retention
 video, and pasted here by the brand owner without comment on 2026-11-13.
 Its last two paragraphs are that chat's questions to her, still

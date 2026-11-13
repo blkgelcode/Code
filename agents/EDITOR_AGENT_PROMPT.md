@@ -182,8 +182,9 @@ used consistently.
   cutting away.
 - Check the head of every clip before cutting — she often starts talking
   1–2s in; cutting from 0:00 buries the first line in silence.
-- Cut all dead air, ums, false starts, repeated/re-said phrases (keep one
-  clean instance).
+- Cut dead air, ums, false starts, repeated/re-said phrases in
+  talking-heads (keep one clean instance). Keep a pause only when it
+  carries the moment.
 - Every cut lands on a body movement, never on her repositioning the
   camera.
 - Show a routine's real steps in order (open bottle → pour → drink → take
@@ -194,19 +195,33 @@ used consistently.
 - **Label card on every scene change:** Arial Rounded Bold ~170pt, RGB
   (168,177,24) / `#A8B118`, lowercase, centered on a 1920×1080 transparent
   canvas → `assets/cards/l_<name>.png`.
-- Always deliver a Shorts cut under 3:00 alongside the master.
+- Every long-form is cut into a Short that starts mid-action. No
+  automatic short-form per daily.
 - Skip corrupt files/accidental-trigger clips outright, report which.
 - Run `_tools/preflight.py` before finalizing any master.
 
-**Editor checklist (2026-11-13):** run `agents/EDITOR_CHECKLIST.md`
-top to bottom on every @blkgrlco edit: one-line story, hook in the first
-5 seconds matching the title, edit list with a reason per clip sent to
-her before any render, one low-res preview judged on curiosity / cut /
-clarity / connection, her sign-off. House rules: no employer or job named
+**Editor checklist (her version, 2026-11-13):** run
+`agents/EDITOR_CHECKLIST.md` top to bottom on every @blkgrlco edit: one
+story in one line; hook (a real number or thing) in the first 5 seconds
+matching title and thumbnail; edit list with a reason per clip sent to
+her before any render; simplify; B-roll shows what she's saying; pop-ups
+on the exact word, never early; shot variety from real footage; punch-ins
+only on real reactions with a hold first; the honest result gets its full
+time; motion specs (pop-ups scale 0 → 105% → 100%, opacity 0 → 100, slide
+in from the edge over 8–10 frames; titles slide in with ease-in; PNG
+titles on the track above); one low-res preview judged on curiosity, cut,
+clarity, connection; her sign-off. House rules: no employer or job named
 or shown; phone on screen only when essential; skincare has no product
 labels and no SFX; YouTube original stickers only, TikTok/IG stickers
-from her cue list; Poppins for @blkgrlco only; three thumbnails and
-three titles per long-form; 3:00 PM CT, numerical order.
+from her cue list; Poppins for @blkgrlco only; three thumbnails and three
+titles per long-form; 3:00 PM CT, numerical order. **Priority through
+2026-12-22: watch time and thumbnails** (a craft focus inside the studio
+goal, not a growth target).
+
+**Retired 2026-11-11, never use:** the "Day N of 90" title/hook format
+(the day is a small on-screen label only), the automatic short-form per
+daily, the forced "make your own Pin Board" CTA, cut-all-silence, the
+5-line story-map approval gate.
 
 **90-Day HHH Run dailies — story types (her plan, 2026-11-11):** one
 week = Skincare night A (the routine story) · Skincare night B (the
@@ -382,10 +397,6 @@ Don't treat any of the following as a rule; ask or flag instead:
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
   actual licensed sound choices are not yet populated, except the
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
-- **Reported replaced on Nov 11, unconfirmed by her:** the "Day N of 90"
-  title format, the automatic Shorts cut per video, the forced Pin Board
-  CTA, cutting all silence, and the 5-line story-map approval step. Ask
-  before relying on either the old or the new version.
 - **Poppins for @blkgrlco only**: role unstated next to the locked fonts
   above. Ask.
 - **Where the HHH story-type plan (2026-11-11) meets older locked
@@ -393,10 +404,10 @@ Don't treat any of the following as a rule; ask or flag instead:
   the plan's situation-first opener (likely: "good morning" for
   morning-start vlogs only); the locked 4-panel timestamp-grid template
   and Real-Time Timestamp Cutdown vs. the plan's single-story edit; the
-  locked "make your own Pin Board" CTA vs. the plan's optional closing
-  question; the Mon–Sat lane rotation vs. the plan's activity-based week;
-  whether the "Day N/90" label uses the label-card spec; and that Sunday's
-  vertical recap does not replace the weekly long-form. Her decisions are
+  Mon–Sat lane rotation vs. the plan's activity-based week; whether the
+  "Day N/90" label uses the label-card spec; and that Sunday's vertical
+  recap does not replace the weekly long-form. (The CTA question is
+  settled: no forced CTA.) Her decisions are
   tracked in `brand-bible/CREATIVE_MEMORY.md` (2026-11-11).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific

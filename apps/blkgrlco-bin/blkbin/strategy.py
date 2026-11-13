@@ -493,7 +493,10 @@ def hook_checks(text: str, plan_name: str, persona: str) -> list[dict]:
     m90 = SERIES_90.search(plan_name or "")
     if m90:
         n = m90.group(1)
-        checks.append({"label": f"keeps “day {n} of 90”", "ok": bool(re.search(rf"\bday\s*{n}\s*of\s*90\b", text, re.I))})
+        # The "day N of 90" title format was retired 2026-11-11: the day number is a small on-screen
+        # label now, and the hook opens on the real situation or thing instead.
+        checks.append({"label": "doesn’t open on “day N of 90”",
+                       "ok": not re.match(rf"\s*day\s*{n}\s*(?:of|/)\s*90\b", text, re.I)})
     elif SERIES_OPEN.search(plan_name or ""):
         checks.append({"label": "uses the “until” format", "ok": " until " in f" {text.lower()} "})
     return checks
@@ -510,7 +513,9 @@ def generate_hooks(channel_key: str, skeleton_id: str, pid: str) -> dict:
     apply_oct21 = channel_key == "@blkgrlco" and (d["format"] in LONG_FORMS or d["format"] in DAILY)
     series = ""
     if SERIES_90.search(d["name"]):
-        series = f"This is part of the 90-day run: every hook keeps “day {SERIES_90.search(d['name']).group(1)} of 90”."
+        series = (f"This is day {SERIES_90.search(d['name']).group(1)} of her 90-day run, but the hook must NOT "
+                  "open on “day N of 90” (that format is retired; the day number is a small on-screen label). "
+                  "Open on a real number or thing from the actual situation.")
     elif SERIES_OPEN.search(d["name"]):
         series = "This is an open-ended series: use the “until” format (e.g. “day 12 until i …”)."
     examples = "\n".join(f"- {e['title']} ({e['score']}x)" + (f" · opens with: {e['opening']}" if e.get("opening") else "")

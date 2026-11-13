@@ -198,9 +198,10 @@ class TestHookMachine(Base):
         self.assertGreaterEqual(s["median_score"], 3)
 
     def test_hook_checks(self):
-        ok = strategy.hook_checks("day 12 of 90 and i finally get it", "Day 12 of 90: soft mornings", "Nia")
+        ok = strategy.hook_checks("i finally get it and it took 12 mornings", "Day 12 of 90: soft mornings", "Nia")
         self.assertTrue(all(c["ok"] for c in ok))
-        bad = strategy.hook_checks("I Finally Get It. Really.", "Day 12 of 90", "Nia")
+        self.assertEqual(ok[-1]["label"], "doesn’t open on “day N of 90”")
+        bad = strategy.hook_checks("Day 12 of 90. I Finally Get It.", "Day 12 of 90", "Nia")
         self.assertEqual([c["ok"] for c in bad], [False, False, False])
         until = strategy.hook_checks("day 3 until i run a 5k", "Day 3: running", "Nia")
         self.assertEqual(until[-1], {"label": "uses the “until” format", "ok": True})

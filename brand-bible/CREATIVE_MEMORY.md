@@ -26,6 +26,7 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | `source/blkgrlco-seo-hashtags-descriptions.md`, `source/blkgrlco-studio-overview.md`, `source/blkgrlcotoo-brand.md`, `source/blkgrlco-hub-project-instructions.md`, `source/uglyinbetween-brand.md`, `source/blkgrlco-brand-identity-updated.md` (PDF, text-extracted) | **Major restructure.** Revealed BLKGRLCO Studios (creator: Omnia Koumi) spans three distinct brands — @blkgrlco (personal dev), @blkgrlcotoo (travel), @uglyinbetween (podcast) — each with its own voice/visuals/audience/production rules. Rebuilt `BRAND_BIBLE.md` as the studio-level doc, added `brands/blkgrlco.md`, `brands/blkgrlcotoo.md`, `brands/uglyinbetween.md`, and rewrote `STYLE_GUIDE.md`, `SCRIPTWRITING_GUIDE.md`, `growth/SEO_GUIDE.md`, `growth/CONTENT_STRATEGY.md`, `growth/ANALYTICS_SYSTEM.md`, `growth/MONETIZATION_STRATEGY.md` accordingly. Also **superseded the earlier scaffold's monetization framing** — the studio explicitly de-prioritized monetization in favor of consistency/craft (see below). |
 | 2026-09-11 | Pinterest board screenshots, "blkgrlcotoo visual identity" (5 images, not text) | **Medium confidence** — inspiration/technique board of other creators' work, not her own footage. Logged candidate techniques into `brands/blkgrlcotoo.md` (3-beat "what I wore/where I went/what I got" recap structure, overhead flat-lays, object-label callout graphics, Google Maps inserts, camera-viewfinder framing, photo-booth filmstrip collage) — none locked as rules. Flagged the sticker/glossy-3D-Canva-element direction as an open question rather than adopting it. |
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
+| 2026-11-13 | `source/blkgrlco-claude-code-editor-checklist.md` (her own revised Claude Code Editor Checklist, uploaded) | **Checklist of record**, supersedes the pasted draft below. Adopted as `../agents/EDITOR_CHECKLIST.md`. Confirms the five Nov 11 retirements (moved to the Retired table), replaces cut-all-silence with "cut dead air, keep a pause only when it carries the moment", adds motion specs, shot variety, the long-form → Short rule and the Dec 22 priority. The Bin's Hook Machine no longer requires "day N of 90" in a hook. |
 | 2026-11-13 | `source/blkgrlco-editor-checklist-2026-11-13.md` (pasteable editor checklist for Claude Code, written in a chat session from her Nov 11 reset, pasted by her without comment) | Adopted as `../agents/EDITOR_CHECKLIST.md`; house rules merged into `brands/blkgrlco.md` and the editor prompt. **Five locked rules it reports replaced on Nov 11 are logged as pending her confirmation, not retired** (see below). |
 | 2026-11-11 | `source/blkgrlco-hhh-weekly-edit-breakdown.md` (BLKGRLCO: HHH Weekly Edit Breakdown, her editorial plan addressed to Claude Code) | Merged as approved story-type guidance for the 90-Day HHH Run dailies into `brands/blkgrlco.md`, `../agents/PRODUCTION_WORKFLOW.md` (editing procedure), `../growth/ANALYTICS_SYSTEM.md` (two-week test) and `../agents/EDITOR_AGENT_PROMPT.md`. **Six conflicts/gaps with already-locked rules flagged below for her decision, not resolved.** |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
@@ -99,6 +100,39 @@ newest-first log; episode numbers tracked in `podcast/EPISODES.md`.
 edit, verticals, packaging). She's sending it, and it will be saved as
 `podcast/PLAYBOOK.md`. The skill refuses to run a role whose section is
 missing. Ep 0's blog Resources block is still a placeholder.
+
+## Editor checklist, her version (2026-11-13, later the same day)
+
+She uploaded her own revised **Claude Code Editor Checklist**, which
+replaces the chat-pasted draft logged below. Adopted as
+`../agents/EDITOR_CHECKLIST.md`. What it settles:
+
+- **The five Nov 11 retirements are confirmed** (her document states
+  them as "Retired on Nov 11"): the "Day N of 90" title format, the auto
+  short-form per video, the forced Pin Board CTA, cut-all-silence, the
+  5-line story-map approval gate. Moved to the Retired table. This closes
+  the 11-11 flags #3 (CTA) and #5 (the day label stays as a small on-screen
+  label, just not a title) and the pending list below.
+- **Dead air:** "Cut dead air in talking-heads. Keep a pause only when it
+  carries the moment." Replaces the daily-vlog "cut all dead air" rule
+  and the @blkgrlco reading of the explainer exception.
+- **Shorts:** every long-form is cut into a Short that starts mid-action.
+  Dailies no longer get an automatic short-form.
+- **New:** simplify (remove context the viewer doesn't need); pop-ups on
+  the exact word, never early (if early, wait about 2 s); shot variety
+  from real footage; punch-ins hold on identical keyframes first; motion
+  specs (pop-ups scale 0 → 105% → 100%, opacity 0 → 100, slide in from
+  the edge over 8–10 frames; titles slide in with ease-in on the end
+  keyframe; PNG titles on the track above footage).
+- **Priority through 2026-12-22: watch time and thumbnails.** Logged as
+  her time-boxed craft focus, not a growth target (BRAND_BIBLE §9 stands).
+- **Code change:** the Bin's Hook Machine check "keeps day N of 90" is
+  replaced by "doesn't open on day N of 90", and its prompt tells Claude
+  the day goes in an on-screen label, not the hook.
+
+Still open: Poppins' role on @blkgrlco; skincare "no sound effects" read
+as overriding "no graphic should be silent" for skincare only; her
+sticker cue list.
 
 ## Editor checklist received (2026-11-13)
 
@@ -251,6 +285,11 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 | "comment your own rule" (CTA) | "make your own Pin Board" | @blkgrlco (90-Day HHH Run) |
 | #stamped, #fuckitbookit, #younghotandoutside (hashtags) | current brand/series hashtags | @blkgrlcotoo |
 | "The Ugly In Between" (show name, retired 2026-10-03) | "I Wish Somebody Had Told Me" | podcast |
+| "Day N of 90" title format (retired 2026-11-11, confirmed 2026-11-13) | A real number or thing in the first 5 s; "Day N/90" only as a small on-screen context label | @blkgrlco (90-Day HHH Run) |
+| Automatic short-form cut per daily video (retired 2026-11-11) | Every long-form cut into a Short that starts mid-action | @blkgrlco |
+| "make your own Pin Board" forced CTA (retired 2026-11-11) | No forced CTA; an optional audience question | @blkgrlco (90-Day HHH Run) |
+| Cut-all-silence (retired 2026-11-11) | Cut dead air in talking-heads; keep a pause only when it carries the moment | @blkgrlco |
+| 5-line story-map approval gate (retired 2026-11-11) | The edit list, sent before any render, plus one low-res preview | @blkgrlco |
 
 ## Scrapped decisions (kept for context — do not resurrect without her explicit ask)
 
