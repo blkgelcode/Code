@@ -104,6 +104,9 @@ interrupts, graphics, speed ramps, slow motion, freeze frames.
 ```
 
 ## 5. Color Grading Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/color-grading.md`.
+
 **Job:** keep the visual look recognizable and consistent across content.
 
 Learns from reference footage/images into `brand-bible/STYLE_GUIDE.md`
