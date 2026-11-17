@@ -1,7 +1,7 @@
 {
   "slug": "mexico-city-weekend",
   "type": "sunday_vlog",
-  "series": "90-Day HHH Run (HAPPY lane) \u2014 to confirm",
+  "series": "90-Day HHH Run (HAPPY lane) — to confirm",
   "reference": null,
   "raw_transcript": "media/transcripts/raw.txt",
   "color": {
@@ -35,13 +35,38 @@
         720
       ],
       "ai_generated": false,
-      "text": null
+      "text": null,
+      "source_frame": null,
+      "status": "concepts_only (copy/thumbnail.md); recommended A: DJI_20260926102402_0245_D.MP4 ~0:11-0:28, 'FILMING IN PUBLIC' / 'for the first time' -- not chosen, not built"
+    },
+    {
+      "id": "thumbnail_cover",
+      "kind": "thumbnail",
+      "path": "media/out/mexico-city-weekend_cover_1080x1920.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "ai_generated": false,
+      "source_frame": null,
+      "text": null,
+      "status": "concepts_only (copy/thumbnail.md); recommended C: DJI_20260926210419_0254_D.MP4 552-600 s, 'I LOOK SO PRETTY' / 'night two' -- not chosen, not built"
     }
   ],
   "copy": {
     "titles": "copy/titles.md",
     "description": "copy/description.md",
-    "edl": "copy/edl.md"
+    "edl": "copy/edl.md",
+    "captions": "copy/captions.md"
   },
-  "preflight": "_tools/preflight.py"
+  "preflight": "_tools/preflight.py",
+  "packaging": {
+    "status": "draft",
+    "recommended_title": "First Time Filming in Front of People | A Weekend in Mexico City",
+    "chapters_status": "draft outline, times TBD from final cut (no EDL at packaging time)",
+    "cta": "make your own Pin Board (conditional on 90-Day HHH Run + @blkgrlco)",
+    "quotes": "log quotes only, unverified against transcript",
+    "master_srt": "not made: no footage/transcript in session",
+    "brand_dependent": true
+  }
 }

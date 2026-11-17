@@ -11,9 +11,9 @@ HHH Run. The brand is still to be confirmed.
 ## Description (copy from here)
 
 I flew standby to Mexico City on no sleep and spent the weekend doing
-something that's a little bit daunting for me: filming in front of
-people. This is the whole weekend, from the plane window on Friday to my
-last couple of hours on Sunday.
+the thing I'm working on: filming in front of people. This is the whole
+weekend, from the plane window on Friday to my last couple of hours on
+Sunday.
 
 Friday was the longest day. I didn't sleep the night before, fell asleep
 the second I sat down on the plane (the flight attendant had to wake me
@@ -22,12 +22,13 @@ for hours. When I finally got in, the apartment was blue. "When they said
 blue they meant blue." Then I found Jigglypuff, Pikachu and Charmander
 donuts, so the day ended well.
 
-Saturday I went out on my own: stop number one was Panadería Rosetta, then
-a croissant on a bench by the fountain, and the first time I've really had my camera out
-in public. "I'm working on confidence." Then El Bazar Sábado in San Ángel:
-the stalls, the beadwork, the pottery, and a 100-peso burger that I took
-back to the apartment, because I'm "not a fan of eating outside and having
-people watching me eat." That night I put on the yellow dress.
+Saturday I went out on my own. Stop number one was Panadería Rosetta, then
+a croissant on a bench by the fountain, and the first time I've really had
+my camera out in public. "I'm working on confidence." Then El Bazar Sábado
+(Bazar del Sábado, Saturdays only) in San Ángel: the stalls, the beadwork,
+the pottery, and a 100-peso burger that I took back to the apartment,
+because I'm "not a fan of eating outside and having people watching me
+eat." That night I put on the yellow dress.
 
 Standby tip from this trip: have options, and "you don't book that Airbnb
 until you are in the air."
@@ -82,6 +83,9 @@ TBD Last morning, going home
 - **No sign-off line** is locked for @blkgrlco descriptions. Should the
   motto ("Be Free, Be Kind, Be Well.") close it? The team didn't add it
   without her say-so.
+- **Market name:** her name for it is "El Bazar Sábado". The common
+  search name, "Bazar del Sábado" (per the thumbnail role's research),
+  appears once in brackets.
 - **Accents:** proper names are spelled San Ángel, El Bazar Sábado and
   Panadería Rosetta. Her log has them without accents. Either form
   searches fine. Her call.
