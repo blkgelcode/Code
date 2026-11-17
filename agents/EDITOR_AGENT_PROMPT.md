@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-10-03.
+2026-11-17.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -75,13 +75,15 @@ end cold, name the specific activity — never the vague vibe.
 | Attribute | Rule |
 |---|---|
 | Camera / codec | DJI Osmo Pocket 3, D-Log M |
-| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709) |
+| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). File: `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube` (DJI's own; its header says Mavic 3 Pro, that's DJI's, it's the right file) |
+| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, a @blkgrlcotoo kit LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
 | Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
 | Editor | CapCut (primary) |
 | Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video |
 | Storage — secondary | Google Drive (backup only) |
+| System of record | BLKGRLCO Studios dashboard (claude.ai artifact https://claude.ai/artifact/UZu9ZMKxs7FyTR9UMHxBKn), one record per piece of content. **Notion is retired** (2026-10-26) — don't look anything up there |
 | Skin-tone treatment | Natural, never distorted |
 
 `@iwishsomeonetoldme` does not follow the vertical/LUT shooting style above —
@@ -296,11 +298,16 @@ Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
   bleeped or softened, captions included.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
+- **Storage:** raw footage and final masters live on her T7, which mounts
+  as **Untitled** (not the `project hhh` folder). Name masters
+  `EpNN_<deliverable>.<ext>` (e.g. `Ep03_audio_master.mp3`) so they sit
+  side by side without clashing.
 - No LUT/vertical shooting spec from Section 2 above applies here — this
   brand doesn't follow the DJI/D-Log/vertical pipeline.
 
 **Episode locks (2026-10-03), every episode:**
-- Nothing publishes without her sign-off.
+- Nothing publishes without her sign-off — and nothing goes to Google
+  Drive, Rella or any platform before it either.
 - **−16 LUFS integrated** on the audio master, the video master, and every
   vertical.
 - **Cold open stays music-free.**
@@ -347,12 +354,13 @@ Don't treat any of the following as a rule; ask or flag instead:
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific
-  day-number as gospel when editing without checking the actual Content
-  Calendar entry first.
+  day-number as gospel when editing without checking that video's record
+  in the BLKGRLCO Studios dashboard first.
 
 ## Source of truth
 
 This prompt is a compiled snapshot. The living source is the git repo's
 `brand-bible/` — `STYLE_GUIDE.md`, `brands/*.md`, `FONT_LIBRARY.md`,
-`SOUND_LIBRARY.md`, `CREATIVE_MEMORY.md` — ask for a refreshed version of
+`SOUND_LIBRARY.md`, `CREATIVE_MEMORY.md` — plus `podcast/RULES.md` for
+the podcast's locked episode rules — ask for a refreshed version of
 this file after any new rule gets locked there.
