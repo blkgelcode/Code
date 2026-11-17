@@ -1,7 +1,7 @@
 {
   "slug": "mexico-city-weekend",
   "type": "sunday_vlog",
-  "series": "90-Day HHH Run (HAPPY lane) \u2014 to confirm",
+  "series": "90-Day HHH Run (HAPPY lane) — to confirm",
   "reference": null,
   "raw_transcript": "media/transcripts/raw.txt",
   "color": {
@@ -46,7 +46,7 @@
       "ai_generated": false,
       "text": "a little daunting / alone in a new city",
       "source_frame": null,
-      "status": "concept A chosen 2026-11-17 (pairing A: confirmed solo trip); not built \u2014 needs footage"
+      "status": "concept A chosen 2026-11-17 (pairing A: confirmed solo trip); not built — needs footage"
     },
     {
       "id": "thumbnail_cover",
@@ -79,5 +79,996 @@
     "brand_dependent": true,
     "title_status": "chosen 2026-11-17 (pairing A)",
     "solo_trip": true
+  },
+  "shots": [
+    {
+      "start": 0,
+      "end": 7.0,
+      "kind": "talking",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 0.0,
+      "out": 7.0
+    },
+    {
+      "start": 7.0,
+      "end": 10.0,
+      "kind": "talking",
+      "src": "DJI_20260925192047_0238_D.MP4",
+      "in": 0.0,
+      "out": 3.0
+    },
+    {
+      "start": 10.0,
+      "end": 13.0,
+      "kind": "talking",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 129.4,
+      "out": 132.4
+    },
+    {
+      "start": 13.0,
+      "end": 16.0,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 62.0,
+      "out": 65.0
+    },
+    {
+      "start": 16.0,
+      "end": 19.0,
+      "kind": "broll",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 552.0,
+      "out": 555.0
+    },
+    {
+      "start": 19.0,
+      "end": 23.2,
+      "kind": "broll",
+      "src": "IMG_4528.MOV",
+      "in": 0.0,
+      "out": 4.24
+    },
+    {
+      "start": 23.2,
+      "end": 29.5,
+      "kind": "broll",
+      "src": "IMG_4528.MOV",
+      "in": 4.24,
+      "out": 10.5
+    },
+    {
+      "start": 29.5,
+      "end": 39.4,
+      "kind": "broll",
+      "src": "IMG_4531.MOV",
+      "in": 0.0,
+      "out": 9.94
+    },
+    {
+      "start": 39.4,
+      "end": 50.4,
+      "kind": "broll",
+      "src": "IMG_4532.MOV",
+      "in": 0.0,
+      "out": 11.0
+    },
+    {
+      "start": 50.4,
+      "end": 61.1,
+      "kind": "broll",
+      "src": "IMG_4532.MOV",
+      "in": 25.0,
+      "out": 35.7
+    },
+    {
+      "start": 61.1,
+      "end": 63.3,
+      "kind": "broll",
+      "src": "IMG_4532.MOV",
+      "in": 36.0,
+      "out": 38.2
+    },
+    {
+      "start": 63.3,
+      "end": 69.3,
+      "kind": "broll",
+      "src": "IMG_4533.MOV",
+      "in": 0.0,
+      "out": 6.0
+    },
+    {
+      "start": 69.3,
+      "end": 72.8,
+      "kind": "talking",
+      "src": "IMG_4536.MOV",
+      "in": 0.0,
+      "out": 3.44
+    },
+    {
+      "start": 72.8,
+      "end": 81.3,
+      "kind": "talking",
+      "src": "IMG_4536.MOV",
+      "in": 3.44,
+      "out": 12.0
+    },
+    {
+      "start": 81.3,
+      "end": 84.3,
+      "kind": "broll",
+      "src": "IMG_4538.MOV",
+      "in": 0.0,
+      "out": 3.0
+    },
+    {
+      "start": 84.3,
+      "end": 89.3,
+      "kind": "broll",
+      "src": "IMG_4539.MOV",
+      "in": 0.0,
+      "out": 5.0
+    },
+    {
+      "start": 89.3,
+      "end": 92.3,
+      "kind": "broll",
+      "src": "IMG_4539.MOV",
+      "in": 5.0,
+      "out": 8.0
+    },
+    {
+      "start": 92.3,
+      "end": 95.9,
+      "kind": "broll",
+      "src": "IMG_4540.MOV",
+      "in": 0.0,
+      "out": 3.6
+    },
+    {
+      "start": 95.9,
+      "end": 98.3,
+      "kind": "broll",
+      "src": "IMG_4542.MOV",
+      "in": 0.0,
+      "out": 2.4
+    },
+    {
+      "start": 98.3,
+      "end": 101.3,
+      "kind": "broll",
+      "src": "IMG_4544.MOV",
+      "in": 0.0,
+      "out": 3.0
+    },
+    {
+      "start": 101.3,
+      "end": 107.3,
+      "kind": "broll",
+      "src": "IMG_4551.MOV",
+      "in": 0.0,
+      "out": 6.0
+    },
+    {
+      "start": 107.3,
+      "end": 111.3,
+      "kind": "broll",
+      "src": "IMG_4551.MOV",
+      "in": 6.0,
+      "out": 10.0
+    },
+    {
+      "start": 111.3,
+      "end": 114.3,
+      "kind": "broll",
+      "src": "IMG_4555.MOV",
+      "in": 0.0,
+      "out": 3.0
+    },
+    {
+      "start": 114.3,
+      "end": 117.3,
+      "kind": "broll",
+      "src": "IMG_4556.MOV",
+      "in": 28.0,
+      "out": 31.0
+    },
+    {
+      "start": 117.3,
+      "end": 120.3,
+      "kind": "broll",
+      "src": "IMG_4556.MOV",
+      "in": 52.0,
+      "out": 55.0
+    },
+    {
+      "start": 120.3,
+      "end": 123.1,
+      "kind": "broll",
+      "src": "IMG_4558.MOV",
+      "in": 0.0,
+      "out": 2.8
+    },
+    {
+      "start": 123.1,
+      "end": 125.3,
+      "kind": "broll",
+      "src": "IMG_4559.MOV",
+      "in": 0.0,
+      "out": 2.2
+    },
+    {
+      "start": 125.3,
+      "end": 129.3,
+      "kind": "broll",
+      "src": "IMG_4560.MOV",
+      "in": 36.0,
+      "out": 40.0
+    },
+    {
+      "start": 129.3,
+      "end": 135.3,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 50.0,
+      "out": 56.0
+    },
+    {
+      "start": 135.3,
+      "end": 140.8,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 219.9,
+      "out": 225.4
+    },
+    {
+      "start": 140.8,
+      "end": 146.1,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 234.5,
+      "out": 239.8
+    },
+    {
+      "start": 146.1,
+      "end": 155.4,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 241.7,
+      "out": 251.0
+    },
+    {
+      "start": 155.4,
+      "end": 160.4,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 261.1,
+      "out": 266.1
+    },
+    {
+      "start": 160.4,
+      "end": 168.6,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 276.9,
+      "out": 285.1
+    },
+    {
+      "start": 168.6,
+      "end": 171.8,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 291.1,
+      "out": 294.3
+    },
+    {
+      "start": 171.8,
+      "end": 177.8,
+      "kind": "broll",
+      "src": "DJI_20260925175347_0236_D.MP4",
+      "in": 298.6,
+      "out": 304.6
+    },
+    {
+      "start": 177.8,
+      "end": 181.5,
+      "kind": "talking",
+      "src": "DJI_20260925181928_0237_D.MP4",
+      "in": 37.5,
+      "out": 41.16
+    },
+    {
+      "start": 181.5,
+      "end": 185.8,
+      "kind": "talking",
+      "src": "DJI_20260925181928_0237_D.MP4",
+      "in": 41.16,
+      "out": 45.44
+    },
+    {
+      "start": 185.8,
+      "end": 191.9,
+      "kind": "broll",
+      "src": "DJI_20260925181928_0237_D.MP4",
+      "in": 73.9,
+      "out": 80.0
+    },
+    {
+      "start": 191.9,
+      "end": 195.9,
+      "kind": "talking",
+      "src": "DJI_20260925181928_0237_D.MP4",
+      "in": 101.0,
+      "out": 105.0
+    },
+    {
+      "start": 195.9,
+      "end": 210.2,
+      "kind": "talking",
+      "src": "DJI_20260925192047_0238_D.MP4",
+      "in": 0.0,
+      "out": 14.31
+    },
+    {
+      "start": 210.2,
+      "end": 215.2,
+      "kind": "broll",
+      "src": "DJI_20260925192047_0238_D.MP4",
+      "in": 30.0,
+      "out": 35.0
+    },
+    {
+      "start": 215.2,
+      "end": 225.2,
+      "kind": "talking",
+      "src": "DJI_20260925192047_0238_D.MP4",
+      "in": 104.9,
+      "out": 114.9
+    },
+    {
+      "start": 225.2,
+      "end": 229.2,
+      "kind": "talking",
+      "src": "DJI_20260925192047_0238_D.MP4",
+      "in": 124.9,
+      "out": 128.9
+    },
+    {
+      "start": 229.2,
+      "end": 234.6,
+      "kind": "talking",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 0.95,
+      "out": 6.4
+    },
+    {
+      "start": 234.6,
+      "end": 243.4,
+      "kind": "broll",
+      "src": "DJI_20260926085152_0240_D.MP4",
+      "in": 20.0,
+      "out": 28.8
+    },
+    {
+      "start": 243.4,
+      "end": 250.0,
+      "kind": "talking",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 129.4,
+      "out": 136.0
+    },
+    {
+      "start": 250.0,
+      "end": 258.7,
+      "kind": "talking",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 171.95,
+      "out": 180.6
+    },
+    {
+      "start": 258.7,
+      "end": 261.7,
+      "kind": "routine",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 190.0,
+      "out": 193.0
+    },
+    {
+      "start": 261.7,
+      "end": 264.7,
+      "kind": "routine",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 193.0,
+      "out": 196.0
+    },
+    {
+      "start": 264.7,
+      "end": 267.7,
+      "kind": "routine",
+      "src": "DJI_20260926084811_0239_D.MP4",
+      "in": 196.0,
+      "out": 199.0
+    },
+    {
+      "start": 267.7,
+      "end": 271.1,
+      "kind": "talking",
+      "src": "DJI_20260926085152_0240_D.MP4",
+      "in": 3.6,
+      "out": 7.0
+    },
+    {
+      "start": 271.1,
+      "end": 279.1,
+      "kind": "broll",
+      "src": "DJI_20260926085152_0240_D.MP4",
+      "in": 7.0,
+      "out": 15.0
+    },
+    {
+      "start": 279.1,
+      "end": 287.1,
+      "kind": "talking",
+      "src": "DJI_20260926085152_0240_D.MP4",
+      "in": 72.0,
+      "out": 80.0
+    },
+    {
+      "start": 287.1,
+      "end": 291.1,
+      "kind": "talking",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 179.0,
+      "out": 183.0
+    },
+    {
+      "start": 291.1,
+      "end": 294.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 187.0,
+      "out": 190.0
+    },
+    {
+      "start": 294.1,
+      "end": 297.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 208.0,
+      "out": 211.0
+    },
+    {
+      "start": 297.1,
+      "end": 300.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 226.0,
+      "out": 229.0
+    },
+    {
+      "start": 300.1,
+      "end": 303.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 244.0,
+      "out": 247.0
+    },
+    {
+      "start": 303.1,
+      "end": 306.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 304.0,
+      "out": 307.0
+    },
+    {
+      "start": 306.1,
+      "end": 309.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 430.0,
+      "out": 433.0
+    },
+    {
+      "start": 309.1,
+      "end": 312.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 573.0,
+      "out": 576.0
+    },
+    {
+      "start": 312.1,
+      "end": 315.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 600.0,
+      "out": 603.0
+    },
+    {
+      "start": 315.1,
+      "end": 318.1,
+      "kind": "routine",
+      "src": "DJI_20260926095101_0241_D.MP4",
+      "in": 690.0,
+      "out": 693.0
+    },
+    {
+      "start": 318.1,
+      "end": 324.5,
+      "kind": "talking",
+      "src": "DJI_20260926101002_0242_D.MP4",
+      "in": 3.5,
+      "out": 9.9
+    },
+    {
+      "start": 324.5,
+      "end": 328.5,
+      "kind": "talking",
+      "src": "DJI_20260926101002_0242_D.MP4",
+      "in": 107.0,
+      "out": 111.0
+    },
+    {
+      "start": 328.5,
+      "end": 335.1,
+      "kind": "talking",
+      "src": "DJI_20260926101002_0242_D.MP4",
+      "in": 126.3,
+      "out": 132.9
+    },
+    {
+      "start": 335.1,
+      "end": 343.1,
+      "kind": "broll",
+      "src": "DJI_20260926101509_0243_D.MP4",
+      "in": 16.0,
+      "out": 24.0
+    },
+    {
+      "start": 343.1,
+      "end": 347.1,
+      "kind": "talking",
+      "src": "DJI_20260926101509_0243_D.MP4",
+      "in": 154.0,
+      "out": 158.0
+    },
+    {
+      "start": 347.1,
+      "end": 355.1,
+      "kind": "talking",
+      "src": "DJI_20260926101509_0243_D.MP4",
+      "in": 182.0,
+      "out": 190.0
+    },
+    {
+      "start": 355.1,
+      "end": 361.1,
+      "kind": "broll",
+      "src": "DJI_20260926102027_0244_D.MP4",
+      "in": 20.0,
+      "out": 26.0
+    },
+    {
+      "start": 361.1,
+      "end": 364.6,
+      "kind": "talking",
+      "src": "DJI_20260926102402_0245_D.MP4",
+      "in": 0.0,
+      "out": 3.5
+    },
+    {
+      "start": 364.6,
+      "end": 375.9,
+      "kind": "talking",
+      "src": "DJI_20260926102402_0245_D.MP4",
+      "in": 11.0,
+      "out": 22.3
+    },
+    {
+      "start": 375.9,
+      "end": 380.7,
+      "kind": "talking",
+      "src": "DJI_20260926102402_0245_D.MP4",
+      "in": 24.0,
+      "out": 28.8
+    },
+    {
+      "start": 380.7,
+      "end": 386.7,
+      "kind": "broll",
+      "src": "DJI_20260926102715_0246_D.MP4",
+      "in": 40.0,
+      "out": 46.0
+    },
+    {
+      "start": 386.7,
+      "end": 392.7,
+      "kind": "broll",
+      "src": "DJI_20260926102715_0246_D.MP4",
+      "in": 46.0,
+      "out": 52.0
+    },
+    {
+      "start": 392.7,
+      "end": 399.6,
+      "kind": "talking",
+      "src": "DJI_20260926102904_0247_D.MP4",
+      "in": 59.4,
+      "out": 66.3
+    },
+    {
+      "start": 399.6,
+      "end": 404.6,
+      "kind": "broll",
+      "src": "DJI_20260926102904_0247_D.MP4",
+      "in": 70.0,
+      "out": 75.0
+    },
+    {
+      "start": 404.6,
+      "end": 409.1,
+      "kind": "talking",
+      "src": "DJI_20260926102904_0247_D.MP4",
+      "in": 97.6,
+      "out": 102.1
+    },
+    {
+      "start": 409.1,
+      "end": 413.7,
+      "kind": "talking",
+      "src": "DJI_20260926104121_0248_D.MP4",
+      "in": 0.0,
+      "out": 4.6
+    },
+    {
+      "start": 413.7,
+      "end": 420.2,
+      "kind": "talking",
+      "src": "DJI_20260926105854_0249_D.MP4",
+      "in": 13.8,
+      "out": 20.3
+    },
+    {
+      "start": 420.2,
+      "end": 424.2,
+      "kind": "talking",
+      "src": "DJI_20260926105854_0249_D.MP4",
+      "in": 20.3,
+      "out": 24.3
+    },
+    {
+      "start": 424.2,
+      "end": 430.2,
+      "kind": "broll",
+      "src": "DJI_20260926111255_0251_D.MP4",
+      "in": 3.0,
+      "out": 9.0
+    },
+    {
+      "start": 430.2,
+      "end": 433.2,
+      "kind": "broll",
+      "src": "DJI_20260926111255_0251_D.MP4",
+      "in": 9.0,
+      "out": 12.0
+    },
+    {
+      "start": 433.2,
+      "end": 439.2,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 62.0,
+      "out": 68.0
+    },
+    {
+      "start": 439.2,
+      "end": 444.5,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 89.7,
+      "out": 95.0
+    },
+    {
+      "start": 444.5,
+      "end": 448.5,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 160.0,
+      "out": 164.0
+    },
+    {
+      "start": 448.5,
+      "end": 452.5,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 180.0,
+      "out": 184.0
+    },
+    {
+      "start": 452.5,
+      "end": 456.5,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 235.0,
+      "out": 239.0
+    },
+    {
+      "start": 456.5,
+      "end": 460.5,
+      "kind": "broll",
+      "src": "DJI_20260926111454_0252_D.MP4",
+      "in": 380.0,
+      "out": 384.0
+    },
+    {
+      "start": 460.5,
+      "end": 463.5,
+      "kind": "broll",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 558.0,
+      "out": 561.0
+    },
+    {
+      "start": 463.5,
+      "end": 468.0,
+      "kind": "talking",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 0.0,
+      "out": 4.5
+    },
+    {
+      "start": 468.0,
+      "end": 481.7,
+      "kind": "talking",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 11.0,
+      "out": 24.7
+    },
+    {
+      "start": 481.7,
+      "end": 490.0,
+      "kind": "broll",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 68.0,
+      "out": 76.3
+    },
+    {
+      "start": 490.0,
+      "end": 501.4,
+      "kind": "talking",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 53.6,
+      "out": 65.0
+    },
+    {
+      "start": 501.4,
+      "end": 505.1,
+      "kind": "broll",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 76.3,
+      "out": 80.0
+    },
+    {
+      "start": 505.1,
+      "end": 518.9,
+      "kind": "talking",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 118.0,
+      "out": 131.8
+    },
+    {
+      "start": 518.9,
+      "end": 524.9,
+      "kind": "talking",
+      "src": "DJI_20260926145226_0253_D.MP4",
+      "in": 250.0,
+      "out": 256.0
+    },
+    {
+      "start": 524.9,
+      "end": 527.9,
+      "kind": "routine",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 280.0,
+      "out": 283.0
+    },
+    {
+      "start": 527.9,
+      "end": 530.9,
+      "kind": "routine",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 290.0,
+      "out": 293.0
+    },
+    {
+      "start": 530.9,
+      "end": 536.9,
+      "kind": "broll",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 552.0,
+      "out": 558.0
+    },
+    {
+      "start": 536.9,
+      "end": 540.9,
+      "kind": "broll",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 1380.0,
+      "out": 1384.0
+    },
+    {
+      "start": 540.9,
+      "end": 544.9,
+      "kind": "broll",
+      "src": "DJI_20260926215746_0256_D.MP4",
+      "in": 0.0,
+      "out": 4.0
+    },
+    {
+      "start": 544.9,
+      "end": 547.9,
+      "kind": "routine",
+      "src": "DJI_20260926215746_0256_D.MP4",
+      "in": 368.0,
+      "out": 371.0
+    },
+    {
+      "start": 547.9,
+      "end": 550.9,
+      "kind": "routine",
+      "src": "DJI_20260926215746_0256_D.MP4",
+      "in": 380.0,
+      "out": 383.0
+    },
+    {
+      "start": 550.9,
+      "end": 553.9,
+      "kind": "routine",
+      "src": "DJI_20260926215746_0256_D.MP4",
+      "in": 501.0,
+      "out": 504.0
+    },
+    {
+      "start": 553.9,
+      "end": 556.9,
+      "kind": "broll",
+      "src": "DJI_20260926215746_0256_D.MP4",
+      "in": 540.0,
+      "out": 543.0
+    },
+    {
+      "start": 556.9,
+      "end": 563.9,
+      "kind": "talking",
+      "src": "DJI_20260927113059_0258_D.MP4",
+      "in": 10.75,
+      "out": 17.75
+    },
+    {
+      "start": 563.9,
+      "end": 565.8,
+      "kind": "talking",
+      "src": "DJI_20260927113059_0258_D.MP4",
+      "in": 40.5,
+      "out": 42.4
+    },
+    {
+      "start": 565.8,
+      "end": 573.5,
+      "kind": "talking",
+      "src": "DJI_20260927113059_0258_D.MP4",
+      "in": 54.95,
+      "out": 62.7
+    },
+    {
+      "start": 573.5,
+      "end": 576.5,
+      "kind": "talking",
+      "src": "DJI_20260927113059_0258_D.MP4",
+      "in": 85.6,
+      "out": 88.6
+    },
+    {
+      "start": 576.5,
+      "end": 579.6,
+      "kind": "broll",
+      "src": "DJI_20260926085152_0240_D.MP4",
+      "in": 30.0,
+      "out": 33.1
+    },
+    {
+      "start": 579.6,
+      "end": 582.6,
+      "kind": "broll",
+      "src": "DJI_20260926101509_0243_D.MP4",
+      "in": 40.0,
+      "out": 43.0
+    },
+    {
+      "start": 582.6,
+      "end": 585.6,
+      "kind": "broll",
+      "src": "DJI_20260926102715_0246_D.MP4",
+      "in": 64.0,
+      "out": 67.0
+    },
+    {
+      "start": 585.6,
+      "end": 588.8,
+      "kind": "broll",
+      "src": "DJI_20260926210419_0254_D.MP4",
+      "in": 300.0,
+      "out": 303.2
+    },
+    {
+      "start": 588.8,
+      "end": 592.3,
+      "kind": "talking",
+      "src": "DJI_20260927113059_0258_D.MP4",
+      "in": 141.0,
+      "out": 144.5
+    }
+  ],
+  "shots_status": "paper edit from _moments.json, not rendered; master-time estimates, re-time from raw_words.json",
+  "chapters": [
+    {
+      "time": "0:00",
+      "title": "The longest day of my life"
+    },
+    {
+      "time": "0:19",
+      "title": "Flying standby"
+    },
+    {
+      "time": "2:15",
+      "title": "The blue apartment"
+    },
+    {
+      "time": "2:57",
+      "title": "No sleep and Pokémon donuts"
+    },
+    {
+      "time": "3:49",
+      "title": "Saturday morning"
+    },
+    {
+      "time": "4:47",
+      "title": "Getting ready"
+    },
+    {
+      "time": "5:35",
+      "title": "Panaderia Rosetta"
+    },
+    {
+      "time": "6:01",
+      "title": "Filming in front of people"
+    },
+    {
+      "time": "6:49",
+      "title": "Uber to San Angel"
+    },
+    {
+      "time": "7:13",
+      "title": "El Bazar Sabado"
+    },
+    {
+      "time": "7:43",
+      "title": "Not a fan of eating outside"
+    },
+    {
+      "time": "8:44",
+      "title": "Saturday night"
+    },
+    {
+      "time": "9:16",
+      "title": "Last morning"
+    }
+  ],
+  "estimated_runtime_s": 592.3,
+  "master": {
+    "path": "media/out/mexico-city-weekend_master.mp4",
+    "status": "not rendered (paper edit only; footage not in session)",
+    "edl": "copy/edl.md"
   }
 }
