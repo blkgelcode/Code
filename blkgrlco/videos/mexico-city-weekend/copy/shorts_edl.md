@@ -124,11 +124,11 @@ Drop rows 5–6 (lunch, −4.0 s), 14 (toothbrush, −2.5), 16 (−1.5), 19
   P5: 0235, 4541, 4557, 0250, 0255, 0257.
 
 ## Flags for her
-1. **Brand**: @blkgrlco (HHH Run) or @blkgrlcotoo? Decides the LUT, the
-   Day N overlay and the CTA.
+1. ~~**Brand**~~ **Resolved 2026-11-17:** @blkgrlco, 90-Day HHH Run,
+   reference Day1of90, Day overlay on.
 2. **CTA**: if this is the HHH Run, the locked CTA is "make your own Pin
-   Board". It isn't anywhere in her log. The Short ends on "see y'all at
-   the airport, have a good day" because we only use her words. If she
+   Board". It isn't anywhere in her log. The Short ends cold on "see y'all at
+   the airport" ("have a good day" cut, her call 2026-11-17). If she
    wants the CTA, she records it; we don't add it.
 3. **Music (D1)**: not picked. Beat-cut timing waits on it. Rows 5, 6, 29,
    30 are muted picture; the Short needs a bed under them.
