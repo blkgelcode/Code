@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-10-03.
+2026-11-17.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -75,7 +75,7 @@ end cold, name the specific activity — never the vague vibe.
 | Attribute | Rule |
 |---|---|
 | Camera / codec | DJI Osmo Pocket 3, D-Log M |
-| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709) |
+| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). Stored at `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube`. This is the conversion step only; never use a creative LUT in its place |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
 | Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
 | Editor | CapCut (primary) |
