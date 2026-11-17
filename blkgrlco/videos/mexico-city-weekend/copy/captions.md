@@ -8,23 +8,21 @@ are **log quotes** and must be checked against the transcript. Written for
 **How the hooks work.** There's one Shorts cut, so it has one spoken
 opening line, and the shorts role chooses it. The hook recommended for
 that opening is her Red line from 0236: "this has been the longest
-longest day of my life." What changes per platform is the caption and
-cover text, each using a different hook pattern. If she wants a different
+longest day of my life." What changes per platform is the caption,
+each using a different hook pattern. If she wants a different
 spoken opening per platform, that means separate cuts. Ask her first.
 
-**On-screen text:** C12 says no improvised trend-text without her
-reference. The "cover text" lines below are for the cover or thumbnail
-frame only. They're suggestions for the thumbnail role, which owns
-covers. Nothing goes on the video itself until she shows a reference
-(Day1of90 if it's the HHH Run). Each cover line uses a different phrase
-from the caption under it (T4, applied per platform).
+**Covers:** the thumbnail role owns the 1080×1920 cover (`copy/thumbnail.md`
+proposes Concept C, the yellow dress, "I LOOK SO PRETTY"). One cover
+serves every platform. None of the captions below repeat its words (T4).
+**On-screen text:** C12 says nothing improvised goes on the video itself
+until she shows a reference (Day1of90 if it's the HHH Run).
 
 ---
 
 ## TikTok
 
 - **Hook pattern:** Confession
-- **Cover text:** working on confidence in mexico city
 - **Caption:**
   flew standby to mexico city on no sleep, and it was the first time I'd
   really had my camera out in front of people. "it's a little bit
@@ -35,7 +33,6 @@ from the caption under it (T4, applied per platform).
 ## Instagram Reels
 
 - **Hook pattern:** POV/Relatable
-- **Cover text:** mexico city on 30 minutes of sleep
 - **Caption:**
   POV: you fly standby on zero sleep, the flight attendant has to wake you
   up, and check-in isn't until 4.

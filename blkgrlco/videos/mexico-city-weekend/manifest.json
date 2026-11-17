@@ -24,7 +24,16 @@
       "kind": "shorts",
       "path": "media/out/mexico-city-weekend_shorts.mp4",
       "transcript": "media/transcripts/shorts.txt",
-      "captions": "media/out/mexico-city-weekend_shorts.srt"
+      "captions": "media/out/mexico-city-weekend_shorts.srt",
+      "size": [
+        1080,
+        1920
+      ],
+      "max_duration_s": 180,
+      "paper_edl": "copy/shorts_edl.md",
+      "status": "paper edit (~1:45; ~1:28 trim path); not rendered: no footage/transcript",
+      "day_overlay": null,
+      "cta": null
     },
     {
       "id": "thumbnail_youtube",
