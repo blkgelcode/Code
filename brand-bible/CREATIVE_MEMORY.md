@@ -48,6 +48,16 @@ day); #blkgrlcotoo is retired.
 Earlier entries in this log keep the old handle as history. Editor prompt
 refreshed the same day.
 
+## @blkgrlcotakesoff long-forms are horizontal (2026-11-17)
+
+Asked on her first travel production brief whether the long-form should be
+vertical (as her own plan said) or horizontal, she answered "Horizontal",
+and confirmed it as the rule for every travel long-form, not just that
+video. Long-forms: 16:9, 1920×1080. Shorts stay vertical 1080×1920. Locked
+in `brands/blkgrlcotoo.md` and `STYLE_GUIDE.md`; editor prompt refreshed.
+Same answer: the arrival is not the opening of that video (this video
+only, not a standing rule).
+
 ## Podcast renamed: "I Wish Somebody Had Told Me" (2026-10-03)
 
 She renamed the podcast from *The Ugly In Between* to *I Wish Somebody

@@ -65,6 +65,7 @@ unless you were asked to.
   ignore the file's bt709 tag, then the channel's creative LUT, then
   reframe. Never put a creative look in step 1.
 - Vertical deliveries are true 1080×1920, never pillarboxed.
+  @blkgrlcotakesoff long-forms are horizontal 16:9, 1920×1080.
 - @blkgrlco label cards: Arial Rounded Bold ~170pt, `#A8B118`, lowercase,
   centered on a 1920×1080 transparent canvas, saved as
   `assets/cards/l_<name>.png` in that video's project.

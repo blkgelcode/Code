@@ -173,7 +173,7 @@ exists but wasn't captured):
 | Camera / codec | DJI Osmo Pocket 3, D-Log M. |
 | LUT | Apply "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage. |
-| Frame / aspect | True vertical 1080x1920. Never pillarboxed landscape. |
+| Frame / aspect | True vertical 1080x1920. Never pillarboxed landscape. **Exception (locked 2026-11-17): @blkgrlcotakesoff long-forms are horizontal 16:9, 1920x1080**; its shorts stay vertical. |
 | Editor | CapCut (primary). |
 | Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 — fixes files that fail direct import/transcription. |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video. |

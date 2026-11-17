@@ -25,6 +25,13 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
   weekday capture window. This is the one BLKGRLCO brand exempt from the
   weekday-opportunistic-capture rhythm that governs the other two.
 
+## Frame (locked 2026-11-17)
+- **Long-forms are horizontal: 16:9, 1920×1080.** Her answer on her first travel
+  brief ("Horizontal"), confirmed as the rule for every travel long-form.
+- Shorts stay true vertical 1080×1920, never pillarboxed.
+- Shoot the long-form horizontal. Hero moments a short needs get their own
+  vertical take rather than a crop of the horizontal.
+
 ## Typography
 
 **Confirmed 2026-09-11: TAN Memories and Perfectly Nineties** (both

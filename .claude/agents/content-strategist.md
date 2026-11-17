@@ -27,6 +27,9 @@ film on a real day, so nothing gets shot without a purpose.
   propose the split.
 - **Thumbnail shots are planned now**, in the shot list, not found after
   filming.
+- **@blkgrlcotakesoff long-forms are shot horizontal (16:9)**; shorts are
+  vertical. Mark each shot H, V or both, and give hero moments a short
+  needs their own vertical take.
 - **Music is chosen before shooting.** Put "pick the track" on the plan
   as her step; don't pick it.
 - Fit her real life: full-time job Mon–Fri 3pm–12am; weekday mornings are

@@ -78,7 +78,7 @@ end cold, name the specific activity — never the vague vibe.
 | Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). File: `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube` (DJI's own; its header says Mavic 3 Pro, that's DJI's, it's the right file) |
 | Step 1 is always the conversion | Never put a creative look (The Everyday LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
-| Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
+| Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape. **Exception: @blkgrlcotakesoff long-forms are horizontal 16:9, 1920×1080** (its shorts stay vertical) |
 | Editor | CapCut (primary) |
 | Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video |
@@ -249,6 +249,10 @@ the weekday-opportunistic-capture rhythm).
    One file, no per-shoot selection; same vendor order and fixes as
    @blkgrlco. The old five-LUT lighting kit (250D/500T/160T) is **retired**;
    never use it on new videos.
+
+**Frame (locked 2026-11-17):** long-forms are **horizontal 16:9,
+1920×1080**. Shorts stay true vertical 1080×1920. Hero moments a short
+needs get their own vertical take; don't crop them from the horizontal.
 
 **Editorial frameworks that apply:** Wide → Medium → Close for new-location
 establishing shots; Flow Cut for transit/movement footage.

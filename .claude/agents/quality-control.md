@@ -48,7 +48,8 @@ anything; you say exactly what passes, what fails, and why.
   transitions between locations; flub takes gone; label cards on scene
   changes (@blkgrlco); Shorts cut under 3:00 delivered (@blkgrlco).
 - **Picture:** conversion LUT first, then The Everyday LUT (@blkgrlco and
-  @blkgrlcotakesoff); skin looks natural; true 1080×1920 on verticals
+  @blkgrlcotakesoff); skin looks natural; @blkgrlcotakesoff long-forms horizontal 1920×1080;
+  true 1080×1920 on verticals
   (measure it with `ffprobe`).
 - **Sound:** no silent graphic or transition (@blkgrlco, @blkgrlcotakesoff);
   podcast at −16 LUFS ±0.5 LU on every file, cold open music-free, locked
