@@ -2,6 +2,16 @@
 
 Status reports from `/blkgrlco-video`, newest on top.
 
+## 2026-11-17 — decisions logged: frame, ending, day overlay
+**Status:** blocked (footage not in session)
+**What changed:** Her answers in chat: long-form master is **vertical
+1080×1920**; **"have a good day" cut** in long-form and Short (both end cold
+on "see y'all at the airport"); **Day overlay on the Short** (Day 20 Fri /
+Day 21 Sat / Day 22 Sun), styled to match Day1of90. Short now ends ~1:43.
+**Open questions:** music M1–M6 · meds near-miss in the Short? · spoken
+Pin Board CTA or captions only? · San Angel return footage · where 4536 was filmed.
+Nothing has been published or sent to any platform.
+
 ## 2026-11-17 — decisions logged: brand, reference, runtime
 **Status:** blocked (footage not in session)
 **What changed:** Her answers in chat: **@blkgrlco** (90-Day HHH Run,

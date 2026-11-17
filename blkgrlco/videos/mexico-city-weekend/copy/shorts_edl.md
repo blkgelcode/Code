@@ -26,11 +26,13 @@ start blindly; C4: cut ums, false starts and repeats inside the span).
   Until then cuts land on her line ends and on a body movement (C6).
 - Native audio muted on every clip her log marks MUSIC (restaurant/cafe
   music in the background) and on the night clips with the TV on.
-- **No "Day N" overlay.** The series isn't confirmed as the 90-Day HHH Run,
-  and the overlay style would have to match the Day1of90 reference
-  (C12), which is missing. If both get confirmed: by her log and the
-  straight count (Day 1 = 9/6) it's Fri = Day 20, Sat = Day 21, Sun =
-  Day 22 (her log says "day 22" on the Sunday clip).
+- **Day overlay: ON** (her call 2026-11-17). Day 20 over 0:00–0:30.5
+  (Friday, incl. the 4:53 PM flash-forward hook), **Day 21** from 0:30.5
+  ("Good morning", row 11), **Day 22** from 1:34.5 (row 31) to the end.
+  Shorts viewers watch muted, so it stays up the whole time. Style matches
+  the Day1of90 reference (C12): graphics pulls the exact type, size and
+  placement from that video's frames, with no improvised decoration.
+  Placed top of frame, clear of her face and the burned-in captions.
 
 ### Captions (burned in)
 Bold plain white, no box, no stickers, no trend text (C12, G2). Her words
@@ -93,7 +95,7 @@ tag span in brackets).
 |---|---|---|---|---|---|
 | 31 | 1:34.5–1:36.4 | `DJI_…0258_D` 40.5–42.4 [Orange] | "fun weekend, but it's time to go back home" *(check against transcript)* | fun weekend, / but it's time / to go back home | Turns the story toward the end. |
 | 32 | 1:36.4–1:41.4 | `DJI_…0258_D` inside 85.6–100.9 [Orange] | "really happy I got a weekend away … just being where I wanna be" *(check against transcript)* | really happy / I got a weekend away, / just being / where I wanna be | The resolution in her words. Trim to ~5 s at the transcript. |
-| 33 | 1:41.4–1:44.9 | `DJI_…0258_D` inside 141–147.5 [Orange] | "see y'all at the airport, have a good day" *(check against transcript)* | see y'all at the airport, / have a good day | **End on her last on-camera line**, cold (C11). Check the tail past 147.5 for a "bye bye"; if she says it, it stays (C11). |
+| 33 | 1:41.4–1:44.9 | `DJI_…0258_D` inside 141–147.5 [Orange] | "see y'all at the airport" *(check against transcript)*. Cut "have a good day" (her call 2026-11-17, matches the long-form) | see y'all at the airport | **End on her last on-camera line**, cold (C11). Check the tail past 147.5 for a "bye bye"; if she says it, it stays (C11). |
 
 **Total ~1:44.9.**
 

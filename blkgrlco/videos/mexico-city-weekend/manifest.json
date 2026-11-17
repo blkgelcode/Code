@@ -14,10 +14,14 @@
   "deliverables": [
     {
       "id": "master",
-      "kind": "longform",
+      "kind": "vertical",
       "path": "media/out/mexico-city-weekend_master.mp4",
       "transcript": "media/transcripts/master.txt",
-      "captions": "media/out/mexico-city-weekend_master.srt"
+      "captions": "media/out/mexico-city-weekend_master.srt",
+      "size": [
+        1080,
+        1920
+      ]
     },
     {
       "id": "shorts",
@@ -32,7 +36,20 @@
       "max_duration_s": 180,
       "paper_edl": "copy/shorts_edl.md",
       "status": "paper edit (~1:45; ~1:28 trim path); not rendered: no footage/transcript",
-      "day_overlay": null,
+      "day_overlay": [
+        {
+          "from": 0.0,
+          "text": "Day 20"
+        },
+        {
+          "from": 30.5,
+          "text": "Day 21"
+        },
+        {
+          "from": 94.5,
+          "text": "Day 22"
+        }
+      ],
       "cta": null
     },
     {
@@ -1072,5 +1089,7 @@
     "edl": "copy/edl.md"
   },
   "brand": "@blkgrlco",
-  "runtime_decision": "tight ~10 min, approved by her 2026-11-17 (L1 12\u201314 min target waived for this video; do not restore trimmed talk)"
+  "runtime_decision": "tight ~10 min, approved by her 2026-11-17 (L1 12\u201314 min target waived for this video; do not restore trimmed talk)",
+  "ending": "cold on \"see y'all at the airport\"; \"have a good day\" cut in both (her call 2026-11-17)",
+  "master_frame": "vertical 1080x1920 (her call 2026-11-17)"
 }
