@@ -5,6 +5,9 @@ system that sits on top of it.
 
 ## The 13 steps
 
+Runnable end to end with `/produce-video <idea>` (the subagent team in
+`.claude/agents/`; see the team table in `AGENTS.md`).
+
 1. **Understand the idea** — topic, objective, audience, platform, format,
    desired emotion, desired action. **Confirmed rule (2026-09-11 vlog
    feedback):** decide the single central topic before filming, and list

@@ -23,6 +23,26 @@ Shared rules for every agent:
   back. Flag contradictions with a locked decision rather than silently
   resolving them.
 
+## The runnable team
+
+Ten of these roles exist as Claude Code subagents in `.claude/agents/`.
+`/produce-video <idea>` runs them as a team, with her approval at each
+gate (`.claude/skills/produce-video/SKILL.md`). Podcast episodes use
+`/podcast-episode <N>`.
+
+| Subagent | Covers role(s) below | Workflow step |
+|---|---|---|
+| `research` | 1 Research, 9 Trend Intelligence | 2 |
+| `content-strategist` | 2 Content Strategist | 1, 3, 6 |
+| `scriptwriting` | 3 Scriptwriting | 4 |
+| `video-editor` | 4 Video Editor | 5 |
+| `color-grading` | 5 Color Grading | 8 |
+| `sound-design` | audio plan | 7 |
+| `packaging` | 6 Thumbnail Design, 7 SEO & Discoverability | 9, 10 |
+| `repurposing` | 8 Social Media Repurposing | 11 |
+| `quality-control` | 11 Content Quality Control | 12 |
+| `analytics` | 10 Analytics | Reflect |
+
 ---
 
 ## 1. Research Agent

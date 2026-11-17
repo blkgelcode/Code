@@ -2,3 +2,6 @@
 podcast/episodes/*/media/
 podcast/assets/
 __pycache__/
+
+# Video production media: footage, renders and licensed music never get committed
+productions/*/*/media/
