@@ -1,4 +1,13 @@
-# @blkgrlcotoo — Travel
+# @blkgrlcotakesoff — Travel
+
+**Renamed 2026-11-17 from @blkgrlcotoo.** Everything locked for
+@blkgrlcotoo carries over unchanged: series, filming constraint, LUT kit,
+fonts (TAN Memories / Perfectly Nineties) and palette (confirmed by her
+the same day). This file, `assets/luts/blkgrlcotoo/` and
+`assets/fonts/blkgrlcotoo/` keep the old name so existing links and the
+BLKGRLCO Bin app don't break. Don't use the old handle on new assets.
+**Open:** the brand hashtag (#blkgrlcotoo) hasn't been changed yet; ask
+before using #blkgrlcotakesoff.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context.
 
@@ -38,7 +47,7 @@ use. No open items on this brand's typography.
 | 🟦 | `#6177A8` | Dusty periwinkle blue |
 
 This supersedes the earlier "no fixed palette locked yet, pull from
-destination footage" placeholder — this is now the standing @blkgrlcotoo
+destination footage" placeholder — this is now the standing @blkgrlcotakesoff
 palette for thumbnails, graphics, and title cards. Still pull specific
 color *grading* from the actual destination/footage per shoot; this
 palette governs graphic elements (thumbnails, text, overlays), not a
@@ -75,7 +84,7 @@ worth carrying forward once confirmed:
 **Flagged, not adopted:** the board also leans heavily on glossy 3D
 Canva stickers/embellishments (balloon letters, enamel-pin-style icons).
 That's a live open question, not a decision — ask before using decorative
-sticker elements on any @blkgrlcotoo asset, since nothing like that is
+sticker elements on any @blkgrlcotakesoff asset, since nothing like that is
 locked in yet.
 
 **Caution:** this board samples many other creators' actual videos/thumbnails.
@@ -88,7 +97,7 @@ specific creator's thumbnail or video 1:1.
 1. Technical conversion (cross-brand default, `../STYLE_GUIDE.md`): DJI
    Osmo Pocket 3 D-Log M footage → "DJI OSMO Pocket 3 D-Log M to Rec.709"
    LUT. This gets footage to a clean Rec.709 starting point.
-2. **Creative grade (confirmed 2026-09-11, @blkgrlcotoo-specific):** one of
+2. **Creative grade (confirmed 2026-09-11, @blkgrlcotakesoff-specific):** one of
    five Rec.709→Rec.709 film-emulation LUTs, applied on top of step 1's
    output — not a replacement for it. Files stored at
    `assets/luts/blkgrlcotoo/` (DaVinci Resolve-generated, 65-point 3D LUTs):
@@ -130,7 +139,7 @@ specific creator's thumbnail or video 1:1.
 - Series names to use exactly: "Young & Outside in [Location]," "SCENT
   PASSPORT."
 - Hashtag tiers: broad (#traveltiktok) / niche (#blackgirltravel) / brand
-  (#blkgrlcotoo, #youngandoutsidein[location], #scentpassport).
+  (#blkgrlcotoo — under review since the rename, ask — #youngandoutsidein[location], #scentpassport).
   **Never reuse retired hashtags:** #stamped, #fuckitbookit,
   #younghotandoutside.
 - Hook patterns (Idea Bank): compliment-getter recommendation, value/dupe

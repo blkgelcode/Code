@@ -29,7 +29,7 @@ It works directly on the Samsung T7, which mounts as **`/Volumes/Untitled`**; fo
 `/Volumes/Untitled/project hhh/<one folder per video>`.
 
 Cameras: DJI Osmo Pocket 3 (`DJI_YYYYMMDDHHMMSS_####_D.MP4`, D-Log M, usually vertical) and iPhone (`IMG_####.MOV`; some horizontal).
-Channels: @blkgrlco (main), @blkgrlcotoo (travel), podcast "I Wish Someone Had Told Me" (handle @iwishsomeonetoldme).
+Channels: @blkgrlco (main), @blkgrlcotakesoff (travel, formerly @blkgrlcotoo; the app still stores it under the key `@blkgrlcotoo`), podcast "I Wish Someone Had Told Me" (handle @iwishsomeonetoldme).
 
 ### Built and committed
 
@@ -100,7 +100,7 @@ Walk her through **Settings → Connections → YouTube Analytics** (the steps a
    (in Testing, Google expires refresh tokens after 7 days). Google shows an "unverified app" warning;
    that's expected: Advanced → Go to BLKGRLCO Bin.
 3. Credentials → OAuth client ID → **Desktop app** → download the JSON → choose it in the app.
-4. **Connect a channel**, once each for @blkgrlco, @blkgrlcotoo and the podcast (Google asks which channel).
+4. **Connect a channel**, once each for @blkgrlco, @blkgrlcotakesoff and the podcast (Google asks which channel).
    Redirect is `http://127.0.0.1:4321/oauth/callback` (desktop loopback; no need to register it).
 5. Overview → Channels: check the 28-day views against YouTube Studio (the app's range ends 3 days ago,
    because Analytics lags). Earnings show "not available" unless the channel is in the Partner Program.

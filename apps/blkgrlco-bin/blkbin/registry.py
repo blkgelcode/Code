@@ -19,7 +19,8 @@ from pathlib import Path
 
 from . import settings as settings_mod
 
-CHANNELS = {"@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotoo", "podcast": "I Wish Someone Had Told Me"}
+# "@blkgrlcotoo" stays the key (saved projects, dashboard imports); the channel is shown as @blkgrlcotakesoff since 2026-11-17.
+CHANNELS = {"@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotakesoff", "podcast": "I Wish Someone Had Told Me"}
 # Same values the dashboard uses, so imports line up.
 FORMATS = ["long-form", "weekly long-form", "update", "episode", "daily short", "short", "test short"]
 LONG_FORMATS = {"long-form", "weekly long-form", "update", "episode"}

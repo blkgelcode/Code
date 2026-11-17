@@ -8,7 +8,7 @@ three-brand creative studio:
 | Brand | Handle | Format |
 |---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
-| Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
+| Travel | @blkgrlcotakesoff (formerly @blkgrlcotoo) | Long-form + shorts, vacation/weekend-only filming |
 | I Wish Somebody Had Told Me | @iwishsomeonetoldme (formerly @uglyinbetween) | Scripted solo video podcast |
 
 It is not a content generator. It is a **memory system + workflow** so that
@@ -20,7 +20,7 @@ every piece of content gets better because of everything made before it.
 |---|---|
 | `brand-bible/BRAND_BIBLE.md` | Studio-level source of truth: creator, cross-brand identity, production reality, tools, and the studio's actual goal. |
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
-| `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotoo identity, series, production constraints, SEO. |
+| `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotakesoff (formerly @blkgrlcotoo; file keeps the old name) identity, series, production constraints, SEO. |
 | `brand-bible/brands/uglyinbetween.md` | I Wish Somebody Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
 | `brand-bible/STYLE_GUIDE.md` | Cross-brand editorial toolkit: documentarian rule, the 7 Narrative Cuts, graphics/SFX reference, technical/delivery specs, thumbnail workflow. |
 | `brand-bible/SCRIPTWRITING_GUIDE.md` | Cross-brand voice rules + per-brand voice link-out. |
@@ -30,7 +30,6 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/SOUND_LIBRARY.md` | Studio music/SFX inventory (Epidemic Sound) per brand — scaffold as of 2026-09-11, being built out. |
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
-| `agents/EDITOR_PROMPT_BLKGRLCOTAKESOFF.md` | Separate editor prompt for @blkgrlcotakesoff (spin-off of @blkgrlcotoo, added 2026-11-17): inherited editing craft, plus the channel-identity items that must be asked about rather than carried over. Brand file: `brand-bible/brands/blkgrlcotakesoff.md`. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
 | `podcast/` | @iwishsomeonetoldme episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (pointer to the live playbook in her Show Hub doc), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
 | `apps/blkgrlco-bin/` | **BLKGRLCO Bin**: local web app (Mac, localhost) that sorts footage on the T7 into category folders with dry run + undo, and writes `_footage-master.md`. Phase 1 (Media tab) built; Plan and Overview tabs next. See its README. |
@@ -66,6 +65,6 @@ constraint — don't reintroduce growth-chasing framing. Full detail:
 ## Open questions
 
 See `brand-bible/BRAND_BIBLE.md` for the current list — mainly around
-@blkgrlcotoo/@iwishsomeonetoldme audience specifics, unconfirmed creator-reference
+@blkgrlcotakesoff/@iwishsomeonetoldme audience specifics, unconfirmed creator-reference
 handles, and one unresolved overlap between @blkgrlco's own "Travel" pillar
-and @blkgrlcotoo as a separate brand.
+and @blkgrlcotakesoff as a separate brand.

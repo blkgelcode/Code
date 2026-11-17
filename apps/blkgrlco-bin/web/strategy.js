@@ -3,7 +3,7 @@
    Uses h(), api, toast, modal(), closeModal(), runJob(), progressBar(), S, O from the other scripts. */
 
 const T = { channel: "@blkgrlco", sub: "bullseye", data: null, view: "topics", cmp: "topic", gen: null, profile: null, check: null };
-const CH_LABEL = { "@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotoo", podcast: "Podcast" };
+const CH_LABEL = { "@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotakesoff", podcast: "Podcast" };
 const pct = (x) => (x == null ? "—" : `${Math.round(x * 100)}%`);
 const num = (n) => (n == null ? "—" : Number(n).toLocaleString("en-US"));
 const ytLink = (url, text) => h("a", { href: url, target: "_blank", rel: "noopener" }, text);
@@ -239,7 +239,7 @@ function drawProfiles(body) {
   };
   append(body,
     h("h3", {}, "Audience profiles"),
-    h("p", { class: "lead" }, "Nia (@blkgrlco), Zara (@blkgrlcotoo), Amara (the podcast). The Bullseye scores audience fit from these, and the Hook Machine writes for them. A saved answer is never replaced without your yes."),
+    h("p", { class: "lead" }, "Nia (@blkgrlco), Zara (@blkgrlcotakesoff), Amara (the podcast). The Bullseye scores audience fit from these, and the Hook Machine writes for them. A saved answer is never replaced without your yes."),
     h("div", { class: "segmented small" }, ...Object.entries(d.profiles).map(([k, p]) =>
       h("button", { class: T.profile === k ? "active" : "", onclick: () => { T.profile = k; drawStrategy(); } }, `${p.name}${p.missing.length ? " •" : ""}`))),
     form,

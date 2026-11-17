@@ -2,7 +2,7 @@
 
 Setup, once: a Google Cloud project with the YouTube Data API v3 and YouTube Analytics API
 turned on, an OAuth client of type "Desktop app", and its JSON saved in Settings.
-Each channel (@blkgrlco, @blkgrlcotoo, the podcast) is signed in separately; Google asks
+Each channel (@blkgrlco, @blkgrlcotakesoff, the podcast) is signed in separately; Google asks
 which channel when you sign in. Tokens stay in the app's folder on the Mac.
 
 Standard library only (urllib). All network calls go through `_http`, which tests replace.

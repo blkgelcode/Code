@@ -317,7 +317,7 @@ function youtubeSettings() {
           h("li", {}, "Credentials → Create credentials → OAuth client ID → Application type: Desktop app. Download the JSON."),
           h("li", {}, "Choose that JSON file here: ", file))),
       h("div", { class: "inline" }, connect,
-        h("span", { class: "help" }, "Google asks which channel. Connect @blkgrlco, @blkgrlcotoo and the podcast one at a time. When Google warns the app isn't verified, choose Advanced → Go to BLKGRLCO Bin.")));
+        h("span", { class: "help" }, "Google asks which channel. Connect @blkgrlco, @blkgrlcotakesoff and the podcast one at a time. When Google warns the app isn't verified, choose Advanced → Go to BLKGRLCO Bin.")));
   }).catch((e) => put(wrap, h("label", {}, "YouTube Analytics"), h("p", {}, e.message)));
   return wrap;
 }

@@ -79,7 +79,7 @@ list below).
 - Hashtag tiers: broad #glowup · niche #90dayplan · brand #blkgrlco,
   #hothealthyhappy.
 
-### @blkgrlcotoo (travel)
+### @blkgrlcotakesoff (travel)
 - Core terms: destination name + genre terms (solo travel, travel vlog,
   [country/city] travel, budget travel, Black traveler) — pull specific
   neighborhoods/landmarks/experiences from actual footage, not generic
@@ -89,7 +89,9 @@ list below).
 - **Retired names — never use:** "Young Hot & Outside," "Fuck It Book It,"
   "STAMPED."
 - Hashtag tiers: broad #traveltiktok · niche #blackgirltravel · brand
-  #blkgrlcotoo, #youngandoutsidein[location], #scentpassport.
+  #blkgrlcotoo (under review since the 2026-11-17 rename to
+  @blkgrlcotakesoff — ask before using it or #blkgrlcotakesoff),
+  #youngandoutsidein[location], #scentpassport.
 - **Retired hashtags — never reuse:** #stamped, #fuckitbookit,
   #younghotandoutside.
 

@@ -96,7 +96,7 @@ Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
 - Weekday mornings = opportunistic capture only.
 - Saturday = batch film day.
 - Sunday = edit/upload/reflect/plan.
-- @blkgrlcotoo (travel) is the one exception — filmed only on vacation
+- @blkgrlcotakesoff (travel) is the one exception — filmed only on vacation
   days/weekends off, never squeezed into the weekday rhythm.
 
 ## Technical & storage notes (BLKGRLCO Studios, all brands unless noted)
@@ -112,7 +112,7 @@ Film = production itself, Edit = steps 5, 8, 12, Upload = step 13, Reflect
   stall there).
 - Camera: DJI Osmo Pocket 3, D-Log M — apply the correct LUT rather than
   trusting the file's own (mis-tagged) color-space metadata. (@blkgrlco /
-  @blkgrlcotoo shooting style — @iwishsomeonetoldme has its own production
+  @blkgrlcotakesoff shooting style — @iwishsomeonetoldme has its own production
   approach, see `brand-bible/brands/uglyinbetween.md`.)
 - Editor: CapCut.
 - Footage that won't import/transcribe: round-trip through a Canva export

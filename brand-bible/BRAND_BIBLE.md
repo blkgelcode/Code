@@ -31,8 +31,7 @@ visual identity. Don't average them into one generic "BLKGRLCO style."
 | Brand | Handle | Format | Full detail |
 |---|---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form | `brands/blkgrlco.md` |
-| Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming | `brands/blkgrlcotoo.md` |
-| Spin-off of @blkgrlcotoo (added 2026-11-17) | @blkgrlcotakesoff | `[NEEDS INPUT]` — starts from @blkgrlcotoo's rules, some differ | `brands/blkgrlcotakesoff.md` |
+| Travel (renamed 2026-11-17) | @blkgrlcotakesoff (formerly @blkgrlcotoo) | Long-form + shorts, vacation/weekend-only filming | `brands/blkgrlcotoo.md` |
 | I Wish Somebody Had Told Me (renamed 2026-10-03) | @iwishsomeonetoldme (formerly @uglyinbetween) | Scripted solo video podcast | `brands/uglyinbetween.md` |
 
 **Confirm brand + platform before producing anything** — pillars, voice,
@@ -57,7 +56,7 @@ hashtag tiers, and title conventions all differ by brand.
 | Psychographic | Creative professionals, entrepreneurs, community-focused individuals seeking empowerment, authenticity, adventure. |
 
 This is confirmed for @blkgrlco specifically (its brand identity doc's
-stated target). @blkgrlcotoo and @iwishsomeonetoldme don't have their own stated
+stated target). @blkgrlcotakesoff and @iwishsomeonetoldme don't have their own stated
 demographic yet — reasonable to assume overlap given one creator, but not
 confirmed; don't presume identical targeting without checking.
 
@@ -81,7 +80,7 @@ confirmed; don't presume identical targeting without checking.
 - Weekday mornings = opportunistic capture only.
 - Saturday = batch film day.
 - Sunday = edit/upload/reflect/plan.
-- @blkgrlcotoo (travel) is the one exception — filmed only on vacation
+- @blkgrlcotakesoff (travel) is the one exception — filmed only on vacation
   days/weekends off, never squeezed into the weekday rhythm.
 - Pipeline: **Plan → Film → Edit → Upload → Reflect** (full detail,
   shot-list framework, and scene structure in
@@ -106,13 +105,14 @@ confirmed; don't presume identical targeting without checking.
 - **Metricool** — **the only publishing/scheduling tool, confirmed by
   Omnia 2026-09-11.** Connected to **all three brands** as of 2026-09-10:
   @blkgrlco (id 4359163; Instagram, Pinterest, TikTok, YouTube — the
-  account with real posting history), @blkgrlcotoo (id 6918875; Instagram,
-  TikTok, YouTube), @iwishsomeonetoldme (id 6918899, connected under the old @uglyinbetween
+  account with real posting history), @blkgrlcotakesoff (id 6918875, connected under the old @blkgrlcotoo
+  handle; Instagram, TikTok, YouTube), @iwishsomeonetoldme (id 6918899, connected under the old @uglyinbetween
   handle; Instagram, TikTok, YouTube). Previously only @blkgrlco was connected — corrected 2026-09-11
   after a live check. Plann and Clem, previously two other scheduling
   tools in parallel evaluation, are **not** used for publishing going
   forward.
-- **vidIQ** — connected to @blkgrlcotoo's YouTube (brand new, no content
+- **vidIQ** — connected to @blkgrlcotakesoff's YouTube (under the old
+  @blkgrlcotoo handle) (brand new, no content
   yet as of last check) — usable for general/competitor research, not yet
   for own-channel analytics.
 - **Epidemic Sound** — music/SFX licensing, confirmed in use 2026-09-11.
@@ -156,12 +156,12 @@ thresholds. See `../growth/MONETIZATION_STRATEGY.md` and
 
 ## Open questions
 
-1. **"Travel" as a pillar vs. @blkgrlcotoo as its own brand** — the
+1. **"Travel" as a pillar vs. @blkgrlcotakesoff as its own brand** — the
    @blkgrlco brand-identity doc lists Travel as one of @blkgrlco's own four
-   content pillars, while @blkgrlcotoo exists as a fully separate travel
+   content pillars, while @blkgrlcotakesoff exists as a fully separate travel
    brand. Not resolved as a conflict yet (see `brands/blkgrlco.md`) — worth
    confirming whether that pillar line is stale or intentional overlap.
-2. **@blkgrlcotoo / @iwishsomeonetoldme audience specifics** — only @blkgrlco
+2. **@blkgrlcotakesoff / @iwishsomeonetoldme audience specifics** — only @blkgrlco
    has a stated demographic/psychographic; the other two brands' audience
    profiles are inferred, not confirmed.
 3. **Competitor list** — no fixed creators named for any of the three

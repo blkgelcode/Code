@@ -216,7 +216,7 @@ function lutSettings() {
 }
 
 function lookSettings(looks) {
-  const label = { "@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotoo", podcast: "Podcast" };
+  const label = { "@blkgrlco": "@blkgrlco", "@blkgrlcotoo": "@blkgrlcotakesoff", podcast: "Podcast" };
   const post = async (body, msg) => {
     try { await api.post("/api/lut/look", body); toast(msg); if (S.view) setView(await api.get("/api/project")); renderSettings(); }
     catch (e) { toast(e.message, true); }

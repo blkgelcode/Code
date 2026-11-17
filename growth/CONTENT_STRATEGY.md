@@ -1,18 +1,18 @@
 # Content Strategy
 
-Three brands, one studio: @blkgrlco (personal development), @blkgrlcotoo
+Three brands, one studio: @blkgrlco (personal development), @blkgrlcotakesoff
 (travel), @iwishsomeonetoldme (podcast). Confirm which brand before applying
 anything below — pillars, cadence, and even the production rhythm differ by
 brand. See `../brand-bible/brands/` for each brand's full pillar/series
 detail; this file covers the cross-brand mechanics.
 
-## Weekly production rhythm (@blkgrlco / @blkgrlcotoo)
+## Weekly production rhythm (@blkgrlco / @blkgrlcotakesoff)
 
 - Weekday mornings: opportunistic capture only (day job is 3pm–12am).
 - Saturday: batch film day.
 - Sunday: edit/upload/reflect/plan — Sunday's long-form vlog mixes the
   week's recap footage with new Sunday-only footage.
-- @blkgrlcotoo is the exception: filmed only on vacation days/weekends off,
+- @blkgrlcotakesoff is the exception: filmed only on vacation days/weekends off,
   never squeezed into the weekday rhythm.
 
 @blkgrlco's daily shorts rotate by lane: Mon/Thu = HOT, Tue/Fri = HEALTHY,
@@ -35,7 +35,7 @@ research — not literal platform-algorithm access.
 Per-brand hook patterns (Idea Bank):
 - **@blkgrlco:** Identity Call, Contrarian Strike, Open Loop, Confession,
   Results First, Mistake Warning, Direct Question, POV/Relatable.
-- **@blkgrlcotoo:** compliment-getter recommendation, value/dupe
+- **@blkgrlcotakesoff:** compliment-getter recommendation, value/dupe
   comparison, fixable-mistake tip, mood-visual + specific detail.
 - **@iwishsomeonetoldme:** contrarian/counterintuitive angle, concrete anecdote
   with real stakes, confession, debate moment, direct takeaway/question.
@@ -89,7 +89,7 @@ open up?"
 | Brand | Platforms | Notes |
 |---|---|---|
 | @blkgrlco | YouTube, Instagram, TikTok, Pinterest | Only brand with real posting history (Metricool: 120 subs / 4 videos at connection; 4 confirmed TikTok posts as of 2026-09-11). |
-| @blkgrlcotoo | YouTube (vidIQ + Metricool connected, brand new — no published content on any network yet as of 2026-09-11) | |
+| @blkgrlcotakesoff | YouTube (vidIQ + Metricool connected, brand new — no published content on any network yet as of 2026-09-11) | |
 | @iwishsomeonetoldme | YouTube/Instagram/TikTok (Metricool connected 2026-09-10, brand new — no published content yet) | |
 
 ## Content calendar framework

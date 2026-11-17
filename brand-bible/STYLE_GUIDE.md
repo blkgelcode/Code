@@ -35,7 +35,7 @@ Reference-only until applied to an actual edit. Per-brand fit noted in each
 brand file's "Editorial Frameworks" section.
 
 1. **Flow Cut** — cut on matching motion/direction; makes a cut invisible
-   by continuing movement across it. *(Fits @blkgrlcotoo transit footage.)*
+   by continuing movement across it. *(Fits @blkgrlcotakesoff transit footage.)*
 2. **Smash Cut** — abrupt tonal contrast; gut-punch moment or reset.
    *(Fits @iwishsomeonetoldme, used sparingly.)*
 3. **Jump Cut** — same static angle, rapid cuts trimming dead air, synced
@@ -43,7 +43,7 @@ brand file's "Editorial Frameworks" section.
 4. **Action Cut** — cut hidden inside ongoing physical motion; nearly
    invisible.
 5. **Wide → Medium → Close** — shot-size hierarchy, establish then narrow
-   focus. *(Standard for @blkgrlcotoo's new-location establishing shots.)*
+   focus. *(Standard for @blkgrlcotakesoff's new-location establishing shots.)*
 6. **Match Cut** — visual symmetry between two different shots, a
    poetic/thematic link. *(Fits @iwishsomeonetoldme's surface-vs-underneath
    thesis.)*
@@ -65,7 +65,7 @@ Supporting production details (secondary, for later title-card graphics):
 
 Confirmed as a technique source to apply, not just reference — this
 resolves one of the earlier unwatchable TikTok clips (transcript supplied).
-Fit: @blkgrlco/@blkgrlcotoo primarily — @iwishsomeonetoldme's minimal-to-no-
+Fit: @blkgrlco/@blkgrlcotakesoff primarily — @iwishsomeonetoldme's minimal-to-no-
 music, one-take approach means beat-syncing and layered transition SFX
 don't really apply there.
 
@@ -86,7 +86,7 @@ don't really apply there.
 
 ## Graphics / Pop-Up / SFX Reference (Yale Jeannette — reference only, not yet applied)
 
-**Fit:** @blkgrlco and @blkgrlcotoo shorts/explainer-style content.
+**Fit:** @blkgrlco and @blkgrlcotakesoff shorts/explainer-style content.
 **Not a fit:** the podcast (not part of its playbook).
 Nothing here is locked in yet; flag when ready to actually build a
 BLKGRLCO-specific graphic pack, and build it in the relevant brand's own
@@ -137,7 +137,7 @@ low-volume SFX.
 Stated as "elements I want on hand" — a real intended asset library, not
 passive inspiration, though nothing here is applied to a specific piece of
 content yet. Medium confidence; same fit rule as the rest of this
-section — **@blkgrlco/@blkgrlcotoo, not @iwishsomeonetoldme.**
+section — **@blkgrlco/@blkgrlcotakesoff, not @iwishsomeonetoldme.**
 
 **Sourcing (confirmed 2026-09-11): these and similar elements are directly
 searchable/available in Canva** — no separate asset acquisition needed,
@@ -162,7 +162,7 @@ exists but wasn't captured):
   cherries, oranges) — decorative element set.
 - **06. Paper cutouts** — torn-paper handwritten notes, heart doodles, a
   newspaper-cutout heart — reinforces the glossy-sticker/decorative
-  direction flagged as an open question for @blkgrlcotoo in
+  direction flagged as an open question for @blkgrlcotakesoff in
   `brands/blkgrlcotoo.md` (more evidence she's drawn to this, still not a
   locked decision on any specific asset).
 
@@ -230,7 +230,7 @@ produce at correct spec.
 
 - @blkgrlco's daily-vlog editing standard, label-card spec, and locked
   4-panel grid template → `brands/blkgrlco.md`.
-- @blkgrlcotoo's locked palette (navy/marigold/sand/raspberry/periwinkle) →
+- @blkgrlcotakesoff's locked palette (navy/marigold/sand/raspberry/periwinkle) →
   `brands/blkgrlcotoo.md`.
 - The podcast's visual identity → `brands/uglyinbetween.md`. Under
   review since its 2026-10-03 rename to *I Wish Somebody Had Told Me*, so the previous B&W /

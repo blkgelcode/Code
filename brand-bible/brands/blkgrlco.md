@@ -37,9 +37,9 @@ Sunday-only footage.
 
 **Note on "Travel" as a pillar:** the brand identity doc lists Travel as one
 of four content pillars directly under @blkgrlco (self-discovery through
-travel). This isn't a conflict with @blkgrlcotoo existing as its own
+travel). This isn't a conflict with @blkgrlcotakesoff existing as its own
 dedicated travel brand — @blkgrlco's own HAPPY lane already covers
-travel/relationships/lifestyle as one rotation day, while @blkgrlcotoo is
+travel/relationships/lifestyle as one rotation day, while @blkgrlcotakesoff is
 the fully separate, dedicated travel channel. Flagged so the two aren't
 silently merged into one strategy.
 
@@ -95,7 +95,7 @@ silently merged into one strategy.
 
 ## Color Grading — creative pass
 
-**Two-step pipeline, same structure as @blkgrlcotoo — don't conflate the
+**Two-step pipeline, same structure as @blkgrlcotakesoff — don't conflate the
 steps:**
 1. Technical conversion (above): D-Log M → Rec.709.
 2. **Creative grade (confirmed 2026-09-11): "The Everyday LUT"** by
@@ -104,7 +104,7 @@ steps:**
    corrections → conversion LUT → The Everyday LUT → finishing
    grade/black-levels last). Stated as **the secondary** pass — i.e. this
    is step 2 of the pipeline, not a second option among choices (it's a
-   single file, no selection logic needed like the @blkgrlcotoo kit). File
+   single file, no selection logic needed like the @blkgrlcotakesoff kit). File
    + vendor how-to-use guide stored at `assets/luts/blkgrlco/`.
 
 ## Editorial Frameworks That Apply Here
@@ -152,7 +152,7 @@ palette existed.
   captions/quotes, Regular weight only), **Editor's Note** (clean
   editorial serif — **secondary/supporting thumbnail text**, beneath
   Advercase's headline; confirmed 2026-09-11, mirrors the TAN
-  Memories/Perfectly Nineties primary+secondary split on @blkgrlcotoo).
+  Memories/Perfectly Nineties primary+secondary split on @blkgrlcotakesoff).
   Font files stored at `assets/fonts/blkgrlco/`. Full studio font
   inventory: `../FONT_LIBRARY.md`. No open items on this brand's
   typography.
@@ -227,4 +227,4 @@ voice/persona/content imitation)*
   and a skincare/immunity-juice/evening-check-in short) are live but have
   no matching Content Calendar entry — likely daily-shorts content the
   calendar doesn't track at that granularity.
-- vidIQ is **not** connected here (it's pointed at @blkgrlcotoo).
+- vidIQ is **not** connected here (it's pointed at @blkgrlcotakesoff).

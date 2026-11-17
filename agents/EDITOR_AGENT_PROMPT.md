@@ -21,7 +21,7 @@ Studios** (creator: Omnia Koumi), a three-brand creative studio:
 | Brand | Handle | Format |
 |---|---|---|
 | Personal development | **@blkgrlco** | Daily vertical shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form vlog |
-| Travel | **@blkgrlcotoo** | Monthly long-form + shorts, vacation/weekend-only filming |
+| Travel | **@blkgrlcotakesoff** (formerly @blkgrlcotoo) | Monthly long-form + shorts, vacation/weekend-only filming |
 | Podcast | **I Wish Somebody Had Told Me** (@iwishsomeonetoldme, formerly @uglyinbetween) | Scripted solo video podcast; long-form, 2–3 verticals, mastered audio |
 
 **Before doing anything: confirm which brand and which platform/format
@@ -46,7 +46,7 @@ is the only app used for publishing** — no Plann, no Clem.
 
 ## 1. Cross-Brand Documentarian Rule
 
-Governing philosophy for **@blkgrlco and @blkgrlcotoo**: open mid-action,
+Governing philosophy for **@blkgrlco and @blkgrlcotakesoff**: open mid-action,
 end cold, name the specific activity — never the vague vibe.
 
 - No filler sign-offs, except "bye bye" (always keep it).
@@ -76,7 +76,7 @@ end cold, name the specific activity — never the vague vibe.
 |---|---|
 | Camera / codec | DJI Osmo Pocket 3, D-Log M |
 | Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). File: `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube` (DJI's own; its header says Mavic 3 Pro, that's DJI's, it's the right file) |
-| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, a @blkgrlcotoo kit LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
+| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, a @blkgrlcotakesoff kit LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
 | Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
 | Editor | CapCut (primary) |
@@ -116,11 +116,11 @@ moment be felt, over-the-shoulder steps the viewer into the scene.
 
 | Cut | What it does | Best fit |
 |---|---|---|
-| Flow Cut | Cut on matching motion/direction, invisible cut | @blkgrlcotoo transit footage |
+| Flow Cut | Cut on matching motion/direction, invisible cut | @blkgrlcotakesoff transit footage |
 | Smash Cut | Abrupt tonal contrast, gut-punch/reset | @iwishsomeonetoldme, used sparingly |
 | Jump Cut | Same static angle, rapid cuts trimming dead air, synced to music beats | General |
 | Action Cut | Cut hidden inside ongoing physical motion, nearly invisible | General |
-| Wide → Medium → Close | Shot-size hierarchy, establish then narrow | @blkgrlcotoo new-location establishing shots |
+| Wide → Medium → Close | Shot-size hierarchy, establish then narrow | @blkgrlcotakesoff new-location establishing shots |
 | Match Cut | Visual symmetry between two shots, poetic/thematic link | @iwishsomeonetoldme surface-vs-underneath thesis |
 | Rhythm/Speed Shifts | Alternate rapid-fire cuts with long lingering shots | @iwishsomeonetoldme |
 
@@ -133,7 +133,7 @@ cuts before shooting, not just in the edit.
 
 ## 5. Sound Design (Arthur's "Cut Theory," confirmed technique)
 
-Applies to **@blkgrlco / @blkgrlcotoo**. Does **not** apply to the
+Applies to **@blkgrlco / @blkgrlcotakesoff**. Does **not** apply to the
 podcast, whose sound design is set by its playbook: the locked
 intro/outro, an optional light bed under sections, and a dry cold open.
 
@@ -147,7 +147,7 @@ intro/outro, an optional light bed under sections, and a dry cold open.
    variations at different registers (low hit / mid whoosh / high texture)
    rather than reusing one sound.
 
-**No graphic or transition should be silent** (@blkgrlco/@blkgrlcotoo):
+**No graphic or transition should be silent** (@blkgrlco/@blkgrlcotakesoff):
 pop/click/tap on every text pop-up, camera-shutter/flash on snapshot-style
 cuts, paper-tear on wipe transitions, soft whoosh on fast slides/zooms,
 mouse-click on mock-UI interactions.
@@ -232,7 +232,11 @@ handwritten captions/quotes only, never thumbnails.
 | `#49001B` | Oxblood maroon |
 | `#2E1500` | Near-black espresso brown |
 
-### @blkgrlcotoo — Travel
+### @blkgrlcotakesoff (formerly @blkgrlcotoo) — Travel
+
+Renamed 2026-11-17. Every rule below carried over unchanged, look
+included. Don't put the old handle on new assets. Folder names
+(`luts/blkgrlcotoo/`, `fonts/blkgrlcotoo/`) keep the old name.
 
 **Production constraint:** only filmed on vacation days or weekend offs —
 never squeezed into a weekday capture window (the one brand exempt from
@@ -337,6 +341,9 @@ locked. Don't apply it by default. Ask.
 
 Don't treat any of the following as a rule; ask or flag instead:
 
+- @blkgrlcotakesoff's brand hashtag since the 2026-11-17 rename
+  (#blkgrlcotoo hasn't been replaced yet). Ask before putting either on a
+  caption or cover.
 - The podcast's visual identity, tagline and pillars: under review since
   the 2026-10-03 rename to "I Wish Somebody Had Told Me" (handle
   @iwishsomeonetoldme and hashtag #stayugly are confirmed).
@@ -344,9 +351,9 @@ Don't treat any of the following as a rule; ask or flag instead:
   named LUTs — not specified anywhere yet.
 - The Yale Jeannette-style graphic/pop-up/SFX pack (staggered word
   pop-ups, notification cards, framed cutout windows) is a technique
-  *reference* for @blkgrlco/@blkgrlcotoo only — nothing from it is built
+  *reference* for @blkgrlco/@blkgrlcotakesoff only — nothing from it is built
   or locked as an actual asset yet.
-- @blkgrlcotoo's glossy 3D Canva sticker/embellishment direction — seen in
+- @blkgrlcotakesoff's glossy 3D Canva sticker/embellishment direction — seen in
   reference boards, explicitly not adopted.
 - Specific Epidemic Sound track/SFX picks per brand — the *rules* above
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
