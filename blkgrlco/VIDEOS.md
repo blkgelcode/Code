@@ -5,4 +5,4 @@ One row per video run through `/blkgrlco-video <slug>`. Folder:
 
 | Slug | Type | Lane / series | Status | Updated |
 |---|---|---|---|---|
-| mexico-city-weekend | sunday_vlog | HAPPY / 90-Day HHH Run? | paper edit (footage on Drive) | 2026-11-17 |
+| mexico-city-weekend | sunday_vlog | HAPPY / 90-Day HHH Run Days 20–22 | paper edit (footage on Drive) | 2026-11-17 |

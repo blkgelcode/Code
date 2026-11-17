@@ -2,6 +2,17 @@
 
 Status reports from `/blkgrlco-video`, newest on top.
 
+## 2026-11-17 — decisions logged: brand, reference, runtime
+**Status:** blocked (footage not in session)
+**What changed:** Her answers in chat: **@blkgrlco** (90-Day HHH Run,
+HAPPY lane, Days 20–22), reference **Day1of90**, **keep it tight at ~10 min**
+(L1 waived for this video). Paper edit stands as cut (~9:52).
+**Open questions:** music for M1–M6 · long-form frame (16:9 or 1080×1920) ·
+"have a good day" keep/cut (long-form + Short to match) · San Angel return
+footage · where 4536 was filmed · meds near-miss in the Short? · Day 20/21/22
+overlay on the Short (now that HHH is confirmed) · spoken Pin Board CTA?
+Nothing has been published or sent to any platform.
+
 ## 2026-11-17 — paper edit: ready for her review
 **Status:** blocked (footage not in session) — paper edit ready
 **What changed:** Long-form paper edit `copy/edl.md` (~9:52, 116 shots,

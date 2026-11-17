@@ -7,16 +7,15 @@ this. A role that needs to deviate updates this spec and logs why in its
 ## Intake
 - Working title: Mexico City weekend (Fri 9/25 – Sun 9/27/2026)
 - Type: sunday_vlog (long-form YouTube, 12–14 min target) + Shorts cut
-- Lane / series: HAPPY · **assumed** 90-Day HHH Run (the last clip is
-  logged "day 22"). **To confirm:** @blkgrlco, or @blkgrlcotoo (the travel
-  channel)? The brand bible flags this exact overlap. It changes the LUT
-  kit and the rules, so nothing gets rendered until she answers.
+- Brand / lane / series: **@blkgrlco** · HAPPY · 90-Day HHH Run, Days 20–22
+  (confirmed by her 2026-11-17).
 - Platforms: YouTube long-form, YouTube Shorts / TikTok / Reels
 - Central topic (draft, hers to confirm): a weekend alone in Mexico City
   while working on confidence: filming in front of people for the first
   time, not loving eating with people watching, and still going.
-- Reference to match (C12): **MISSING.** Day1of90 if this is an HHH Run
-  vlog; otherwise she names one.
+- Reference to match (C12): **Day1of90** (confirmed 2026-11-17).
+- Runtime: **tight, ~10 min** (her call 2026-11-17; the 12–14 min L1
+  target is waived for this video, and trimmed talk stays out).
 - Music picked before shooting (D1): **MISSING.** Ask her; don't pick.
 - Script / VO / shot list: none. This is a found-footage vlog cut from
   her `_moments.json` log (`media/docs/_moments.json`, gitignored).
@@ -36,7 +35,7 @@ this. A role that needs to deviate updates this spec and logs why in its
 - Transcript: none yet. Quotes in the paper edit are from her log and
   must be checked against a word-level transcript once footage arrives.
 - Open notes from `_inbox/from_chat.md`: none
-- Blockers: brand · reference · music · footage access
+- Blockers: music · footage access
 
 ## Structure
 Paper edit from her log (editor, 2026-11-17). Estimated **9:52**, about 2:08 under L1; see

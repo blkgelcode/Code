@@ -1,8 +1,8 @@
 {
   "slug": "mexico-city-weekend",
   "type": "sunday_vlog",
-  "series": "90-Day HHH Run (HAPPY lane) — to confirm",
-  "reference": null,
+  "series": "90-Day HHH Run (HAPPY lane), Days 20\u201322",
+  "reference": "Day1of90",
   "raw_transcript": "media/transcripts/raw.txt",
   "color": {
     "conversion_lut": "brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube",
@@ -46,7 +46,7 @@
       "ai_generated": false,
       "text": "a little daunting / alone in a new city",
       "source_frame": null,
-      "status": "concept A chosen 2026-11-17 (pairing A: confirmed solo trip); not built — needs footage"
+      "status": "concept A chosen 2026-11-17 (pairing A: confirmed solo trip); not built \u2014 needs footage"
     },
     {
       "id": "thumbnail_cover",
@@ -1026,7 +1026,7 @@
     },
     {
       "time": "2:57",
-      "title": "No sleep and Pokémon donuts"
+      "title": "No sleep and Pok\u00e9mon donuts"
     },
     {
       "time": "3:49",
@@ -1070,5 +1070,7 @@
     "path": "media/out/mexico-city-weekend_master.mp4",
     "status": "not rendered (paper edit only; footage not in session)",
     "edl": "copy/edl.md"
-  }
+  },
+  "brand": "@blkgrlco",
+  "runtime_decision": "tight ~10 min, approved by her 2026-11-17 (L1 12\u201314 min target waived for this video; do not restore trimmed talk)"
 }
