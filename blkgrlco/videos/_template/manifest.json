@@ -1,0 +1,44 @@
+{
+  "slug": "{{SLUG}}",
+  "type": null,
+  "series": null,
+  "reference": null,
+  "raw_transcript": "media/transcripts/raw.txt",
+  "color": {
+    "conversion_lut": "brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube",
+    "creative_lut": "brand-bible/brands/assets/luts/blkgrlco/The Everyday LUT.cube",
+    "graded_dir": "media/graded"
+  },
+  "cards_dir": "media/assets/cards",
+  "music": null,
+  "deliverables": [
+    {
+      "id": "master",
+      "kind": "vertical",
+      "path": "media/out/{{SLUG}}_master.mp4",
+      "transcript": "media/transcripts/master.txt",
+      "captions": "media/out/{{SLUG}}_master.srt"
+    },
+    {
+      "id": "shorts",
+      "kind": "shorts",
+      "path": "media/out/{{SLUG}}_shorts.mp4",
+      "transcript": "media/transcripts/shorts.txt",
+      "captions": "media/out/{{SLUG}}_shorts.srt"
+    },
+    {
+      "id": "thumbnail_youtube",
+      "kind": "thumbnail",
+      "path": "media/out/{{SLUG}}_thumb_1280x720.png",
+      "size": [1280, 720],
+      "ai_generated": false,
+      "text": null
+    }
+  ],
+  "copy": {
+    "titles": "copy/titles.md",
+    "description": "copy/description.md",
+    "edl": "copy/edl.md"
+  },
+  "preflight": "_tools/preflight.py"
+}

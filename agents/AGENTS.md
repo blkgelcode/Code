@@ -23,6 +23,12 @@ Shared rules for every agent:
   back. Flag contradictions with a locked decision rather than silently
   resolving them.
 
+**Runnable teams.** The roles below are the studio-wide job descriptions.
+Two pipelines turn them into agents that actually build: the podcast's
+`/podcast-episode` (five roles, `podcast/RULES.md`) and @blkgrlco's
+`/blkgrlco-video` (nine roles in `.claude/agents/blkgrlco-*.md`,
+`blkgrlco/RULES.md`).
+
 ---
 
 ## 1. Research Agent

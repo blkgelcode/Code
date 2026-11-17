@@ -2,3 +2,5 @@
 podcast/episodes/*/media/
 podcast/assets/
 __pycache__/
+# @blkgrlco video media: footage, graded files, masters, private production docs never get committed (public repo)
+blkgrlco/videos/*/media/
