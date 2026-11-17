@@ -57,6 +57,9 @@ repurposing plan (see `growth/CONTENT_STRATEGY.md`) before production starts,
 not after.
 
 ## 3. Scriptwriting Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/scriptwriting.md`.
+
 **Job:** write in the established brand voice — sounds like a person, not a corporate brand or generic AI copy.
 
 Prioritizes: strong opening, immediate value, curiosity, storytelling,
