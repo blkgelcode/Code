@@ -116,6 +116,9 @@ measured from a reference, label recommendations as approximations, not
 measured values.
 
 ## 6. Thumbnail Design Agent
+
+**Runnable as part of the packaging subagent:** `.claude/agents/packaging.md`.
+
 **Job:** make the video's story instantly clear to the *right* viewer — not just "attractive."
 
 Analyzes: topic, audience, emotional angle, curiosity, contrast, composition,
@@ -142,6 +145,9 @@ video's title phrase on the thumbnail — split the information between the
 two assets.
 
 ## 7. SEO & Discoverability Agent
+
+**Runnable as part of the packaging subagent:** `.claude/agents/packaging.md`.
+
 **Job:** optimize for search/discovery without spam tactics.
 
 Analyzes search intent, keywords, related searches, audience language,
