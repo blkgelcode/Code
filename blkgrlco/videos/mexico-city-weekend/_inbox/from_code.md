@@ -2,6 +2,17 @@
 
 Status reports from `/blkgrlco-video`, newest on top.
 
+## 2026-11-17 — decisions logged: meds in, Pin Board out
+**Status:** blocked (footage not in session)
+**What changed:** **Meds beat added to the Short** (rows 11a–11d: "oh no",
+the near-miss line, then water → meds at 2.5/3.5 s); the Short now runs
+~2:01, Day 22 overlay from 1:51.1. **"Make your own Pin Board" removed**
+from this video's description and captions (her call; recorded as
+`cta_override` so verify doesn't flag it). The series-wide locked CTA in
+RULES.md is unchanged.
+**Open questions:** music M1–M6 · San Angel return footage · where 4536 was filmed.
+Nothing has been published or sent to any platform.
+
 ## 2026-11-17 — decisions logged: frame, ending, day overlay
 **Status:** blocked (footage not in session)
 **What changed:** Her answers in chat: long-form master is **vertical

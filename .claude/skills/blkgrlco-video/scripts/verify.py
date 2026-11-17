@@ -284,7 +284,9 @@ def check_copy(base, m, vtype):
     if has_long:
         ok = bool(re.search(r"^\s*0?0:00\b", desc, re.M))
         record("L5", "PASS" if ok else "FAIL", "chapters in description" if ok else "description has no chapters starting 00:00")
-    if (m.get("series") or "").lower().startswith("90-day") and "pin board" not in alltext.lower():
+    if m.get("cta_override"):
+        record("T6", "INFO", f"Pin Board CTA left out by her decision: {m['cta_override']}")
+    elif (m.get("series") or "").lower().startswith("90-day") and "pin board" not in alltext.lower():
         record("T6", "WARN", "90-Day HHH Run copy doesn't carry the locked CTA 'make your own Pin Board' — flag to her if intentional")
     return text_of(base / copy.get("titles", "copy/titles.md"))
 

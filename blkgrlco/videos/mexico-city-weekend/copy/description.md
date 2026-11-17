@@ -36,7 +36,7 @@ until you are in the air."
 Sunday was slow. No plan, just a weekend away being where I want to be,
 and then back home to my schedule.
 
-What does your happier look like? Make your own Pin Board.
+What does your happier look like?
 
 ## Chapters (draft, times TBD from final cut)
 
@@ -70,10 +70,8 @@ TBD Last morning, going home
   tags are in because the whole video is the trip.
   #blackgirltravel is @blkgrlcotoo's niche tag, so it's left out to keep
   the two brands' strategies separate. Add it only if she wants it here.
-- **The CTA "make your own Pin Board"** is the locked 90-Day HHH Run CTA.
-  It's used here on the assumption this is an HHH Run video. If it's
-  @blkgrlcotoo or not part of the Run, drop that line. The travel channel
-  has no locked CTA.
+- **CTA:** "make your own Pin Board" removed from this video (her call
+  2026-11-17). Don't add it back.
 - **To confirm:** the log has her saying "Okay, so I'm back" and then
   eating the burger in 0253, so the description says she took it back to
   the apartment. That's inferred from the log, not stated. Check it

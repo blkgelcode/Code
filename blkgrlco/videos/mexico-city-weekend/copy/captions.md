@@ -27,7 +27,6 @@ until she shows a reference (Day1of90 if it's the HHH Run).
   flew standby to mexico city on no sleep, and it was the first time I'd
   really had my camera out in front of people. "it's a little bit
   daunting." went to el bazar sábado in san ángel anyway.
-  make your own Pin Board
 - **Hashtags:** #mexicocity #cdmx #flyingstandby #glowup #90dayplan #blkgrlco #hothealthyhappy
 
 ## Instagram Reels
@@ -41,7 +40,7 @@ until she shows a reference (Day1of90 if it's the HHH Run).
   they meant blue"), Jigglypuff donuts, El Bazar Sábado in San Ángel, a
   100-peso burger, and the first time filming in front of people.
 
-  Working on confidence. Make your own Pin Board.
+  Working on confidence.
 - **Hashtags:** #mexicocity #sanangel #glowup #90dayplan #blkgrlco #hothealthyhappy
 
 ## YouTube Shorts
@@ -51,7 +50,7 @@ until she shows a reference (Day1of90 if it's the HHH Run).
 - **Caption / description:**
   Flying standby, the blue apartment, Pokémon donuts, El Bazar Sábado in
   San Ángel, and the first time I filmed in front of people. Full weekend
-  on the channel. Make your own Pin Board.
+  on the channel.
 - **Hashtags:** #mexicocity #blkgrlco #hothealthyhappy
 - **Related video:** link the long-form master once it's live. She does
   this. Nothing gets posted from here.
@@ -65,7 +64,7 @@ until she shows a reference (Day1of90 if it's the HHH Run).
   A weekend in Mexico City: the Saturday market at El Bazar Sábado in San
   Ángel (stalls, beadwork, pottery), Panadería Rosetta, a 100-peso burger,
   and Pokémon donuts. Plus the standby rule: have options, and don't book
-  the Airbnb until you're in the air. Make your own Pin Board.
+  the Airbnb until you're in the air.
 - **Hashtags:** #mexicocity #sanangel #blkgrlco
 - **Board:** her call. No board name was invented here.
 
@@ -73,10 +72,8 @@ until she shows a reference (Day1of90 if it's the HHH Run).
 
 ## Notes for her
 
-- **CTA:** "make your own Pin Board" (locked, 90-Day HHH Run) is on every
-  platform, on the assumption this is an HHH Run video. If it's
-  @blkgrlcotoo or not part of the Run, drop it. The travel channel has no
-  locked CTA.
+- **CTA:** none. She removed "make your own Pin Board" from this video
+  (her call 2026-11-17). Don't add it back.
 - **Her call:** none of these captions use the 7:48 AM 0239 Green moment
   (health-related). That stays out of public copy unless she chooses it.
 - **Shorts title** uses "the longest day of my life", a shortened form of
