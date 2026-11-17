@@ -69,6 +69,10 @@ plus suggested B-roll, on-screen text, visuals, SFX, music changes, zooms,
 camera changes, graphics, screen recordings, transitions.
 
 ## 4. Video Editor Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/video-editor.md`
+(reads `agents/EDITOR_AGENT_PROMPT.md` as its rulebook).
+
 **Job:** convert script + footage into an editing blueprint matching the established editing style — never a new style invented from scratch.
 
 **Governing rule:** match the reference example exactly — no improvised
