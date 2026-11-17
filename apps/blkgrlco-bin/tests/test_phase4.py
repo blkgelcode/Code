@@ -234,7 +234,8 @@ class TestLook(Base):
 
     def test_per_channel_choice_and_switch(self):
         registry.update_details(self.pid, {"channel": "@blkgrlcotoo"})
-        self.assertFalse(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])  # no default for the travel kit
+        self.assertTrue(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])  # The Everyday LUT by default
+        self.assertEqual(lut.looks_status()["@blkgrlcotoo"]["source"], "brand bible")
         lut.install_look("@blkgrlcotoo", make_cube(self.tmp / "250d.cube").read_text(), "709to709_250D_x65_Clean_White.cube")
         self.assertTrue(self.cards()["DJI_20261011101233_0001_D.MP4"]["look"])
         self.assertEqual(lut.looks_status()["@blkgrlcotoo"]["name"], "709to709_250D_x65_Clean_White.cube")

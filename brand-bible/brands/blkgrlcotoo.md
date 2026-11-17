@@ -1,9 +1,10 @@
 # @blkgrlcotakesoff — Travel
 
 **Renamed 2026-11-17 from @blkgrlcotoo.** Everything locked for
-@blkgrlcotoo carries over unchanged: series, filming constraint, LUT kit,
+@blkgrlcotoo carries over unchanged: series, filming constraint,
 fonts (TAN Memories / Perfectly Nineties) and palette (confirmed by her
-the same day). This file, `assets/luts/blkgrlcotoo/` and
+the same day). Exception, also 2026-11-17: the creative grade is now
+**The Everyday LUT** (see Color Grading). This file, `assets/luts/blkgrlcotoo/` and
 `assets/fonts/blkgrlcotoo/` keep the old name so existing links and the
 BLKGRLCO Bin app don't break. Don't use the old handle on new assets.
 Brand hashtag: **#blkgrlcotakesoff** (locked 2026-11-17); #blkgrlcotoo is
@@ -97,31 +98,15 @@ specific creator's thumbnail or video 1:1.
 1. Technical conversion (cross-brand default, `../STYLE_GUIDE.md`): DJI
    Osmo Pocket 3 D-Log M footage → "DJI OSMO Pocket 3 D-Log M to Rec.709"
    LUT. This gets footage to a clean Rec.709 starting point.
-2. **Creative grade (confirmed 2026-09-11, @blkgrlcotakesoff-specific):** one of
-   five Rec.709→Rec.709 film-emulation LUTs, applied on top of step 1's
-   output — not a replacement for it. Files stored at
-   `assets/luts/blkgrlcotoo/` (DaVinci Resolve-generated, 65-point 3D LUTs):
+2. **Creative grade (changed 2026-11-17): "The Everyday LUT"** by
+   Nicholas Di Giugno (ToldbyNick), the same file @blkgrlco uses:
+   `assets/luts/blkgrlco/The Everyday LUT.cube` (vendor guide beside it).
+   One file, no per-shoot selection. Order per the vendor: base corrections
+   → conversion LUT → The Everyday LUT → finishing grade, black levels last.
 
-   | File | Reads as (Kodak Vision3-style naming) |
-   |---|---|
-   | `709to709_250D_x65_Clean_White.cube` | 250D — daylight-balanced, no grain |
-   | `709to709_500T_x65_Clean_White.cube` | 500T — tungsten-balanced (low light/interior), no grain |
-   | `709to709_500T_x65_Film_White.cube` | 500T — tungsten-balanced, with film grain/halation |
-   | `709to709_160T_x65_Clean_White.cube` | 160T — tungsten-balanced (brighter tungsten), no grain |
-   | `709to709_160T_x65_Film_White.cube` | 160T — tungsten-balanced, with film grain/halation |
-
-   **Confirmed 2026-09-11: it's a lighting-condition kit — pick per
-   shoot, not one universal file.** Selection logic:
-   - Daylight/outdoor → `250D`
-   - Interior/low light, tungsten → `500T`
-   - Interior, brighter tungsten → `160T`
-
-   The condition→ISO mapping above follows standard film-stock convention
-   (matching Kodak Vision3 naming) — confirmed that it's a condition-based
-   kit, but the specific per-condition assignment is still my inference,
-   not verified line-by-line. **Confirmed 2026-09-11: Clean vs. Film
-   (grain) is a per-shoot creative call, not a standing preference** — pick
-   whichever suits that video, same as the ISO/balance choice.
+   **Retired 2026-11-17: the five-LUT lighting kit** (250D/500T/160T ×
+   Clean/Film, 2026-09-11). The files stay in `assets/luts/blkgrlcotoo/`
+   for history only. Don't use them on new videos.
 
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new

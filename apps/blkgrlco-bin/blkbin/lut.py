@@ -161,8 +161,10 @@ def filter_for(p: Path | None = None) -> str | None:
 # Claude always analyzes the plain converted frames; the look is only for how cards look to her.
 
 LOOK_CHANNELS = {"@blkgrlco": "blkgrlco", "@blkgrlcotoo": "blkgrlcotoo", "podcast": "podcast"}
+_EVERYDAY = Path(__file__).resolve().parents[3] / "brand-bible" / "brands" / "assets" / "luts" / "blkgrlco" / "The Everyday LUT.cube"
 BRAND_LOOKS = {  # used when she hasn't chosen one in Settings
-    "@blkgrlco": Path(__file__).resolve().parents[3] / "brand-bible" / "brands" / "assets" / "luts" / "blkgrlco" / "The Everyday LUT.cube",
+    "@blkgrlco": _EVERYDAY,
+    "@blkgrlcotoo": _EVERYDAY,  # @blkgrlcotakesoff, since 2026-11-17
 }
 
 

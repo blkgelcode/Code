@@ -76,7 +76,7 @@ end cold, name the specific activity — never the vague vibe.
 |---|---|
 | Camera / codec | DJI Osmo Pocket 3, D-Log M |
 | Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). File: `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube` (DJI's own; its header says Mavic 3 Pro, that's DJI's, it's the right file) |
-| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, a @blkgrlcotakesoff kit LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
+| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
 | Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
 | Editor | CapCut (primary) |
@@ -234,8 +234,8 @@ handwritten captions/quotes only, never thumbnails.
 
 ### @blkgrlcotakesoff (formerly @blkgrlcotoo) — Travel
 
-Renamed 2026-11-17. Every rule below carried over unchanged, look
-included. Don't put the old handle on new assets. Folder names
+Renamed 2026-11-17. Every rule below carried over unchanged except the
+creative LUT, which is now The Everyday LUT. Don't put the old handle on new assets. Folder names
 (`luts/blkgrlcotoo/`, `fonts/blkgrlcotoo/`) keep the old name.
 
 **Production constraint:** only filmed on vacation days or weekend offs —
@@ -244,20 +244,11 @@ the weekday-opportunistic-capture rhythm).
 
 **Color grading (two-step, in order):**
 1. Technical: D-Log M → Rec.709 (cross-brand default).
-2. Creative — **pick one of five lighting-condition LUTs per shoot** (not
-   one universal file), stored at
-   `brand-bible/brands/assets/luts/blkgrlcotoo/`:
-
-   | File | Condition |
-   |---|---|
-   | `709to709_250D_x65_Clean_White.cube` | Daylight/outdoor |
-   | `709to709_500T_x65_Clean_White.cube` | Interior/low light, tungsten |
-   | `709to709_500T_x65_Film_White.cube` | Same, with film grain/halation |
-   | `709to709_160T_x65_Clean_White.cube` | Interior, brighter tungsten |
-   | `709to709_160T_x65_Film_White.cube` | Same, with film grain/halation |
-
-   **Clean vs. Film (grain) is a per-shoot creative call, not a standing
-   preference** — pick whichever suits that video.
+2. Creative: **"The Everyday LUT"** (changed 2026-11-17), the same file
+   as @blkgrlco: `brand-bible/brands/assets/luts/blkgrlco/The Everyday LUT.cube`.
+   One file, no per-shoot selection; same vendor order and fixes as
+   @blkgrlco. The old five-LUT lighting kit (250D/500T/160T) is **retired**;
+   never use it on new videos.
 
 **Editorial frameworks that apply:** Wide → Medium → Close for new-location
 establishing shots; Flow Cut for transit/movement footage.

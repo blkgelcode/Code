@@ -104,7 +104,8 @@ steps:**
    corrections → conversion LUT → The Everyday LUT → finishing
    grade/black-levels last). Stated as **the secondary** pass — i.e. this
    is step 2 of the pipeline, not a second option among choices (it's a
-   single file, no selection logic needed like the @blkgrlcotakesoff kit). File
+   single file, no selection logic). Since 2026-11-17 @blkgrlcotakesoff uses
+   the same file. File
    + vendor how-to-use guide stored at `assets/luts/blkgrlco/`.
 
 ## Editorial Frameworks That Apply Here

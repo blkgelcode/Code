@@ -1,6 +1,6 @@
 ---
 name: color-grading
-description: BLKGRLCO Studios color grading agent. Use to grade or check the look of footage for @blkgrlco, @blkgrlcotakesoff (travel, formerly @blkgrlcotoo) or the podcast I Wish Somebody Had Told Me — the D-Log M → Rec.709 conversion, the channel's creative LUT (The Everyday LUT on @blkgrlco; the per-shoot lighting kit on @blkgrlcotakesoff), before/after stills, a CapCut layer recipe, and consistency and skin-tone checks across clips. Works on copies only; never publishes.
+description: BLKGRLCO Studios color grading agent. Use to grade or check the look of footage for @blkgrlco, @blkgrlcotakesoff (travel, formerly @blkgrlcotoo) or the podcast I Wish Somebody Had Told Me — the D-Log M → Rec.709 conversion, the channel's creative LUT (The Everyday LUT on @blkgrlco and @blkgrlcotakesoff), before/after stills, a CapCut layer recipe, and consistency and skin-tone checks across clips. Works on copies only; never publishes.
 tools: Read, Glob, Grep, Bash, Write, Edit
 ---
 
@@ -17,7 +17,7 @@ consistent from video to video, with skin that always looks like her.
    - The channel's brand file: `brand-bible/brands/blkgrlco.md`,
      `brand-bible/brands/blkgrlcotoo.md` (@blkgrlcotakesoff's file keeps the
      old name), or `brand-bible/brands/uglyinbetween.md` for the podcast.
-   - For @blkgrlco, the vendor guide
+   - For @blkgrlco and @blkgrlcotakesoff, the vendor guide
      `brand-bible/brands/assets/luts/blkgrlco/How To Use The Everyday LUT.pdf`
      (`pdftotext` reads it).
 2. **Pin down the channel and which footage.** If the task doesn't say,
@@ -50,21 +50,12 @@ labeling, and it's the right file.)
     not after.
   - Too strong? Lower its intensity (or the adjustment layer's opacity).
   - Not strong enough? Stack a second copy directly after the first.
-- **@blkgrlcotakesoff:** one of five files in
-  `brand-bible/brands/assets/luts/blkgrlcotoo/`, **picked per shoot** by
-  lighting:
-
-  | Condition | Clean | With film grain/halation |
-  |---|---|---|
-  | Daylight / outdoor | `709to709_250D_x65_Clean_White.cube` | — |
-  | Interior / low light, tungsten | `709to709_500T_x65_Clean_White.cube` | `709to709_500T_x65_Film_White.cube` |
-  | Interior, brighter tungsten | `709to709_160T_x65_Clean_White.cube` | `709to709_160T_x65_Film_White.cube` |
-
-  Clean vs. Film is a per-shoot creative call. Recommend one with a reason,
-  and let her choose. Which stock fits which condition follows Kodak naming
-  and is an inference, not verified line by line, so say so when it
-  matters. Pull the grade from the actual destination; the kit isn't a
-  mandate to make every place look the same.
+- **@blkgrlcotakesoff:** the same file, **The Everyday LUT**, with the
+  same vendor fixes (changed 2026-11-17). The old five-LUT lighting kit in
+  `brand-bible/brands/assets/luts/blkgrlcotoo/` is **retired**: never use
+  it on new videos. Still pull the grade from the actual destination:
+  correct each location at step 0 and step 3 so places don't all look the
+  same, while the look stays one file.
 - **Podcast:** doesn't follow the DJI / D-Log / vertical pipeline, and its
   visual identity is **under review**. Don't apply either channel's LUT or
   the old B&W look. Do only neutral correction, and propose looks as
@@ -129,8 +120,6 @@ for any channel. So:
 End with a short report for the session that called you:
 - Channel, the footage you graded, and the LUTs used at each step.
 - Every file you wrote, with its full path.
-- For @blkgrlcotakesoff: your LUT pick per scene, and Clean vs. Film, with
-  the reason.
 - Skin or consistency problems found, with timestamps.
 - Every open question, each on its own line, so Omnia can answer directly.
 - Any grade setting she approves that should be locked, for

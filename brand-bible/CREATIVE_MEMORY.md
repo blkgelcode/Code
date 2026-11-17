@@ -35,7 +35,10 @@ She renamed the travel channel from **@blkgrlcotoo** to
 (not a second channel) · **same look**: TAN Memories, Perfectly Nineties
 and the navy/marigold/sand/raspberry/periwinkle palette stay locked.
 Everything else locked for the channel carries over unchanged (series
-names, vacation/weekend-only filming, the five-LUT kit). File and folder
+names, vacation/weekend-only filming). **Same day, she changed the
+creative grade:** "Use everyday lut for blkgrlcotakesoff" — The Everyday
+LUT replaces the five-LUT lighting kit, which is retired (files kept for
+history). File and folder
 names (`brands/blkgrlcotoo.md`, `assets/luts/blkgrlcotoo/`,
 `assets/fonts/blkgrlcotoo/`) and the BLKGRLCO Bin's internal channel key
 keep the old name so links and saved projects don't break; only what she
@@ -175,7 +178,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Files | Notes |
 |---|---|---|
-| @blkgrlcotoo | 5 files, `brands/assets/luts/blkgrlcotoo/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
+| @blkgrlcotoo (**retired 2026-11-17**; @blkgrlcotakesoff now uses The Everyday LUT) | 5 files, `brands/assets/luts/blkgrlcotoo/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
 | @blkgrlco | "The Everyday LUT" (Nicholas Di Giugno / ToldbyNick), `brands/assets/luts/blkgrlco/` | 2026-09-11, stated as "the secondary [pass]." Single-file creative grade, applied after the D-Log M→Rec.709 conversion — same two-step structure as @blkgrlcotoo. Fully resolved, no selection logic needed (one file, not a kit). |
 
 ## Confirmed brand fonts
