@@ -1,7 +1,7 @@
 {
   "slug": "mexico-city-weekend",
   "type": "sunday_vlog",
-  "series": "90-Day HHH Run (HAPPY lane) — to confirm",
+  "series": "90-Day HHH Run (HAPPY lane) \u2014 to confirm",
   "reference": null,
   "raw_transcript": "media/transcripts/raw.txt",
   "color": {
@@ -44,9 +44,9 @@
         720
       ],
       "ai_generated": false,
-      "text": null,
+      "text": "a little daunting / alone in a new city",
       "source_frame": null,
-      "status": "concepts_only (copy/thumbnail.md); recommended A: DJI_20260926102402_0245_D.MP4 ~0:11-0:28, 'FILMING IN PUBLIC' / 'for the first time' -- not chosen, not built"
+      "status": "concept A chosen 2026-11-17 (pairing A: confirmed solo trip); not built \u2014 needs footage"
     },
     {
       "id": "thumbnail_cover",
@@ -76,6 +76,8 @@
     "cta": "make your own Pin Board (conditional on 90-Day HHH Run + @blkgrlco)",
     "quotes": "log quotes only, unverified against transcript",
     "master_srt": "not made: no footage/transcript in session",
-    "brand_dependent": true
+    "brand_dependent": true,
+    "title_status": "chosen 2026-11-17 (pairing A)",
+    "solo_trip": true
   }
 }
