@@ -89,11 +89,10 @@ list below).
 - **Retired names — never use:** "Young Hot & Outside," "Fuck It Book It,"
   "STAMPED."
 - Hashtag tiers: broad #traveltiktok · niche #blackgirltravel · brand
-  #blkgrlcotoo (under review since the 2026-11-17 rename to
-  @blkgrlcotakesoff — ask before using it or #blkgrlcotakesoff),
+  **#blkgrlcotakesoff** (locked 2026-11-17),
   #youngandoutsidein[location], #scentpassport.
-- **Retired hashtags — never reuse:** #stamped, #fuckitbookit,
-  #younghotandoutside.
+- **Retired hashtags — never reuse:** #blkgrlcotoo, #stamped,
+  #fuckitbookit, #younghotandoutside.
 
 ### I Wish Somebody Had Told Me (@iwishsomeonetoldme, formerly @uglyinbetween; podcast)
 - Tagline (under review since the rename): "Where growth isn't pretty, but it's real."

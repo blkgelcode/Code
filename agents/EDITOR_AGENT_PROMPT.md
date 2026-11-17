@@ -341,9 +341,6 @@ locked. Don't apply it by default. Ask.
 
 Don't treat any of the following as a rule; ask or flag instead:
 
-- @blkgrlcotakesoff's brand hashtag since the 2026-11-17 rename
-  (#blkgrlcotoo hasn't been replaced yet). Ask before putting either on a
-  caption or cover.
 - The podcast's visual identity, tagline and pillars: under review since
   the 2026-10-03 rename to "I Wish Somebody Had Told Me" (handle
   @iwishsomeonetoldme and hashtag #stayugly are confirmed).

@@ -40,7 +40,8 @@ names (`brands/blkgrlcotoo.md`, `assets/luts/blkgrlcotoo/`,
 `assets/fonts/blkgrlcotoo/`) and the BLKGRLCO Bin's internal channel key
 keep the old name so links and saved projects don't break; only what she
 sees changes. Metricool (id 6918875) and vidIQ are still connected under
-the old handle. **Open:** brand hashtag (#blkgrlcotoo) not yet replaced.
+the old handle. Brand hashtag: **#blkgrlcotakesoff** (locked the same
+day); #blkgrlcotoo is retired.
 Earlier entries in this log keep the old handle as history. Editor prompt
 refreshed the same day.
 

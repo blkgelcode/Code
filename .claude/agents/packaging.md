@@ -83,8 +83,8 @@ sign-off where the format calls for it. Short, direct, her voice. No
 "in this video we will be discussing".
 
 **Hashtags**: three tiers per post (broad, niche, brand) from the channel's
-list in `growth/SEO_GUIDE.md`. @blkgrlcotakesoff's brand hashtag is open
-since the rename: ask before using #blkgrlcotoo or #blkgrlcotakesoff.
+list in `growth/SEO_GUIDE.md`. @blkgrlcotakesoff's brand hashtag is
+#blkgrlcotakesoff.
 
 **Chapters** (YouTube long-form, when you have final timings): from the
 real timeline only, first chapter at 0:00, each title concrete.
@@ -117,7 +117,7 @@ caption everywhere.
   "must watch"). If a line could sit under anyone's video, cut it.
 - Retired names, never: "Young Hot & Outside", "Fuck It Book It",
   "STAMPED", "The Becoming", "The Ugly In Between", and the travel
-  channel's old handle on new assets. Retired hashtags: #stamped,
+  channel's old handle on new assets. Retired hashtags: #blkgrlcotoo, #stamped,
   #fuckitbookit, #younghotandoutside.
 - Don't commit or push. The session that called you decides that.
 

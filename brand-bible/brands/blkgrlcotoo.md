@@ -6,8 +6,8 @@ fonts (TAN Memories / Perfectly Nineties) and palette (confirmed by her
 the same day). This file, `assets/luts/blkgrlcotoo/` and
 `assets/fonts/blkgrlcotoo/` keep the old name so existing links and the
 BLKGRLCO Bin app don't break. Don't use the old handle on new assets.
-**Open:** the brand hashtag (#blkgrlcotoo) hasn't been changed yet; ask
-before using #blkgrlcotakesoff.
+Brand hashtag: **#blkgrlcotakesoff** (locked 2026-11-17); #blkgrlcotoo is
+retired.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context.
 
@@ -139,8 +139,8 @@ specific creator's thumbnail or video 1:1.
 - Series names to use exactly: "Young & Outside in [Location]," "SCENT
   PASSPORT."
 - Hashtag tiers: broad (#traveltiktok) / niche (#blackgirltravel) / brand
-  (#blkgrlcotoo — under review since the rename, ask — #youngandoutsidein[location], #scentpassport).
-  **Never reuse retired hashtags:** #stamped, #fuckitbookit,
+  (#blkgrlcotakesoff, #youngandoutsidein[location], #scentpassport).
+  **Never reuse retired hashtags:** #blkgrlcotoo, #stamped, #fuckitbookit,
   #younghotandoutside.
 - Hook patterns (Idea Bank): compliment-getter recommendation, value/dupe
   comparison, fixable-mistake tip, mood-visual + specific detail.
