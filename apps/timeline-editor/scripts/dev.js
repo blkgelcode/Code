@@ -1,0 +1,13 @@
+// npm run dev: the timeline server and the Vite dev server together.
+import { spawn } from "node:child_process";
+
+const procs = [
+  spawn("node", ["--watch-path=server", "--watch-path=src/lib", "server/index.js"], { stdio: "inherit" }),
+  spawn("npx", ["vite", "--port", process.env.VITE_PORT || "5173", "--strictPort"], { stdio: "inherit" }),
+];
+const stop = () => procs.forEach((p) => p.kill());
+process.on("SIGINT", stop);
+process.on("SIGTERM", stop);
+procs.forEach((p) => p.on("exit", (code) => {
+  if (code) stop();
+}));

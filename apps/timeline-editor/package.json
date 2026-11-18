@@ -1,0 +1,28 @@
+{
+  "name": "timeline-editor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Local multi-track video editor whose whole edit lives in project/timeline.json, synced live between the browser and Claude Code.",
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "build": "vite build",
+    "start": "vite build && node server/index.js",
+    "server": "node server/index.js",
+    "import": "node server/cli.js import",
+    "export": "node server/cli.js export",
+    "validate": "node server/cli.js validate",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "express": "^4.21.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.11"
+  }
+}
