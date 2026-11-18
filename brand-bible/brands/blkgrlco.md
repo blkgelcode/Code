@@ -3,6 +3,10 @@
 The flagship channel. Pair with `../BRAND_BIBLE.md` for studio-wide context
 (creator bio, production reality, tools, cross-brand editorial toolkit).
 
+*Last updated 2026-11-18.* To produce a video, run `/blkgrlco-video <slug>`
+(see "Production Team" below). The locked rules the team builds to are
+compiled in `../../blkgrlco/RULES.md`.
+
 ## Identity
 
 - Mission: celebrate the resilience, creativity, and self-discovery of Black
@@ -43,6 +47,11 @@ travel/relationships/lifestyle as one rotation day, while @blkgrlcotoo is
 the fully separate, dedicated travel channel. Flagged so the two aren't
 silently merged into one strategy.
 
+*Data point (2026-11-17, project-specific, not a rule):* the Mexico City
+weekend (Sept 25–27) was filmed during the 90-Day HHH Run, and she placed it
+on **@blkgrlco** as a HAPPY-lane Run vlog (Days 20–22), not on @blkgrlcotoo.
+Still ask per video.
+
 ## Series
 
 ### 90-Day HHH Run
@@ -50,9 +59,23 @@ silently merged into one strategy.
   days."*
 - Reference standard: **"Day1of90"** — later days match its cut/pacing.
 - Locked CTA: **"make your own Pin Board"** — do not use older variants
-  like "comment your own rule."
+  like "comment your own rule." She can drop it for a single video (she did
+  for the Mexico City weekend, 2026-11-17); that's a per-video call, not a
+  change to the lock.
 - Locked opener style: declarative present-tense ("I'm hot... so I need to
   beautymaxx") — echo where it fits naturally, don't force into every line.
+- Day count: Day 1 = 2026-09-06, so the Run's Day 90 lands around
+  2026-12-04 (inferred from her log, where Sun 9/27 = Day 22; confirm before
+  putting a date on screen).
+- **In production:** the **Day 90 finale** (long-form + 60 s Short) — her
+  production master doc holds the script and shot lists (kept out of this
+  public repo). The Short's VO is half recorded: her voice covers 0:00–0:28,
+  and the 7 lines in the second half are AI placeholders she still has to record;
+  no placeholder ever ships in a master. Open conflict: the script's CTA is
+  "subscribe" / "tell me in the comments", not the locked Pin Board CTA —
+  her call.
+- **Next challenge (planned, not locked):** a marathon series teased in the
+  finale as "Road to 26.2".
 
 ### "Who Is She?"
 - Four pillars: Mental, Physical, Spiritual, Emotional.
@@ -87,7 +110,9 @@ silently merged into one strategy.
 
 ## Technical Specs (this channel's daily/vlog footage)
 - Camera: DJI Osmo Pocket 3, D-Log M → apply "DJI OSMO Pocket 3 D-Log M to
-  Rec.709" LUT (don't trust the file's own bt709 tag).
+  Rec.709" LUT (don't trust the file's own bt709 tag). File:
+  `assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube`.
+  iPhone clips (`IMG_*.MOV`) aren't log and skip this step.
 - Delivery: true vertical 1080x1920, never pillarboxed landscape.
 - Reframe/center face in CapCut *after* the LUT.
 - Broken footage: round-trip through a Canva export to MP4.
@@ -222,9 +247,53 @@ voice/persona/content imitation)*
   / 4 videos as of original connection). This is the account with real
   posting history. As of 2026-09-11, live TikTok posts confirmed: the
   90-Day HHH Run explainer (published 2026-09-06) and Day 1 of 90 / Weekly
-  Vlog 1 (published 2026-09-08) — both now marked Published in the Notion
-  Content Calendar with corrected dates. Two more TikToks (Day 2 of 90,
+  Vlog 1 (published 2026-09-08). (These were marked Published in the
+  Notion Content Calendar at the time; Notion is retired since 2026-10-26 —
+  the system of record is now the BLKGRLCO Studios dashboard, fed by
+  BLKGRLCO Bin.) Two more TikToks (Day 2 of 90,
   and a skincare/immunity-juice/evening-check-in short) are live but have
-  no matching Content Calendar entry — likely daily-shorts content the
+  no matching calendar entry — likely daily-shorts content the
   calendar doesn't track at that granularity.
 - vidIQ is **not** connected here (it's pointed at @blkgrlcotoo).
+- **BLKGRLCO Studios dashboard** (claude.ai artifact) — the system of
+  record, one row per piece of content; ideas and titles arrive from
+  BLKGRLCO Bin's `bin-export.json`. Not Notion.
+- **BLKGRLCO Bin** (`../../apps/blkgrlco-bin/`) — the Mac app that sorts T7
+  footage, logs moments and feeds the dashboard.
+
+## Production Team (built 2026-11-17)
+
+`/blkgrlco-video <slug>` runs nine role agents
+(`../../.claude/agents/blkgrlco-*.md`) through a fixed chain: **intake →
+spec → build → verify → report → stop.** Nothing publishes; she gets the
+files and publishes herself.
+
+| Role | Owns |
+|---|---|
+| Scriptwriter | script, VO script, shot list + thumbnail shots |
+| Colorist | conversion LUT → The Everyday LUT, before/after stills |
+| Editor | the cut, a CapCut-ready EDL, master transcript, shot map |
+| Graphics | label cards (G1 spec), overlays, the 4-panel grid |
+| Sound | VO cleanup, music/SFX (her pre-picked track only), final mix |
+| Shorts | the < 3:00 Shorts cut, burned-in captions |
+| Thumbnail | concepts in words, then real frames in Advercase — never AI |
+| Packaging | titles, description + chapters, platform captions |
+| QC | `verify.py` + frame review against every rule, before sign-off |
+
+- Rules: `../../blkgrlco/RULES.md` (locked rules only, each cites its source
+  here or in `STYLE_GUIDE.md` / `CREATIVE_MEMORY.md`).
+- Per video: `../../blkgrlco/videos/<slug>/` (spec, manifest, `copy/`,
+  `roles/`, `_inbox/` for notes both ways). Media is gitignored — this repo
+  is public. Index: `../../blkgrlco/VIDEOS.md`.
+- Footage gets into a cloud session by uploading it straight into the chat.
+  The Drive connector can find files but can't move video-sized files; her
+  `_tools/preflight.py` and the T7 live on her Mac.
+- Loudness: no locked @blkgrlco target (−16 LUFS is a podcast lock). Team
+  default: −14 to −16 LUFS, true peak ≤ −1 dBTP, reported, not enforced.
+
+## Videos in Production
+
+| Video | Status (2026-11-18) | Waiting on |
+|---|---|---|
+| **Mexico City weekend** (`mexico-city-weekend`), Sept 25–27, HHH Run Days 20–22, HAPPY | Paper edit done: vertical master ~9:52 (kept tight, 12–14 min target waived), Short ~2:01 with the meds beat and a Day 20/21/22 overlay. Title + thumbnail locked: "First Time Filming in Front of People \| A Weekend in Mexico City" / "A LITTLE DAUNTING" + "alone in a new city" (solo trip). Ends cold on "see y'all at the airport". Pin Board CTA dropped for this video. | Footage uploaded into the session · music for 6 slots · San Angel return footage? · where `IMG_4536` was filmed |
+| **Day 90 finale** | Production master doc written (outside the repo). Shorts VO track assembled; mastered copy at −16 LUFS / −1.5 dBTP. | 7 VO lines · CTA decision · music · footage |
