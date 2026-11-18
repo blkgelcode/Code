@@ -70,6 +70,8 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
       "tracks": [                    // array order = layer order: FIRST track is the BOTTOM layer
         { "id": "v1", "kind": "video", "name": "Video 1",            // kind: video | audio | text
           "muted": false, "hidden": false, "locked": false,          // locked = she doesn't want it touched
+          "solo": false,               // if ANY track is soloed, only soloed tracks are heard
+          "volume": 1,                 // track fader 0–2 (1 = 0 dB, 0.5 ≈ −6 dB, 2 = +6 dB); clip volume × track volume
           "clips": [
             { "id": "c1", "media": "m1",
               "start": 0,              // position on the timeline
@@ -79,7 +81,7 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
               "fadeIn": 0, "fadeOut": 0,
               "label": "the confession" }  // optional note shown on the clip
           ] },
-        { "id": "t1", "kind": "text", "name": "Titles", "muted": false, "hidden": false, "locked": false,
+        { "id": "t1", "kind": "text", "name": "Titles", "muted": false, "hidden": false, "locked": false, "solo": false, "volume": 1,
           "clips": [
             { "id": "c3", "start": 5, "duration": 3, "text": "day 21",   // "\n" for a line break
               "style": { "font": "default", "size": 120, "color": "#A8B118",
@@ -125,6 +127,7 @@ say which id you picked. Work in the **active sequence** unless she names anothe
 | "Day 21 overlay on the whole Short" | Text clip `start: 0`, `duration` = sequence length, `y` ≈ 0.08, clear of her face/captions. |
 | "music down to 30% under c4" | Split the music clip at c4's start/end; middle part `volume: 0.3`. |
 | "mute c2" / "fade the music out over 2 s" | `c2.volume = 0` / `fadeOut: 2` on the last music clip. |
+| "music track down 6 dB" / "solo the VO" / "mute the music track" | Track fader `volume: 0.5` (−6 dB; 0.71 ≈ −3 dB) / `solo: true` on that track / `muted: true`. |
 | "add IMG_4555.MOV after c5" | Find it in `media` (if missing: `bge import <path>`); new clip `{ id: c<nextId>, media, start: end of c5, in: 0, out: duration, volume: 1, fit: "cover" }`. |
 | "make a Shorts version" | Copy the sequence: new `id` (`s2`), `name: "Shorts"`, every clip gets a new `c<nextId>` id; set `activeSequence` to it. |
 | "switch to the Short" | `activeSequence = "<its id>"`. |
@@ -161,9 +164,12 @@ Brand rules for any cut: `blkgrlco/RULES.md`.
 
 ## Exporting
 
-She clicks **Export MP4** (⌘E), or `curl -X POST http://localhost:5310/api/export`. It renders
-the active sequence from the **original** files at full quality (hardware decode + hardware H.264
-encode on the Mac; HDR tone-mapped to SDR) into `<project>/exports/`. Nothing is ever published.
+She clicks **Export MP4** (⌘E), or `curl -X POST http://localhost:5310/api/export` (body
+`{"sequence":"s2"}` for a sequence other than the active one). That **queues** a render of the sequence
+as it is right now; exports run one at a time from the **original** files at full quality (hardware
+decode + hardware H.264 encode on the Mac; HDR tone-mapped to SDR) into `<project>/exports/`.
+`GET /api/exports` shows the queue and finished files; `POST /api/export/<id>/cancel` cancels one.
+The queue survives a restart. Nothing is ever published.
 
 ## How the app keeps both of you safe (so you know what to expect)
 
@@ -184,6 +190,8 @@ encode on the Mac; HDR tone-mapped to SDR) into `<project>/exports/`. Nothing is
 `server/store.ts` (file + history + recovery), `server/index.ts` (HTTP/WebSocket/watcher),
 `server/export.ts`, `server/media/` (probe, fingerprint, caps, volumes, engine = job queue +
 offline), `src/` (React UI; `src/edit.ts` = editing operations, `src/media.ts` = media status),
-`electron/` (Mac shell).
+`src/engine/` (playback: `mp4.ts` demuxer, `frames.ts` WebCodecs frame engine, `transport.ts` J/K/L
+clock, `compositor.ts` WebGL2, `audio.ts` WebAudio mixer), `electron/` (Mac shell).
 `npm test` (unit + full server/ffmpeg round trip), `npm run test:electron` (Mac app smoke test),
+`npm run test:playback` (frame-exact playback, J/K/L, meters, export queue inside the Mac app),
 `npm run typecheck`, `npm run dev` (hot reload), `npm run app` (build + open the Mac app).

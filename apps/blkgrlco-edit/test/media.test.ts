@@ -168,10 +168,12 @@ test("Phase 2: import & media engine", { timeout: 600000 }, async (t) => {
   const msgs: any[] = [];
   ws.on("message", (d: Buffer) => msgs.push(JSON.parse(String(d))));
   await new Promise((r) => ws.on("open", r));
-  assert.equal((await j("POST", "/api/export")).status, 200);
-  const done = await waitFor(async () => msgs.find((m) => m.type === "export" && m.state !== "running"), 180000, "export");
+  const queued = await j("POST", "/api/export");
+  assert.equal(queued.status, 200);
+  const done = await waitFor(async () => { const job = (await j("GET", "/api/exports")).body.jobs.find((x: any) => x.id === queued.body.id); return job && job.state !== "queued" && job.state !== "running" && job; }, 180000, "export");
   assert.equal(done.state, "done", done.error);
-  const out = path.join(project, "exports", done.file);
+  void msgs;
+  const out = path.join(project, "exports", done.name);
   assert.equal(probe(out, "-select_streams", "v", "-show_entries", "stream=codec_name,width,height,color_transfer", "-of", "csv=p=0"), "h264,1080,1920,bt709");
   ws.close();
 });

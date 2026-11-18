@@ -3,6 +3,7 @@ import * as ops from "../edit";
 import { fmtTime } from "../api";
 import { sequenceDuration, mediaName, type Timeline, type Clip, type Track } from "../../shared/model";
 import { ver, type MediaStatus } from "../media";
+import type { Transport } from "../engine/transport";
 
 const HEADER_W = 176;
 const LANE_H: Record<string, number> = { video: 58, audio: 44, text: 34 };
@@ -16,13 +17,13 @@ function niceStep(zoom: number) {
 }
 
 interface Props {
-  tl: Timeline; playhead: number; setPlayhead: (t: number) => void; selected: string | null; setSelected: (id: string | null) => void;
+  tl: Timeline; transport: Transport; selected: string | null; setSelected: (id: string | null) => void;
   zoom: number; setZoom: React.Dispatch<React.SetStateAction<number>>; onCommit: (tl: Timeline, o?: { select?: string | null }) => void;
   onDropMedia: (mediaId: string, trackId?: string, start?: number) => void; recent: Record<string, string>; status: Record<string, MediaStatus>;
 }
 type Mode = "move" | "trim-start" | "trim-end";
 
-export default function Timeline({ tl, playhead, setPlayhead, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, status }: Props) {
+export default function Timeline({ tl, transport, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, status }: Props) {
   const [draft, setDraft] = useState<Timeline | null>(null); // timeline preview while dragging
   const [dropHint, setDropHint] = useState<{ trackId: string; t: number } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -31,14 +32,28 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
   const total = Math.max(sequenceDuration(seq) + 10, 30);
   const width = total * zoom;
 
-  // Keep the playhead in view while it moves past the right edge.
+  // The playhead follows the transport every frame without re-rendering the timeline:
+  // the line and the ruler timecode are moved directly, and the view scrolls to keep it visible.
+  const lineRef = useRef<HTMLDivElement>(null);
+  const tcRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef(zoom);
+  zoomRef.current = zoom;
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const x = HEADER_W + playhead * zoom;
-    if (x > el.scrollLeft + el.clientWidth - 40) el.scrollLeft = x - HEADER_W - 40;
-    else if (x < el.scrollLeft + HEADER_W) el.scrollLeft = Math.max(0, x - HEADER_W - 40);
-  }, [playhead, zoom]);
+    const place = () => {
+      const z = zoomRef.current;
+      const t = transport.frameTime();
+      if (lineRef.current) lineRef.current.style.left = `${HEADER_W + t * z}px`;
+      if (tcRef.current) tcRef.current.textContent = fmtTime(t, true);
+      const el = scrollRef.current;
+      if (!el) return;
+      const x = HEADER_W + t * z;
+      if (x > el.scrollLeft + el.clientWidth - 40) el.scrollLeft = x - HEADER_W - (transport.playing ? 40 : el.clientWidth / 3);
+      else if (x < el.scrollLeft + HEADER_W) el.scrollLeft = Math.max(0, x - HEADER_W - 40);
+    };
+    place();
+    return transport.subscribe(place);
+  }, [transport, zoom]);
+  const setPlayhead = (t: number) => { transport.pause(); transport.seek(t); };
 
   const timeAt = (clientX: number) => {
     const el = scrollRef.current!;
@@ -65,7 +80,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     setSelected(clip.id);
     const startX = e.clientX;
     const orig = { start: clip.start, end: ops.clipEnd(clip) };
-    const points = ops.snapPoints(tl, clip.id, playhead);
+    const points = ops.snapPoints(tl, clip.id, transport.frameTime());
     const thr = SNAP_PX / zoom;
     let moved = false;
     let latest: Timeline | null = null;
@@ -115,7 +130,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     setDropHint(null);
     if (!id) return;
     e.preventDefault();
-    onDropMedia(id, track.id, ops.snap(timeAt(e.clientX), ops.snapPoints(tl, null, playhead), SNAP_PX / zoom));
+    onDropMedia(id, track.id, ops.snap(timeAt(e.clientX), ops.snapPoints(tl, null, transport.frameTime()), SNAP_PX / zoom));
   };
 
   const onWheel = (e: React.WheelEvent) => {
@@ -141,7 +156,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
       <div className="tl-scroll" ref={scrollRef} onWheel={onWheel}>
         <div className="tl-inner" style={{ width: HEADER_W + width }}>
           <div className="tl-row ruler-row">
-            <div className="tl-head ruler-head">{fmtTime(playhead, true)}</div>
+            <div className="tl-head ruler-head" ref={tcRef}>0:00.00</div>
             <div className="ruler" style={{ width }} onPointerDown={onRulerDown}>
               {ticks.map((s) => (
                 <div key={s} className="tick" style={{ left: s * zoom }}><span>{fmtTime(s)}</span></div>
@@ -178,7 +193,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
               </div>
             </div>
           ))}
-          <div className="playhead" style={{ left: HEADER_W + playhead * zoom }} />
+          <div className="playhead" ref={lineRef} style={{ left: HEADER_W }} />
         </div>
       </div>
     </div>

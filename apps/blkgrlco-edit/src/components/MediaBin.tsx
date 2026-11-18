@@ -5,10 +5,10 @@ import { badges, headline, usable, ver, type MediaStatus, type QueueInfo } from 
 
 const ICON: Record<string, string> = { video: "🎞", audio: "🎵", image: "🖼" };
 
-export default function MediaBin({ tl, status, queue, importing, onImport, onAdd, onRetry, onRelink }: {
+export default function MediaBin({ tl, status, queue, importing, selectedId, onImport, onAdd, onOpen, onRetry, onRelink }: {
   tl: Timeline; status: Record<string, MediaStatus>; queue: QueueInfo | null;
-  importing: { done: number; total: number; failed: number } | null;
-  onImport: (folder?: boolean) => void; onAdd: (mediaId: string) => void;
+  importing: { done: number; total: number; failed: number } | null; selectedId: string | null;
+  onImport: (folder?: boolean) => void; onAdd: (mediaId: string) => void; onOpen: (mediaId: string) => void;
   onRetry: (m: Media) => void; onRelink: (m: Media) => void;
 }) {
   const used = new Map<string, number>();
@@ -43,10 +43,11 @@ export default function MediaBin({ tl, status, queue, importing, onImport, onAdd
           const ok = usable(m, st) && st?.online !== false;
           const img = m.type === "audio" ? `/api/media/${m.id}/wave?v=${ver(st?.wave)}` : `/api/media/${m.id}/thumb?v=${ver(st?.thumb)}`;
           return (
-            <li key={m.id} className={`${h.kind} ${ok ? "" : "not-ready"}`} draggable={ok}
+            <li key={m.id} className={`${h.kind} ${ok ? "" : "not-ready"} ${selectedId === m.id ? "in-source" : ""}`} draggable={ok}
+              onClick={() => ok && onOpen(m.id)}
               onDragStart={(e) => { e.dataTransfer.setData("application/x-blkgrlco-media", m.id); e.dataTransfer.effectAllowed = "copy"; }}
               onDoubleClick={() => ok && onAdd(m.id)}
-              title={`${m.path}${m.camera ? `\n${m.camera}` : ""}${m.size ? `\n${(m.size / 1e9).toFixed(2)} GB` : ""}\n${ok ? "Drag onto a track, or double-click to add it at the end" : h.text}`}>
+              title={`${m.path}${m.camera ? `\n${m.camera}` : ""}${m.size ? `\n${(m.size / 1e9).toFixed(2)} GB` : ""}\n${ok ? "Click to view it in the Source monitor · drag onto a track · double-click to add it at the end" : h.text}`}>
               <div className="thumb">
                 <img src={img} alt="" onError={(e) => (e.currentTarget.style.visibility = "hidden")} onLoad={(e) => (e.currentTarget.style.visibility = "visible")} />
                 {h.kind === "offline" && <span className="thumb-flag">OFFLINE</span>}

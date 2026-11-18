@@ -125,6 +125,7 @@ ipcMain.handle("pick-media", async () => {
   const r = await dialog.showOpenDialog(win!, { title: "Import media (used in place, never copied)", properties: ["openFile", "multiSelections"], filters: [{ name: "Media", extensions: MEDIA_EXT }, { name: "All files", extensions: ["*"] }] });
   return r.canceled ? [] : r.filePaths;
 });
+ipcMain.handle("reveal", (_e, p: string) => { if (typeof p === "string" && p.startsWith(project)) shell.showItemInFolder(p); });
 ipcMain.handle("pick-folder", async () => {
   const r = await dialog.showOpenDialog(win!, { title: "Import every clip in a folder", properties: ["openDirectory", "multiSelections"] });
   return r.canceled ? [] : r.filePaths;

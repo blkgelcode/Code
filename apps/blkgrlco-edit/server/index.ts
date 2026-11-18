@@ -16,7 +16,7 @@ import { walk } from "./media/probe";
 import { capabilities, hdrToSdr } from "./media/caps";
 import { loadFonts } from "./fonts";
 import { runExport } from "./export";
-import { activeSeq, type Media } from "../shared/model";
+import { activeSeq, type Media, type Timeline } from "../shared/model";
 import type { Op } from "../shared/ops";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -178,7 +178,7 @@ app.get("/api/state", (_req, res) => {
     timeline: store.tl, rev: store.rev, warnings: store.warnings, fileError: store.fileError, bootNotes: store.bootNotes,
     history: store.entries.slice(-200).map((e) => store.summary(e)), undo: undoState(),
     fonts: [...fonts.values()].map((f) => ({ key: f.key, source: f.source })),
-    mediaStatus: mediaStatuses(), queue: engine.queueInfo(), presence: presence && presence.until > Date.now() ? presence : null, projectDir: PROJECT,
+    mediaStatus: mediaStatuses(), queue: engine.queueInfo(), exports: exportsView(), presence: presence && presence.until > Date.now() ? presence : null, projectDir: PROJECT,
   });
 });
 
@@ -257,12 +257,14 @@ app.get("/api/media/:id/frame", async (req, res) => {
   const m = byId(req.params.id);
   if (!m || m.type === "audio") return res.status(404).end();
   if (!engine.isOnline(m.id)) return res.status(410).json({ error: `${m.name} is offline` });
-  const t = Math.max(0, Number(req.query.t) || 0);
+  // ffmpeg returns the first frame at or after the seek time; seeking half a frame early returns the
+  // frame that's ON SCREEN at t (t rounded up by a hair would otherwise give the next frame)
+  const t = Math.max(0, (Number(req.query.t) || 0) - 0.5 / (m.fps || 30));
   const w = Math.min(3840, Math.max(160, Number(req.query.w) || 1920));
   const caps = await capabilities();
   const tm = m.hdr && caps.tonemap ? hdrToSdr(m.hdr) : "";
   const { spawn } = await import("node:child_process");
-  const args = ["-v", "error", ...(m.type === "video" ? ["-ss", t.toFixed(3)] : []), "-i", m.path, "-frames:v", "1", "-vf", `${tm}scale='min(${w},iw)':-2,format=yuvj420p`, "-q:v", "2", "-f", "image2", "-c:v", "mjpeg", "pipe:1"];
+  const args = ["-v", "error", ...(m.type === "video" ? ["-ss", t.toFixed(6)] : []), "-i", m.path, "-frames:v", "1", "-vf", `${tm}scale='min(${w},iw)':-2,format=yuvj420p`, "-q:v", "2", "-f", "image2", "-c:v", "mjpeg", "pipe:1"];
   const p = spawn("ffmpeg", args, { stdio: ["ignore", "pipe", "ignore"] });
   res.type("image/jpeg");
   p.stdout.pipe(res);
@@ -295,23 +297,87 @@ app.post("/api/media/:id/relink", (req, res) => {
 app.get("/api/font/:key", (req, res) => { const f = fonts.get(req.params.key); return f ? res.sendFile(f.file) : res.status(404).end(); });
 app.post("/api/fonts/reload", (_req, res) => { fonts = loadFonts(PROJECT); res.json({ fonts: [...fonts.values()].map((f) => ({ key: f.key, source: f.source })) }); });
 
-let exporting: Promise<void> | null = null;
-app.post("/api/export", (_req, res) => {
-  if (exporting) return res.status(409).json({ error: "An export is already running." });
-  const seq = activeSeq(store.tl);
+// ------------------------------------------------------------------ export queue
+// Jobs run one at a time, each from a snapshot of its sequence taken when it was queued (so you
+// can keep editing). The queue is saved in .cache/exports.json: after a crash or restart, queued
+// and interrupted jobs run again.
+interface ExportJob {
+  id: string; name: string; file: string; seqName: string; state: "queued" | "running" | "done" | "error" | "cancelled";
+  progress: number; error?: string; queuedAt: string; startedAt?: string; finishedAt?: string; timeline: Timeline; seq: string;
+}
+const QUEUE_FILE = path.join(PROJECT, ".cache", "exports.json");
+let exportJobs: ExportJob[] = [];
+try { exportJobs = JSON.parse(fs.readFileSync(QUEUE_FILE, "utf8")); for (const j of exportJobs) if (j.state === "running") { j.state = "queued"; j.progress = 0; } } catch { /* none yet */ }
+let killExport: (() => void) | null = null;
+let lastProgressSent = 0;
+const exportsView = () => ({
+  jobs: exportJobs.slice(-30).map(({ timeline, ...j }) => { void timeline; return j; }),
+  files: fs.readdirSync(EXPORTS).filter((f) => f.endsWith(".mp4") && !f.includes(".part")).map((f) => { const st = fs.statSync(path.join(EXPORTS, f)); return { name: f, size: st.size, at: st.mtime.toISOString(), path: path.join(EXPORTS, f) }; }).sort((a, b) => b.at.localeCompare(a.at)).slice(0, 30),
+  dir: EXPORTS,
+});
+function saveQueue() {
+  fs.writeFileSync(QUEUE_FILE + ".tmp", JSON.stringify(exportJobs.filter((j) => j.state === "queued" || j.state === "running" || Date.now() - Date.parse(j.finishedAt || j.queuedAt) < 7 * 864e5)));
+  fs.renameSync(QUEUE_FILE + ".tmp", QUEUE_FILE);
+}
+const announceExports = () => { saveQueue(); broadcast({ type: "exports", exports: exportsView() }); };
+
+async function pumpExports() {
+  if (killExport) return;
+  const job = exportJobs.find((j) => j.state === "queued");
+  if (!job) return;
+  const seq = job.timeline.sequences.find((x) => x.id === job.seq)!;
+  const offline = job.timeline.media.filter((m) => seq.tracks.some((t) => t.clips.some((c) => "media" in c && c.media === m.id)) && !fs.existsSync(m.path));
+  if (offline.length) { job.state = "error"; job.error = `${offline.map((m) => m.name).slice(0, 3).join(", ")} ${offline.length > 1 ? "are" : "is"} offline`; job.finishedAt = new Date().toISOString(); announceExports(); return pumpExports(); }
+  job.state = "running"; job.startedAt = new Date().toISOString(); job.progress = 0;
+  killExport = () => {};
+  announceExports();
+  const tmp = job.file.replace(/\.mp4$/, ".part.mp4");
+  try {
+    const caps = await capabilities();
+    await runExport(job.timeline, seq, { fonts, workDir: WORK, outFile: tmp, caps }, (p) => {
+      job.progress = p;
+      if (Date.now() - lastProgressSent > 250) { lastProgressSent = Date.now(); broadcast({ type: "exports", exports: exportsView() }); }
+    }, (kill) => { killExport = kill; });
+    if ((job.state as string) === "cancelled") throw new Error("cancelled");
+    fs.renameSync(tmp, job.file);
+    job.state = "done"; job.progress = 1;
+    log(`exported ${job.file}`);
+  } catch (e) {
+    try { fs.unlinkSync(tmp); } catch { /* */ }
+    if ((job.state as string) !== "cancelled") { job.state = "error"; job.error = String((e as Error).message).slice(0, 400); log(`export failed: ${job.error}`); }
+  } finally {
+    job.finishedAt = new Date().toISOString();
+    killExport = null;
+    announceExports();
+    pumpExports();
+  }
+}
+
+app.get("/api/exports", (_req, res) => res.json(exportsView()));
+app.post("/api/export", (req, res) => {
+  const seq = req.body?.sequence ? store.tl.sequences.find((x) => x.id === req.body.sequence) : activeSeq(store.tl);
+  if (!seq) return res.status(404).json({ error: "no such sequence" });
+  if (!seq.tracks.some((t) => t.clips.length)) return res.status(400).json({ error: `${seq.name} is empty.` });
   const usedIds = new Set(seq.tracks.flatMap((t) => t.clips.map((c) => ("media" in c ? c.media : ""))).filter(Boolean));
   const offline = store.tl.media.filter((m) => usedIds.has(m.id) && !engine.isOnline(m.id));
   if (offline.length) return res.status(409).json({ error: `Export needs the original files, and ${offline.length === 1 ? `${offline[0].name} is` : `${offline.length} files are`} offline (${offline.slice(0, 3).map((m) => m.name).join(", ")}). Plug the drive back in.` });
-  const name = `${store.tl.project.name}-${seq.name}`.replace(/[^\w\- ]+/g, "").trim().replace(/\s+/g, "-") || "export";
-  const outFile = path.join(EXPORTS, `${name}-${new Date().toISOString().replace(/[:T]/g, "-").slice(0, 19)}.mp4`);
-  const snapshot = structuredClone(store.tl);
-  broadcast({ type: "export", state: "running", progress: 0 });
-  exporting = capabilities()
-    .then((caps) => runExport(snapshot, activeSeq(snapshot), { fonts, workDir: WORK, outFile, caps }, (p) => broadcast({ type: "export", state: "running", progress: p })))
-    .then((f) => { broadcast({ type: "export", state: "done", file: path.basename(f), url: `/exports/${encodeURIComponent(path.basename(f))}` }); log(`exported ${f}`); })
-    .catch((e) => { broadcast({ type: "export", state: "error", error: e.message }); log(`export failed: ${e.message}`); })
-    .finally(() => { exporting = null; });
-  res.json({ started: true, file: path.basename(outFile) });
+  const base = `${store.tl.project.name}-${seq.name}`.replace(/[^\w\- ]+/g, "").trim().replace(/\s+/g, "-") || "export";
+  const stamp = new Date().toISOString().replace(/[:T]/g, "-").slice(0, 19);
+  let file = path.join(EXPORTS, `${base}-${stamp}.mp4`);
+  for (let i = 2; exportJobs.some((j) => j.file === file) || fs.existsSync(file); i++) file = path.join(EXPORTS, `${base}-${stamp}-${i}.mp4`);
+  const job: ExportJob = { id: `x${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`, name: path.basename(file), file, seqName: seq.name, state: "queued", progress: 0, queuedAt: new Date().toISOString(), timeline: structuredClone(store.tl), seq: seq.id };
+  exportJobs.push(job);
+  announceExports();
+  pumpExports();
+  res.json({ id: job.id, name: job.name, queued: exportJobs.filter((j) => j.state === "queued").length });
+});
+app.post("/api/export/:id/cancel", (req, res) => {
+  const job = exportJobs.find((j) => j.id === req.params.id);
+  if (!job) return res.status(404).json({ error: "no such export" });
+  if (job.state === "queued") { job.state = "cancelled"; job.finishedAt = new Date().toISOString(); }
+  else if (job.state === "running") { job.state = "cancelled"; killExport?.(); }
+  announceExports();
+  res.json({ ok: true });
 });
 app.use("/exports", express.static(EXPORTS));
 
@@ -341,6 +407,7 @@ async function start() {
     log(`editing ${store.file} (rev ${store.rev})`);
     watchOnline();
     syncEngine();
+    pumpExports(); // resume anything queued before a restart
   });
 }
 

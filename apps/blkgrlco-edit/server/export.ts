@@ -42,14 +42,16 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
   const layers: { label: string; start: number; end: number }[] = [];
   const audio: string[] = [];
 
+  const anySolo = seq.tracks.some((t) => t.kind !== "text" && t.solo);
   for (const t of seq.tracks) {
     if (t.kind === "text") continue;
+    const trackAudible = !t.muted && (!anySolo || t.solo) && (t.volume ?? 1) > 0;
     for (const c of t.clips as MediaClip[]) {
       const m = media.get(c.media);
       if (!m) continue;
       const dur = clipLength(c);
       const wantsVideo = t.kind === "video" && !t.hidden && m.type !== "audio";
-      const wantsAudio = !t.muted && c.volume > 0 && (m.type === "audio" || (m.type === "video" && !!m.hasAudio));
+      const wantsAudio = trackAudible && c.volume > 0 && (m.type === "audio" || (m.type === "video" && !!m.hasAudio));
       if (!wantsVideo && !wantsAudio) continue;
       // Always the ORIGINAL file at full quality; decoded on the GPU when the Mac can.
       if (m.type === "image") args.push("-loop", "1", "-framerate", String(fps), "-t", f3(dur), "-i", m.path);
@@ -68,7 +70,7 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
         layers.push({ label: `v${c.id}`, start: c.start, end: c.start + dur });
       }
       if (wantsAudio) {
-        const parts = [`[${idx}:a]asetpts=PTS-STARTPTS`, "aresample=48000", "aformat=channel_layouts=stereo", `volume=${f3(c.volume)}`];
+        const parts = [`[${idx}:a]asetpts=PTS-STARTPTS`, "aresample=48000", "aformat=channel_layouts=stereo", `volume=${f3(c.volume * (t.volume ?? 1))}`];
         if (c.fadeIn > 0) parts.push(`afade=t=in:st=0:d=${f3(c.fadeIn)}`);
         if (c.fadeOut > 0) parts.push(`afade=t=out:st=${f3(Math.max(0, dur - c.fadeOut))}:d=${f3(c.fadeOut)}`);
         parts.push(`adelay=${Math.round(c.start * 1000)}:all=1`);
@@ -126,11 +128,12 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
   return { args, total };
 }
 
-export function runExport(tl: Timeline, seq: Sequence, opts: ExportOpts, onProgress: (p: number) => void = () => {}) {
+export function runExport(tl: Timeline, seq: Sequence, opts: ExportOpts, onProgress: (p: number) => void = () => {}, onSpawn?: (kill: () => void) => void) {
   const { args, total } = buildExportArgs(tl, seq, opts);
   fs.writeFileSync(path.join(opts.workDir, "last-export-args.txt"), args.join("\n"));
   return new Promise<string>((resolve, reject) => {
     const p = spawn("ffmpeg", args, { stdio: ["ignore", "pipe", "pipe"] });
+    onSpawn?.(() => p.kill("SIGKILL"));
     let err = "";
     p.stdout.on("data", (d: Buffer) => {
       const m = /out_time_(?:us|ms)=(\d+)/.exec(String(d));

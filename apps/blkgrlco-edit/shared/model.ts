@@ -51,6 +51,8 @@ export const TrackSchema = z.object({
   muted: z.boolean().default(false),
   hidden: z.boolean().default(false),
   locked: z.boolean().default(false),
+  solo: z.boolean().default(false),        // audio: when any track is soloed, only soloed tracks are heard
+  volume: num.min(0).max(2).default(1),     // track fader (1 = 0 dB, 2 = +6 dB)
   clips: z.array(z.record(z.unknown())), // checked per track kind in validate()
 }).strict();
 
@@ -145,9 +147,9 @@ export function emptyTimeline(name = "Untitled"): Timeline {
     sequences: [{
       id: "s1", name: "Main", width: 1080, height: 1920, fps: 30, background: "#000000",
       tracks: [
-        { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, clips: [] },
-        { id: "a1", kind: "audio", name: "Audio 1", muted: false, hidden: false, locked: false, clips: [] },
-        { id: "t1", kind: "text", name: "Text 1", muted: false, hidden: false, locked: false, clips: [] },
+        { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
+        { id: "a1", kind: "audio", name: "Audio 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
+        { id: "t1", kind: "text", name: "Text 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
       ],
     }],
     activeSequence: "s1",
@@ -306,7 +308,7 @@ export function migrate(raw: any, projectDir: string): { timeline: unknown; migr
       id: "s1", name: "Main", width: p.width || 1080, height: p.height || 1920, fps: p.fps || 30,
       background: p.background || "#000000",
       tracks: (raw.tracks || []).map((t: any) => ({
-        id: t.id, kind: t.kind, name: t.name || t.id, muted: !!t.muted, hidden: !!t.hidden, locked: false,
+        id: t.id, kind: t.kind, name: t.name || t.id, muted: !!t.muted, hidden: !!t.hidden, locked: false, solo: false, volume: 1,
         clips: (t.clips || []).map((c: any) => {
           const out: any = { ...c };
           if (t.kind === "text") out.style = { ...c.style };

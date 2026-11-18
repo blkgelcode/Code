@@ -22,13 +22,18 @@ export function findClip(tl: Timeline, clipId: string) {
 export const mediaById = (tl: Timeline, id: string) => tl.media.find((m) => m.id === id);
 export { acceptsMedia };
 
-export function addMediaClip(tl: Timeline, mediaId: string, trackId: string, start: number) {
+/** Add media at `start`; `range` (source In/Out marks) limits which part of it plays. */
+export function addMediaClip(tl: Timeline, mediaId: string, trackId: string, start: number, range?: { in?: number; out?: number }) {
   const out = clone(tl);
   const m = mediaById(out, mediaId);
   const track = seqOf(out).tracks.find((t) => t.id === trackId);
   if (!m || !track || track.locked || !acceptsMedia(track.kind, m.type)) return { timeline: tl, clipId: null as string | null };
   const len = m.type === "image" ? 3 : m.duration || 3;
-  const clip: MediaClip = { id: newClipId(out), media: m.id, start: r6(Math.max(0, start)), in: 0, out: r6(len), volume: 1, fadeIn: 0, fadeOut: 0 };
+  let a = Math.max(0, range?.in ?? 0);
+  let b = Math.min(len, range?.out ?? len);
+  if (m.type === "image") { a = 0; b = range?.out !== undefined && range.in !== undefined ? Math.max(MIN_LEN, range.out - range.in) : 3; }
+  if (b - a < MIN_LEN) { a = 0; b = len; }
+  const clip: MediaClip = { id: newClipId(out), media: m.id, start: r6(Math.max(0, start)), in: r6(a), out: r6(b), volume: 1, fadeIn: 0, fadeOut: 0 };
   if (track.kind === "video") clip.fit = "cover";
   track.clips.push(clip);
   return { timeline: out, clipId: clip.id };
@@ -39,7 +44,7 @@ export function addTextClip(tl: Timeline, start: number, text = "Text", style: P
   const seq = seqOf(out);
   let track = seq.tracks.find((t) => t.kind === "text" && !t.locked);
   if (!track) {
-    track = { id: uniqueTrackId(seq, "text"), kind: "text", name: "Text", muted: false, hidden: false, locked: false, clips: [] };
+    track = { id: uniqueTrackId(seq, "text"), kind: "text", name: "Text", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] };
     seq.tracks.push(track);
   }
   const clip: TextClip = {
@@ -63,7 +68,7 @@ export function addTrack(tl: Timeline, kind: TrackKind) {
   const seq = seqOf(out);
   const id = uniqueTrackId(seq, kind);
   const label = { video: "Video", audio: "Audio", text: "Text" }[kind];
-  seq.tracks.push({ id, kind, name: `${label} ${id.slice(1)}`, muted: false, hidden: false, locked: false, clips: [] });
+  seq.tracks.push({ id, kind, name: `${label} ${id.slice(1)}`, muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] });
   return out;
 }
 

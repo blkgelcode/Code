@@ -12,7 +12,8 @@
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit -p .",
     "bge": "tsx scripts/bge.ts",
-    "test:electron": "npm run build && node test/electron.cjs"
+    "test:electron": "npm run build && node test/electron.cjs",
+    "test:playback": "npm run build && node test/playback.cjs"
   },
   "dependencies": {
     "chokidar": "3.6.0",

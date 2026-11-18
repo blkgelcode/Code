@@ -255,6 +255,9 @@ export const fmtTime = (s: number) => {
   return `${m}:${(s - m * 60).toFixed(2).padStart(5, "0")}`;
 };
 
+/** 1 → "0 dB", 0.5 → "−6.0 dB", 0 → "−∞ dB" */
+export const dbText = (v: number | undefined) => (v === undefined || v === 1 ? "0 dB" : v <= 0 ? "−∞ dB" : `${(20 * Math.log10(v)).toFixed(1).replace("-", "−")} dB`);
+
 export interface Change { text: string; clipId?: string; trackId?: string; seq?: string }
 
 /** Plain-words summary of ops, for the Activity panel. `tl` is the timeline AFTER the ops. */
@@ -297,6 +300,8 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
           if (op.key === "muted") out.push({ text: `${name} ${op.value ? "muted" : "unmuted"}`, trackId: tg.id, seq: tg.seq });
           else if (op.key === "hidden") out.push({ text: `${name} ${op.value ? "hidden" : "shown"}`, trackId: tg.id, seq: tg.seq });
           else if (op.key === "locked") out.push({ text: `${name} ${op.value ? "locked" : "unlocked"}`, trackId: tg.id, seq: tg.seq });
+          else if (op.key === "solo") out.push({ text: `${name} ${op.value ? "soloed" : "unsoloed"}`, trackId: tg.id, seq: tg.seq });
+          else if (op.key === "volume") out.push({ text: `${name} fader ${dbText(op.prev as number)} → ${dbText(op.value as number)}`, trackId: tg.id, seq: tg.seq });
           else out.push({ text: `${name}: ${op.key} → ${JSON.stringify(op.value)}`, trackId: tg.id, seq: tg.seq });
         } else if (tg.kind === "timeline" && op.key === "activeSequence") out.push({ text: `switched to sequence ${op.value}` });
         else if (tg.kind === "media" && op.key === "path") {

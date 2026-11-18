@@ -118,10 +118,12 @@ test("Phase 1 round trip", { timeout: 240000 }, async (t) => {
   const m2: any[] = [];
   ws2.on("message", (d) => m2.push(JSON.parse(String(d))));
   await new Promise((r) => ws2.on("open", r));
-  assert.equal((await j("POST", "/api/export")).status, 200);
-  const done = await waitFor(() => m2.find((m) => m.type === "export" && m.state !== "running"), 120000, "export");
+  const queued = await j("POST", "/api/export");
+  assert.equal(queued.status, 200);
+  const done = await waitFor(async () => { const job = (await j("GET", "/api/exports")).body.jobs.find((x: any) => x.id === queued.body.id); return job && job.state !== "queued" && job.state !== "running" && job; }, 120000, "export");
   assert.equal(done.state, "done", done.error);
-  const probe = JSON.parse(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration:stream=codec_type,width,height", "-of", "json", path.join(project, "exports", done.file)]).toString());
+  void m2;
+  const probe = JSON.parse(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration:stream=codec_type,width,height", "-of", "json", path.join(project, "exports", done.name)]).toString());
   assert.equal(probe.streams.find((x: any) => x.codec_type === "video").height, 1920);
   assert.ok(Math.abs(Number(probe.format.duration) - 4) < 0.15);
   ws.close(); ws2.close();

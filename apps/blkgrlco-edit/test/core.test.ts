@@ -42,13 +42,13 @@ test("diff → apply reproduces the target; inverse restores the original", () =
   s.tracks[0].clips[0].start = 1.5;                                     // move
   (s.tracks[0].clips[1] as any).in = 6;                                 // trim
   s.tracks[2].clips[0] = { ...(s.tracks[2].clips[0] as any), text: "day 22", style: { ...(s.tracks[2].clips[0] as any).style, size: 140 } };
-  s.tracks.push({ id: "v2", kind: "video", name: "Video 2", muted: false, hidden: false, locked: false, clips: [] });
+  s.tracks.push({ id: "v2", kind: "video", name: "Video 2", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] });
   const moved = s.tracks[0].clips.splice(1, 1)[0];                      // c2 → new track v2
   s.tracks[3].clips.push(moved);
   s.tracks[1].clips = [];                                               // delete c3
   b.media.splice(1, 1);                                                 // and its media
   b.sequences.push({ id: "s2", name: "Shorts", width: 1080, height: 1920, fps: 30, background: "#000000", tracks: [
-    { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, clips: [{ id: "c9", media: "m1", start: 0, in: 0, out: 2, volume: 1, fit: "cover", fadeIn: 0, fadeOut: 0 }] }] });
+    { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [{ id: "c9", media: "m1", start: 0, in: 0, out: 2, volume: 1, fit: "cover", fadeIn: 0, fadeOut: 0 }] }] });
   [s.tracks[0], s.tracks[1]] = [s.tracks[1], s.tracks[0]];              // reorder
   const ops = diff(a, b);
   const got = applyOps(a, ops);

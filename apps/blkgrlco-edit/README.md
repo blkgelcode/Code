@@ -4,7 +4,7 @@ A Mac video editor where the whole edit is one file, `timeline.json`, and Omnia 
 edit it at the same time. Roadmap and architecture: [`PLAN.md`](PLAN.md). How Claude edits
 (schema + commands): [`CLAUDE.md`](CLAUDE.md).
 
-**Status: Phases 1 (Foundation) and 2 (Import & media engine) built.** Phase 3 (playback engine) is next.
+**Status: Phases 1–3 built** (Foundation · Import & media engine · Playback engine). Phase 4 (pro editing tools) is next.
 
 ## Start it
 
@@ -46,6 +46,21 @@ Keys: Space play/pause · S split · ⌫ delete · ← → frame (⇧: 1 s) · H
 | Unplugged T7 | Its clips turn **OFFLINE**; you keep editing on the previews. Plug it back in (any name) and they reconnect by themselves. Moved a file? **Relink…** on the clip |
 | Proxy / Full | Under the viewer. Full plays the original files; paused, it shows an exact full-resolution frame. If the Mac can't play an original live, it says so and plays the preview |
 | Export | Always from the original files at full quality, with the Mac's hardware encoder; refuses (and says which files) if a drive is unplugged |
+
+## What Phase 3 gives you (playback)
+
+| | |
+|---|---|
+| Frame-exact | The viewer decodes the previews itself (WebCodecs, on the GPU) and shows exactly the frame at the playhead, never "close enough" |
+| Smooth scrubbing | Drag the ruler: any second you've already seen is instant; a new spot takes a fraction of a second |
+| J / K / L | L plays, L L 2×, L L L 4× (up to 8×). J the same backwards. K stops. Hold K and tap J/L to step one frame |
+| Two monitors | **Source** (left): click a clip in Media to view it, mark **I**n and **O**ut, then **Add to timeline** adds just that part. **Program** (right): your sequence. Click a monitor to make the keys drive it |
+| Full quality | Decodes the original files when this Mac can (Apple Silicon: HEVC/10-bit included). Paused, it always shows an exact full-resolution frame |
+| Mixer | **Mixer** tab: a level meter (dBFS, with peak hold) for every track and the master, a fader, Mute and Solo. Sound plays at normal speed (silent while shuttling, like most editors) |
+| Export queue | Export MP4 adds the sequence to a queue (a snapshot, so keep editing). **Exports** shows progress, lets you cancel, and lists finished files (click to show in Finder). The queue survives a restart |
+
+Keys: Space play/pause · J K L · ← → one frame (⇧: one second) · I / O in the source monitor ·
+Home / End · S split · ⌫ delete · ⌘Z undo · ⌘E export.
 
 ## Checking it on your Mac
 

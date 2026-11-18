@@ -16,7 +16,8 @@ export const api = {
   revert: (rev: number) => call("POST", "/api/revert", { rev, author: "you" }),
   restore: (rev: number) => call("POST", "/api/restore", { rev, author: "you" }),
   importPaths: (paths: string[]) => call("POST", "/api/import", { paths, author: "you" }),
-  exportMp4: () => call("POST", "/api/export"),
+  exportMp4: (sequence?: string) => call("POST", "/api/export", { sequence }),
+  cancelExport: (id: string) => call("POST", `/api/export/${id}/cancel`),
 };
 
 /** Keeps a WebSocket open, reconnecting with backoff. Returns a close function. */
@@ -49,5 +50,6 @@ export interface NativeBridge {
   pickFolder(): Promise<string[]>;
   pathsForFiles(files: File[]): string[];
   onMenu(cb: (action: string) => void): () => void;
+  reveal?(path: string): void;
 }
 export const native: NativeBridge | undefined = (window as any).blkedit;

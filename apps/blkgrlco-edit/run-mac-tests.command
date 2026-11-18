@@ -24,9 +24,11 @@ say "2. Unit + end-to-end tests (history, merge, undo, crash recovery, import en
 npm test 2>&1 | grep -E "^# (pass|fail)|^not ok" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
 grep -q "^   # fail 0" "$REPORT" && echo "   ✓ all passed" || echo "   (see failures above)"
 
-say "3. Mac app (opens a window for ~20 s: don't click in it)"
+say "3. Mac app (opens windows for ~2 min: don't click in them)"
 node test/electron.cjs 2>&1 | grep -E "^[✓✗]" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
-cat "$REPORT" | tail -8
+say "4. Playback engine: frame-exact playback, J/K/L, Full quality on 4K 10-bit HEVC, meters, export queue"
+node test/playback.cjs 2>&1 | grep -E "^[✓✗]" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
+cat "$REPORT" | tail -24
 
 say ""
 say "Report saved to $REPORT — copy everything above and paste it to Claude."
