@@ -1,0 +1,24 @@
+{
+  "name": "blkgrlco-edit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local video editor whose whole edit lives in project/timeline.json, shared live between the browser and Claude Code.",
+  "scripts": {
+    "dev": "node server/index.js --dev",
+    "build": "vite build",
+    "start": "vite build && node server/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "chokidar": "3.6.0",
+    "express": "4.21.2",
+    "ws": "8.18.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.3.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "vite": "5.4.11"
+  }
+}
