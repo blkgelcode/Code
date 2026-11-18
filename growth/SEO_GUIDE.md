@@ -42,7 +42,8 @@ template.
 - Don't duplicate the exact same phrase across title and thumbnail — split
   the information so each asset earns its own real estate (e.g. thumbnail:
   "NOT A VISION BOARD" → title: "Hot. Healthy. Happy. My Actual 90-Day
-  Plan").
+  Plan"). That line is specific to the 90-Day HHH Run; "vision board" is
+  fine for 2027 content.
 
 ## Descriptions
 
@@ -79,7 +80,7 @@ list below).
 - Hashtag tiers: broad #glowup · niche #90dayplan · brand #blkgrlco,
   #hothealthyhappy.
 
-### @blkgrlcotoo (travel)
+### @blkgrlcotakesoff (travel)
 - Core terms: destination name + genre terms (solo travel, travel vlog,
   [country/city] travel, budget travel, Black traveler) — pull specific
   neighborhoods/landmarks/experiences from actual footage, not generic
@@ -89,9 +90,10 @@ list below).
 - **Retired names — never use:** "Young Hot & Outside," "Fuck It Book It,"
   "STAMPED."
 - Hashtag tiers: broad #traveltiktok · niche #blackgirltravel · brand
-  #blkgrlcotoo, #youngandoutsidein[location], #scentpassport.
-- **Retired hashtags — never reuse:** #stamped, #fuckitbookit,
-  #younghotandoutside.
+  **#blkgrlcotakesoff** (locked 2026-11-17),
+  #youngandoutsidein[location], #scentpassport.
+- **Retired hashtags — never reuse:** #blkgrlcotoo, #stamped,
+  #fuckitbookit, #younghotandoutside.
 
 ### I Wish Somebody Had Told Me (@iwishsomeonetoldme, formerly @uglyinbetween; podcast)
 - Tagline (under review since the rename): "Where growth isn't pretty, but it's real."

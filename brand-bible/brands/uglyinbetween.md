@@ -93,7 +93,7 @@ is retired.
 - **Explicitly not a fit:** the Graphics/SFX pop-up reference (Yale
   Jeannette) — fast-cut, graphic-heavy style is the opposite of this
   show's playbook. That reference is for
-  @blkgrlco/@blkgrlcotoo only.
+  @blkgrlco/@blkgrlcotakesoff only.
 
 ## Visual Identity (under review: previous version, not locked)
 - Woman fully composed from the neck down, raw emotion visible on the face

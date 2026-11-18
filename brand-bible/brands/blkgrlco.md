@@ -37,9 +37,9 @@ Sunday-only footage.
 
 **Note on "Travel" as a pillar:** the brand identity doc lists Travel as one
 of four content pillars directly under @blkgrlco (self-discovery through
-travel). This isn't a conflict with @blkgrlcotoo existing as its own
+travel). This isn't a conflict with @blkgrlcotakesoff existing as its own
 dedicated travel brand — @blkgrlco's own HAPPY lane already covers
-travel/relationships/lifestyle as one rotation day, while @blkgrlcotoo is
+travel/relationships/lifestyle as one rotation day, while @blkgrlcotakesoff is
 the fully separate, dedicated travel channel. Flagged so the two aren't
 silently merged into one strategy.
 
@@ -53,6 +53,23 @@ silently merged into one strategy.
   like "comment your own rule."
 - Locked opener style: declarative present-tense ("I'm hot... so I need to
   beautymaxx") — echo where it fits naturally, don't force into every line.
+
+### Road to 26.2 (next challenge, added 2026-11-18)
+- @blkgrlco's **next challenge series**, starting after the 90-Day HHH Run
+  ends (Day 1 posted 2026-09-08, so around early December 2026).
+- A marathon-training run toward 26.2 miles. Fits the HEALTHY lane, and
+  uses the Challenge → Exploration → Result → Realization → Empower
+  Audience structure, with the race as the finale.
+- `[NEEDS INPUT]`: which marathon and its race date, the start date, the
+  day-count format (e.g. "Day N" or "Week N"), its CTA, and whether it
+  keeps the HOT/HEALTHY/HAPPY rotation or takes over the HEALTHY days.
+
+### 2027 vision board (her planning, not content)
+- Her personal 2027 vision board, which her challenges come from. Not a
+  series or video unless she says so.
+- **"Vision board" is fine to use for 2027** (her call, 2026-11-18). The
+  "NOT A VISION BOARD" line was specific to the 90-Day HHH Run's framing,
+  and that run's CTA stays "make your own Pin Board".
 
 ### "Who Is She?"
 - Four pillars: Mental, Physical, Spiritual, Emotional.
@@ -95,7 +112,7 @@ silently merged into one strategy.
 
 ## Color Grading — creative pass
 
-**Two-step pipeline, same structure as @blkgrlcotoo — don't conflate the
+**Two-step pipeline, same structure as @blkgrlcotakesoff — don't conflate the
 steps:**
 1. Technical conversion (above): D-Log M → Rec.709.
 2. **Creative grade (confirmed 2026-09-11): "The Everyday LUT"** by
@@ -104,7 +121,8 @@ steps:**
    corrections → conversion LUT → The Everyday LUT → finishing
    grade/black-levels last). Stated as **the secondary** pass — i.e. this
    is step 2 of the pipeline, not a second option among choices (it's a
-   single file, no selection logic needed like the @blkgrlcotoo kit). File
+   single file, no selection logic). Since 2026-11-17 @blkgrlcotakesoff uses
+   the same file. File
    + vendor how-to-use guide stored at `assets/luts/blkgrlco/`.
 
 ## Editorial Frameworks That Apply Here
@@ -114,7 +132,7 @@ steps:**
   Result → Realization → Empower Audience) — for arcs with a real finale
   (e.g. 90-Day HHH Run milestones).
 - Talking-head explainer exception applies here: cut ALL dead silence for
-  pure explainer content (contrast with the podcast, which never does this).
+  pure explainer content.
 - From Graphics/SFX reference (Yale Jeannette): stated fit for fast-cut,
   graphic-heavy pop-up/SFX style — build overlay graphics in @blkgrlco's
   own palette (below), not Yale's beige/brown, when this gets built.
@@ -152,7 +170,7 @@ palette existed.
   captions/quotes, Regular weight only), **Editor's Note** (clean
   editorial serif — **secondary/supporting thumbnail text**, beneath
   Advercase's headline; confirmed 2026-09-11, mirrors the TAN
-  Memories/Perfectly Nineties primary+secondary split on @blkgrlcotoo).
+  Memories/Perfectly Nineties primary+secondary split on @blkgrlcotakesoff).
   Font files stored at `assets/fonts/blkgrlco/`. Full studio font
   inventory: `../FONT_LIBRARY.md`. No open items on this brand's
   typography.
@@ -222,9 +240,10 @@ voice/persona/content imitation)*
   / 4 videos as of original connection). This is the account with real
   posting history. As of 2026-09-11, live TikTok posts confirmed: the
   90-Day HHH Run explainer (published 2026-09-06) and Day 1 of 90 / Weekly
-  Vlog 1 (published 2026-09-08) — both now marked Published in the Notion
-  Content Calendar with corrected dates. Two more TikToks (Day 2 of 90,
+  Vlog 1 (published 2026-09-08) — both marked Published in the (now
+  retired) Notion Content Calendar with corrected dates; the BLKGRLCO
+  Studios dashboard is the record now. Two more TikToks (Day 2 of 90,
   and a skincare/immunity-juice/evening-check-in short) are live but have
   no matching Content Calendar entry — likely daily-shorts content the
   calendar doesn't track at that granularity.
-- vidIQ is **not** connected here (it's pointed at @blkgrlcotoo).
+- vidIQ is **not** connected here (it's pointed at @blkgrlcotakesoff).

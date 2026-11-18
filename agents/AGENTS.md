@@ -13,7 +13,7 @@ Shared rules for every agent:
   original version" instead (see Competitor Intelligence, below).
 - Never treat a single example as a permanent brand rule.
 - **Confirm brand + platform before producing anything.** BLKGRLCO Studios
-  is three distinct brands (@blkgrlco, @blkgrlcotoo, @iwishsomeonetoldme) — see
+  is three distinct brands (@blkgrlco, @blkgrlcotakesoff, @iwishsomeonetoldme) — see
   `brand-bible/BRAND_BIBLE.md` §2 — and pillars, voice, hashtag tiers, and
   title conventions differ by both brand and platform.
 - **Nothing auto-publishes.** Every deliverable goes to Omnia for approval,
@@ -22,6 +22,26 @@ Shared rules for every agent:
   correction, apply it exactly and move on — don't re-explain the change
   back. Flag contradictions with a locked decision rather than silently
   resolving them.
+
+## The runnable team
+
+Ten of these roles exist as Claude Code subagents in `.claude/agents/`.
+`/produce-video <idea>` runs them as a team, with her approval at each
+gate (`.claude/skills/produce-video/SKILL.md`). Podcast episodes use
+`/podcast-episode <N>`.
+
+| Subagent | Covers role(s) below | Workflow step |
+|---|---|---|
+| `research` | 1 Research, 9 Trend Intelligence | 2 |
+| `content-strategist` | 2 Content Strategist | 1, 3, 6 |
+| `scriptwriting` | 3 Scriptwriting | 4 |
+| `video-editor` | 4 Video Editor | 5 |
+| `color-grading` | 5 Color Grading | 8 |
+| `sound-design` | audio plan | 7 |
+| `packaging` | 6 Thumbnail Design, 7 SEO & Discoverability | 9, 10 |
+| `repurposing` | 8 Social Media Repurposing | 11 |
+| `quality-control` | 11 Content Quality Control | 12 |
+| `analytics` | 10 Analytics | Reflect |
 
 ---
 
@@ -57,6 +77,9 @@ repurposing plan (see `growth/CONTENT_STRATEGY.md`) before production starts,
 not after.
 
 ## 3. Scriptwriting Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/scriptwriting.md`.
+
 **Job:** write in the established brand voice — sounds like a person, not a corporate brand or generic AI copy.
 
 Prioritizes: strong opening, immediate value, curiosity, storytelling,
@@ -69,6 +92,10 @@ plus suggested B-roll, on-screen text, visuals, SFX, music changes, zooms,
 camera changes, graphics, screen recordings, transitions.
 
 ## 4. Video Editor Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/video-editor.md`
+(reads `agents/EDITOR_AGENT_PROMPT.md` as its rulebook).
+
 **Job:** convert script + footage into an editing blueprint matching the established editing style — never a new style invented from scratch.
 
 **Governing rule:** match the reference example exactly — no improvised
@@ -100,6 +127,9 @@ interrupts, graphics, speed ramps, slow motion, freeze frames.
 ```
 
 ## 5. Color Grading Agent
+
+**Runnable as a Claude Code subagent:** `.claude/agents/color-grading.md`.
+
 **Job:** keep the visual look recognizable and consistent across content.
 
 Learns from reference footage/images into `brand-bible/STYLE_GUIDE.md`
@@ -112,6 +142,9 @@ measured from a reference, label recommendations as approximations, not
 measured values.
 
 ## 6. Thumbnail Design Agent
+
+**Runnable as part of the packaging subagent:** `.claude/agents/packaging.md`.
+
 **Job:** make the video's story instantly clear to the *right* viewer — not just "attractive."
 
 Analyzes: topic, audience, emotional angle, curiosity, contrast, composition,
@@ -138,6 +171,9 @@ video's title phrase on the thumbnail — split the information between the
 two assets.
 
 ## 7. SEO & Discoverability Agent
+
+**Runnable as part of the packaging subagent:** `.claude/agents/packaging.md`.
+
 **Job:** optimize for search/discovery without spam tactics.
 
 Analyzes search intent, keywords, related searches, audience language,
@@ -174,7 +210,7 @@ creative craft, not subs/watch-hours/monetization — a monetization target
 was set and scrapped the same day in 2026-09 for exactly this reason (see
 `brand-bible/BRAND_BIBLE.md` §9). Frame findings as craft feedback, not a
 growth mandate. Only @blkgrlco has real posting history right now (via
-Metricool); @blkgrlcotoo (vidIQ-connected) and @iwishsomeonetoldme have none yet
+Metricool); @blkgrlcotakesoff (vidIQ-connected) and @iwishsomeonetoldme have none yet
 — say so rather than fabricating trends from near-zero data.
 
 Tracks views, impressions, CTR, avg view duration, retention, watch time,

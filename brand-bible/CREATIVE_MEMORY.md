@@ -28,6 +28,46 @@ need this, since that prompt is scoped to editing only.
 | 2026-09-11 | 5 images (real Pilates-workout Story screenshot, glow-up moodboard "by BLKGRLCO", Creativity-pillar moodboard, quote card, glam motion-blur portrait) — **confirmed @blkgrlco visual identity** | Logged into `brands/blkgrlco.md`: the Pilates screenshot as a live example of the specificity rule (Medium-High confidence, it's real content); the glow-up/Creativity moodboards and quote-card as Medium-confidence reference material, not locked. Noted "too creative for a 9 to 5" as a potential personal-story hook worth surfacing later. Explicitly did not conflate the Story caption style seen here with the locked daily-vlog label-card spec. |
 | 2026-09-11 | 3 images, labeled "ugly in between visual identity" — two-host warm/colorful studio setups | **Flagged as a conflict rather than merged** (per the standing rule in `brands/uglyinbetween.md`: flag a trending-convention conflict, don't quietly override). All three showed a two-host conversational format, warm/colorful palette, and a Y2K-nostalgia set — directly conflicting with the locked solo, B&W, aubergine/terracotta identity. Asked via AskUserQuestion; answer: **studio/setup inspo only**. Adopted: the warm neutral physical set/lighting reference from one image (bean bags, wood tables, soft light) as recording-space inspiration only — final visual treatment stays locked B&W. **Explicitly not adopted:** the two-host format, the Y2K nostalgia wall, the candid handwritten-marker promo-graphic style, and the one-word episode-title convention ("FEAR") seen in these images — none of these override the locked solo format/identity/naming convention. |
 
+## Road to 26.2 + 2027 vision board (2026-11-18)
+
+She added **Road to 26.2** as @blkgrlco's next challenge: a series that
+starts after the 90-Day HHH Run ends (around early December 2026), marathon
+training toward 26.2 miles. Race, dates, format and CTA not given yet. Her
+**2027 vision board** is her own planning, not content. Asked about the
+conflict with the 90-Day run's "NOT A VISION BOARD" framing, she said
+"vision board" is fine now: that line was specific to the 90-Day run, whose
+CTA stays "make your own Pin Board".
+
+## Travel channel renamed: @blkgrlcotakesoff (2026-11-17)
+
+She renamed the travel channel from **@blkgrlcotoo** to
+**@blkgrlcotakesoff**. Interview answers: it **replaces** @blkgrlcotoo
+(not a second channel) · **same look**: TAN Memories, Perfectly Nineties
+and the navy/marigold/sand/raspberry/periwinkle palette stay locked.
+Everything else locked for the channel carries over unchanged (series
+names, vacation/weekend-only filming). **Same day, she changed the
+creative grade:** "Use everyday lut for blkgrlcotakesoff" — The Everyday
+LUT replaces the five-LUT lighting kit, which is retired (files kept for
+history). File and folder
+names (`brands/blkgrlcotoo.md`, `assets/luts/blkgrlcotoo/`,
+`assets/fonts/blkgrlcotoo/`) and the BLKGRLCO Bin's internal channel key
+keep the old name so links and saved projects don't break; only what she
+sees changes. Metricool (id 6918875) and vidIQ are still connected under
+the old handle. Brand hashtag: **#blkgrlcotakesoff** (locked the same
+day); #blkgrlcotoo is retired.
+Earlier entries in this log keep the old handle as history. Editor prompt
+refreshed the same day.
+
+## @blkgrlcotakesoff long-forms are horizontal (2026-11-17)
+
+Asked on her first travel production brief whether the long-form should be
+vertical (as her own plan said) or horizontal, she answered "Horizontal",
+and confirmed it as the rule for every travel long-form, not just that
+video. Long-forms: 16:9, 1920×1080. Shorts stay vertical 1080×1920. Locked
+in `brands/blkgrlcotoo.md` and `STYLE_GUIDE.md`; editor prompt refreshed.
+Same answer: the arrival is not the opening of that video (this video
+only, not a standing rule).
+
 ## Podcast renamed: "I Wish Somebody Had Told Me" (2026-10-03)
 
 She renamed the podcast from *The Ugly In Between* to *I Wish Somebody
@@ -158,7 +198,7 @@ watch for this recurring before promoting to `SCRIPTWRITING_GUIDE.md`.
 
 | Brand | Files | Notes |
 |---|---|---|
-| @blkgrlcotoo | 5 files, `brands/assets/luts/blkgrlcotoo/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
+| @blkgrlcotoo (**retired 2026-11-17**; @blkgrlcotakesoff now uses The Everyday LUT) | 5 files, `brands/assets/luts/blkgrlcotoo/` — 250D/500T/160T × Clean/Film | 2026-09-11. Applied *after* the cross-brand D-Log M→Rec.709 conversion, not instead of it. **Confirmed: lighting-condition kit, pick per shoot** — 250D daylight, 500T/160T tungsten interior. **Clean vs. Film (grain) is a per-shoot creative call**, not a standing preference — fully resolved, no open items left on this LUT kit. |
 | @blkgrlco | "The Everyday LUT" (Nicholas Di Giugno / ToldbyNick), `brands/assets/luts/blkgrlco/` | 2026-09-11, stated as "the secondary [pass]." Single-file creative grade, applied after the D-Log M→Rec.709 conversion — same two-step structure as @blkgrlcotoo. Fully resolved, no selection logic needed (one file, not a kit). |
 
 ## Confirmed brand fonts

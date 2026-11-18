@@ -39,7 +39,7 @@ Safety rules, enforced in `blkbin/submit.py` and covered by tests:
 
 | Sub-tab | What it holds |
 |---|---|
-| Video details | Working name, post date, channel (@blkgrlco, @blkgrlcotoo, podcast), video type, status (Not started / In progress / Posted). |
+| Video details | Working name, post date, channel (@blkgrlco, @blkgrlcotakesoff, podcast), video type, status (Not started / In progress / Posted). |
 | Titles | Type or paste titles, one per line. Ticking one sends it to the dashboard. Long-forms show a warning until they have 3 titles. |
 | Thumbnails | Drop 3 PNGs. Each gets a click-appeal score (0–100), ranked, with notes: timestamp corner covered, cluttered at phone size, over 5 words or too small to read, fails the red-green colorblind preview (toggle to see it), face not centered. Link each one to a title. |
 | Script & music | Type `@` where a song starts and pick from this project's Music files. The cue list shows every song in order, with its line. |
@@ -67,7 +67,7 @@ Settings → Connections walks through it:
    In "Testing" status Google expires the sign-in every 7 days. Google shows an "unverified app"
    warning for a personal app; choose Advanced → Go to BLKGRLCO Bin.
 3. Credentials → OAuth client ID → **Desktop app** → download the JSON → choose it in Settings.
-4. Click **Connect a channel** once per channel (@blkgrlco, @blkgrlcotoo, the podcast). Google asks which channel.
+4. Click **Connect a channel** once per channel (@blkgrlco, @blkgrlcotakesoff, the podcast). Google asks which channel.
 
 The app asks for read-only YouTube and Analytics access, plus the earnings report (it shows
 "not available" for a channel outside the Partner Program). Sign-in tokens stay in
@@ -79,13 +79,13 @@ The app asks for read-only YouTube and Analytics access, plus the earnings repor
 |---|---|---|
 | Ingest | **Ingest** button (top bar). A pink "📷 DJI card" button appears by itself when a card is plugged in. | Copies everything from the card (or a folder of iPhone footage) into `project hhh/<new project>/_raw` on the T7, then reads every copy back and compares SHA-256 checksums. "Safe to wipe the card" shows only when every file matches. A report `_ingest-report-<time>.csv` goes in the project. Nothing on the card is ever deleted, moved or renamed. |
 | Fix + proxies | Media → **Fix + proxies** | A clip that ffprobe can't read, or that doesn't decode cleanly, gets a clean H.264 copy next to it: `<name>_fixed.mp4`. The original stays as it is. Every video gets a 720p proxy in `_proxies/` (hardware encoder on the M1). Make proxies after Submit, so they carry the final names. |
-| LUT first | Settings → Analysis → **D-Log M → Rec.709 LUT** | DJI's "DJI OSMO Pocket 3 D-Log M to Rec.709" LUT is included (in `brand-bible/brands/assets/luts/dji-pocket3/`); choose another file only to replace it. A file whose name or header doesn't mention D-Log/Log is treated as a creative look, and the app asks before using it as step 1. Every DJI clip's preview frames go through it before Claude looks at them, so cards, categories and descriptions work on normal-looking color. DJI tags D-Log M as bt709, so the app doesn't trust the tag: all DJI clips get the LUT unless you switch it off on a card (the **LUT** tag). Your clips are never changed.**Step 2, the creative look:** each channel can have its grade on the card thumbnails, applied after the conversion. @blkgrlco uses The Everyday LUT from the brand bible by default; @blkgrlcotoo's kit is picked per shoot, so choose one in Settings → Analysis if you want it. Thumbnails only: Claude still analyzes the plain converted frames. |
+| LUT first | Settings → Analysis → **D-Log M → Rec.709 LUT** | DJI's "DJI OSMO Pocket 3 D-Log M to Rec.709" LUT is included (in `brand-bible/brands/assets/luts/dji-pocket3/`); choose another file only to replace it. A file whose name or header doesn't mention D-Log/Log is treated as a creative look, and the app asks before using it as step 1. Every DJI clip's preview frames go through it before Claude looks at them, so cards, categories and descriptions work on normal-looking color. DJI tags D-Log M as bt709, so the app doesn't trust the tag: all DJI clips get the LUT unless you switch it off on a card (the **LUT** tag). Your clips are never changed.**Step 2, the creative look:** each channel can have its grade on the card thumbnails, applied after the conversion. @blkgrlco and @blkgrlcotakesoff both use The Everyday LUT from the brand bible by default. Thumbnails only: Claude still analyzes the plain converted frames. |
 | Flub + silence map | Media → **Flub map** | Whisper listens to every clip with talking and marks your "lululu" / "la la la" flub marker, silences over 0.7 s, and the same line said more than once (ranked: complete, confident, no fillers or pauses; the last take gets a small bonus). It all goes into `_footage-master.md`. Click a card's **flubs** tag to see the map and the transcript. Whisper sometimes drops nonsense syllables, so a stretch of sound with no words shows up as a "possible" flub. |
 | Retention loop | Plan → **Edit & retention**, Overview → **What loses viewers** | List the edit's clips in order (drag to reorder, set the seconds used: CapCut can't export this) and link the posted video. 48 hours and 7 days after it posts, the app pulls the audience retention curve and names the clip playing at every drop of 5 points or more. Overview keeps a running table by clip category. Pulls happen while the app is open; if the Mac was off, they catch up on the next start. |
 
 ## The Strategy tab (Phase 5)
 
-Pick a channel at the top: @blkgrlco → Nia, @blkgrlcotoo → Zara, the podcast → Amara.
+Pick a channel at the top: @blkgrlco → Nia, @blkgrlcotakesoff → Zara, the podcast → Amara.
 
 | Sub-tab | What it does |
 |---|---|

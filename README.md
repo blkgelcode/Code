@@ -8,7 +8,7 @@ three-brand creative studio:
 | Brand | Handle | Format |
 |---|---|---|
 | Personal development | @blkgrlco | Daily shorts (HOT/HEALTHY/HAPPY) + Sunday long-form |
-| Travel | @blkgrlcotoo | Long-form + shorts, vacation/weekend-only filming |
+| Travel | @blkgrlcotakesoff (formerly @blkgrlcotoo) | Long-form + shorts, vacation/weekend-only filming |
 | I Wish Somebody Had Told Me | @iwishsomeonetoldme (formerly @uglyinbetween) | Scripted solo video podcast |
 
 It is not a content generator. It is a **memory system + workflow** so that
@@ -19,8 +19,9 @@ every piece of content gets better because of everything made before it.
 | File | What it holds |
 |---|---|
 | `brand-bible/BRAND_BIBLE.md` | Studio-level source of truth: creator, cross-brand identity, production reality, tools, and the studio's actual goal. |
+| `brand-bible/BLKGRLCO_CURRENT.md` | Every rule currently locked for @blkgrlco in one file (compiled 2026-11-18): identity, lanes and series, voice, editing standard, grade, sound, fonts, palette, thumbnails, SEO, retired names, tools. Recompile after any @blkgrlco rule changes. |
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
-| `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotoo identity, series, production constraints, SEO. |
+| `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotakesoff (formerly @blkgrlcotoo; file keeps the old name) identity, series, production constraints, SEO. |
 | `brand-bible/brands/uglyinbetween.md` | I Wish Somebody Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |
 | `brand-bible/STYLE_GUIDE.md` | Cross-brand editorial toolkit: documentarian rule, the 7 Narrative Cuts, graphics/SFX reference, technical/delivery specs, thumbnail workflow. |
 | `brand-bible/SCRIPTWRITING_GUIDE.md` | Cross-brand voice rules + per-brand voice link-out. |
@@ -30,8 +31,16 @@ every piece of content gets better because of everything made before it.
 | `brand-bible/SOUND_LIBRARY.md` | Studio music/SFX inventory (Epidemic Sound) per brand — scaffold as of 2026-09-11, being built out. |
 | `agents/AGENTS.md` | The 11 specialized agent roles and their output formats. |
 | `agents/PRODUCTION_WORKFLOW.md` | The 13-step production pipeline, shot-list framework, production schedule, approval system. |
+| `.claude/skills/produce-video/` | **`/produce-video <idea>`**: runs the full production team on one @blkgrlco or @blkgrlcotakesoff video (research → brief and shot list → script and packaging → edit blueprint → color, sound, repurposing → quality control), stopping for her approval at each gate and always before publishing. Work lands in `productions/<channel>/<date>-<slug>/`. |
+| `.claude/agents/` (`research`, `content-strategist`, `repurposing`, `quality-control`, `analytics`) | The rest of the production team, alongside the five agents listed below. Team table: `agents/AGENTS.md`. |
+| `.claude/agents/video-editor.md` | **video-editor** Claude Code subagent: produces editing blueprints, cut reviews and hands-on ffmpeg work (LUTs, trims, reframes, label cards, loudness) for all three channels. Reads `agents/EDITOR_AGENT_PROMPT.md` as its rulebook every run, so it stays current when that prompt is refreshed. Never publishes. |
+| `.claude/agents/packaging.md` | **packaging** Claude Code subagent: titles, thumbnail concepts and checks, descriptions, hashtags, chapters and platform captions for all three channels, from the real script or transcript. Never makes AI images, never publishes. |
+| `.claude/agents/color-grading.md` | **color-grading** Claude Code subagent: the D-Log M conversion plus each channel's creative LUT, before/after stills, a CapCut layer recipe, and skin-tone and consistency checks. Works on copies only, never publishes. |
+| `.claude/agents/sound-design.md` | **sound-design** Claude Code subagent: timestamped sound plans (music placement, beat-synced cut points, SFX for every graphic and transition), beat maps, mix and loudness checks, and the podcast's music stem and dry-cold-open check. No AI audio, never picks her music, never publishes. |
+| `.claude/agents/scriptwriting.md` | **scriptwriting** Claude Code subagent: hooks, short scripts, long-form outlines and two-column scripts, and script reviews, in each channel's voice. Works only from her real stories and details and flags every blank; never invents her experiences. |
 | `agents/EDITOR_AGENT_PROMPT.md` | Compiled, copy-paste-ready system prompt for a separate editing agent — locked-only rules (technical specs, per-brand editing standards, fonts, palettes, color grading, sound design, thumbnail workflow). Refresh it after any new rule gets locked in `brand-bible/`. |
 | `podcast/` | @iwishsomeonetoldme episode pipeline: `RULES.md` (locked episode rules), `PLAYBOOK.md` (pointer to the live playbook in her Show Hub doc), `EPISODES.md` (episode index), `locked.json` (intro/outro lock), `_inbox/` (show-level from_chat/from_code), `episodes/epNN/` (spec, `_inbox/`, copy, verify report; media gitignored). Run with `/podcast-episode <N>`. |
+| `apps/timeline-editor/` | **Timeline Editor**: local multi-track video editor (React + Node + ffmpeg) whose whole edit lives in `project/timeline.json`, so she and Claude Code edit the same video live. Import from `media/`, drag/trim/split, titles, preview, MP4 export, and an Activity panel of who changed what. Schema and edit recipes: `apps/timeline-editor/CLAUDE.md`. Run with `npm run dev`. |
 | `apps/blkgrlco-bin/` | **BLKGRLCO Bin**: local web app (Mac, localhost) that sorts footage on the T7 into category folders with dry run + undo, and writes `_footage-master.md`. Phase 1 (Media tab) built; Plan and Overview tabs next. See its README. |
 | `growth/SEO_GUIDE.md` | Per-brand keyword pillars, hashtag tiers, title/description rules. |
 | `growth/CONTENT_STRATEGY.md` | Production rhythm, packaging logic, content funnel, calendar framework. |
@@ -65,6 +74,6 @@ constraint — don't reintroduce growth-chasing framing. Full detail:
 ## Open questions
 
 See `brand-bible/BRAND_BIBLE.md` for the current list — mainly around
-@blkgrlcotoo/@iwishsomeonetoldme audience specifics, unconfirmed creator-reference
+@blkgrlcotakesoff/@iwishsomeonetoldme audience specifics, unconfirmed creator-reference
 handles, and one unresolved overlap between @blkgrlco's own "Travel" pillar
-and @blkgrlcotoo as a separate brand.
+and @blkgrlcotakesoff as a separate brand.

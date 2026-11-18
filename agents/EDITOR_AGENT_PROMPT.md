@@ -5,7 +5,7 @@ This file is generated from the git-tracked Brand Bible
 (`brand-bible/`) and should be refreshed whenever a new rule gets locked
 there — re-run this compilation rather than hand-editing this file, since
 it will drift from the source of truth otherwise. Last compiled:
-2026-10-03.
+2026-11-17.
 
 Only rules that are **confirmed/locked** are included below. Anything
 still exploratory, flagged, or marked `[NEEDS INPUT]` in the source docs
@@ -21,7 +21,7 @@ Studios** (creator: Omnia Koumi), a three-brand creative studio:
 | Brand | Handle | Format |
 |---|---|---|
 | Personal development | **@blkgrlco** | Daily vertical shorts (HOT/HEALTHY/HAPPY rotation) + Sunday long-form vlog |
-| Travel | **@blkgrlcotoo** | Monthly long-form + shorts, vacation/weekend-only filming |
+| Travel | **@blkgrlcotakesoff** (formerly @blkgrlcotoo) | Monthly long-form + shorts, vacation/weekend-only filming |
 | Podcast | **I Wish Somebody Had Told Me** (@iwishsomeonetoldme, formerly @uglyinbetween) | Scripted solo video podcast; long-form, 2–3 verticals, mastered audio |
 
 **Before doing anything: confirm which brand and which platform/format
@@ -46,7 +46,7 @@ is the only app used for publishing** — no Plann, no Clem.
 
 ## 1. Cross-Brand Documentarian Rule
 
-Governing philosophy for **@blkgrlco and @blkgrlcotoo**: open mid-action,
+Governing philosophy for **@blkgrlco and @blkgrlcotakesoff**: open mid-action,
 end cold, name the specific activity — never the vague vibe.
 
 - No filler sign-offs, except "bye bye" (always keep it).
@@ -75,13 +75,15 @@ end cold, name the specific activity — never the vague vibe.
 | Attribute | Rule |
 |---|---|
 | Camera / codec | DJI Osmo Pocket 3, D-Log M |
-| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709) |
+| Step-1 LUT (technical conversion) | "DJI OSMO Pocket 3 D-Log M to Rec.709" — don't trust the file's own tag (DJI mis-tags D-Log M as bt709). File: `brand-bible/brands/assets/luts/dji-pocket3/DJI_OSMO_Pocket_3_D-Log_M_to_Rec.709_V1.cube` (DJI's own; its header says Mavic 3 Pro, that's DJI's, it's the right file) |
+| Step 1 is always the conversion | Never put a creative look (The Everyday LUT, DJI's seasonal looks like Autumn Pro) in the step-1 slot — log footage stays flat. If a LUT's name/header doesn't mention D-Log/Log, it's a look, not a conversion |
 | Grading order | LUT first, then reframe/center face in CapCut. Never reframe un-graded footage |
-| Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape |
+| Frame / aspect | True vertical 1080×1920. Never pillarboxed landscape. **Exception: @blkgrlcotakesoff long-forms are horizontal 16:9, 1920×1080** (its shorts stay vertical) |
 | Editor | CapCut (primary) |
 | Broken/unimportable footage | Round-trip through a Canva design, export back out as MP4 |
 | Storage — primary | Samsung T7 SSD, `project hhh` folder, one subfolder per video |
 | Storage — secondary | Google Drive (backup only) |
+| System of record | BLKGRLCO Studios dashboard (claude.ai artifact https://claude.ai/artifact/UZu9ZMKxs7FyTR9UMHxBKn), one record per piece of content. **Notion is retired** (2026-10-26) — don't look anything up there |
 | Skin-tone treatment | Natural, never distorted |
 
 `@iwishsomeonetoldme` does not follow the vertical/LUT shooting style above —
@@ -114,11 +116,11 @@ moment be felt, over-the-shoulder steps the viewer into the scene.
 
 | Cut | What it does | Best fit |
 |---|---|---|
-| Flow Cut | Cut on matching motion/direction, invisible cut | @blkgrlcotoo transit footage |
+| Flow Cut | Cut on matching motion/direction, invisible cut | @blkgrlcotakesoff transit footage |
 | Smash Cut | Abrupt tonal contrast, gut-punch/reset | @iwishsomeonetoldme, used sparingly |
 | Jump Cut | Same static angle, rapid cuts trimming dead air, synced to music beats | General |
 | Action Cut | Cut hidden inside ongoing physical motion, nearly invisible | General |
-| Wide → Medium → Close | Shot-size hierarchy, establish then narrow | @blkgrlcotoo new-location establishing shots |
+| Wide → Medium → Close | Shot-size hierarchy, establish then narrow | @blkgrlcotakesoff new-location establishing shots |
 | Match Cut | Visual symmetry between two shots, poetic/thematic link | @iwishsomeonetoldme surface-vs-underneath thesis |
 | Rhythm/Speed Shifts | Alternate rapid-fire cuts with long lingering shots | @iwishsomeonetoldme |
 
@@ -131,7 +133,7 @@ cuts before shooting, not just in the edit.
 
 ## 5. Sound Design (Arthur's "Cut Theory," confirmed technique)
 
-Applies to **@blkgrlco / @blkgrlcotoo**. Does **not** apply to the
+Applies to **@blkgrlco / @blkgrlcotakesoff**. Does **not** apply to the
 podcast, whose sound design is set by its playbook: the locked
 intro/outro, an optional light bed under sections, and a dry cold open.
 
@@ -145,7 +147,7 @@ intro/outro, an optional light bed under sections, and a dry cold open.
    variations at different registers (low hit / mid whoosh / high texture)
    rather than reusing one sound.
 
-**No graphic or transition should be silent** (@blkgrlco/@blkgrlcotoo):
+**No graphic or transition should be silent** (@blkgrlco/@blkgrlcotakesoff):
 pop/click/tap on every text pop-up, camera-shutter/flash on snapshot-style
 cuts, paper-tear on wipe transitions, soft whoosh on fast slides/zooms,
 mouse-click on mock-UI interactions.
@@ -230,7 +232,11 @@ handwritten captions/quotes only, never thumbnails.
 | `#49001B` | Oxblood maroon |
 | `#2E1500` | Near-black espresso brown |
 
-### @blkgrlcotoo — Travel
+### @blkgrlcotakesoff (formerly @blkgrlcotoo) — Travel
+
+Renamed 2026-11-17. Every rule below carried over unchanged except the
+creative LUT, which is now The Everyday LUT. Don't put the old handle on new assets. Folder names
+(`luts/blkgrlcotoo/`, `fonts/blkgrlcotoo/`) keep the old name.
 
 **Production constraint:** only filmed on vacation days or weekend offs —
 never squeezed into a weekday capture window (the one brand exempt from
@@ -238,20 +244,15 @@ the weekday-opportunistic-capture rhythm).
 
 **Color grading (two-step, in order):**
 1. Technical: D-Log M → Rec.709 (cross-brand default).
-2. Creative — **pick one of five lighting-condition LUTs per shoot** (not
-   one universal file), stored at
-   `brand-bible/brands/assets/luts/blkgrlcotoo/`:
+2. Creative: **"The Everyday LUT"** (changed 2026-11-17), the same file
+   as @blkgrlco: `brand-bible/brands/assets/luts/blkgrlco/The Everyday LUT.cube`.
+   One file, no per-shoot selection; same vendor order and fixes as
+   @blkgrlco. The old five-LUT lighting kit (250D/500T/160T) is **retired**;
+   never use it on new videos.
 
-   | File | Condition |
-   |---|---|
-   | `709to709_250D_x65_Clean_White.cube` | Daylight/outdoor |
-   | `709to709_500T_x65_Clean_White.cube` | Interior/low light, tungsten |
-   | `709to709_500T_x65_Film_White.cube` | Same, with film grain/halation |
-   | `709to709_160T_x65_Clean_White.cube` | Interior, brighter tungsten |
-   | `709to709_160T_x65_Film_White.cube` | Same, with film grain/halation |
-
-   **Clean vs. Film (grain) is a per-shoot creative call, not a standing
-   preference** — pick whichever suits that video.
+**Frame (locked 2026-11-17):** long-forms are **horizontal 16:9,
+1920×1080**. Shorts stay true vertical 1080×1920. Hero moments a short
+needs get their own vertical take; don't crop them from the horizontal.
 
 **Editorial frameworks that apply:** Wide → Medium → Close for new-location
 establishing shots; Flow Cut for transit/movement footage.
@@ -296,11 +297,16 @@ Renamed 2026-10-03. Never use the retired name "The Ugly In Between".
   bleeped or softened, captions included.
 - Batch-record multiple episodes per session; same outfit for continuity
   across a batch.
+- **Storage:** raw footage and final masters live on her T7, which mounts
+  as **Untitled** (not the `project hhh` folder). Name masters
+  `EpNN_<deliverable>.<ext>` (e.g. `Ep03_audio_master.mp3`) so they sit
+  side by side without clashing.
 - No LUT/vertical shooting spec from Section 2 above applies here — this
   brand doesn't follow the DJI/D-Log/vertical pipeline.
 
 **Episode locks (2026-10-03), every episode:**
-- Nothing publishes without her sign-off.
+- Nothing publishes without her sign-off — and nothing goes to Google
+  Drive, Rella or any platform before it either.
 - **−16 LUFS integrated** on the audio master, the video master, and every
   vertical.
 - **Cold open stays music-free.**
@@ -337,9 +343,9 @@ Don't treat any of the following as a rule; ask or flag instead:
   named LUTs — not specified anywhere yet.
 - The Yale Jeannette-style graphic/pop-up/SFX pack (staggered word
   pop-ups, notification cards, framed cutout windows) is a technique
-  *reference* for @blkgrlco/@blkgrlcotoo only — nothing from it is built
+  *reference* for @blkgrlco/@blkgrlcotakesoff only — nothing from it is built
   or locked as an actual asset yet.
-- @blkgrlcotoo's glossy 3D Canva sticker/embellishment direction — seen in
+- @blkgrlcotakesoff's glossy 3D Canva sticker/embellishment direction — seen in
   reference boards, explicitly not adopted.
 - Specific Epidemic Sound track/SFX picks per brand — the *rules* above
   (beat-sync, de-esser ducking, low/mid/high SFX sets) are locked; the
@@ -347,12 +353,13 @@ Don't treat any of the following as a rule; ask or flag instead:
   @iwishsomeonetoldme intro/outro theme (locked 2026-10-03).
 - Any "Day N of 90" labeling on @blkgrlco's HHH Run content — the show's
   own day-count has confirmed internal drift; don't treat a specific
-  day-number as gospel when editing without checking the actual Content
-  Calendar entry first.
+  day-number as gospel when editing without checking that video's record
+  in the BLKGRLCO Studios dashboard first.
 
 ## Source of truth
 
 This prompt is a compiled snapshot. The living source is the git repo's
 `brand-bible/` — `STYLE_GUIDE.md`, `brands/*.md`, `FONT_LIBRARY.md`,
-`SOUND_LIBRARY.md`, `CREATIVE_MEMORY.md` — ask for a refreshed version of
+`SOUND_LIBRARY.md`, `CREATIVE_MEMORY.md` — plus `podcast/RULES.md` for
+the podcast's locked episode rules — ask for a refreshed version of
 this file after any new rule gets locked there.

@@ -1,4 +1,14 @@
-# @blkgrlcotoo — Travel
+# @blkgrlcotakesoff — Travel
+
+**Renamed 2026-11-17 from @blkgrlcotoo.** Everything locked for
+@blkgrlcotoo carries over unchanged: series, filming constraint,
+fonts (TAN Memories / Perfectly Nineties) and palette (confirmed by her
+the same day). Exception, also 2026-11-17: the creative grade is now
+**The Everyday LUT** (see Color Grading). This file, `assets/luts/blkgrlcotoo/` and
+`assets/fonts/blkgrlcotoo/` keep the old name so existing links and the
+BLKGRLCO Bin app don't break. Don't use the old handle on new assets.
+Brand hashtag: **#blkgrlcotakesoff** (locked 2026-11-17); #blkgrlcotoo is
+retired.
 
 Pair with `../BRAND_BIBLE.md` for studio-wide context.
 
@@ -14,6 +24,13 @@ Pair with `../BRAND_BIBLE.md` for studio-wide context.
 - Only filmed on vacation days or weekend offs — **never** squeezed into a
   weekday capture window. This is the one BLKGRLCO brand exempt from the
   weekday-opportunistic-capture rhythm that governs the other two.
+
+## Frame (locked 2026-11-17)
+- **Long-forms are horizontal: 16:9, 1920×1080.** Her answer on her first travel
+  brief ("Horizontal"), confirmed as the rule for every travel long-form.
+- Shorts stay true vertical 1080×1920, never pillarboxed.
+- Shoot the long-form horizontal. Hero moments a short needs get their own
+  vertical take rather than a crop of the horizontal.
 
 ## Typography
 
@@ -38,7 +55,7 @@ use. No open items on this brand's typography.
 | 🟦 | `#6177A8` | Dusty periwinkle blue |
 
 This supersedes the earlier "no fixed palette locked yet, pull from
-destination footage" placeholder — this is now the standing @blkgrlcotoo
+destination footage" placeholder — this is now the standing @blkgrlcotakesoff
 palette for thumbnails, graphics, and title cards. Still pull specific
 color *grading* from the actual destination/footage per shoot; this
 palette governs graphic elements (thumbnails, text, overlays), not a
@@ -75,7 +92,7 @@ worth carrying forward once confirmed:
 **Flagged, not adopted:** the board also leans heavily on glossy 3D
 Canva stickers/embellishments (balloon letters, enamel-pin-style icons).
 That's a live open question, not a decision — ask before using decorative
-sticker elements on any @blkgrlcotoo asset, since nothing like that is
+sticker elements on any @blkgrlcotakesoff asset, since nothing like that is
 locked in yet.
 
 **Caution:** this board samples many other creators' actual videos/thumbnails.
@@ -88,31 +105,15 @@ specific creator's thumbnail or video 1:1.
 1. Technical conversion (cross-brand default, `../STYLE_GUIDE.md`): DJI
    Osmo Pocket 3 D-Log M footage → "DJI OSMO Pocket 3 D-Log M to Rec.709"
    LUT. This gets footage to a clean Rec.709 starting point.
-2. **Creative grade (confirmed 2026-09-11, @blkgrlcotoo-specific):** one of
-   five Rec.709→Rec.709 film-emulation LUTs, applied on top of step 1's
-   output — not a replacement for it. Files stored at
-   `assets/luts/blkgrlcotoo/` (DaVinci Resolve-generated, 65-point 3D LUTs):
+2. **Creative grade (changed 2026-11-17): "The Everyday LUT"** by
+   Nicholas Di Giugno (ToldbyNick), the same file @blkgrlco uses:
+   `assets/luts/blkgrlco/The Everyday LUT.cube` (vendor guide beside it).
+   One file, no per-shoot selection. Order per the vendor: base corrections
+   → conversion LUT → The Everyday LUT → finishing grade, black levels last.
 
-   | File | Reads as (Kodak Vision3-style naming) |
-   |---|---|
-   | `709to709_250D_x65_Clean_White.cube` | 250D — daylight-balanced, no grain |
-   | `709to709_500T_x65_Clean_White.cube` | 500T — tungsten-balanced (low light/interior), no grain |
-   | `709to709_500T_x65_Film_White.cube` | 500T — tungsten-balanced, with film grain/halation |
-   | `709to709_160T_x65_Clean_White.cube` | 160T — tungsten-balanced (brighter tungsten), no grain |
-   | `709to709_160T_x65_Film_White.cube` | 160T — tungsten-balanced, with film grain/halation |
-
-   **Confirmed 2026-09-11: it's a lighting-condition kit — pick per
-   shoot, not one universal file.** Selection logic:
-   - Daylight/outdoor → `250D`
-   - Interior/low light, tungsten → `500T`
-   - Interior, brighter tungsten → `160T`
-
-   The condition→ISO mapping above follows standard film-stock convention
-   (matching Kodak Vision3 naming) — confirmed that it's a condition-based
-   kit, but the specific per-condition assignment is still my inference,
-   not verified line-by-line. **Confirmed 2026-09-11: Clean vs. Film
-   (grain) is a per-shoot creative call, not a standing preference** — pick
-   whichever suits that video, same as the ISO/balance choice.
+   **Retired 2026-11-17: the five-LUT lighting kit** (250D/500T/160T ×
+   Clean/Film, 2026-09-11). The files stay in `assets/luts/blkgrlcotoo/`
+   for history only. Don't use them on new videos.
 
 ## Editorial Frameworks That Apply Here
 - **Wide → Medium → Close** — standard scene-establishing tool for a new
@@ -130,8 +131,8 @@ specific creator's thumbnail or video 1:1.
 - Series names to use exactly: "Young & Outside in [Location]," "SCENT
   PASSPORT."
 - Hashtag tiers: broad (#traveltiktok) / niche (#blackgirltravel) / brand
-  (#blkgrlcotoo, #youngandoutsidein[location], #scentpassport).
-  **Never reuse retired hashtags:** #stamped, #fuckitbookit,
+  (#blkgrlcotakesoff, #youngandoutsidein[location], #scentpassport).
+  **Never reuse retired hashtags:** #blkgrlcotoo, #stamped, #fuckitbookit,
   #younghotandoutside.
 - Hook patterns (Idea Bank): compliment-getter recommendation, value/dupe
   comparison, fixable-mistake tip, mood-visual + specific detail.
