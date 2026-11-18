@@ -11,9 +11,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { APP_DIR, EXPORT_DIR, CACHE_DIR } from "./store.js";
-import { resolvePath } from "./media.js";
+import { resolvePath, lut3dFilter } from "./media.js";
+import { DLOGM_LUT, projectLook } from "./brand.js";
 import { decodeArgs, encodeArgs, detectHardware } from "./hw.js";
-import { clipLength, mediaById, totalDuration, round } from "../src/lib/model.js";
+import { clipLength, mediaById, totalDuration, round, seqOf } from "../src/lib/model.js";
 
 const f = (n) => String(round(n));
 // One level of filtergraph quoting. Values must not contain ' or : (checked below).
@@ -22,7 +23,9 @@ export const TEXT_DIR = path.join(CACHE_DIR, "text");
 
 /** Build the ffmpeg arguments for a timeline. Exported for tests. */
 export function buildFfmpegArgs(tl, outFile, hw = { encoder: "libx264", decode: null }) {
-  const { width: W, height: H, fps, background } = tl.settings;
+  const seq = seqOf(tl);
+  const { width: W, height: H, fps, background } = seq.settings;
+  const look = projectLook(tl.project);
   const total = totalDuration(tl);
   if (total <= 0) throw new Error("The timeline is empty: nothing to export.");
 
@@ -45,7 +48,7 @@ export function buildFfmpegArgs(tl, outFile, hw = { encoder: "libx264", decode: 
   };
 
   // bottom of the list first, so tracks higher in the list are drawn on top
-  for (const track of [...tl.tracks].reverse()) {
+  for (const track of [...seq.tracks].reverse()) {
     for (const clip of track.clips) {
       const len = clipLength(clip);
       const start = clip.start;
@@ -75,10 +78,11 @@ export function buildFfmpegArgs(tl, outFile, hw = { encoder: "libx264", decode: 
         continue;
       }
 
+      // v2: picture comes only from video tracks, sound only from audio tracks
       const m = mediaById(tl, clip.media);
       const wantPicture = track.kind === "video" && !track.hidden && m.kind !== "audio";
       const vol = (clip.volume ?? 1) * (track.volume ?? 1);
-      const wantSound = !track.muted && vol > 0 && (m.kind === "audio" || m.hasAudio) && m.kind !== "image";
+      const wantSound = track.kind === "audio" && !track.muted && vol > 0 && (m.kind === "audio" || m.hasAudio);
       if (!wantPicture && !wantSound) continue;
       const idx = addInput(m, clip);
 
@@ -90,7 +94,16 @@ export function buildFfmpegArgs(tl, outFile, hw = { encoder: "libx264", decode: 
           fi > 0 ? `fade=t=in:st=0:d=${f(fi)}:alpha=1` : null,
           fo > 0 ? `fade=t=out:st=${f(len - fo)}:d=${f(fo)}:alpha=1` : null,
         ].filter(Boolean);
-        filters.push(`[${idx}:v]fps=${fps},${fit},setsar=1${fades.map((x) => "," + x).join("")},setpts=PTS-STARTPTS+${f(start)}/TB[clip${idx}v]`);
+        // color, in brand-bible order, at source resolution: D-Log M conversion, then the look
+        const color = [];
+        const input = clip.color?.input ?? "auto";
+        if (m.kind === "video" && (input === "dlogm" || (input === "auto" && m.logProfile === "dlogm"))) color.push(lut3dFilter(DLOGM_LUT));
+        const clipLook = clip.color?.look ?? "project";
+        if (clipLook !== "none" && m.kind !== "audio") {
+          const file = clipLook === "project" ? look : path.isAbsolute(clipLook) ? clipLook : null;
+          if (file) color.push(lut3dFilter(file));
+        }
+        filters.push(`[${idx}:v]fps=${fps}${color.map((x) => "," + x).join("")},${fit},setsar=1${fades.map((x) => "," + x).join("")},setpts=PTS-STARTPTS+${f(start)}/TB[clip${idx}v]`);
         const next = `base${++n}`;
         filters.push(`[${base}][clip${idx}v]overlay=eof_action=pass:format=auto[${next}]`);
         base = next;
@@ -130,7 +143,7 @@ export async function exportTimeline(tl, { onProgress = () => {}, outFile, hw } 
   const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
   const out = outFile || path.join(EXPORT_DIR, `export-${stamp}.mp4`);
   const tmp = out.replace(/\.mp4$/i, "") + ".part.mp4";
-  const missing = tl.media.filter((m) => tl.tracks.some((t) => t.clips.some((c) => c.media === m.id)) && !fs.existsSync(resolvePath(m)));
+  const missing = tl.media.filter((m) => tl.sequences.flatMap((s) => s.tracks).some((t) => t.clips.some((c) => c.media === m.id)) && !fs.existsSync(resolvePath(m)));
   if (missing.length) throw new Error(`Offline: ${missing.map((m) => `${m.id} (${path.basename(m.file)})`).join(", ")}. Reconnect the drive to export.`);
   try {
     await runExport(buildFfmpegArgs(tl, tmp, hw), totalDuration(tl), onProgress);

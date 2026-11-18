@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   clipLength, clipEnd, isTextClip, mediaById, moveClip, trimClip, totalDuration,
-  addMediaClip, addTrack, deleteTrack, updateTrack,
+  addMediaClip, addTrack, deleteTrack, updateTrack, seqOf, linkedPartners,
 } from "../lib/model.js";
 import { fmtTime, AUTHOR, mediaState } from "../lib/format.js";
 import Waveform from "./Waveform.jsx";
@@ -21,6 +21,8 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
   const drag = useRef(null);
   const scroller = useRef(null);
   const tl = draft || timeline;
+  const seq = seqOf(tl);
+  const partnerIds = useMemo(() => new Set(selected ? linkedPartners(timeline, selected).map((p) => p.clip.id) : []), [timeline, selected]);
   const duration = totalDuration(tl);
   const width = Math.max((duration + 10) * zoom, 800);
   const flashFresh = lastChange && Date.now() - lastChange.at < 3500;
@@ -43,7 +45,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
 
   const snapPoints = (excludeId) => {
     const pts = [0, time];
-    for (const t of timeline.tracks) for (const c of t.clips) if (c.id !== excludeId) pts.push(c.start, clipEnd(c));
+    for (const t of seqOf(timeline).tracks) for (const c of t.clips) if (c.id !== excludeId) pts.push(c.start, clipEnd(c));
     return pts;
   };
   const snap = (value, pts) => {
@@ -64,7 +66,9 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
     const fromLeft = e.clientX - rect.left;
     const fromRight = rect.right - e.clientX;
     const mode = fromLeft < EDGE_PX ? "trimStart" : fromRight < EDGE_PX ? "trimEnd" : "move";
-    drag.current = { mode, clipId: clip.id, trackId: track.id, kind: track.kind, x0: e.clientX, start0: clip.start, len: clipLength(clip), moved: false, pts: snapPoints(clip.id), draft: null };
+    // Option/Alt: act on this clip alone, not its linked audio/video (J and L cuts)
+    const opts = { linked: !e.altKey };
+    drag.current = { mode, clipId: clip.id, trackId: track.id, kind: track.kind, x0: e.clientX, start0: clip.start, len: clipLength(clip), moved: false, pts: snapPoints(clip.id), draft: null, opts };
     // listen on window: the clip remounts when it moves to another track
     const move = (ev) => onClipMove(ev);
     const up = () => {
@@ -93,10 +97,10 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
       start = Math.abs(snappedStart - start) <= Math.abs(snappedEnd - start) ? snappedStart : snappedEnd;
       const row = document.elementFromPoint(e.clientX, e.clientY)?.closest("[data-track]");
       const target = row && row.dataset.kind === d.kind ? row.dataset.track : null;
-      next = moveClip(timeline, d.clipId, start, target || undefined) || (target ? moveClip(timeline, d.clipId, start) : null);
+      next = moveClip(timeline, d.clipId, start, target || undefined, d.opts) || (target ? moveClip(timeline, d.clipId, start, undefined, d.opts) : null);
     } else {
       const t = snap(xToTime(e.clientX), d.pts);
-      next = trimClip(timeline, d.clipId, d.mode === "trimStart" ? "start" : "end", t);
+      next = trimClip(timeline, d.clipId, d.mode === "trimStart" ? "start" : "end", t, d.opts);
     }
     if (next) {
       d.draft = next;
@@ -156,7 +160,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
   const step = tickStep(zoom);
   const ticks = [];
   for (let t = 0; t <= duration + 10; t += step) ticks.push(Math.round(t * 1000) / 1000);
-  const fps = tl.settings.fps;
+  const fps = seq.settings.fps;
 
   return (
     <section className="timeline">
@@ -173,7 +177,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
             </div>
           </div>
 
-          {tl.tracks.map((track) => (
+          {seq.tracks.map((track) => (
             <div key={track.id} className={`track-row kind-${track.kind}`} style={{ height: ROW_H[track.kind] }}>
               <div className="track-header" style={{ width: HEADER_W }} onPointerDown={(e) => e.stopPropagation()}>
                 <div className="track-name"><span className={`kind-dot ${track.kind}`} />{track.name} <span className="muted">{track.id}</span></div>
@@ -181,7 +185,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
                   {track.kind !== "audio" && (
                     <button className={track.hidden ? "on" : ""} disabled={readOnly} title="Hide" onClick={() => commit(updateTrack(timeline, track.id, { hidden: !track.hidden }))}>{track.hidden ? "hidden" : "👁"}</button>
                   )}
-                  {track.kind !== "text" && (
+                  {track.kind === "audio" && (
                     <button className={track.muted ? "on" : ""} disabled={readOnly} title="Mute" onClick={() => commit(updateTrack(timeline, track.id, { muted: !track.muted }))}>{track.muted ? "muted" : "🔊"}</button>
                   )}
                   <button disabled={readOnly} title="Delete track" onClick={() => {
@@ -206,6 +210,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
                     timeline={tl}
                     zoom={zoom}
                     selected={selected === clip.id}
+                    partner={partnerIds.has(clip.id)}
                     status={clip.media ? mediaStatus[clip.media] : null}
                     height={ROW_H[track.kind] - 8}
                     flash={flashIds.has(clip.id) ? lastChange : null}
@@ -228,7 +233,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
         </div>
       </div>
       <div className="timeline-foot">
-        <span className="muted">Drag to move · drag edges to trim · S split · Delete · T title · Space play · ←/→ frame (⇧ 1s)</span>
+        <span className="muted">Drag to move · edges trim · ⌥ alone (J/L cuts) · S split · Delete (⇧ ripple) · T title · ⌘Z undo · Space play · ←/→ frame</span>
         <div className="spacer" />
         <label className="zoom">Zoom <input type="range" min="5" max="400" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} /></label>
       </div>
@@ -236,7 +241,7 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
   );
 }
 
-const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, selected, flash, status, height, ...handlers }) {
+const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, selected, partner, flash, status, height, ...handlers }) {
   const len = clipLength(clip);
   const m = isTextClip(clip) ? null : mediaById(timeline, clip.media);
   const name = isTextClip(clip) ? `“${clip.text}”` : m?.file.split("/").pop();
@@ -247,7 +252,7 @@ const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, s
   const fadeIn = Math.min(clip.fadeIn || 0, len) * zoom;
   const fadeOut = Math.min(clip.fadeOut || 0, len) * zoom;
   return (
-    <div className={`clip clip-${track.kind} ${selected ? "selected" : ""} ${st?.offline ? "is-offline" : ""}`} style={style} {...handlers}
+    <div className={`clip clip-${track.kind} ${selected ? "selected" : ""} ${partner ? "partner" : ""} ${st?.offline ? "is-offline" : ""}`} style={style} {...handlers}
       title={`${clip.id} · ${name}\nstart ${clip.start}s · length ${Math.round(len * 1000) / 1000}s${m ? ` · source ${clip.in}–${clip.out}s` : ""}`}>
       {showWave && (
         <div className={`clip-wave ${track.kind === "video" ? "under" : ""}`}>
@@ -264,8 +269,8 @@ const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, s
       {st?.offline && <div className="clip-offline">OFFLINE</div>}
       {fadeIn > 0 && <div className="fade fade-in" style={{ width: fadeIn }} />}
       {fadeOut > 0 && <div className="fade fade-out" style={{ width: fadeOut }} />}
-      <div className="clip-label"><b>{clip.id}</b> {name}</div>
-      {track.kind !== "text" && clip.volume !== 1 && <div className="clip-vol">{Math.round(clip.volume * 100)}%</div>}
+      <div className="clip-label">{clip.link && <span className="link-icon" title={`Linked (${clip.link}): moves with its ${track.kind === "audio" ? "picture" : "sound"}. Hold ⌥ to move or trim it alone.`}>⛓</span>}<b>{clip.id}</b> {name}{m?.logProfile === "dlogm" && track.kind === "video" && (clip.color?.input ?? "auto") !== "none" && <span className="tag">D-Log M→709</span>}</div>
+      {track.kind === "audio" && clip.volume !== undefined && clip.volume !== 1 && <div className="clip-vol">{Math.round(clip.volume * 100)}%</div>}
       <div className="edge left" />
       <div className="edge right" />
       {flash && <div key={flash.at} className="flash" style={{ "--flash": AUTHOR[flash.author]?.color }} />}

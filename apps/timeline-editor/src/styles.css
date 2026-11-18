@@ -255,3 +255,19 @@ button.link { background: none; border: none; padding: 0 4px; color: var(--accen
 .listing li .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .listing li .icon { width: 16px; text-align: center; }
 .modal-foot { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); align-items: center; }
+
+/* ---- phase 1: linked clips, undo, versions, color ---- */
+.clip.partner { box-shadow: 0 0 0 2px rgba(255, 210, 122, 0.55) inset; }
+.link-icon { margin-right: 3px; opacity: 0.85; }
+.tag { margin-left: 5px; font-size: 9px; padding: 0 4px; border-radius: 3px; background: rgba(242, 184, 75, 0.25); color: #ffd98a; }
+.color-box { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 6px; display: flex; flex-direction: column; gap: 6px; }
+.sub-head { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.link-row { display: flex; gap: 8px; align-items: center; border-top: 1px solid var(--line); padding-top: 6px; margin-top: 4px; }
+.activity li.undone .changes li { text-decoration: line-through; opacity: 0.55; }
+.activity li.is-undo .changes li { font-style: italic; }
+.act-head .spacer { flex: 1; }
+.modal.versions { height: min(560px, 85vh); width: min(720px, 94vw); }
+.modal.versions .listing li { cursor: default; }
+.badge-kind { width: 18px; text-align: center; }
+.badge-kind.version { color: #ffd27a; }
+.banner.error button { margin-top: 8px; }

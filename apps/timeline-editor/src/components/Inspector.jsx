@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { findClip, isTextClip, mediaById, updateClip, clone, round } from "../lib/model.js";
+import { findClip, isTextClip, mediaById, updateClip, updateMedia, updateProject, updateSettings, seqOf, round, linkedPartners, unlinkClip, CHANNELS } from "../lib/model.js";
 
 /** A number field that commits on Enter or blur, so typing doesn't spam writes. */
 function Num({ label, value, onCommit, step = 0.1, min, max, disabled }) {
@@ -39,7 +39,7 @@ export default function Inspector({ timeline, selected, readOnly, commit }) {
           <>
             <Num label="Source in (s)" value={clip.in} min={0} onCommit={(v) => set({ in: v })} disabled={readOnly} />
             <Num label="Source out (s)" value={clip.out} min={0} onCommit={(v) => set({ out: v })} disabled={readOnly} />
-            <Num label="Volume (1 = 100%)" value={clip.volume} step={0.05} min={0} max={2} onCommit={(v) => set({ volume: v })} disabled={readOnly} />
+            {track.kind === "audio" && <Num label="Volume (1 = 100%)" value={clip.volume} step={0.05} min={0} max={2} onCommit={(v) => set({ volume: v })} disabled={readOnly} />}
           </>
         )}
         <Num label="Fade in (s)" value={clip.fadeIn} min={0} onCommit={(v) => set({ fadeIn: Math.max(0, v) })} disabled={readOnly} />
@@ -54,6 +54,13 @@ export default function Inspector({ timeline, selected, readOnly, commit }) {
           </label>
         )}
         {isTextClip(clip) && <TextFields clip={clip} set={set} readOnly={readOnly} />}
+        {track.kind === "video" && m?.kind === "video" && <ColorFields timeline={timeline} clip={clip} media={m} set={set} commit={commit} readOnly={readOnly} />}
+        {clip.link && (
+          <div className="link-row">
+            <span className="muted small">⛓ Linked to {linkedPartners(timeline, clip.id).map((p) => p.clip.id).join(", ")}: they move, trim and split together. Hold ⌥ to edit one side alone.</span>
+            <button disabled={readOnly} onClick={() => commit(unlinkClip(timeline, clip.id))}>Unlink</button>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -99,18 +106,70 @@ function TextFields({ clip, set, readOnly }) {
   );
 }
 
+function ColorFields({ timeline, clip, media, set, commit, readOnly }) {
+  const isLog = media.logProfile === "dlogm";
+  const input = clip.color?.input ?? "auto";
+  const look = clip.color?.look ?? "project";
+  const project = timeline.project;
+  return (
+    <div className="color-box">
+      <div className="sub-head">Color</div>
+      <label className="field" title="DJI records D-Log M but tags it bt709, so DJI files get this on by default. It applies to every clip of this file.">
+        <span>{media.id} is D-Log M</span>
+        <input type="checkbox" checked={isLog} disabled={readOnly} onChange={(e) => commit(updateMedia(timeline, media.id, { logProfile: e.target.checked ? "dlogm" : "none" }))} />
+      </label>
+      {isLog && (
+        <label className="field">
+          <span>Convert to Rec.709</span>
+          <select value={input} disabled={readOnly} onChange={(e) => set({ color: { input: e.target.value } })}>
+            <option value="auto">yes (DJI LUT)</option>
+            <option value="none">no, keep it flat</option>
+          </select>
+        </label>
+      )}
+      <label className="field">
+        <span>Look</span>
+        <select value={look} disabled={readOnly} onChange={(e) => set({ color: { look: e.target.value } })}>
+          <option value="project">project look{project.look === "none" || !project.channel && project.look === "channel" ? " (none set)" : ""}</option>
+          <option value="none">none on this clip</option>
+        </select>
+      </label>
+      <p className="muted small">The preview shows the D-Log M conversion. The look is applied on export; the live preview of looks comes with the Color phase.</p>
+    </div>
+  );
+}
+
+const CHANNEL_LOOK = { "@blkgrlco": "The Everyday LUT", "@blkgrlcotakesoff": "The Everyday LUT", podcast: null };
+
 function ProjectSettings({ timeline, readOnly, commit }) {
-  const s = timeline.settings;
-  const set = (patch) => {
-    const next = clone(timeline);
-    next.settings = { ...s, ...patch };
-    commit(next);
-  };
+  const s = seqOf(timeline).settings;
+  const p = timeline.project;
+  const set = (patch) => commit(updateSettings(timeline, patch));
+  const channelLook = CHANNEL_LOOK[p.channel];
   return (
     <section className="inspector">
       <div className="panel-head"><h2>Project</h2></div>
       <div className="fields">
         <p className="muted small">Select a clip to edit it.</p>
+        <label className="field">
+          <span>Name</span>
+          <input key={p.name} defaultValue={p.name} disabled={readOnly} onBlur={(e) => e.target.value && e.target.value !== p.name && commit(updateProject(timeline, { name: e.target.value }))}
+            onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()} />
+        </label>
+        <label className="field" title="Brand presets come from the brand bible">
+          <span>Channel</span>
+          <select value={p.channel || ""} disabled={readOnly} onChange={(e) => commit(updateProject(timeline, { channel: e.target.value || null }))}>
+            <option value="">none</option>
+            {CHANNELS.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </label>
+        <label className="field">
+          <span>Look (creative LUT)</span>
+          <select value={p.look === "none" ? "none" : "channel"} disabled={readOnly} onChange={(e) => commit(updateProject(timeline, { look: e.target.value }))}>
+            <option value="channel">{channelLook ? `channel: ${channelLook}` : "channel default (none)"}</option>
+            <option value="none">none</option>
+          </select>
+        </label>
         <div className="presets">
           <button disabled={readOnly} className={s.width === 1920 && s.height === 1080 ? "on" : ""} onClick={() => set({ width: 1920, height: 1080 })}>16:9 1920×1080</button>
           <button disabled={readOnly} className={s.width === 1080 && s.height === 1920 ? "on" : ""} onClick={() => set({ width: 1080, height: 1920 })}>9:16 1080×1920</button>

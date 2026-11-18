@@ -35,6 +35,7 @@ export function describeMedia(m) {
   if (m.width) parts.push(`${m.width}×${m.height}`);
   if (m.fps) parts.push(`${m.fps}fps`);
   if (m.codec) parts.push(`${m.codec === "hevc" ? "HEVC" : m.codec === "h264" ? "H.264" : m.codec.toUpperCase()}${m.bitDepth && m.bitDepth > 8 ? ` ${m.bitDepth}-bit` : ""}${m.hdr ? ` ${m.hdr}` : ""}`);
+  if (m.logProfile === "dlogm") parts.push("D-Log M");
   if (m.kind === "audio" && m.audioCodec) parts.push(m.audioCodec.toUpperCase());
   if (m.duration) parts.push(fmtDur(m.duration));
   if (m.size) parts.push(fmtBytes(m.size));

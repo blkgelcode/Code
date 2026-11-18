@@ -8,7 +8,7 @@ import fs from "node:fs";
 import { ensureProject, readTimelineFile, serialize, TIMELINE_FILE, MEDIA_DIR } from "./store.js";
 import { importPaths } from "./media.js";
 import { exportTimeline } from "./export.js";
-import { totalDuration } from "../src/lib/model.js";
+import { totalDuration, migrate, seqOf } from "../src/lib/model.js";
 
 const [cmd, arg, ...more] = process.argv.slice(2);
 ensureProject();
@@ -26,7 +26,8 @@ if (cmd === "validate") {
     console.error("INVALID\n - " + r.errors.join("\n - "));
     process.exit(1);
   }
-  console.log(`OK: ${r.timeline.tracks.length} tracks, ${r.timeline.tracks.reduce((n, t) => n + t.clips.length, 0)} clips, ${totalDuration(r.timeline)}s`);
+  const seq = seqOf(r.timeline);
+  console.log(`OK: ${seq.tracks.length} tracks, ${seq.tracks.reduce((n, t) => n + t.clips.length, 0)} clips, ${totalDuration(r.timeline)}s${r.migrated ? " (v1 file: the app upgrades it to v2 on start)" : ""}`);
   for (const w of r.warnings) console.log(`warning: ${w}`);
 } else if (cmd === "import") {
   requireValid();
@@ -34,9 +35,9 @@ if (cmd === "validate") {
   const paths = arg ? [arg, ...more] : [MEDIA_DIR];
   const { timeline, added, failed, skipped } = await importPaths(r.timeline, paths);
   if (added.length) {
-    const raw = r.raw;
+    const raw = migrate(r.raw);
     raw.media = [...(raw.media || []), ...added];
-    if (JSON.stringify(timeline.settings) !== JSON.stringify(r.timeline.settings)) raw.settings = timeline.settings;
+    seqOf(raw).settings = seqOf(timeline).settings;
     fs.writeFileSync(TIMELINE_FILE, serialize(raw));
   }
   for (const m of added) console.log(`added ${m.id}: ${m.file} (${m.kind}${m.duration ? `, ${m.duration}s` : ""}${m.width ? `, ${m.width}×${m.height}` : ""}${m.fps ? ` @ ${m.fps}fps` : ""}${m.codec ? `, ${m.codec} ${m.bitDepth}-bit` : ""})`);

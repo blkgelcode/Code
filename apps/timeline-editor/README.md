@@ -36,6 +36,25 @@ npm run dev          # then open http://localhost:5173
 5. **Export MP4** renders from your original 4K files at full quality into
    `project/exports/`, with hardware encoding on a Mac.
 
+**Linked clips:** a video's sound sits on its own audio track, linked to the
+picture (⛓). They move, trim, split and delete together. Hold **⌥ (Option)**
+while dragging or trimming to move just one of them: that's how you make a J
+cut (sound starts before the picture) or an L cut (sound carries on after).
+**⇧ Delete** deletes and closes the gap.
+
+**Undo everything:** **⌘Z** undoes the last change, yours or Claude's;
+**⇧⌘Z** redoes. In Activity, **Undo this** takes back one earlier change on
+its own. Nothing needs saving: every change is on disk immediately.
+**Versions** names a version ("before rough cut") or goes back to one, or to
+an autosave (every 5 minutes). If the file ever breaks, the app offers to
+restore the last good version.
+
+**D-Log M:** DJI Pocket 3 clips are recognised by their file name and
+converted from D-Log M to normal color (DJI's own LUT), in the preview and in
+the export. Pick a channel in the Project panel (select no clip) and its look
+is added on export: The Everyday LUT for @blkgrlco and @blkgrlcotakesoff.
+Turn either off per clip in the Inspector's Color section.
+
 **Proxy / Full quality** (top right) switches the preview between the small
 proxies (smooth) and the original files (sharp; HEVC 10-bit originals often
 won't play in a browser, which is what the proxies are for). Video is streamed
@@ -63,14 +82,12 @@ Claude follows `CLAUDE.md` in this folder, which documents the file format.
 Who changed what is kept in `project/activity.jsonl`, so Claude can also see
 what you did.
 
-## Limits (v1)
+## Limits (so far)
 
 - The browser preview stacks the clips live and is close to, not identical
   with, the export. Export is the source of truth.
-- HDR (iPhone HLG) and D-Log M footage look flat in proxies and exports: no
-  tone mapping or LUTs yet.
+- iPhone HLG footage looks flat (no tone mapping yet). The channel look
+  (The Everyday LUT) shows only in the export until the Color phase.
 - Drag-and-drop finds files by name and size. On a huge drive that Spotlight
   doesn't index, the search can time out; Import… always works.
-- No undo yet: the activity log shows every change, and Claude can reverse one
-  if you ask.
 - No speed changes, keyframes or transitions other than fades.

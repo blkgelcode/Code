@@ -109,9 +109,11 @@ export class MediaLibrary {
     }
     const key = cacheKey(abs, st);
     const kind = m.kind;
-    const files = cachePaths(key, kind);
+    const files = cachePaths(key, kind, m.logProfile);
     const need = needs(m, abs);
-    const s = prev && prev.key === key ? { ...prev } : { jobs: {}, key };
+    // the browser's cache-buster: changes when the file or its color input changes
+    const vkey = m.logProfile === "dlogm" ? `${key}-dlogm` : key;
+    const s = prev && prev.key === vkey ? { ...prev, jobs: { ...prev.jobs } } : { jobs: {}, key: vkey };
     s.online = true;
     s.path = abs;
     for (const job of ["thumb", "wave", "proxy"]) {
@@ -135,7 +137,7 @@ export class MediaLibrary {
   }
 
   queueJob(m, job, abs, out) {
-    const key = `${m.id}:${job}:${this.status[m.id]?.key ?? cacheKey(abs)}`;
+    const key = `${m.id}:${job}:${out}`;
     this.queue.add(key, PRIORITY[job], (progress) => {
       if (!fs.existsSync(abs)) throw new Error("the file went offline");
       if (job === "thumb") return makeThumb(m, abs, out);
@@ -214,7 +216,7 @@ export class MediaLibrary {
   /** Paths of offline media used by clips (export can't run without them). */
   offlineInUse() {
     const tl = this.store.timeline;
-    const used = new Set(tl.tracks.flatMap((t) => t.clips.map((c) => c.media)).filter(Boolean));
+    const used = new Set(tl.sequences.flatMap((s) => s.tracks).flatMap((t) => t.clips.map((c) => c.media)).filter(Boolean));
     return tl.media.filter((m) => used.has(m.id) && this.status[m.id]?.online === false);
   }
 
@@ -223,7 +225,7 @@ export class MediaLibrary {
     const m = this.store.timeline?.media.find((x) => x.id === id);
     const key = this.keys[id];
     if (!m || !key) return null;
-    const p = cachePaths(key, m.kind)[job];
+    const p = cachePaths(key, m.kind, m.logProfile)[job];
     return fs.existsSync(p) ? p : null;
   }
 }

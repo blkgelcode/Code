@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { clipLength, clipEnd, isTextClip, mediaById } from "../lib/model.js";
+import { clipLength, clipEnd, isTextClip, mediaById, seqOf } from "../lib/model.js";
 import { mediaState } from "../lib/format.js";
 
 const PRELOAD = 2; // seconds: mount clips a little before they start so they're ready
@@ -19,18 +19,19 @@ export default function Preview({ timeline, time, playing, mediaStatus = {}, qua
 
   useLayoutEffect(() => {
     if (!stage.current || !timeline) return;
-    const ro = new ResizeObserver(([e]) => setScale(e.contentRect.width / timeline.settings.width));
+    const ro = new ResizeObserver(([e]) => setScale(e.contentRect.width / seqOf(timeline).settings.width));
     ro.observe(stage.current);
     return () => ro.disconnect();
-  }, [timeline?.settings.width, timeline]);
+  }, [timeline]);
 
   if (!timeline) return <section className="preview"><div className="empty">Waiting for the server…</div></section>;
-  const { width: W, height: H, background } = timeline.settings;
+  const seq = seqOf(timeline);
+  const { width: W, height: H, background } = seq.settings;
 
   // tracks lower in the list are underneath: give each track a z-index by position
   const layers = [];
-  timeline.tracks.forEach((track, i) => {
-    const z = timeline.tracks.length - i;
+  seq.tracks.forEach((track, i) => {
+    const z = seq.tracks.length - i;
     for (const clip of track.clips) {
       const near = time >= clip.start - PRELOAD && time < clipEnd(clip);
       if (!near) continue;
@@ -52,7 +53,7 @@ export default function Preview({ timeline, time, playing, mediaStatus = {}, qua
         </div>
       </div>
       <div className="preview-foot muted">
-        {W}×{H} · {timeline.settings.fps}fps · previewing {quality === "proxy" ? "960×540 proxies" : "original files"} · export always uses the originals at full quality
+        {W}×{H} · {seq.settings.fps}fps · previewing {quality === "proxy" ? "960×540 proxies" : "original files"} · export always uses the originals at full quality
       </div>
     </section>
   );
@@ -84,7 +85,8 @@ function MediaLayer({ clip, track, media, z, time, playing, active, status, qual
     }
     const vol = (clip.volume ?? 1) * (track.volume ?? 1) * fadeFactor(clip, time);
     v.volume = Math.max(0, Math.min(1, vol));
-    v.muted = track.muted;
+    // v2: sound comes only from audio-track clips; picture layers are always silent
+    v.muted = track.kind === "audio" ? Boolean(track.muted) : true;
     if (playing) {
       if (v.paused) {
         v.currentTime = expected;
@@ -111,7 +113,7 @@ function MediaLayer({ clip, track, media, z, time, playing, active, status, qual
     return message(st.error ? `${name}: ${st.label}` : `${name}: preparing preview (${st.label.toLowerCase()})`);
   }
   if (isImage) return <img className="layer" src={src} style={style} alt="" />;
-  if (media.kind === "audio") return <audio ref={el} src={src} preload="auto" onError={() => setFailed(true)} />;
+  if (media.kind === "audio" || track.kind === "audio") return <audio ref={el} src={src} preload="auto" onError={() => setFailed(true)} />;
   return (
     <>
       <video ref={el} className="layer" src={src} style={style} preload="auto" playsInline onError={() => setFailed(true)} />

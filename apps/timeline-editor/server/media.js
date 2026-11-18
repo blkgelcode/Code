@@ -11,8 +11,16 @@ import crypto from "node:crypto";
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { MEDIA_DIR, CACHE_DIR } from "./store.js";
-import { nextId, round } from "../src/lib/model.js";
+import { nextId, round, seqOf } from "../src/lib/model.js";
 import { decodeArgs, encodeArgs } from "./hw.js";
+import { DLOGM_LUT, guessLogProfile } from "./brand.js";
+
+/** An ffmpeg lut3d filter for a .cube file (10-bit RGB in between, so log footage doesn't band). */
+export function lut3dFilter(file) {
+  if (/[':\\]/.test(file)) throw new Error(`LUT path can't contain ' : or \\ (${file})`);
+  return `format=gbrp10le,lut3d=file='${file}':interp=tetrahedral`;
+}
+const inputTransform = (m) => (m.logProfile === "dlogm" ? `,${lut3dFilter(DLOGM_LUT)}` : "");
 
 const run = promisify(execFile);
 
@@ -104,6 +112,7 @@ export async function probe(abs) {
     }
   }
   entry.hasAudio = Boolean(a);
+  if (kind === "video") entry.logProfile = guessLogProfile(abs, info.format.tags);
   if (a) entry.audioCodec = a.codec_name;
   return entry;
 }
@@ -118,11 +127,15 @@ export function cacheKey(abs, st = fs.statSync(abs)) {
   return crypto.createHash("sha1").update(`${path.basename(abs)}|${st.size}|${Math.round(st.mtimeMs)}`).digest("hex").slice(0, 20);
 }
 
-export const cachePaths = (key, kind) => ({
-  thumb: path.join(CACHE_DIR, "thumbs", `${key}.jpg`),
-  wave: path.join(CACHE_DIR, "waves", `${key}.json`),
-  proxy: path.join(CACHE_DIR, "proxies", `${key}.${kind === "audio" ? "m4a" : "mp4"}`),
-});
+/** Picture caches depend on the color input too: D-Log M proxies are converted to Rec.709. */
+export const cachePaths = (key, kind, logProfile) => {
+  const v = logProfile === "dlogm" ? `${key}-dlogm` : key;
+  return {
+    thumb: path.join(CACHE_DIR, "thumbs", `${v}.jpg`),
+    wave: path.join(CACHE_DIR, "waves", `${key}.json`),
+    proxy: path.join(CACHE_DIR, "proxies", `${kind === "audio" ? key : v}.${kind === "audio" ? "m4a" : "mp4"}`),
+  };
+};
 
 /** Which derived files a media entry needs. */
 export function needs(m, abs) {
@@ -167,7 +180,7 @@ export async function makeThumb(m, abs, out) {
   const tmp = `${out}.part.jpg`;
   const at = m.kind === "video" ? Math.min(1, (m.duration || 0) / 3) : 0;
   // -ss before -i: fast keyframe seek, no decoding the whole file
-  await ffmpegJob(["-ss", String(at), "-i", abs, "-map", "0:v:0", "-frames:v", "1", "-vf", "scale=320:-2,format=yuvj420p", "-q:v", "4", tmp], {});
+  await ffmpegJob(["-ss", String(at), "-i", abs, "-map", "0:v:0", "-frames:v", "1", "-vf", `scale=320:-2${inputTransform(m)},format=yuvj420p`, "-q:v", "4", tmp], {});
   await finish(tmp, out);
 }
 
@@ -224,7 +237,8 @@ export async function makeProxy(m, abs, out, hw, onProgress) {
       const vertical = (m.height || 0) > (m.width || 0);
       const [W, H] = vertical ? [PROXY.height, PROXY.width] : [PROXY.width, PROXY.height];
       const fps = Math.min(60, m.fps || 30);
-      const vf = `scale=${W}:${H}:force_original_aspect_ratio=decrease:force_divisible_by=2,format=yuv420p`;
+      // D-Log M is converted to Rec.709 in the proxy, so the preview shows normal color
+      const vf = `scale=${W}:${H}:force_original_aspect_ratio=decrease:force_divisible_by=2${inputTransform(m)},format=yuv420p`;
       const build = (h) => [
         ...decodeArgs(h), "-i", abs,
         "-map", "0:v:0", "-map", "0:a:0?", "-vf", vf, "-r", String(fps),
@@ -310,12 +324,13 @@ export async function importPaths(timeline, paths) {
     added.push(entry);
   }
   // first footage into an empty project sets the project's frame size and rate
-  const noClips = next.tracks.every((t) => t.clips.length === 0);
+  const seq = seqOf(next);
+  const noClips = seq.tracks.every((t) => t.clips.length === 0);
   const firstVideo = added.find((m) => m.kind === "video");
   if (noClips && timeline.media.length === 0 && firstVideo) {
-    next.settings.width = firstVideo.width;
-    next.settings.height = firstVideo.height;
-    next.settings.fps = firstVideo.fps || 30;
+    seq.settings.width = firstVideo.width;
+    seq.settings.height = firstVideo.height;
+    seq.settings.fps = firstVideo.fps || 30;
   }
   return { timeline: next, added, failed, skipped };
 }

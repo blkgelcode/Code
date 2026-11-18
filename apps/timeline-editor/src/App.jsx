@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTimelineSync } from "./lib/sync.js";
 import {
-  totalDuration, findClip, splitClip, deleteClip, addTextClip, clipEnd,
+  totalDuration, findClip, splitClip, deleteClip, addTextClip, clipEnd, seqOf,
 } from "./lib/model.js";
 import { fmtTime } from "./lib/format.js";
 import MediaBin from "./components/MediaBin.jsx";
@@ -10,6 +10,7 @@ import Timeline from "./components/Timeline.jsx";
 import Inspector from "./components/Inspector.jsx";
 import Activity from "./components/Activity.jsx";
 import ImportDialog from "./components/ImportDialog.jsx";
+import Versions from "./components/Versions.jsx";
 import { describeDrop, importDescribed } from "./lib/importer.js";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
     }
   });
   const [showImport, setShowImport] = useState(false);
+  const [showVersions, setShowVersions] = useState(false);
   const [dropping, setDropping] = useState(false);
   const [importing, setImporting] = useState(false);
 
@@ -64,6 +66,8 @@ export default function App() {
   const timeRef = useRef(0);
   const duration = timeline ? totalDuration(timeline) : 0;
   const readOnly = !timeline || errors.length > 0;
+  const fps = timeline ? seqOf(timeline).settings.fps : 30;
+  const hist = sync.history;
 
   const seek = useCallback((t) => {
     const v = Math.max(0, t);
@@ -102,7 +106,7 @@ export default function App() {
     let id = selected;
     if (!id || !findClip(timeline, id)) {
       // nothing selected: split the topmost clip under the playhead
-      for (const t of timeline.tracks) {
+      for (const t of seqOf(timeline).tracks) {
         const c = t.clips.find((c) => c.start < timeRef.current && clipEnd(c) > timeRef.current);
         if (c) {
           id = c.id;
@@ -114,9 +118,10 @@ export default function App() {
     if (!commit(splitClip(timeline, id, timeRef.current))) sync.setNotice("Put the playhead inside the clip to split it.");
   }, [readOnly, selected, timeline, commit, sync]);
 
-  const remove = useCallback(() => {
+  /** Delete (Option: leave the linked partner); ⇧Delete ripple-deletes, closing the gap. */
+  const remove = useCallback((e) => {
     if (readOnly || !selected) return;
-    commit(deleteClip(timeline, selected));
+    commit(deleteClip(timeline, selected, { linked: !e?.altKey, ripple: Boolean(e?.shiftKey) }));
     setSelected(null);
   }, [readOnly, selected, timeline, commit]);
 
@@ -131,13 +136,26 @@ export default function App() {
   useEffect(() => {
     const onKey = (e) => {
       if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target.tagName)) return;
-      const frame = 1 / (timeline?.settings.fps || 30);
+      const frame = 1 / fps;
+      const mod = e.metaKey || e.ctrlKey;
+      if (mod && (e.key === "z" || e.key === "Z")) {
+        e.preventDefault();
+        if (e.shiftKey) sync.redo();
+        else sync.undo();
+        return;
+      }
+      if (mod && (e.key === "y" || e.key === "Y")) {
+        e.preventDefault();
+        sync.redo();
+        return;
+      }
+      if (mod) return; // leave other browser shortcuts alone
       if (e.code === "Space") {
         e.preventDefault();
         if (!playing && timeRef.current >= duration - 0.01) seek(0);
         setPlaying((p) => !p);
       } else if (e.key === "s" || e.key === "S") split();
-      else if (e.key === "Delete" || e.key === "Backspace") remove();
+      else if (e.key === "Delete" || e.key === "Backspace") remove(e);
       else if (e.key === "t" || e.key === "T") addTitle();
       else if (e.key === "ArrowLeft") seek(timeRef.current - (e.shiftKey ? 1 : frame));
       else if (e.key === "ArrowRight") seek(timeRef.current + (e.shiftKey ? 1 : frame));
@@ -151,7 +169,7 @@ export default function App() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [playing, duration, seek, split, remove, addTitle, timeline]);
+  }, [playing, duration, seek, split, remove, addTitle, fps, sync]);
 
   const startExport = async () => {
     const r = await fetch("/api/export", { method: "POST" }).then((r) => r.json());
@@ -170,16 +188,20 @@ export default function App() {
     <div className="app" onDragOver={onDragOver} onDragLeave={(e) => e.relatedTarget === null && setDropping(false)} onDrop={onDrop}>
       {dropping && <div className="drop-overlay">Drop to import. Files are read where they are; nothing is uploaded.</div>}
       {showImport && <ImportDialog onClose={() => setShowImport(false)} setNotice={sync.setNotice} />}
+      {showVersions && <Versions onClose={() => setShowVersions(false)} setNotice={sync.setNotice} />}
       <header className="topbar">
         <div className="brand">Timeline Editor</div>
-        <div className={`conn ${sync.connected ? "on" : "off"}`}>{sync.connected ? "Live" : "Reconnecting…"}</div>
+        <div className={`conn ${sync.connected ? "on" : "off"}`}>{sync.connected ? "Live · saved" : "Reconnecting…"}</div>
+        <button onClick={sync.undo} disabled={!hist?.canUndo || readOnly} title={hist?.canUndo ? `Undo (⌘Z): ${hist.canUndo.text}` : "Nothing to undo"}>↶ Undo</button>
+        <button onClick={sync.redo} disabled={!hist?.canRedo || readOnly} title={hist?.canRedo ? `Redo (⇧⌘Z): ${hist.canRedo.text}` : "Nothing to redo"}>↷ Redo</button>
+        <button onClick={() => setShowVersions(true)} title="Save a named version, or go back to one (autosaves included)">Versions</button>
         <div className="spacer" />
         <button onClick={() => { if (!playing && timeRef.current >= duration - 0.01) seek(0); setPlaying((p) => !p); }} disabled={!duration} title="Play / pause (Space)">
           {playing ? "❚❚ Pause" : "▶ Play"}
         </button>
-        <span className="timecode">{fmtTime(time, timeline?.settings.fps)} / {fmtTime(duration, timeline?.settings.fps)}</span>
+        <span className="timecode">{fmtTime(time, fps)} / {fmtTime(duration, fps)}</span>
         <button onClick={split} disabled={readOnly} title="Split at playhead (S)">Split</button>
-        <button onClick={remove} disabled={readOnly || !selected} title="Delete selected (Delete)">Delete</button>
+        <button onClick={remove} disabled={readOnly || !selected} title="Delete selected (Delete). ⌥ keeps its linked audio/video, ⇧ closes the gap">Delete</button>
         <button onClick={addTitle} disabled={readOnly} title="Add a title at the playhead (T)">+ Title</button>
         <div className="spacer" />
         <button className="primary" onClick={startExport} disabled={readOnly || !duration || (ex && !ex.done && !ex.error)}>{exportLabel}</button>
@@ -195,6 +217,12 @@ export default function App() {
         <div className="banner error">
           <strong>timeline.json has errors, so editing is paused until it's fixed:</strong>
           <ul>{errors.map((e) => <li key={e}>{e}</li>)}</ul>
+          {sync.canRecover && (
+            <button className="primary" onClick={async () => {
+              const r = await fetch("/api/recover", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }).then((x) => x.json());
+              if (!r.ok) sync.setNotice(r.error);
+            }}>Restore the last good version</button>
+          )}
         </div>
       )}
       {ex?.error && <div className="banner error">Export failed: {ex.error}</div>}
@@ -207,7 +235,7 @@ export default function App() {
         <Preview timeline={timeline} time={time} playing={playing} mediaStatus={sync.media} quality={quality} />
         <aside className="side">
           <Inspector timeline={timeline} selected={selected} readOnly={readOnly} commit={commit} />
-          <Activity activity={sync.activity} onPick={(id) => {
+          <Activity activity={sync.activity} history={hist} onUndo={sync.undoEntry} readOnly={readOnly} onPick={(id) => {
             const f = timeline && findClip(timeline, id);
             if (f) {
               setSelected(id);

@@ -5,8 +5,9 @@ Code at the same time. The whole edit lives in `project/timeline.json`.
 Reference points: Premiere Pro (timeline and shortcuts), Final Cut Pro (media
 organisation, favorites, roles), DaVinci Resolve (color, scopes, render queue).
 
-Status: **plan, waiting for her OK.** Nothing below this line is built yet,
-except what "Already built" lists.
+Status: **Phase 1 done** (2026-11-18). Next: Phase 2, after her feedback.
+TypeScript moves to Phase 2, with the timeline rewrite; converting during
+Phase 1 would have added risk without changing anything she can use.
 
 ---
 

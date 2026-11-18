@@ -11,7 +11,8 @@ import http from "node:http";
 import express from "express";
 import chokidar from "chokidar";
 import { WebSocketServer } from "ws";
-import { TimelineStore, readActivity, PROJECT_DIR, MEDIA_DIR, TIMELINE_FILE, EXPORT_DIR, DIST_DIR } from "./store.js";
+import { TimelineStore, readActivity, PROJECT_DIR, MEDIA_DIR, TIMELINE_FILE, EXPORT_DIR, DIST_DIR, LOCK_FILE } from "./store.js";
+import { CHANNEL_LOOKS, lutsAvailable } from "./brand.js";
 import { importPaths, resolvePath, WAVE_RATE } from "./media.js";
 import { MediaLibrary } from "./library.js";
 import { browse, places, locate, rememberFolder } from "./browse.js";
@@ -38,15 +39,27 @@ const stateMsg = (extra = {}) => ({
   rev: store.rev,
   errors: store.errors,
   warnings: store.warnings,
+  history: store.history.status(),
+  canRecover: Boolean(store.errors.length && store.history.readHead()),
   ...extra,
 });
+
+/** Run an undo/redo/restore action and report the result to one socket or HTTP. */
+function act(fn) {
+  try {
+    const r = fn();
+    return { ok: true, ...(r && typeof r === "object" && !Array.isArray(r) ? r : {}) };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
 
 store.on((event) => {
   if (event.type === "timeline") {
     broadcast(stateMsg({ author: event.author, entry: event.entry }));
     library.sync().catch(() => {});
   }
-  if (event.type === "invalid") broadcast({ type: "invalid", errors: event.errors, rev: store.rev });
+  if (event.type === "invalid") broadcast({ type: "invalid", errors: event.errors, rev: store.rev, canRecover: Boolean(store.history.readHead()) });
 });
 
 wss.on("connection", (ws) => {
@@ -63,6 +76,9 @@ wss.on("connection", (ws) => {
       const r = store.write(msg.timeline, "user", msg.baseRev);
       send(ws, { type: "ack", reqId: msg.reqId, ...r });
       if (!r.ok) send(ws, stateMsg());
+    } else if (["undo", "redo", "undoEntry"].includes(msg.type)) {
+      const r = act(() => (msg.type === "undo" ? store.undo("user") : msg.type === "redo" ? store.redo("user") : store.undoEntry(msg.seq, "user")));
+      if (!r.ok) send(ws, { type: "notice", text: r.error });
     }
   });
 });
@@ -79,6 +95,23 @@ chokidar
 
 const mediaEntry = (id) => store.timeline?.media.find((m) => m.id === id);
 const wrap = (fn) => (req, res) => Promise.resolve(fn(req, res)).catch((e) => res.status(400).json({ ok: false, error: e.message }));
+
+app.get("/api/ping", (_req, res) => res.json({ ok: true, projectDir: PROJECT_DIR, pid: process.pid }));
+
+// ---- history, versions, recovery (the `tl` CLI uses these while the app runs) ----------------
+
+const by = (req) => (req.body?.author === "claude" ? "claude" : "user");
+app.post("/api/undo", (req, res) => res.json(act(() => (req.body?.seq ? store.undoEntry(Number(req.body.seq), by(req)) : store.undo(by(req))))));
+app.post("/api/redo", (req, res) => res.json(act(() => store.redo(by(req)))));
+app.get("/api/history", (_req, res) => res.json({ ...store.history.status(), entries: store.history.entries.slice(-50).map((e) => store.history.summary(e)) }));
+app.get("/api/versions", (_req, res) => res.json(store.history.listVersions()));
+app.post("/api/versions", (req, res) => res.json(act(() => ({ file: store.saveVersion(String(req.body?.name || "Version"), by(req)) }))));
+app.post("/api/versions/restore", (req, res) => res.json(act(() => store.restoreVersion(req.body?.id, by(req)))));
+app.post("/api/recover", (req, res) => res.json(act(() => store.recover(by(req)))));
+app.get("/api/presets", (_req, res) => res.json({
+  channels: Object.fromEntries(Object.entries(CHANNEL_LOOKS).map(([k, v]) => [k, v ? { look: v.name } : { look: null }])),
+  luts: lutsAvailable(),
+}));
 
 app.get("/api/state", (_req, res) => res.json({ ...stateMsg({ activity: readActivity() }), media: library.snapshot(), mediaDir: MEDIA_DIR, projectDir: PROJECT_DIR }));
 app.get("/api/places", (_req, res) => res.json(places()));
@@ -171,7 +204,23 @@ if (fs.existsSync(DIST_DIR)) {
   app.get("*", (_req, res) => res.sendFile(path.join(DIST_DIR, "index.html")));
 }
 
+// tell the `tl` CLI where this server is, and remove the note on the way out
+const writeLock = () => fs.writeFileSync(LOCK_FILE, JSON.stringify({ pid: process.pid, port: PORT, projectDir: PROJECT_DIR }));
+const dropLock = () => {
+  try {
+    if (JSON.parse(fs.readFileSync(LOCK_FILE, "utf8")).pid === process.pid) fs.rmSync(LOCK_FILE);
+  } catch {
+    // already gone
+  }
+};
+for (const sig of ["SIGINT", "SIGTERM"]) process.on(sig, () => {
+  dropLock();
+  process.exit(0);
+});
+process.on("exit", dropLock);
+
 server.listen(PORT, "127.0.0.1", async () => {
+  writeLock();
   console.log(`timeline server on http://localhost:${PORT}`);
   console.log(`  timeline: ${TIMELINE_FILE}`);
   console.log(`  media:    ${MEDIA_DIR}`);
