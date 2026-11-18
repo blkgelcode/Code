@@ -19,6 +19,7 @@ every piece of content gets better because of everything made before it.
 | File | What it holds |
 |---|---|
 | `brand-bible/BRAND_BIBLE.md` | Studio-level source of truth: creator, cross-brand identity, production reality, tools, and the studio's actual goal. |
+| `brand-bible/BLKGRLCO_CURRENT.md` | Every rule currently locked for @blkgrlco in one file (compiled 2026-11-18): identity, lanes and series, voice, editing standard, grade, sound, fonts, palette, thumbnails, SEO, retired names, tools. Recompile after any @blkgrlco rule changes. |
 | `brand-bible/brands/blkgrlco.md` | @blkgrlco identity, series, daily-vlog editing standard, visual identity, SEO. |
 | `brand-bible/brands/blkgrlcotoo.md` | @blkgrlcotakesoff (formerly @blkgrlcotoo; file keeps the old name) identity, series, production constraints, SEO. |
 | `brand-bible/brands/uglyinbetween.md` | I Wish Somebody Had Told Me (podcast): rename note, voice, production approach, episode structure; identity sections under review. |

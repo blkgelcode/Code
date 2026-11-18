@@ -115,7 +115,7 @@ steps:**
   Result → Realization → Empower Audience) — for arcs with a real finale
   (e.g. 90-Day HHH Run milestones).
 - Talking-head explainer exception applies here: cut ALL dead silence for
-  pure explainer content (contrast with the podcast, which never does this).
+  pure explainer content.
 - From Graphics/SFX reference (Yale Jeannette): stated fit for fast-cut,
   graphic-heavy pop-up/SFX style — build overlay graphics in @blkgrlco's
   own palette (below), not Yale's beige/brown, when this gets built.
@@ -223,8 +223,9 @@ voice/persona/content imitation)*
   / 4 videos as of original connection). This is the account with real
   posting history. As of 2026-09-11, live TikTok posts confirmed: the
   90-Day HHH Run explainer (published 2026-09-06) and Day 1 of 90 / Weekly
-  Vlog 1 (published 2026-09-08) — both now marked Published in the Notion
-  Content Calendar with corrected dates. Two more TikToks (Day 2 of 90,
+  Vlog 1 (published 2026-09-08) — both marked Published in the (now
+  retired) Notion Content Calendar with corrected dates; the BLKGRLCO
+  Studios dashboard is the record now. Two more TikToks (Day 2 of 90,
   and a skincare/immunity-juice/evening-check-in short) are live but have
   no matching Content Calendar entry — likely daily-shorts content the
   calendar doesn't track at that granularity.
