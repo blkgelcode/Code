@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import * as ops from "../ops.js";
-import { fmtTime } from "../api.js";
+import * as ops from "../edit";
+import { fmtTime } from "../api";
+import { mediaName, type Timeline, type MediaClip, type TextClip } from "../../shared/model";
 
 // Edits the selected clip. Number fields commit on Enter or blur, so typing "12.5"
 // doesn't write five versions of timeline.json.
-function NumField({ label, value, step = 0.1, min, max, onChange, suffix }) {
+function NumField({ label, value, step = 0.1, min, max, onChange, suffix }: {
+  label: string; value?: number; step?: number; min?: number; max?: number; onChange: (v: number) => void; suffix?: string;
+}) {
   const [v, setV] = useState(String(value ?? ""));
   useEffect(() => setV(String(value ?? "")), [value]);
   const done = () => {
@@ -22,7 +25,9 @@ function NumField({ label, value, step = 0.1, min, max, onChange, suffix }) {
   );
 }
 
-export default function Inspector({ tl, selected, fonts, onCommit }) {
+export default function Inspector({ tl, selected, fonts, onCommit }: {
+  tl: Timeline; selected: string | null; fonts: { key: string; source: string }[]; onCommit: (tl: Timeline) => void;
+}) {
   const f = selected ? ops.findClip(tl, selected) : null;
   if (!f) {
     return (
@@ -32,30 +37,31 @@ export default function Inspector({ tl, selected, fonts, onCommit }) {
       </div>
     );
   }
-  const { clip, track } = f;
-  const m = clip.media ? ops.mediaById(tl, clip.media) : null;
-  const set = (patch) => onCommit(ops.updateClip(tl, clip.id, patch));
-  const len = ops.clipDuration(clip);
-  const isText = clip.text !== undefined;
-  const s = clip.style || {};
+  const { track } = f;
+  const clip = f.clip as MediaClip & TextClip;
+  const isText = ops.isText(f.clip);
+  const m = !isText ? ops.mediaById(tl, clip.media) : undefined;
+  const set = (patch: Record<string, unknown>) => onCommit(ops.updateClip(tl, clip.id, patch));
+  const len = ops.clipLength(f.clip);
+  const s = (clip.style || {}) as Partial<TextClip["style"]>;
 
   return (
     <div className="panel inspector">
-      <div className="panel-head"><h2>Clip {clip.id}</h2><span className="sub">{track.name}</span></div>
-      {m && <div className="src">{m.file} · {m.duration ? `${m.duration.toFixed(2)}s source` : "still image"}</div>}
+      <div className="panel-head"><h2>Clip {clip.id}</h2><span className="sub">{track.name}{track.locked ? " · locked" : ""}</span></div>
+      {m && <div className="src" title={m.path}>{mediaName(m)} · {m.duration ? `${m.duration.toFixed(2)}s source` : "still image"}</div>}
       <div className="grid">
-        <NumField label="Start" value={clip.start} min={0} onChange={(v) => set({ start: ops.r3(v) })} suffix={fmtTime(clip.start, true)} />
+        <NumField label="Start" value={clip.start} min={0} onChange={(v) => set({ start: ops.r6(v) })} suffix={fmtTime(clip.start, true)} />
         {isText ? (
-          <NumField label="Length" value={clip.duration} min={ops.MIN_LEN} onChange={(v) => set({ duration: ops.r3(v) })} />
+          <NumField label="Length" value={clip.duration} min={ops.MIN_LEN} onChange={(v) => set({ duration: ops.r6(v) })} />
         ) : (
           <>
-            <NumField label="In" value={clip.in} min={0} max={clip.out - ops.MIN_LEN} onChange={(v) => set({ in: ops.r3(v) })} />
-            <NumField label="Out" value={clip.out} min={clip.in + ops.MIN_LEN} max={m?.type === "image" ? undefined : m?.duration} onChange={(v) => set({ out: ops.r3(v) })} />
+            <NumField label="In" value={clip.in} min={0} max={clip.out - ops.MIN_LEN} onChange={(v) => set({ in: ops.r6(v) })} />
+            <NumField label="Out" value={clip.out} min={clip.in + ops.MIN_LEN} max={m?.duration ?? undefined} onChange={(v) => set({ out: ops.r6(v) })} />
             <div className="field ro"><span>Length</span><b>{len.toFixed(2)}s</b></div>
           </>
         )}
-        <NumField label="Fade in" value={clip.fadeIn || 0} min={0} onChange={(v) => set({ fadeIn: ops.r3(v) })} suffix="s" />
-        <NumField label="Fade out" value={clip.fadeOut || 0} min={0} onChange={(v) => set({ fadeOut: ops.r3(v) })} suffix="s" />
+        <NumField label="Fade in" value={clip.fadeIn || 0} min={0} onChange={(v) => set({ fadeIn: ops.r6(v) })} suffix="s" />
+        <NumField label="Fade out" value={clip.fadeOut || 0} min={0} onChange={(v) => set({ fadeOut: ops.r6(v) })} suffix="s" />
         {!isText && m?.type !== "image" && (
           <label className="field wide">
             <span>Volume</span>
@@ -77,7 +83,7 @@ export default function Inspector({ tl, selected, fonts, onCommit }) {
       {isText && (
         <div className="text-edit">
           <label className="field wide"><span>Text</span>
-            <TextArea value={clip.text} onChange={(text) => set({ text })} />
+            <TextArea value={clip.text} onChange={(text: string) => set({ text })} />
           </label>
           <div className="grid">
             <label className="field"><span>Font</span>
@@ -107,7 +113,7 @@ export default function Inspector({ tl, selected, fonts, onCommit }) {
   );
 }
 
-function TextArea({ value, onChange }) {
+function TextArea({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [v, setV] = useState(value);
   useEffect(() => setV(value), [value]);
   return <textarea rows={2} value={v} onChange={(e) => setV(e.target.value)} onBlur={() => v !== value && onChange(v)} />;

@@ -1,6 +1,6 @@
 # BLKGRLCO Edit — Plan (v2: a professional editor you and Claude share)
 
-Status: **proposal, waiting for Omnia's OK.** Nothing below is built yet except Phase 0.
+Status: **approved 2026-11-18** (Electron · foundation first · this repo). **Phase 1 built** — waiting for her feedback before Phase 2.
 
 ## 1. What we're building
 
@@ -315,7 +315,7 @@ your feedback before the next phase starts.
 | Phase | Delivers | You can test it by… |
 |---|---|---|
 | **0 ✓ (done)** | v1: live `timeline.json`, basic timeline, preview, export, activity, CLAUDE.md | Already in the repo |
-| **1. Foundation** | Schema v2 + auto-migration, TypeScript, operations-based edits with merge, **shared history: undo/redo for both of us, History panel, revert any entry**, autosave + **crash recovery**, Electron shell (native picker, Finder drag-drop paths, menus), presence, CLAUDE.md v2 | Drag a clip while Claude edits the same timeline; ⌘Z your change while keeping Claude's; ask Claude to undo its change; force-quit the app mid-edit and reopen; corrupt the file by hand and watch it recover |
+| **1. Foundation ✓ (built 2026-11-18)** | Schema v2 + auto-migration, TypeScript, operations-based edits with merge, **shared history: undo/redo for both of us, History panel, revert any entry**, autosave + **crash recovery**, Electron shell (native picker, Finder drag-drop paths, menus), presence, CLAUDE.md v2 | Drag a clip while Claude edits the same timeline; ⌘Z your change while keeping Claude's; ask Claude to undo its change; force-quit the app mid-edit and reopen; corrupt the file by hand and watch it recover |
 | **2. Import & media engine** | Your whole import spec: path import, instant bin, 2-job queue, VideoToolbox proxies 960×540 / 1 s GOP, thumbnails, waveforms, filmstrips, progress bars, fingerprint cache, HEVC / 10-bit / HDR / VFR / rotation, per-clip errors, **offline/online with auto-reconnect**, relink, range streaming, Proxy/Full toggle, export from originals with VideoToolbox | Import a whole Mexico City folder from the T7; edit while proxies build; unplug the T7 mid-edit and keep working; plug it back in; check `top` stays calm |
 | **3. Playback engine** | WebCodecs + WebGL2 viewer, frame cache, **JKL shuttle**, smooth scrubbing, exact frame stepping, source + program monitors, WebAudio mixer + meters, Full-quality playback path, basic export queue | Scrub a 4K60 timeline with J/K/L; compare a paused frame in Proxy vs Full |
 | **4. Pro editing** | Tools (select, blade, **ripple, roll, slip, slide**, track select), **I/O three-point editing** (insert/overwrite/append/replace, lift/extract), linked A/V + **J/L cuts**, track lock/solo/sync-lock/targeting, snapping toggle, nudge, **markers** (+ chapter markers, "for Claude" notes), **multiple sequences + nesting**, paste attributes, match frame, shortcut presets (Premiere/FCP) + editor, ⌘K palette | Build a real cut with keyboard only; make a J-cut; nest the confession section; duplicate the master as a Shorts sequence |

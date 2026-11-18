@@ -9,7 +9,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const REPO_FONTS = path.resolve(here, "../../../brand-bible/brands/assets/fonts");
 
 // System fonts worth offering when present. "Arial Rounded Bold" is the @blkgrlco label-card font.
-const SYSTEM = [
+const SYSTEM: [string, string[]][] = [
   ["Arial Rounded Bold", ["/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf", "/Library/Fonts/Arial Rounded Bold.ttf"]],
   ["Arial Bold", ["/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/Library/Fonts/Arial Bold.ttf"]],
   ["Arial", ["/System/Library/Fonts/Supplemental/Arial.ttf", "/Library/Fonts/Arial.ttf"]],
@@ -19,13 +19,14 @@ const DEFAULT_BOLD = ["/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/usr
 const DEFAULT_REGULAR = ["/System/Library/Fonts/Supplemental/Arial.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"];
 
 const FONT_EXT = new Set([".otf", ".ttf", ".ttc"]);
-const first = (list) => list.find((p) => fs.existsSync(p));
+const first = (list: string[]) => list.find((p) => fs.existsSync(p));
 
-export function loadFonts(projectDir) {
-  const fonts = new Map(); // key -> { key, file, source }
-  const addDir = (dir, source) => {
+export type FontInfo = { key: string; file: string; source: string };
+export function loadFonts(projectDir: string) {
+  const fonts = new Map<string, FontInfo>();
+  const addDir = (dir: string, source: string) => {
     if (!fs.existsSync(dir)) return;
-    const walk = (d) => {
+    const walk = (d: string) => {
       for (const e of fs.readdirSync(d, { withFileTypes: true })) {
         if (e.name.startsWith(".")) continue;
         const p = path.join(d, e.name);
@@ -50,7 +51,7 @@ export function loadFonts(projectDir) {
 }
 
 /** The font file a text style renders with. */
-export function fontFileFor(fonts, style = {}) {
-  if (style.font && style.font !== "default" && fonts.has(style.font)) return fonts.get(style.font).file;
-  return first(style.bold === false ? DEFAULT_REGULAR : DEFAULT_BOLD) || first(DEFAULT_BOLD);
+export function fontFileFor(fonts: Map<string, FontInfo>, style: { font?: string; bold?: boolean } = {}) {
+  if (style.font && style.font !== "default" && fonts.has(style.font)) return fonts.get(style.font)!.file;
+  return (first(style.bold === false ? DEFAULT_REGULAR : DEFAULT_BOLD) || first(DEFAULT_BOLD))!;
 }

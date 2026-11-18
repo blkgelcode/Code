@@ -1,26 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as ops from "../ops.js";
-import { fmtTime } from "../api.js";
-import { timelineDuration } from "../../server/timeline.js";
+import * as ops from "../edit";
+import { fmtTime } from "../api";
+import { sequenceDuration, mediaName, type Timeline, type Clip, type Track } from "../../shared/model";
 
 const HEADER_W = 150;
-const LANE_H = { video: 58, audio: 44, text: 34 };
+const LANE_H: Record<string, number> = { video: 58, audio: 44, text: 34 };
 const SNAP_PX = 8;
 
-function niceStep(zoom) {
+function niceStep(zoom: number) {
   // seconds between ruler labels so labels sit ~80px apart
   const target = 80 / zoom;
   for (const s of [0.1, 0.25, 0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300]) if (s >= target) return s;
   return 600;
 }
 
-export default function Timeline({ tl, playhead, setPlayhead, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, assetBump }) {
-  const [draft, setDraft] = useState(null); // timeline preview while dragging
-  const [dropHint, setDropHint] = useState(null);
-  const scrollRef = useRef(null);
-  const dragRef = useRef(null);
+interface Props {
+  tl: Timeline; playhead: number; setPlayhead: (t: number) => void; selected: string | null; setSelected: (id: string | null) => void;
+  zoom: number; setZoom: React.Dispatch<React.SetStateAction<number>>; onCommit: (tl: Timeline, o?: { select?: string | null }) => void;
+  onDropMedia: (mediaId: string, trackId?: string, start?: number) => void; recent: Record<string, string>; assetBump: number;
+}
+type Mode = "move" | "trim-start" | "trim-end";
+
+export default function Timeline({ tl, playhead, setPlayhead, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, assetBump }: Props) {
+  const [draft, setDraft] = useState<Timeline | null>(null); // timeline preview while dragging
+  const [dropHint, setDropHint] = useState<{ trackId: string; t: number } | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const view = draft || tl;
-  const total = Math.max(timelineDuration(view) + 10, 30);
+  const seq = ops.activeSeq(view);
+  const total = Math.max(sequenceDuration(seq) + 10, 30);
   const width = total * zoom;
 
   // Keep the playhead in view while it moves past the right edge.
@@ -32,25 +39,26 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     else if (x < el.scrollLeft + HEADER_W) el.scrollLeft = Math.max(0, x - HEADER_W - 40);
   }, [playhead, zoom]);
 
-  const timeAt = (clientX) => {
-    const el = scrollRef.current;
+  const timeAt = (clientX: number) => {
+    const el = scrollRef.current!;
     const rect = el.getBoundingClientRect();
     return Math.max(0, (clientX - rect.left + el.scrollLeft - HEADER_W) / zoom);
   };
 
   // ---------------------------------------------------------------- ruler scrubbing
-  const onRulerDown = (e) => {
+  const onRulerDown = (e: React.PointerEvent) => {
     e.preventDefault();
     setPlayhead(timeAt(e.clientX));
-    const move = (ev) => setPlayhead(timeAt(ev.clientX));
+    const move = (ev: PointerEvent) => setPlayhead(timeAt(ev.clientX));
     const up = () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", up);
   };
 
   // ---------------------------------------------------------------- clip dragging
-  const onClipDown = (e, clip, track, mode) => {
+  const onClipDown = (e: React.PointerEvent, clip: Clip, track: Track, mode: Mode) => {
     if (e.button !== 0) return;
+    if (track.locked) { e.stopPropagation(); setSelected(clip.id); return; }
     e.stopPropagation();
     e.preventDefault();
     setSelected(clip.id);
@@ -59,15 +67,13 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     const points = ops.snapPoints(tl, clip.id, playhead);
     const thr = SNAP_PX / zoom;
     let moved = false;
-    let latest = null;
-    dragRef.current = true;
+    let latest: Timeline | null = null;
 
-    const move = (ev) => {
+    const move = (ev: PointerEvent) => {
       const dx = ev.clientX - startX;
-      if (!moved && Math.abs(dx) < 3 && mode !== "move-y") moved = false;
       if (Math.abs(dx) >= 3) moved = true;
       const dt = dx / zoom;
-      let next;
+      let next: Timeline;
       if (mode === "move") {
         let s = orig.start + dt;
         const len = orig.end - orig.start;
@@ -75,10 +81,10 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
         const eSnap = ops.snap(s + len, points, thr);
         if (sSnap !== s) s = sSnap;
         else if (eSnap !== s + len) s = eSnap - len;
-        const laneEl = document.elementFromPoint(ev.clientX, ev.clientY)?.closest("[data-track]");
+        const laneEl = document.elementFromPoint(ev.clientX, ev.clientY)?.closest("[data-track]") as HTMLElement | null;
         const trackId = laneEl?.dataset.track || track.id;
         if (trackId !== track.id) moved = true;
-        next = ops.moveClip(tl, clip.id, { start: s, trackId });
+        next = ops.moveClip(tl, clip.id, s, trackId);
       } else if (mode === "trim-start") {
         next = ops.trimClip(tl, clip.id, "start", ops.snap(orig.start + dt, points, thr));
       } else {
@@ -90,7 +96,6 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     const up = () => {
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", up);
-      dragRef.current = false;
       setDraft(null);
       if (moved && latest) onCommit(latest);
     };
@@ -99,12 +104,12 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
   };
 
   // ---------------------------------------------------------------- media drops
-  const onDragOver = (e, track) => {
+  const onDragOver = (e: React.DragEvent, track: Track) => {
     if (!e.dataTransfer.types.includes("application/x-blkgrlco-media")) return;
     e.preventDefault();
     setDropHint({ trackId: track.id, t: timeAt(e.clientX) });
   };
-  const onDrop = (e, track) => {
+  const onDrop = (e: React.DragEvent, track: Track) => {
     const id = e.dataTransfer.getData("application/x-blkgrlco-media");
     setDropHint(null);
     if (!id) return;
@@ -112,7 +117,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     onDropMedia(id, track.id, ops.snap(timeAt(e.clientX), ops.snapPoints(tl, null, playhead), SNAP_PX / zoom));
   };
 
-  const onWheel = (e) => {
+  const onWheel = (e: React.WheelEvent) => {
     if (!(e.ctrlKey || e.metaKey)) return;
     e.preventDefault();
     setZoom((z) => Math.max(5, Math.min(400, z * (e.deltaY < 0 ? 1.15 : 1 / 1.15))));
@@ -126,9 +131,9 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
     <div className="timeline">
       <div className="tl-toolbar">
         <span className="label">Timeline</span>
-        <button onClick={() => onCommit(ops.addTrack(tl, "video"))}>+ Video track</button>
-        <button onClick={() => onCommit(ops.addTrack(tl, "audio"))}>+ Audio track</button>
-        <button onClick={() => onCommit(ops.addTrack(tl, "text"))}>+ Text track</button>
+        <button onClick={() => onCommit(ops.addTrack(tl, "video"))}>+ Video</button>
+        <button onClick={() => onCommit(ops.addTrack(tl, "audio"))}>+ Audio</button>
+        <button onClick={() => onCommit(ops.addTrack(tl, "text"))}>+ Text</button>
         <span className="spacer" />
         <label className="zoom">Zoom <input type="range" min="5" max="400" value={zoom} onChange={(e) => setZoom(Number(e.target.value))} /></label>
       </div>
@@ -143,8 +148,8 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
             </div>
           </div>
 
-          {[...view.tracks].reverse().map((track) => (
-            <div key={track.id} className={`tl-row kind-${track.kind}`} style={{ height: LANE_H[track.kind] }}>
+          {[...seq.tracks].reverse().map((track) => (
+            <div key={track.id} className={`tl-row kind-${track.kind} ${track.locked ? "locked" : ""}`} style={{ height: LANE_H[track.kind] }}>
               <div className="tl-head">
                 <div className="track-name" title={track.id}>{track.name}</div>
                 <div className="track-btns">
@@ -154,6 +159,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
                   {track.kind !== "audio" && (
                     <button className={track.hidden ? "on" : ""} title="Hide" onClick={() => onCommit(ops.updateTrack(tl, track.id, { hidden: !track.hidden }))}>H</button>
                   )}
+                  <button className={track.locked ? "on" : ""} title="Lock (no edits on this track)" onClick={() => onCommit(ops.updateTrack(tl, track.id, { locked: !track.locked }))}>L</button>
                   {track.clips.length === 0 && (
                     <button title="Remove empty track" onClick={() => onCommit(ops.removeTrack(tl, track.id))}>×</button>
                   )}
@@ -178,12 +184,15 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
   );
 }
 
-function Clip({ clip, track, tl, zoom, selected, recent, assetBump, onDown }) {
-  const len = ops.clipDuration(clip);
-  const m = clip.media ? ops.mediaById(tl, clip.media) : null;
-  const style = { left: clip.start * zoom, width: Math.max(4, len * zoom) };
-  let label;
-  if (clip.text !== undefined) {
+function Clip({ clip, track, tl, zoom, selected, recent, assetBump, onDown }: {
+  clip: Clip; track: Track; tl: Timeline; zoom: number; selected: boolean; recent?: string; assetBump: number;
+  onDown: (e: React.PointerEvent, clip: Clip, track: Track, mode: Mode) => void;
+}) {
+  const len = ops.clipLength(clip);
+  const m = !ops.isText(clip) ? ops.mediaById(tl, clip.media) : undefined;
+  const style: React.CSSProperties = { left: clip.start * zoom, width: Math.max(4, len * zoom) };
+  let label: React.ReactNode;
+  if (ops.isText(clip)) {
     label = <span className="clip-text">“{clip.text}”</span>;
   } else if (m) {
     const isAudioView = track.kind === "audio" || m.type === "audio";
@@ -192,20 +201,20 @@ function Clip({ clip, track, tl, zoom, selected, recent, assetBump, onDown }) {
       Object.assign(style, {
         backgroundImage: `url(/api/wave/${m.id}?v=${assetBump})`,
         backgroundSize: `${full}px 100%`,
-        backgroundPosition: `${-clip.in * zoom}px 0`,
+        backgroundPosition: `${-(clip as any).in * zoom}px 0`,
         backgroundRepeat: "no-repeat",
       });
     } else {
       Object.assign(style, { backgroundImage: `url(/api/thumb/${m.id}?v=${assetBump})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" });
     }
-    label = <span className="clip-name">{m.file}</span>;
+    label = <span className="clip-name">{mediaName(m)}</span>;
   }
   const fadeIn = (clip.fadeIn || 0) * zoom;
   const fadeOut = (clip.fadeOut || 0) * zoom;
   return (
-    <div className={`clip ${track.kind} ${selected ? "selected" : ""} ${recent ? `recent recent-${recent}` : ""} ${!m && clip.text === undefined ? "missing" : ""}`}
+    <div className={`clip ${track.kind} ${selected ? "selected" : ""} ${recent ? `recent recent-${recent}` : ""} ${!m && !ops.isText(clip) ? "missing" : ""}`}
       style={style} onPointerDown={(e) => onDown(e, clip, track, "move")}
-      title={`${clip.id}${m ? ` · ${m.file}` : ""} · ${fmtTime(clip.start, true)}–${fmtTime(clip.start + len, true)} (${len.toFixed(2)}s)`}>
+      title={`${clip.id}${m ? ` · ${mediaName(m)}` : ""} · ${fmtTime(clip.start, true)}–${fmtTime(clip.start + len, true)} (${len.toFixed(2)}s)`}>
       <div className="clip-label"><b>{clip.id}</b> {label}</div>
       {fadeIn > 0 && <div className="fade in" style={{ width: fadeIn }} />}
       {fadeOut > 0 && <div className="fade out" style={{ width: fadeOut }} />}

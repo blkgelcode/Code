@@ -1,64 +1,59 @@
 # BLKGRLCO Edit
 
-A local video editor where the whole edit is one file, `project/timeline.json`, and both
-Omnia and Claude Code edit it at the same time.
+A Mac video editor where the whole edit is one file, `timeline.json`, and Omnia and Claude Code
+edit it at the same time. Roadmap and architecture: [`PLAN.md`](PLAN.md). How Claude edits
+(schema + commands): [`CLAUDE.md`](CLAUDE.md).
 
-- **You** drag, trim, split and delete in the browser → the app writes `timeline.json`.
-- **Claude** edits `timeline.json` directly → the app sees the change and your timeline
-  updates within a fraction of a second, with the changed clips glowing and the change listed
-  in **Activity** as *Claude*.
-- **Export MP4** renders the timeline with ffmpeg from the original files.
+**Status: Phase 1 (Foundation) built.** Phase 2 (fast 4K import engine) is next.
 
-The schema, and how Claude turns "cut the first 3 seconds of clip 2" into a JSON edit, is in
-[`CLAUDE.md`](CLAUDE.md).
-
-## Start it (on the Mac)
+## Start it
 
 1. Once: `brew install node ffmpeg`
-2. Double-click **`Start BLKGRLCO Edit.command`**. The first run installs and builds (about a
-   minute), then opens `http://localhost:5310`. If macOS blocks it, right-click → Open.
-3. Put clips, music and photos in **`project/media/`** (subfolders are fine). They appear in
-   the Media panel by themselves; the app makes small H.264 preview copies in the background
-   (DJI D-Log M is often 10-bit HEVC, which browsers can't play). Your originals are never changed.
-4. To edit together, open Claude Code in this repo on the same Mac and ask for edits in plain
-   words. Claude has to run where the file is: a cloud session can't see your Mac's disk.
+2. Double-click **`Start BLKGRLCO Edit.command`**. The first run installs and builds (a couple of
+   minutes), then the app opens. If macOS blocks it: right-click → Open.
+3. **⌘I** imports files, **⇧⌘I** a whole folder, or drag them in from Finder. Footage is used
+   where it is (including the T7) and never copied.
+4. To edit together, open Claude Code in this repo on the same Mac and ask in plain words:
+   "trim clip 3", "add a title at 0:05", "undo that".
 
-To work on a different folder (e.g. a video's folder on the T7):
-`./"Start BLKGRLCO Edit.command" "/Volumes/Untitled/project hhh/<video>/edit"` — that
-folder gets its own `media/`, `timeline.json`, `activity.jsonl` and `exports/`.
+**File → Open Project Folder…** switches projects (e.g. a folder next to a video's footage on
+the T7); each folder gets its own `timeline.json`, history and exports. It reopens the last one.
 
-## Using it
+## What Phase 1 gives you
 
 | | |
 |---|---|
-| Add a clip | Drag from Media onto a track, or double-click it (adds at the end) |
-| Move | Drag the clip (also onto another track of the same kind). Edges snap to other clips and the playhead |
-| Trim | Drag a clip's left or right edge |
-| Split | **S** — splits the selected clip at the playhead, or every clip under the playhead if none is selected |
-| Delete | **⌫** |
-| Play / pause | **Space**; **← →** step a frame (**⇧** a second); click or drag the ruler to scrub |
-| Undo / redo | **⌘Z** / **⇧⌘Z** (your own edits; an edit from Claude clears the undo history) |
-| Zoom | **+ / −**, the slider, or ⌘-scroll on the timeline |
-| Text | **T Add text** at the playhead; set font, size, color, position in the Clip panel |
-| Fades, volume, fit | Clip panel |
+| Live, two-way | Your edits write `timeline.json`; Claude's edits to it show up instantly, glowing, with "Claude is editing…" |
+| Merging | Your drag and Claude's edit at the same moment both land, as long as they touch different things. If both change the same value, the later one is refused with a message; nothing is silently lost |
+| Undo/redo for both | **⌘Z / ⇧⌘Z** undo and redo *your* changes; Claude undoes its own ("undo that") |
+| History panel | Every change by you, Claude or the app. Filter by who. Hover an entry → **Revert** (undo just that one) or **Restore to here** (rewind everything) — both undoable |
+| Autosave | Every change is on disk the moment you make it. There's no Save button |
+| Crash recovery | If the app or the computer dies, nothing is lost. A damaged `timeline.json` is restored from history on start (the damaged copy is kept). The app restarts its server by itself |
+| Sequences | Several cuts in one project (tabs above the timeline); **+ Duplicate** makes e.g. the Shorts version |
+| Track lock | **L** on a track header protects it from edits (yours and Claude's) |
 
-If `timeline.json` is ever broken (bad JSON or an impossible value), a red banner says what's
-wrong and the app keeps the last good version until it's fixed.
+Keys: Space play/pause · S split · ⌫ delete · ← → frame (⇧: 1 s) · Home/End · +/− zoom · ⌘E export.
 
-## Files
+## Checking it on your Mac
 
-| Path | What |
+Double-click **`run-mac-tests.command`**. It runs every test plus a Mac-app check on generated
+clips (it never touches your projects) and copies a report to your clipboard to paste to Claude.
+
+## Files in a project folder
+
+| | |
 |---|---|
-| `project/timeline.json` | The edit. The only thing either of you edits |
-| `project/activity.jsonl` | Who changed what, one JSON line per change |
-| `project/media/` | Your source files (read-only to the app) |
-| `project/fonts/` | Extra fonts (the brand fonts in `brand-bible/` are already included) |
-| `project/exports/` | Rendered MP4s |
-| `project/.cache/` | Thumbnails, waveforms, preview proxies (safe to delete) |
+| `timeline.json` | The edit — the only file anyone edits |
+| `.history/` | Every change (who, what, and how to undo it) + snapshots. Don't edit |
+| `activity.jsonl` | A readable one-line-per-change log |
+| `media/` | Optional drop folder: files put here are imported automatically |
+| `fonts/` | Extra fonts (brand fonts from `brand-bible/` are already available) |
+| `exports/` | Rendered MP4s |
+| `.cache/` | Thumbnails, waveforms, previews (safe to delete) |
 
-`project/` is gitignored: this repo is public, so footage and edits never get committed.
+The default `project/` folder is gitignored (this repo is public).
 
 ## Development
 
-`npm run dev` (Vite hot reload on :5310) · `npm test` (unit tests + a real server/ffmpeg round
-trip) · `node scripts/summary.js` (prints and checks the current timeline).
+`npm run dev` (hot reload, browser at :5310) · `npm run app` (build + open the Mac app) ·
+`npm test` · `npm run test:electron` · `npm run typecheck` · `npx tsx scripts/bge.ts summary`.

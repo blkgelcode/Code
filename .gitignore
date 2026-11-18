@@ -8,3 +8,5 @@ blkgrlco/videos/*/media/
 apps/blkgrlco-edit/project/
 apps/blkgrlco-edit/node_modules/
 apps/blkgrlco-edit/dist/
+apps/blkgrlco-edit/dist-server/
+apps/blkgrlco-edit/dist-electron/
