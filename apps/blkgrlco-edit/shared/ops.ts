@@ -299,6 +299,11 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
           else if (op.key === "locked") out.push({ text: `${name} ${op.value ? "locked" : "unlocked"}`, trackId: tg.id, seq: tg.seq });
           else out.push({ text: `${name}: ${op.key} → ${JSON.stringify(op.value)}`, trackId: tg.id, seq: tg.seq });
         } else if (tg.kind === "timeline" && op.key === "activeSequence") out.push({ text: `switched to sequence ${op.value}` });
+        else if (tg.kind === "media" && op.key === "path") {
+          const name = mediaById.get(tg.id) ? mediaName(mediaById.get(tg.id)!) : tg.id;
+          const where = String(op.value).split(/[\\/]/).slice(-4, -1).join("/");
+          out.push({ text: `reconnected ${tg.id} (${name}) at …/${where}` });
+        }
         else if (tg.kind === "media") out.push({ text: `${tg.id}: ${op.key} updated` });
         else out.push({ text: `${tg.kind === "sequence" ? `sequence ${tg.id}` : tg.kind}: ${op.key} → ${JSON.stringify(op.value)}` });
       }

@@ -7,6 +7,7 @@ import crypto from "node:crypto";
 import { spawn } from "node:child_process";
 import { clipLength, sequenceDuration, isText, type Timeline, type Sequence, type MediaClip, type TextClip } from "../shared/model";
 import { fontFileFor, type FontInfo } from "./fonts";
+import { hdrToSdr, type Caps } from "./media/caps";
 
 const f3 = (n: number) => (Math.round(n * 1000) / 1000).toString();
 const colorOf = (hex?: string) => (/^#[0-9a-f]{6}$/i.test(hex || "") ? `0x${hex!.slice(1)}` : "0x000000");
@@ -25,9 +26,12 @@ function safeFontPath(file: string, dir: string) {
 }
 const q = (p: string) => `'${p}'`;
 
-export interface ExportOpts { fonts: Map<string, FontInfo>; workDir: string; outFile: string }
+export interface ExportOpts { fonts: Map<string, FontInfo>; workDir: string; outFile: string; caps?: Caps }
 
-export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, outFile }: ExportOpts) {
+/** Bitrate for a hardware encode that looks as good as x264 CRF 18 (≈20 Mb/s for 1080×1920@30). */
+export const hwBitrate = (w: number, h: number, fps: number) => Math.min(100, Math.max(8, Math.round((w * h * fps * 0.32) / 1e6)));
+
+export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, outFile, caps }: ExportOpts) {
   const { width: W, height: H, fps } = seq;
   const total = Math.max(sequenceDuration(seq), 0.04);
   const bg = colorOf(seq.background);
@@ -47,14 +51,16 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
       const wantsVideo = t.kind === "video" && !t.hidden && m.type !== "audio";
       const wantsAudio = !t.muted && c.volume > 0 && (m.type === "audio" || (m.type === "video" && !!m.hasAudio));
       if (!wantsVideo && !wantsAudio) continue;
+      // Always the ORIGINAL file at full quality; decoded on the GPU when the Mac can.
       if (m.type === "image") args.push("-loop", "1", "-framerate", String(fps), "-t", f3(dur), "-i", m.path);
-      else args.push("-ss", f3(c.in), "-t", f3(dur), "-i", m.path);
+      else args.push(...(m.type === "video" && caps?.hwDecode ? ["-hwaccel", "videotoolbox"] : []), "-ss", f3(c.in), "-t", f3(dur), "-i", m.path);
       const idx = nIn++;
       if (wantsVideo) {
         const fit = c.fit === "contain"
           ? `scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=${bg}`
           : `scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H}`;
-        const parts = [`[${idx}:v]${fit}`, "setsar=1", `fps=${fps}`, "format=yuva420p"];
+        const tm = m.hdr && caps?.tonemap ? hdrToSdr(m.hdr) : "";
+        const parts = [`[${idx}:v]${tm}${fit}`, "setsar=1", `fps=${fps}`, "format=yuva420p"];
         if (c.fadeIn > 0) parts.push(`fade=t=in:st=0:d=${f3(c.fadeIn)}:alpha=1`);
         if (c.fadeOut > 0) parts.push(`fade=t=out:st=${f3(Math.max(0, dur - c.fadeOut))}:d=${f3(c.fadeOut)}:alpha=1`);
         parts.push(`setpts=PTS-STARTPTS+${f3(c.start)}/TB`);
@@ -112,7 +118,10 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
 
   args.push("-filter_complex", filters.join(";\n"), "-map", "[vout]", "-map", "[aout]",
     "-t", f3(total), "-r", String(fps),
-    "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
+    ...(caps?.h264HW
+      ? ["-c:v", "h264_videotoolbox", "-b:v", `${hwBitrate(W, H, fps)}M`, "-maxrate", `${Math.round(hwBitrate(W, H, fps) * 1.5)}M`, "-bufsize", `${hwBitrate(W, H, fps) * 2}M`, "-profile:v", "high", "-allow_sw", "1"]
+      : ["-c:v", "libx264", "-preset", "medium", "-crf", "18"]),
+    "-pix_fmt", "yuv420p", "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
     "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-progress", "pipe:1", "-nostats", outFile);
   return { args, total };
 }

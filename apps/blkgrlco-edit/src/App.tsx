@@ -8,6 +8,8 @@ import Preview from "./components/Preview";
 import MediaBin from "./components/MediaBin";
 import Inspector from "./components/Inspector";
 import History, { type HistoryEntry } from "./components/History";
+import type { MediaStatus, QueueInfo } from "./media";
+import type { Media } from "../shared/model";
 
 const HIGHLIGHT_MS = 6000;
 type UndoState = { you: { undo: boolean; redo: boolean }; claude: { undo: boolean; redo: boolean } };
@@ -23,8 +25,10 @@ export default function App() {
   const [undoState, setUndoState] = useState<UndoState | null>(null);
   const [presence, setPresence] = useState<Presence>(null);
   const [fonts, setFonts] = useState<{ key: string; source: string }[]>([]);
-  const [mediaStates, setMediaStates] = useState<Record<string, string>>({});
-  const [assetBump, setAssetBump] = useState(0);
+  const [mediaStatus, setMediaStatus] = useState<Record<string, MediaStatus>>({});
+  const [queueInfo, setQueueInfo] = useState<QueueInfo | null>(null);
+  const [importing, setImporting] = useState<{ done: number; total: number; failed: number } | null>(null);
+  const [quality, setQuality] = useState<"proxy" | "full">(() => (localStorage.getItem("blkedit.quality") === "full" ? "full" : "proxy"));
   const [connected, setConnected] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [playhead, setPlayhead] = useState(0);
@@ -35,9 +39,11 @@ export default function App() {
   const [now, setNow] = useState(Date.now());
   const [dropping, setDropping] = useState(false);
   const tlRef = useRef<Timeline | null>(null);
+  const mediaStatusRef = useRef<Record<string, MediaStatus>>({});
   const queue = useRef(Promise.resolve());
   const toastTimer = useRef<number>();
   tlRef.current = tl;
+  mediaStatusRef.current = mediaStatus;
 
   const seq = tl ? E.activeSeq(tl) : null;
   const duration = useMemo(() => (seq ? sequenceDuration(seq) : 0), [seq]);
@@ -52,7 +58,7 @@ export default function App() {
     const s = await api.state();
     setTl(s.timeline); setRev(s.rev); setWarnings(s.warnings || []); setFileError(s.fileError);
     setBootNotes(s.bootNotes || []); setHistory(s.history || []); setUndoState(s.undo);
-    setFonts(s.fonts || []); setMediaStates(s.mediaStates || {}); setPresence(s.presence);
+    setFonts(s.fonts || []); setMediaStatus(s.mediaStatus || {}); setQueueInfo(s.queue || null); setPresence(s.presence);
   }, []);
 
   // ------------------------------------------------------------------ live updates
@@ -65,8 +71,8 @@ export default function App() {
           msg.entry.ref !== undefined && e.rev === msg.entry.ref ? { ...e, undone: msg.entry.kind === "undo" || msg.entry.kind === "revert" } : e));
       } else if (msg.type === "file-error") setFileError(msg.message);
       else if (msg.type === "presence") setPresence(msg.presence);
-      else if (msg.type === "media-status") setMediaStates((m) => ({ ...m, [msg.id]: msg.state }));
-      else if (msg.type === "media-asset") setAssetBump((n) => n + 1);
+      else if (msg.type === "media-status") { setMediaStatus((m) => ({ ...m, ...msg.statuses })); setQueueInfo(msg.queue); }
+      else if (msg.type === "import") setImporting(msg.finished ? null : { done: msg.done, total: msg.total, failed: msg.failed });
       else if (msg.type === "export") setExportState(msg);
       else if (msg.type === "hello") loadState(); // (re)connected: catch up on anything missed
     }, setConnected);
@@ -146,6 +152,9 @@ export default function App() {
     const cur = tlRef.current!;
     const m = E.mediaById(cur, mediaId);
     if (!m) return;
+    const st = mediaStatusRef.current[mediaId];
+    if (st && !st.online) return flash(`${m.name} is offline. Reconnect the drive or Relink it first.`, "warn");
+    if (m.type === "video" && st && st.proxy.state !== "ready") return flash(`${m.name}'s preview isn't ready yet (${st.proxy.state === "running" ? Math.round((st.proxy.progress || 0) * 100) + "%" : st.proxy.state}).`);
     const tracks = E.activeSeq(cur).tracks;
     let track = trackId ? tracks.find((t) => t.id === trackId) : undefined;
     if (!track || !E.acceptsMedia(track.kind, m.type)) track = tracks.find((t) => !t.locked && E.acceptsMedia(t.kind, m.type) && (m.type !== "video" || t.kind === "video"));
@@ -157,11 +166,25 @@ export default function App() {
 
   const importPaths = useCallback(async (paths: string[]) => {
     if (!paths.length) return;
-    flash(`Importing ${paths.length} item${paths.length > 1 ? "s" : ""}…`);
     const r = await api.importPaths(paths);
     if (r.status !== 200) return flash(r.body.error || "Import failed.", "error");
-    const { added, skipped, failed } = r.body;
-    flash([`Added ${added.length}`, skipped && `${skipped} already in the project`, failed.length && `${failed.length} couldn't be read (${failed[0].error})`].filter(Boolean).join(" · "), failed.length ? "warn" : "info");
+    const { added, relinked, skipped, failed } = r.body;
+    flash([`Added ${added.length}`, relinked?.length && `reconnected ${relinked.length}`, skipped && `${skipped} already in the project`, failed.length && `${failed.length} couldn't be read: ${failed.slice(0, 2).map((f: any) => `${f.path.split("/").pop()} (${f.error})`).join("; ")}`].filter(Boolean).join(" · "), failed.length ? "warn" : "info");
+  }, [flash]);
+
+  useEffect(() => { try { localStorage.setItem("blkedit.quality", quality); } catch { /* private mode */ } }, [quality]);
+
+  const retryMedia = useCallback(async (m: Media) => {
+    await fetch(`/api/media/${m.id}/retry`, { method: "POST" });
+  }, []);
+  const relinkMedia = useCallback(async (m: Media) => {
+    const picked = native ? (await native.pickMedia())[0] : window.prompt(`New location of ${m.name} (full path):`)?.trim();
+    if (!picked) return;
+    const post = (force: boolean) => fetch(`/api/media/${m.id}/relink`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path: picked, force, author: "you" }) }).then(async (r) => ({ status: r.status, body: await r.json() }));
+    let r = await post(false);
+    if (r.status === 409 && r.body.needsForce && confirm(r.body.error)) r = await post(true);
+    if (r.status !== 200) flash(r.body.error || "Couldn't relink.", "warn");
+    else flash(`Relinked ${m.name}.`);
   }, [flash]);
 
   const importDialog = useCallback(async (folder = false) => {
@@ -244,7 +267,7 @@ export default function App() {
   const livePresence = presence && presence.until > now ? presence : null;
 
   return (
-    <div className={`app ${dropping ? "dropping" : ""}`}>
+    <div className={`editor ${dropping ? "dropping" : ""}`}>
       <header className="topbar">
         <div className="brand">blkgrlco<span>.</span> edit</div>
         <div className="project-name" title={tl.project.name}>{tl.project.name}</div>
@@ -279,8 +302,8 @@ export default function App() {
       {toast && <div className={`toast ${toast.kind}`}>{toast.text}</div>}
       {dropping && <div className="drop-overlay">Drop to import by path (nothing is copied)</div>}
 
-      <aside className="left"><MediaBin tl={tl} mediaStates={mediaStates} assetBump={assetBump} onImport={importDialog} onAdd={addMedia} /></aside>
-      <main className="center"><Preview tl={tl} playhead={playhead} playing={playing} fonts={fonts} /></main>
+      <aside className="left"><MediaBin tl={tl} status={mediaStatus} queue={queueInfo} importing={importing} onImport={importDialog} onAdd={addMedia} onRetry={retryMedia} onRelink={relinkMedia} /></aside>
+      <main className="center"><Preview tl={tl} playhead={playhead} playing={playing} fonts={fonts} status={mediaStatus} quality={quality} setQuality={setQuality} /></main>
       <aside className="right">
         <Inspector tl={tl} selected={selected} fonts={fonts} onCommit={commit} />
         <History history={history} now={now} undoState={undoState} onJump={jumpTo}
@@ -300,7 +323,7 @@ export default function App() {
         </div>
         <Timeline_ tl={tl} playhead={playhead} setPlayhead={(t: number) => { setPlaying(false); setPlayhead(t); }}
           selected={selected} setSelected={setSelected} zoom={zoom} setZoom={setZoom}
-          onCommit={commit} onDropMedia={addMedia} recent={recent} assetBump={assetBump} />
+          onCommit={commit} onDropMedia={addMedia} recent={recent} status={mediaStatus} />
       </section>
     </div>
   );

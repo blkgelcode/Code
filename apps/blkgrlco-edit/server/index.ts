@@ -11,7 +11,9 @@ import express from "express";
 import chokidar from "chokidar";
 import { WebSocketServer, type WebSocket } from "ws";
 import { Store, Conflict, type Author, type Entry } from "./store";
-import { MediaLibrary } from "./media";
+import { MediaEngine, type MediaStatus } from "./media/engine";
+import { walk } from "./media/probe";
+import { capabilities, hdrToSdr } from "./media/caps";
 import { loadFonts } from "./fonts";
 import { runExport } from "./export";
 import { activeSeq, type Media } from "../shared/model";
@@ -43,18 +45,18 @@ function takeLock() {
   fs.writeFileSync(LOCK, JSON.stringify({ pid: process.pid, port: PORT, at: new Date().toISOString() }));
   const release = () => { try { if (JSON.parse(fs.readFileSync(LOCK, "utf8")).pid === process.pid) fs.unlinkSync(LOCK); } catch { /* */ } };
   process.on("exit", release);
-  for (const sig of ["SIGINT", "SIGTERM"] as const) process.on(sig, () => process.exit(0));
+  for (const sig of ["SIGINT", "SIGTERM"] as const) process.on(sig, () => { engine?.stopAll(); process.exit(0); });
 }
 takeLock();
 // A crash should restart cleanly (the supervisor relaunches us), never limp on with bad state.
-process.on("uncaughtException", (e) => { console.error("crash:", e); process.exit(1); });
+process.on("uncaughtException", (e) => { console.error("crash:", e); engine?.stopAll(); process.exit(1); });
 process.on("unhandledRejection", (e) => { console.error("crash:", e); process.exit(1); });
 
 // ------------------------------------------------------------------ state
 const store = new Store(PROJECT);
 store.boot();
 for (const n of store.bootNotes) log(n);
-const library = new MediaLibrary(PROJECT, log);
+const engine = new MediaEngine(PROJECT, (statuses) => broadcast({ type: "media-status", statuses, queue: engine.queueInfo() }), log);
 let fonts = loadFonts(PROJECT);
 let presence: { author: Author; message: string; until: number } | null = null;
 
@@ -68,7 +70,7 @@ function announce(entry: Entry | null) {
   if (!entry) return;
   broadcast({ type: "change", timeline: store.tl, rev: store.rev, entry: store.summary(entry), warnings: store.warnings, undo: undoState() });
   if (entry.author === "claude" && entry.kind === "edit") setPresence("claude", "editing the timeline", 4000);
-  for (const m of store.tl.media) warm(m);
+  syncEngine();
 }
 function setPresence(author: Author, message: string, ms: number) {
   presence = { author, message, until: Date.now() + ms };
@@ -76,41 +78,88 @@ function setPresence(author: Author, message: string, ms: number) {
 }
 
 // ------------------------------------------------------------------ media
-const mediaStates = () => Object.fromEntries(store.tl.media.map((m) => [m.id, library.proxyState(m)]));
-const warmed = new Set<string>();
-function warm(m: Media) {
-  if (warmed.has(m.path)) return;
-  warmed.add(m.path);
-  if (m.type !== "audio") library.thumbnail(m).then(() => broadcast({ type: "media-asset", id: m.id })).catch((e) => log(`thumbnail ${m.path}: ${String(e.message).split("\n")[0]}`));
-  if (m.type === "audio" || m.hasAudio) library.waveform(m).then(() => broadcast({ type: "media-asset", id: m.id })).catch(() => {});
-  if (m.type === "video") library.proxy(m, (mm, state) => broadcast({ type: "media-status", id: (mm as Media).id, state })).catch((e) => log(`proxy ${m.path}: ${String(e.message).split("\n")[0]}`));
+/** Clips on any timeline get their previews made first. */
+function syncEngine() {
+  const used = new Set<string>();
+  for (const sq of store.tl.sequences) for (const t of sq.tracks) for (const c of t.clips) if ("media" in c) used.add(c.media);
+  engine.sync(store.tl.media, used);
 }
+const mediaStatuses = () => Object.fromEntries(store.tl.media.map((m) => [m.id, engine.status(m)])) as Record<string, MediaStatus>;
 
-/** Add files (or every media file inside folders) by absolute path. Nothing is copied. */
+let importing = false;
+/**
+ * Add files (or every media file inside folders) by absolute path. Nothing is copied or loaded:
+ * files are read with ffprobe in parallel and appear in the bin in batches as they're read.
+ * A file that's already in the project is skipped; one that matches an OFFLINE clip's
+ * fingerprint reconnects that clip instead of being added twice.
+ */
 async function importPaths(paths: string[], author: Author) {
   const files: string[] = [];
   const failed: { path: string; error: string }[] = [];
   for (const p of paths) {
     const abs = path.resolve(p);
     let st: fs.Stats;
-    try { st = fs.statSync(abs); } catch { failed.push({ path: abs, error: "file not found" }); continue; }
-    if (st.isDirectory()) files.push(...MediaLibrary.walk(abs));
+    try { st = fs.statSync(abs); } catch { failed.push({ path: abs, error: "not found" }); continue; }
+    if (st.isDirectory()) files.push(...walk(abs));
     else files.push(abs);
   }
   const have = new Set(store.tl.media.map((m) => m.path));
   const fresh = [...new Set(files)].filter((f) => !have.has(f));
-  const entries: Media[] = [];
+  const total = fresh.length;
+  const added: string[] = [];
+  const relinked: string[] = [];
+  let pending: Media[] = [];
+  let done = 0;
   let n = store.tl.media.reduce((mx, m) => Math.max(mx, Number(/^m(\d+)$/.exec(m.id)?.[1] || 0)), 0);
-  for (const f of fresh) {
-    try { entries.push({ id: `m${++n}`, ...(await library.describe(f)) }); }
+  broadcast({ type: "import", done, total, failed: failed.length });
+
+  const flush = () => {
+    if (!pending.length) return;
+    // ids in folder order, whatever order the files finished reading in
+    const batch = pending.sort((a, b) => a.path.localeCompare(b.path, undefined, { numeric: true }));
+    pending = [];
+    const ops: Op[] = [];
+    for (const value of batch) {
+      value.id = `m${++n}`;
+      const lost = value.fingerprint && store.tl.media.find((m) => m.fingerprint === value.fingerprint && !engine.isOnline(m.id));
+      if (lost) { ops.push({ t: "set", target: { kind: "media", id: lost.id }, key: "path", value: value.path, prev: lost.path }); relinked.push(lost.id); }
+      else { ops.push({ t: "addMedia", value }); added.push(value.id); }
+    }
+    try { announce(store.applyEdit(ops, author).entry); } catch (e) { log("import batch failed:", (e as Error).message); }
+  };
+  let flushTimer: NodeJS.Timeout | undefined;
+  fresh.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  const next = async (): Promise<void> => {
+    const f = fresh.shift();
+    if (!f) return;
+    // await FIRST: `pending.push(await …)` would capture the array before a flush replaces it
+    try { const facts = await engine.describe(f); pending.push({ id: "", ...facts } as Media); }
     catch (e) { failed.push({ path: f, error: String((e as Error).message).split("\n")[0] }); }
-  }
-  let entry: Entry | null = null;
-  if (entries.length) {
-    entry = store.applyEdit(entries.map((value): Op => ({ t: "addMedia", value })), author).entry;
-    announce(entry);
-  }
-  return { added: entries.map((e) => e.id), skipped: files.length - fresh.length, failed };
+    done++;
+    broadcast({ type: "import", done, total, failed: failed.length });
+    if (!flushTimer) flushTimer = setTimeout(() => { flushTimer = undefined; flush(); }, 250);
+    return next();
+  };
+  importing = true;
+  try { await Promise.all(Array.from({ length: Math.min(6, total || 1) }, next)); }
+  finally { importing = false; clearTimeout(flushTimer); flush(); }
+  broadcast({ type: "import", done: total, total, failed: failed.length, finished: true });
+  return { added, relinked, skipped: files.length - total, failed };
+}
+
+/** Every 2 s: which files are reachable; reconnect drives that came back under another name. */
+function watchOnline() {
+  const tick = () => {
+    if (importing) return;
+    const { relinks, changed } = engine.checkOnline(store.tl.media);
+    if (relinks.length) {
+      const ops: Op[] = relinks.map((r) => ({ t: "set", target: { kind: "media", id: r.id }, key: "path", value: r.path, prev: store.tl.media.find((m) => m.id === r.id)!.path }));
+      try { announce(store.applyEdit(ops, "app").entry); } catch (e) { log("relink failed:", (e as Error).message); }
+    }
+    if (changed || relinks.length) syncEngine();
+  };
+  tick();
+  setInterval(tick, 2000);
 }
 
 // ------------------------------------------------------------------ HTTP
@@ -129,7 +178,7 @@ app.get("/api/state", (_req, res) => {
     timeline: store.tl, rev: store.rev, warnings: store.warnings, fileError: store.fileError, bootNotes: store.bootNotes,
     history: store.entries.slice(-200).map((e) => store.summary(e)), undo: undoState(),
     fonts: [...fonts.values()].map((f) => ({ key: f.key, source: f.source })),
-    mediaStates: mediaStates(), presence: presence && presence.until > Date.now() ? presence : null, projectDir: PROJECT,
+    mediaStatus: mediaStatuses(), queue: engine.queueInfo(), presence: presence && presence.until > Date.now() ? presence : null, projectDir: PROJECT,
   });
 });
 
@@ -188,17 +237,60 @@ app.post("/api/import", async (req, res) => {
 });
 
 const byId = (id: string) => store.tl.media.find((m) => m.id === id);
-const send = (res: express.Response, p?: string) => (p && fs.existsSync(p) ? res.sendFile(p) : res.status(404).end());
-app.get("/api/thumb/:id", async (req, res) => { const m = byId(req.params.id); if (!m) return res.status(404).end(); try { send(res, await library.thumbnail(m)); } catch { res.status(404).end(); } });
-app.get("/api/wave/:id", async (req, res) => { const m = byId(req.params.id); if (!m) return res.status(404).end(); try { send(res, await library.waveform(m)); } catch { res.status(404).end(); } });
-// Streams with HTTP range requests (sendFile handles Range), so seeking never downloads the file.
-app.get("/api/play/:id", async (req, res) => {
+const send = (res: express.Response, p?: string | null) => (p && fs.existsSync(p) ? res.sendFile(p, { dotfiles: "allow" }) : res.status(404).end());
+
+// Small assets (made by the background queue). 404 until they exist; the UI shows a placeholder.
+for (const kind of ["thumb", "strip", "wave", "still"] as const) {
+  app.get(`/api/media/:id/${kind}`, (req, res) => { const m = byId(req.params.id); return m ? send(res, engine.asset(m, kind)) : res.status(404).end(); });
+}
+// Video for the player, streamed with HTTP range requests (sendFile answers Range with 206),
+// so seeking never downloads a whole file and nothing is held in memory.
+app.get("/api/media/:id/proxy", (req, res) => { const m = byId(req.params.id); return m ? send(res, engine.asset(m, "proxy")) : res.status(404).end(); });
+app.get("/api/media/:id/original", (req, res) => {
   const m = byId(req.params.id);
   if (!m) return res.status(404).end();
+  if (!engine.isOnline(m.id)) return res.status(410).json({ error: `${m.name} is offline` });
+  send(res, m.path);
+});
+// One full-resolution frame from the original (Full quality while paused).
+app.get("/api/media/:id/frame", async (req, res) => {
+  const m = byId(req.params.id);
+  if (!m || m.type === "audio") return res.status(404).end();
+  if (!engine.isOnline(m.id)) return res.status(410).json({ error: `${m.name} is offline` });
+  const t = Math.max(0, Number(req.query.t) || 0);
+  const w = Math.min(3840, Math.max(160, Number(req.query.w) || 1920));
+  const caps = await capabilities();
+  const tm = m.hdr && caps.tonemap ? hdrToSdr(m.hdr) : "";
+  const { spawn } = await import("node:child_process");
+  const args = ["-v", "error", ...(m.type === "video" ? ["-ss", t.toFixed(3)] : []), "-i", m.path, "-frames:v", "1", "-vf", `${tm}scale='min(${w},iw)':-2,format=yuvj420p`, "-q:v", "2", "-f", "image2", "-c:v", "mjpeg", "pipe:1"];
+  const p = spawn("ffmpeg", args, { stdio: ["ignore", "pipe", "ignore"] });
+  res.type("image/jpeg");
+  p.stdout.pipe(res);
+  p.on("close", (code) => { if (code !== 0 && !res.headersSent) res.status(500).end(); });
+  req.on("close", () => p.kill("SIGKILL"));
+});
+app.get("/api/media/status", (_req, res) => res.json({ statuses: mediaStatuses(), queue: engine.queueInfo() }));
+app.post("/api/media/:id/retry", (req, res) => {
+  const m = byId(req.params.id);
+  if (!m) return res.status(404).json({ error: "no such media" });
+  engine.retry(m);
+  syncEngine();
+  res.json({ ok: true });
+});
+/** Point a clip's media at a new file (manual relink). Refuses different footage unless forced. */
+app.post("/api/media/:id/relink", (req, res) => {
+  const m = byId(req.params.id);
+  const to = String(req.body?.path || "");
+  if (!m) return res.status(404).json({ error: "no such media" });
+  if (!fs.existsSync(to)) return res.status(400).json({ error: "that file doesn't exist" });
+  if (!req.body?.force && !engine.sameFile(m, to)) return res.status(409).json({ error: `${path.basename(to)} isn't the same footage as ${m.name} (different content). Relink anyway?`, needsForce: true });
   try {
-    if (m.type === "video") return send(res, await library.proxy(m, (mm, state) => broadcast({ type: "media-status", id: (mm as Media).id, state })));
-    return send(res, m.path);
-  } catch (e) { res.status(500).json({ error: (e as Error).message }); }
+    const ops: Op[] = [{ t: "set", target: { kind: "media", id: m.id }, key: "path", value: to, prev: m.path }];
+    announce(store.applyEdit(ops, authorOf(req.body?.author)).entry);
+    engine.checkOnline(store.tl.media);
+    syncEngine();
+    res.json({ ok: true });
+  } catch (e) { errorOut(res, e); }
 });
 app.get("/api/font/:key", (req, res) => { const f = fonts.get(req.params.key); return f ? res.sendFile(f.file) : res.status(404).end(); });
 app.post("/api/fonts/reload", (_req, res) => { fonts = loadFonts(PROJECT); res.json({ fonts: [...fonts.values()].map((f) => ({ key: f.key, source: f.source })) }); });
@@ -207,11 +299,15 @@ let exporting: Promise<void> | null = null;
 app.post("/api/export", (_req, res) => {
   if (exporting) return res.status(409).json({ error: "An export is already running." });
   const seq = activeSeq(store.tl);
+  const usedIds = new Set(seq.tracks.flatMap((t) => t.clips.map((c) => ("media" in c ? c.media : ""))).filter(Boolean));
+  const offline = store.tl.media.filter((m) => usedIds.has(m.id) && !engine.isOnline(m.id));
+  if (offline.length) return res.status(409).json({ error: `Export needs the original files, and ${offline.length === 1 ? `${offline[0].name} is` : `${offline.length} files are`} offline (${offline.slice(0, 3).map((m) => m.name).join(", ")}). Plug the drive back in.` });
   const name = `${store.tl.project.name}-${seq.name}`.replace(/[^\w\- ]+/g, "").trim().replace(/\s+/g, "-") || "export";
   const outFile = path.join(EXPORTS, `${name}-${new Date().toISOString().replace(/[:T]/g, "-").slice(0, 19)}.mp4`);
   const snapshot = structuredClone(store.tl);
   broadcast({ type: "export", state: "running", progress: 0 });
-  exporting = runExport(snapshot, activeSeq(snapshot), { fonts, workDir: WORK, outFile }, (p) => broadcast({ type: "export", state: "running", progress: p }))
+  exporting = capabilities()
+    .then((caps) => runExport(snapshot, activeSeq(snapshot), { fonts, workDir: WORK, outFile, caps }, (p) => broadcast({ type: "export", state: "running", progress: p })))
     .then((f) => { broadcast({ type: "export", state: "done", file: path.basename(f), url: `/exports/${encodeURIComponent(path.basename(f))}` }); log(`exported ${f}`); })
     .catch((e) => { broadcast({ type: "export", state: "error", error: e.message }); log(`export failed: ${e.message}`); })
     .finally(() => { exporting = null; });
@@ -243,7 +339,8 @@ async function start() {
   server.listen(PORT, "127.0.0.1", () => {
     log(`BLKGRLCO Edit → http://localhost:${PORT}`);
     log(`editing ${store.file} (rev ${store.rev})`);
-    for (const m of store.tl.media) warm(m);
+    watchOnline();
+    syncEngine();
   });
 }
 

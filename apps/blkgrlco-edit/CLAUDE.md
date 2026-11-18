@@ -50,13 +50,19 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
 {
   "version": 2,
   "project": { "name": "Mexico City weekend", "brand": "blkgrlco" },   // brand: blkgrlco | blkgrlcotoo | podcast | null
-  "media": [                         // READ-ONLY for edits: add files with `bge import`, not by hand
+  "media": [                         // READ-ONLY: the app writes these at import (`bge import`). Never hand-edit.
     { "id": "m1",
       "path": "/Volumes/Untitled/project hhh/mx/DJI_0245.MP4",   // absolute; used in place, never copied
       "name": "DJI_0245.MP4",
       "type": "video",                // video | audio | image
       "duration": 152.4,              // seconds (null for images)
-      "width": 3840, "height": 2160, "fps": 59.94, "hasAudio": true, "codec": "hevc" }
+      "width": 3840, "height": 2160,  // as displayed (rotation already applied)
+      "fps": 59.94, "hasAudio": true, "codec": "hevc", "audioCodec": "aac",
+      "bitDepth": 10, "hdr": "hlg",   // hdr only on HDR footage (iPhone); previews/exports are tone-mapped to SDR
+      "rotation": 90, "vfr": true,    // only when present
+      "camera": "DJI", "createdAt": "2026-09-26T13:24:02.000Z", "size": 1203384012,
+      "fingerprint": "6746919df96876fa619d",                         // identifies the footage even if moved
+      "volume": { "uuid": "…", "name": "Untitled", "rel": "project hhh/mx/DJI_0245.MP4" } }  // external drive
   ],
   "sequences": [                     // a project can hold several cuts, e.g. the master and the Short
     { "id": "s1", "name": "Main",
@@ -136,10 +142,28 @@ system fonts. @blkgrlco: `AdvercaseFont-Bold` (headlines), `Editor'sNote-Regular
 `#F0DAC2 #B68A71 #B4AD7F #636407 #A8B118 #EBB9BA #8C0532 #49001B #2E1500`.
 Brand rules for any cut: `blkgrlco/RULES.md`.
 
+## Footage, previews and offline drives
+
+- Footage is **referenced by path**, never copied. `bge import <file-or-folder…>` adds it; folders
+  are read recursively; unreadable files are reported, not added.
+- The app makes a **preview (proxy)** for every video in the background: 960×540 H.264 (540×960
+  vertical), a keyframe every second, on the Mac's hardware encoder. Thumbnails, filmstrips and
+  waveforms too. At most 2 at a time, clips already on a timeline first, cached forever by
+  fingerprint in `<project>/.cache/`. Status: `GET /api/media/status` (per media: `proxy.state` =
+  queued | running (+progress) | ready | error (+error)), and `online`.
+- She can only drag a video onto the timeline once its preview is ready. **You can add clips to the
+  JSON at any time** — they show "preview queued/NN%" until it's ready. That's fine; say so.
+- If a drive is unplugged, its clips go **offline**: editing continues on the proxies, but export
+  refuses (it needs the originals). When the drive comes back — under any name, e.g. "Untitled 1" —
+  the app reconnects it by volume UUID and records it in History as the app. A file that was moved
+  can be relinked from the bin (she clicks Relink…), or `curl -X POST /api/media/<id>/relink -d '{"path":"…"}'`.
+  Never edit a media `path` by hand.
+
 ## Exporting
 
 She clicks **Export MP4** (⌘E), or `curl -X POST http://localhost:5310/api/export`. It renders
-the active sequence from the **original** files into `<project>/exports/`. Nothing is ever published.
+the active sequence from the **original** files at full quality (hardware decode + hardware H.264
+encode on the Mac; HDR tone-mapped to SDR) into `<project>/exports/`. Nothing is ever published.
 
 ## How the app keeps both of you safe (so you know what to expect)
 
@@ -158,6 +182,8 @@ the active sequence from the **original** files into `<project>/exports/`. Nothi
 `PLAN.md` has the roadmap. Code map: `shared/model.ts` (zod schema, validate, normalize, migrate),
 `shared/ops.ts` (ops, diff, describe), `shared/precondition.ts` (merge/undo safety),
 `server/store.ts` (file + history + recovery), `server/index.ts` (HTTP/WebSocket/watcher),
-`server/export.ts`, `src/` (React UI; `src/edit.ts` = editing operations), `electron/` (Mac shell).
+`server/export.ts`, `server/media/` (probe, fingerprint, caps, volumes, engine = job queue +
+offline), `src/` (React UI; `src/edit.ts` = editing operations, `src/media.ts` = media status),
+`electron/` (Mac shell).
 `npm test` (unit + full server/ffmpeg round trip), `npm run test:electron` (Mac app smoke test),
 `npm run typecheck`, `npm run dev` (hot reload), `npm run app` (build + open the Mac app).

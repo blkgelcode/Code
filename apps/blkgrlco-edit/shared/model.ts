@@ -65,6 +65,17 @@ export const MediaSchema = z.object({
   fps: num.positive().optional(),
   hasAudio: z.boolean().optional(),
   codec: z.string().optional(),
+  // Filled in by the app at import (read-only):
+  audioCodec: z.string().optional(),
+  bitDepth: z.number().int().positive().optional(),
+  hdr: z.enum(["hlg", "pq"]).optional(),            // HDR transfer (iPhone HLG / PQ); previews are tone-mapped
+  rotation: z.number().optional(),                   // display rotation already applied to width/height
+  vfr: z.boolean().optional(),                       // variable frame rate (phones)
+  camera: z.string().optional(),
+  createdAt: z.string().optional(),
+  size: z.number().nonnegative().optional(),         // bytes
+  fingerprint: z.string().optional(),                // size + first/last MB hash: survives moves and drive renames
+  volume: z.object({ uuid: z.string(), name: z.string(), rel: z.string() }).strict().optional(), // external drive it lives on
 }).strict();
 
 export const SequenceSchema = z.object({

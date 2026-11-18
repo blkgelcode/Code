@@ -13,11 +13,14 @@ say "hardware encoders: $(ffmpeg -hide_banner -encoders 2>/dev/null | grep -o '[
 
 [ -d node_modules ] || npm install --no-audit --no-fund >/dev/null 2>&1
 say ""
+say "0. Hardware video (VideoToolbox) and a real 4K60 10-bit HEVC proxy encode"
+npx tsx scripts/caps.ts 2>&1 | sed 's/^/   /' | tee -a "$REPORT"
+
 say "1. Build + type check"
 npm run build >/dev/null 2>&1 && say "   ✓ build" || say "   ✗ build failed (run npm run build to see why)"
 npm run typecheck >/dev/null 2>&1 && say "   ✓ types" || say "   ✗ type errors"
 
-say "2. Unit + end-to-end tests (history, merge, undo, crash recovery, export)"
+say "2. Unit + end-to-end tests (history, merge, undo, crash recovery, import engine, offline drive, export)"
 npm test 2>&1 | grep -E "^# (pass|fail)|^not ok" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
 grep -q "^   # fail 0" "$REPORT" && echo "   ✓ all passed" || echo "   (see failures above)"
 

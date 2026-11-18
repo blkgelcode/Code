@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import * as ops from "../edit";
 import { fmtTime } from "../api";
 import { sequenceDuration, mediaName, type Timeline, type Clip, type Track } from "../../shared/model";
+import { ver, type MediaStatus } from "../media";
 
-const HEADER_W = 150;
+const HEADER_W = 176;
 const LANE_H: Record<string, number> = { video: 58, audio: 44, text: 34 };
 const SNAP_PX = 8;
 
@@ -17,11 +18,11 @@ function niceStep(zoom: number) {
 interface Props {
   tl: Timeline; playhead: number; setPlayhead: (t: number) => void; selected: string | null; setSelected: (id: string | null) => void;
   zoom: number; setZoom: React.Dispatch<React.SetStateAction<number>>; onCommit: (tl: Timeline, o?: { select?: string | null }) => void;
-  onDropMedia: (mediaId: string, trackId?: string, start?: number) => void; recent: Record<string, string>; assetBump: number;
+  onDropMedia: (mediaId: string, trackId?: string, start?: number) => void; recent: Record<string, string>; status: Record<string, MediaStatus>;
 }
 type Mode = "move" | "trim-start" | "trim-end";
 
-export default function Timeline({ tl, playhead, setPlayhead, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, assetBump }: Props) {
+export default function Timeline({ tl, playhead, setPlayhead, selected, setSelected, zoom, setZoom, onCommit, onDropMedia, recent, status }: Props) {
   const [draft, setDraft] = useState<Timeline | null>(null); // timeline preview while dragging
   const [dropHint, setDropHint] = useState<{ trackId: string; t: number } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -170,7 +171,7 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
                 onDragOver={(e) => onDragOver(e, track)} onDragLeave={() => setDropHint(null)} onDrop={(e) => onDrop(e, track)}>
                 {track.clips.map((clip) => (
                   <Clip key={clip.id} clip={clip} track={track} tl={view} zoom={zoom}
-                    selected={clip.id === selected} recent={recent[clip.id]} assetBump={assetBump}
+                    selected={clip.id === selected} recent={recent[clip.id]} st={!ops.isText(clip) ? status[clip.media] : undefined}
                     onDown={onClipDown} />
                 ))}
                 {dropHint?.trackId === track.id && <div className="drop-marker" style={{ left: dropHint.t * zoom }} />}
@@ -184,8 +185,8 @@ export default function Timeline({ tl, playhead, setPlayhead, selected, setSelec
   );
 }
 
-function Clip({ clip, track, tl, zoom, selected, recent, assetBump, onDown }: {
-  clip: Clip; track: Track; tl: Timeline; zoom: number; selected: boolean; recent?: string; assetBump: number;
+function Clip({ clip, track, tl, zoom, selected, recent, st, onDown }: {
+  clip: Clip; track: Track; tl: Timeline; zoom: number; selected: boolean; recent?: string; st?: MediaStatus;
   onDown: (e: React.PointerEvent, clip: Clip, track: Track, mode: Mode) => void;
 }) {
   const len = ops.clipLength(clip);
@@ -195,29 +196,33 @@ function Clip({ clip, track, tl, zoom, selected, recent, assetBump, onDown }: {
   if (ops.isText(clip)) {
     label = <span className="clip-text">“{clip.text}”</span>;
   } else if (m) {
+    // The filmstrip/waveform covers the WHOLE source file, so it's sized to the media's length
+    // and shifted by the in-point: the clip shows exactly the frames it plays.
+    const full = (m.duration || len) * zoom;
+    const inPx = -(clip as any).in * zoom;
     const isAudioView = track.kind === "audio" || m.type === "audio";
     if (isAudioView) {
-      const full = (m.duration || len) * zoom;
-      Object.assign(style, {
-        backgroundImage: `url(/api/wave/${m.id}?v=${assetBump})`,
-        backgroundSize: `${full}px 100%`,
-        backgroundPosition: `${-(clip as any).in * zoom}px 0`,
-        backgroundRepeat: "no-repeat",
-      });
-    } else {
-      Object.assign(style, { backgroundImage: `url(/api/thumb/${m.id}?v=${assetBump})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" });
+      if (st?.wave.state === "ready") Object.assign(style, { backgroundImage: `url(/api/media/${m.id}/wave?v=${ver(st.wave)})`, backgroundSize: `${full}px 100%`, backgroundPosition: `${inPx}px 0`, backgroundRepeat: "no-repeat" });
+    } else if (m.type === "video" && st?.strip.state === "ready") {
+      Object.assign(style, { backgroundImage: `url(/api/media/${m.id}/strip?v=${ver(st.strip)})`, backgroundSize: `${full}px 100%`, backgroundPosition: `${inPx}px 0`, backgroundRepeat: "no-repeat" });
+    } else if (st?.thumb.state === "ready") {
+      Object.assign(style, { backgroundImage: `url(/api/media/${m.id}/thumb?v=${ver(st.thumb)})`, backgroundSize: "auto 100%", backgroundRepeat: "repeat-x" });
     }
     label = <span className="clip-name">{mediaName(m)}</span>;
   }
   const fadeIn = (clip.fadeIn || 0) * zoom;
   const fadeOut = (clip.fadeOut || 0) * zoom;
+  const offline = st && !st.online;
+  const preparing = m?.type === "video" && track.kind === "video" && st && st.proxy.state !== "ready" && !offline;
   return (
-    <div className={`clip ${track.kind} ${selected ? "selected" : ""} ${recent ? `recent recent-${recent}` : ""} ${!m && !ops.isText(clip) ? "missing" : ""}`}
+    <div className={`clip ${track.kind} ${selected ? "selected" : ""} ${recent ? `recent recent-${recent}` : ""} ${!m && !ops.isText(clip) ? "missing" : ""} ${offline ? "offline" : ""}`}
       style={style} onPointerDown={(e) => onDown(e, clip, track, "move")}
       title={`${clip.id}${m ? ` · ${mediaName(m)}` : ""} · ${fmtTime(clip.start, true)}–${fmtTime(clip.start + len, true)} (${len.toFixed(2)}s)`}>
       <div className="clip-label"><b>{clip.id}</b> {label}</div>
       {fadeIn > 0 && <div className="fade in" style={{ width: fadeIn }} />}
       {fadeOut > 0 && <div className="fade out" style={{ width: fadeOut }} />}
+      {offline && <div className="clip-flag offline">OFFLINE</div>}
+      {preparing && <div className="clip-flag preparing">{st!.proxy.state === "running" ? `preview ${Math.round((st!.proxy.progress || 0) * 100)}%` : st!.proxy.state === "error" ? "preview failed" : "preview queued"}</div>}
       {recent && <div className="who">{recent === "claude" ? "Claude" : recent === "you" ? "you" : "app"}</div>}
       <div className="handle left" onPointerDown={(e) => onDown(e, clip, track, "trim-start")} />
       <div className="handle right" onPointerDown={(e) => onDown(e, clip, track, "trim-end")} />

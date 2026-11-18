@@ -26,7 +26,9 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   check(tl.media.length === 2 && tl.media.every(m => m.path.startsWith(footage)), 'folder imported by path (subfolders included)');
   check(!fs.existsSync(proj + '/media/DJI_0245.MP4'), 'nothing copied into the project');
   // add a clip, then crash the server
-  await win.locator('.media-bin li').first().dblclick(); await sleep(700);
+  // a clip can go on the timeline once its preview is ready
+  await win.waitForSelector('.media-bin li:not(.not-ready)', { timeout: 60000 });
+  await win.locator('.media-bin li:not(.not-ready)').first().dblclick(); await sleep(700);
   const lock = JSON.parse(fs.readFileSync(proj + '/.history/server.lock', 'utf8'));
   process.kill(lock.pid, 'SIGKILL');
   // wait for a NEW server process to take the project lock, then for the page to reconnect

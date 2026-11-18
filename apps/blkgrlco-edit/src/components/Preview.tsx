@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { activeSeq, clipLength as clipDuration, isText, type Timeline, type Clip, type TextClip, type MediaClip } from "../../shared/model";
+import { activeSeq, clipLength as clipDuration, isText, mediaName, type Timeline, type Clip, type TextClip, type MediaClip, type Media } from "../../shared/model";
+import type { MediaStatus } from "../media";
 
 // The preview composites the timeline on a <canvas>: each active video clip gets its own
 // hidden <video> (playing an H.264 proxy), audio clips get an <audio>, text is drawn on top.
@@ -17,8 +18,17 @@ function fadeGain(clip: Clip, local: number, len: number) {
 
 type El = (HTMLMediaElement | HTMLImageElement) & { dataset: DOMStringMap };
 
-export default function Preview({ tl, playhead, playing, fonts }: { tl: Timeline; playhead: number; playing: boolean; fonts: { key: string }[] }) {
+interface Props {
+  tl: Timeline; playhead: number; playing: boolean; fonts: { key: string }[];
+  status: Record<string, MediaStatus>; quality: "proxy" | "full"; setQuality: (q: "proxy" | "full") => void;
+}
+
+export default function Preview({ tl, playhead, playing, fonts, status, quality, setQuality }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Originals the browser can't decode live (e.g. some 10-bit HEVC): Full falls back to the proxy.
+  const [fullFailed, setFullFailed] = useState<Record<string, true>>({});
+  const frames = useRef(new Map<string, HTMLImageElement>()); // full-res stills while paused (Full)
+  const [frameTick, setFrameTick] = useState(0);
   const els = useRef(new Map<string, El>()); // clipId -> media element
   const loadedFonts = useRef(new Set<string>());
   const [fontTick, setFontTick] = useState(0);
@@ -38,7 +48,18 @@ export default function Preview({ tl, playhead, playing, fonts }: { tl: Timeline
     }
   }, [tl, fonts]); // eslint-disable-line
 
-  // Create/drop media elements as clips come and go.
+  /** What a clip's element should play: original (Full), proxy, or nothing yet. Streams with range requests. */
+  const srcFor = (m: Media, kind: string): string | null => {
+    const st = status[m.id];
+    if (m.type === "image") return st?.still.state === "ready" ? `/api/media/${m.id}/still` : st?.thumb.state === "ready" ? `/api/media/${m.id}/thumb` : null;
+    if (m.type === "audio") return st?.online === false ? null : `/api/media/${m.id}/original`;
+    const proxyReady = st?.proxy.state === "ready";
+    if (kind === "video" && quality === "full" && st?.online !== false && !fullFailed[m.id]) return `/api/media/${m.id}/original`;
+    if (proxyReady) return `/api/media/${m.id}/proxy`;
+    return null;
+  };
+
+  // Create/drop media elements as clips come and go (or their source changes).
   useEffect(() => {
     const live = new Set<string>();
     for (const t of seq.tracks) {
@@ -46,26 +67,55 @@ export default function Preview({ tl, playhead, playing, fonts }: { tl: Timeline
       for (const c of t.clips as MediaClip[]) {
         const m = tl.media.find((x) => x.id === c.media);
         if (!m) continue;
+        const src = srcFor(m, t.kind);
+        if (!src) continue;
         live.add(c.id);
-        const want = `${m.id}:${t.kind}`;
         const have = els.current.get(c.id);
-        if (have && have.dataset.key === want) continue;
-        if (have instanceof HTMLMediaElement) have.pause();
+        if (have && have.dataset.key === src) continue;
+        if (have instanceof HTMLMediaElement) { have.pause(); have.removeAttribute("src"); have.load(); }
         let el: El;
-        if (m.type === "image") { el = new Image(); el.src = `/api/play/${m.id}`; }
+        if (m.type === "image") { el = new Image(); el.src = src; }
         else {
           const v = document.createElement(m.type === "video" && t.kind === "video" ? "video" : "audio") as HTMLMediaElement;
           v.preload = "auto";
           (v as HTMLVideoElement).playsInline = true;
-          v.src = `/api/play/${m.id}`;
+          if (src.endsWith("/original") && m.type === "video") {
+            v.addEventListener("error", () => setFullFailed((f) => ({ ...f, [m.id]: true })), { once: true });
+          }
+          v.src = src;
           el = v;
         }
-        el.dataset.key = want;
+        el.dataset.key = src;
         els.current.set(c.id, el);
       }
     }
-    for (const [id, el] of els.current) if (!live.has(id)) { if (el instanceof HTMLMediaElement) el.pause(); el.removeAttribute("src"); els.current.delete(id); }
-  }, [tl]);
+    for (const [id, el] of els.current) if (!live.has(id)) { if (el instanceof HTMLMediaElement) { el.pause(); el.removeAttribute("src"); el.load(); } els.current.delete(id); }
+  }, [tl, status, quality, fullFailed]); // eslint-disable-line
+
+  // Full quality while paused: a frame-exact still rendered from the original by the server.
+  useEffect(() => {
+    if (quality !== "full" || playing) return;
+    const id = setTimeout(() => {
+      for (const t of seq.tracks) {
+        if (t.kind !== "video" || t.hidden) continue;
+        for (const c of t.clips as MediaClip[]) {
+          const local = playhead - c.start;
+          if (local < 0 || local >= clipDuration(c)) continue;
+          const m = tl.media.find((x) => x.id === c.media);
+          if (!m || m.type !== "video" || status[m.id]?.online === false) continue;
+          const srcT = (c.in + local).toFixed(3);
+          const key = `${m.id}@${srcT}`;
+          if (frames.current.has(key)) continue;
+          const img = new Image();
+          img.onload = () => setFrameTick((n) => n + 1);
+          img.src = `/api/media/${m.id}/frame?t=${srcT}&w=${Math.min(m.width || 1920, 3840)}`;
+          frames.current.set(key, img);
+          if (frames.current.size > 40) frames.current.delete(frames.current.keys().next().value!);
+        }
+      }
+    }, 120);
+    return () => clearTimeout(id);
+  }, [playhead, playing, quality, tl, status]); // eslint-disable-line
 
   // Sync every element to the playhead, then draw.
   useEffect(() => {
@@ -112,8 +162,13 @@ export default function Preview({ tl, playhead, playing, fonts }: { tl: Timeline
         const local = playhead - c.start;
         const len = clipDuration(c);
         if (local < 0 || local >= len) continue;
-        const el = els.current.get(c.id);
-        if (!el) continue;
+        const m = tl.media.find((x) => x.id === c.media);
+        const still = quality === "full" && !playing && m ? frames.current.get(`${m.id}@${(c.in + local).toFixed(3)}`) : undefined;
+        const el = (still && still.complete && still.naturalWidth ? still : els.current.get(c.id)) as El | undefined;
+        if (!el) {
+          if (m) placeholder(ctx, canvas, m, status[m.id]);
+          continue;
+        }
         const sw = (el as HTMLVideoElement).videoWidth || (el as HTMLImageElement).naturalWidth;
         const sh = (el as HTMLVideoElement).videoHeight || (el as HTMLImageElement).naturalHeight;
         if (!sw || !sh) continue;
@@ -165,10 +220,32 @@ export default function Preview({ tl, playhead, playing, fonts }: { tl: Timeline
   // Canvas resolution: the project's aspect ratio at a preview-friendly size.
   const ph = 720;
   const pw = Math.round((ph * W) / H);
+  const failedNames = Object.keys(fullFailed).map((id) => tl.media.find((m) => m.id === id)).filter(Boolean).map((m) => mediaName(m!));
   return (
     <div className="preview">
-      <canvas ref={canvasRef} width={pw} height={ph} data-fonts={fontTick} />
-      <div className="preview-meta">{seq.name} · {W}×{H} · {seq.fps} fps · preview uses low-res proxies; export uses the originals</div>
+      <canvas ref={canvasRef} width={pw} height={ph} data-fonts={fontTick} data-frames={frameTick} />
+      <div className="preview-meta">
+        <div className="quality" role="group" aria-label="Preview quality">
+          <button className={quality === "proxy" ? "on" : ""} onClick={() => setQuality("proxy")} title="Light 960×540 previews: smooth on any footage">Proxy</button>
+          <button className={quality === "full" ? "on" : ""} onClick={() => setQuality("full")} title="Plays the original files; when paused, shows an exact full-resolution frame">Full</button>
+        </div>
+        <span>{seq.name} · {W}×{H} · {seq.fps} fps · export always uses the originals</span>
+      </div>
+      {quality === "full" && failedNames.length > 0 && (
+        <div className="preview-note">Full quality can't play {failedNames.slice(0, 2).join(", ")}{failedNames.length > 2 ? ` +${failedNames.length - 2}` : ""} live here, so it plays the proxy (paused frames are still full quality).</div>
+      )}
     </div>
   );
+}
+
+/** Shown where a clip has nothing to draw yet: offline, or its preview is still being made. */
+function placeholder(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, m: Media, st?: MediaStatus) {
+  ctx.fillStyle = "#1d0f04";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = st && !st.online ? "#EBB9BA" : "#B4AD7F";
+  ctx.font = `bold ${Math.round(canvas.width / 22)}px -apple-system, Arial, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const msg = st && !st.online ? `${mediaName(m)} is offline` : st?.proxy.state === "running" ? `Making preview ${Math.round((st.proxy.progress || 0) * 100)}%` : st?.proxy.state === "error" ? "Preview failed" : "Preview queued";
+  ctx.fillText(msg, canvas.width / 2, canvas.height / 2);
 }

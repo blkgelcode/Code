@@ -4,7 +4,7 @@ A Mac video editor where the whole edit is one file, `timeline.json`, and Omnia 
 edit it at the same time. Roadmap and architecture: [`PLAN.md`](PLAN.md). How Claude edits
 (schema + commands): [`CLAUDE.md`](CLAUDE.md).
 
-**Status: Phase 1 (Foundation) built.** Phase 2 (fast 4K import engine) is next.
+**Status: Phases 1 (Foundation) and 2 (Import & media engine) built.** Phase 3 (playback engine) is next.
 
 ## Start it
 
@@ -34,6 +34,19 @@ the T7); each folder gets its own `timeline.json`, history and exports. It reope
 
 Keys: Space play/pause · S split · ⌫ delete · ← → frame (⇧: 1 s) · Home/End · +/− zoom · ⌘E export.
 
+## What Phase 2 gives you (big 4K files)
+
+| | |
+|---|---|
+| Import by path | ⌘I files, ⇧⌘I a folder (with subfolders), or drag from Finder. Clips appear in the bin in about a second with resolution, fps, codec, 10-bit/HDR/VFR badges. Nothing is copied or uploaded |
+| Background previews | Each video gets a light 960×540 preview (hardware-encoded), plus a thumbnail, a filmstrip and a waveform. Two at a time, low priority, so the Mac stays responsive. A progress bar on every clip |
+| Edit right away | A clip can go on the timeline as soon as its preview is ready |
+| Never twice | Previews are cached per file in `.cache/`; moving a file or renaming the drive doesn't redo them |
+| Errors stay put | A file that can't be read shows its reason on that clip, with **Retry**. Everything else carries on |
+| Unplugged T7 | Its clips turn **OFFLINE**; you keep editing on the previews. Plug it back in (any name) and they reconnect by themselves. Moved a file? **Relink…** on the clip |
+| Proxy / Full | Under the viewer. Full plays the original files; paused, it shows an exact full-resolution frame. If the Mac can't play an original live, it says so and plays the preview |
+| Export | Always from the original files at full quality, with the Mac's hardware encoder; refuses (and says which files) if a drive is unplugged |
+
 ## Checking it on your Mac
 
 Double-click **`run-mac-tests.command`**. It runs every test plus a Mac-app check on generated
@@ -49,7 +62,7 @@ clips (it never touches your projects) and copies a report to your clipboard to 
 | `media/` | Optional drop folder: files put here are imported automatically |
 | `fonts/` | Extra fonts (brand fonts from `brand-bible/` are already available) |
 | `exports/` | Rendered MP4s |
-| `.cache/` | Thumbnails, waveforms, previews (safe to delete) |
+| `.cache/` | Previews, thumbnails, filmstrips, waveforms + an index (safe to delete; they're remade) |
 
 The default `project/` folder is gitignored (this repo is public).
 
