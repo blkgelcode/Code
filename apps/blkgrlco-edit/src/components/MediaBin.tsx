@@ -43,7 +43,7 @@ export default function MediaBin({ tl, status, queue, importing, selectedId, onI
           const ok = usable(m, st) && st?.online !== false;
           const img = m.type === "audio" ? `/api/media/${m.id}/wave?v=${ver(st?.wave)}` : `/api/media/${m.id}/thumb?v=${ver(st?.thumb)}`;
           return (
-            <li key={m.id} className={`${h.kind} ${ok ? "" : "not-ready"} ${selectedId === m.id ? "in-source" : ""}`} draggable={ok}
+            <li key={m.id} data-media={m.id} className={`${h.kind} ${ok ? "" : "not-ready"} ${selectedId === m.id ? "in-source" : ""}`} draggable={ok}
               onClick={() => ok && onOpen(m.id)}
               onDragStart={(e) => { e.dataTransfer.setData("application/x-blkgrlco-media", m.id); e.dataTransfer.effectAllowed = "copy"; }}
               onDoubleClick={() => ok && onAdd(m.id)}

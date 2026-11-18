@@ -20,6 +20,17 @@ export const TextStyleSchema = z.object({
   shadow: z.boolean().default(false),
 }).strict();
 
+export const MarkerSchema = z.object({
+  id,                                                   // "k<N>" (shares the nextId counter)
+  t: num.min(0),                                        // sequence markers: timeline seconds; clip markers: source seconds
+  duration: num.min(0).default(0),                      // > 0 for a range marker
+  name: z.string().default(""),
+  color: z.enum(["olive", "blush", "berry", "tan", "sage", "cream"]).default("olive"),
+  type: z.enum(["comment", "chapter", "todo", "claude"]).default("comment"), // chapter → YouTube chapters; claude → a note for Claude
+  note: z.string().optional(),
+  done: z.boolean().optional(),                         // todo/claude markers: ticked off
+}).strict();
+
 export const MediaClipSchema = z.object({
   id,
   media: id,
@@ -31,6 +42,24 @@ export const MediaClipSchema = z.object({
   fadeIn: num.min(0).default(0),
   fadeOut: num.min(0).default(0),
   label: z.string().optional(),
+  link: z.string().optional(),            // clips sharing a link id (picture + its sound) move and trim together
+  markers: z.array(MarkerSchema).optional(),
+}).strict();
+
+/** A sequence used as a clip (nested sequence / compound clip). Lives on a video track and brings its picture AND sound. */
+export const NestedClipSchema = z.object({
+  id,
+  seq: id,                                // the sequence it plays
+  start: num.min(0),
+  in: num.min(0),
+  out: num.positive(),
+  volume: num.min(0).max(4).default(1),
+  fit: z.enum(["cover", "contain"]).optional(),
+  fadeIn: num.min(0).default(0),
+  fadeOut: num.min(0).default(0),
+  label: z.string().optional(),
+  link: z.string().optional(),
+  markers: z.array(MarkerSchema).optional(),
 }).strict();
 
 export const TextClipSchema = z.object({
@@ -53,6 +82,8 @@ export const TrackSchema = z.object({
   locked: z.boolean().default(false),
   solo: z.boolean().default(false),        // audio: when any track is soloed, only soloed tracks are heard
   volume: num.min(0).max(2).default(1),     // track fader (1 = 0 dB, 2 = +6 dB)
+  syncLock: z.boolean().default(true),      // ripple edits (insert, extract, ripple delete…) shift this track too
+  targeted: z.boolean().default(false),     // insert/overwrite put source picture/sound on targeted tracks
   clips: z.array(z.record(z.unknown())), // checked per track kind in validate()
 }).strict();
 
@@ -87,6 +118,8 @@ export const SequenceSchema = z.object({
   height: z.number().int().positive(),
   fps: num.positive(),
   background: hex.default("#000000"),
+  markers: z.array(MarkerSchema).default([]),
+  marks: z.object({ in: num.min(0).optional(), out: num.min(0).optional() }).strict().optional(), // timeline In/Out
   tracks: z.array(TrackSchema),
 }).strict();
 
@@ -105,7 +138,9 @@ export const TimelineSchema = z.object({
 export type TextStyle = z.infer<typeof TextStyleSchema>;
 export type MediaClip = z.infer<typeof MediaClipSchema>;
 export type TextClip = z.infer<typeof TextClipSchema>;
-export type Clip = MediaClip | TextClip;
+export type NestedClip = z.infer<typeof NestedClipSchema>;
+export type Marker = z.infer<typeof MarkerSchema>;
+export type Clip = MediaClip | TextClip | NestedClip;
 export type Track = Omit<z.infer<typeof TrackSchema>, "clips"> & { clips: Clip[] };
 export type Media = z.infer<typeof MediaSchema>;
 export type Sequence = Omit<z.infer<typeof SequenceSchema>, "tracks"> & { tracks: Track[] };
@@ -115,6 +150,8 @@ export type TrackKind = Track["kind"];
 // ------------------------------------------------------------------ helpers
 export const r6 = (n: number) => Math.round(n * 1e6) / 1e6;
 export const isText = (c: Clip): c is TextClip => (c as TextClip).text !== undefined;
+export const isNested = (c: Clip): c is NestedClip => typeof (c as NestedClip).seq === "string";
+export const isMediaClip = (c: Clip): c is MediaClip => typeof (c as MediaClip).media === "string";
 export const clipLength = (c: Clip) => (isText(c) ? c.duration : c.out - c.in);
 export const clipEnd = (c: Clip) => c.start + clipLength(c);
 export const sequenceDuration = (s: Sequence) => {
@@ -145,11 +182,11 @@ export function emptyTimeline(name = "Untitled"): Timeline {
     project: { name, brand: "blkgrlco" },
     media: [],
     sequences: [{
-      id: "s1", name: "Main", width: 1080, height: 1920, fps: 30, background: "#000000",
+      id: "s1", name: "Main", width: 1080, height: 1920, fps: 30, background: "#000000", markers: [],
       tracks: [
-        { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
-        { id: "a1", kind: "audio", name: "Audio 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
-        { id: "t1", kind: "text", name: "Text 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] },
+        { id: "v1", kind: "video", name: "Video 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, syncLock: true, targeted: true, clips: [] },
+        { id: "a1", kind: "audio", name: "Audio 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, syncLock: true, targeted: true, clips: [] },
+        { id: "t1", kind: "text", name: "Text 1", muted: false, hidden: false, locked: false, solo: false, volume: 1, syncLock: true, targeted: false, clips: [] },
       ],
     }],
     activeSequence: "s1",
@@ -194,6 +231,7 @@ export function validate(raw: unknown): Validation {
   }
   const clipIds = new Set<string>();
   const seqIds = new Set<string>();
+  const nested: { where: string; parent: string; child: string; clip: NestedClip }[] = [];
   let maxN = 0;
   for (const seq of tl.sequences) {
     if (seqIds.has(seq.id)) errors.push(`duplicate sequence id ${seq.id}`);
@@ -204,7 +242,7 @@ export function validate(raw: unknown): Validation {
       trackIds.add(track.id);
       const clips: Clip[] = [];
       track.clips.forEach((rawClip, i) => {
-        const schema = track.kind === "text" ? TextClipSchema : MediaClipSchema;
+        const schema = track.kind === "text" ? TextClipSchema : "seq" in rawClip ? NestedClipSchema : MediaClipSchema;
         const r = schema.safeParse(rawClip);
         const cid = typeof rawClip.id === "string" ? rawClip.id : `#${i}`;
         const where = `${seq.id} › ${track.id} › ${cid}`;
@@ -224,6 +262,13 @@ export function validate(raw: unknown): Validation {
         clipIds.add(c.id);
         const n = Number(/^c(\d+)$/.exec(c.id)?.[1] || 0);
         if (n > maxN) maxN = n;
+        for (const k of (c as MediaClip).markers || []) maxN = Math.max(maxN, Number(/^k(\d+)$/.exec(k.id)?.[1] || 0));
+        if (isNested(c)) {
+          if (track.kind !== "video") errors.push(`${where}: a nested sequence goes on a video track (it brings its sound with it)`);
+          if (c.out <= c.in) errors.push(`${where}: out (${c.out}) must be after in (${c.in})`);
+          nested.push({ where, parent: seq.id, child: c.seq, clip: c });
+          return;
+        }
         if (!isText(c)) {
           const m = media.get(c.media);
           if (!m) { errors.push(`${where}: media "${c.media}" isn't in the media list`); return; }
@@ -240,8 +285,33 @@ export function validate(raw: unknown): Validation {
       }
     }
   }
+  // markers
+  for (const seq of tl.sequences) for (const k of seq.markers) maxN = Math.max(maxN, Number(/^k(\d+)$/.exec(k.id)?.[1] || 0));
+  // nested sequences: must exist, can't contain themselves (directly or through others)
+  const bySeq = new Map(tl.sequences.map((x) => [x.id, x]));
+  const children = new Map<string, Set<string>>();
+  for (const n of nested) {
+    const child = bySeq.get(n.child);
+    if (!child) { errors.push(`${n.where}: sequence "${n.child}" doesn't exist`); continue; }
+    if (!children.has(n.parent)) children.set(n.parent, new Set());
+    children.get(n.parent)!.add(n.child);
+    const parent = bySeq.get(n.parent)!;
+    if (child.width !== parent.width || child.height !== parent.height) warnings.push(`${n.where}: nested ${child.name} is ${child.width}×${child.height} inside a ${parent.width}×${parent.height} sequence`);
+    const dur = sequenceDuration(child as Sequence);
+    if (n.clip.out > dur + 0.05) warnings.push(`${n.where}: plays past the end of ${child.name} (${dur}s); that part is black`);
+  }
+  const visiting = new Set<string>(), done = new Set<string>();
+  const cycle = (id: string, path: string[]): string[] | null => {
+    if (visiting.has(id)) return [...path, id];
+    if (done.has(id)) return null;
+    visiting.add(id);
+    for (const ch of children.get(id) || []) { const c = cycle(ch, [...path, id]); if (c) return c; }
+    visiting.delete(id); done.add(id);
+    return null;
+  };
+  for (const id of children.keys()) { const c = cycle(id, []); if (c) { errors.push(`sequences can't contain themselves: ${c.join(" → ")}`); break; } }
   if (!seqIds.has(tl.activeSequence)) errors.push(`activeSequence "${tl.activeSequence}" isn't a sequence id`);
-  if (tl.nextId <= maxN) warnings.push(`nextId was ${tl.nextId}; bumped past c${maxN}`);
+  if (tl.nextId <= maxN) warnings.push(`nextId was ${tl.nextId}; bumped past ${maxN}`);
   return errors.length ? { ok: false, errors, warnings } : { ok: true, value: tl, errors, warnings };
 }
 
@@ -268,9 +338,16 @@ export function normalize(tl: Timeline): Timeline {
       for (const c of track.clips) {
         const n = Number(/^c(\d+)$/.exec(c.id)?.[1] || 0);
         if (n > maxN) maxN = n;
+        for (const k of (c as MediaClip).markers || []) maxN = Math.max(maxN, Number(/^k(\d+)$/.exec(k.id)?.[1] || 0));
         c.start = toGrid(c.start, seq.fps);
         if (isText(c)) {
           c.duration = Math.max(toGrid(c.duration, seq.fps), r6(1 / seq.fps));
+          continue;
+        }
+        if (isNested(c)) {
+          c.in = toGrid(c.in, seq.fps);
+          c.out = r6(c.in + Math.max(toGrid(c.out - c.in, seq.fps), r6(1 / seq.fps)));
+          if (!c.fit) c.fit = "cover";
           continue;
         }
         const m = media.get(c.media)!;
@@ -282,6 +359,17 @@ export function normalize(tl: Timeline): Timeline {
         if (track.kind === "video" && !c.fit) c.fit = "cover";
       }
       track.clips.sort((a, b) => a.start - b.start || a.id.localeCompare(b.id, undefined, { numeric: true }));
+    }
+    for (const k of seq.markers || []) {
+      maxN = Math.max(maxN, Number(/^k(\d+)$/.exec(k.id)?.[1] || 0));
+      k.t = toGrid(k.t, seq.fps);
+      if (k.duration) k.duration = toGrid(k.duration, seq.fps);
+    }
+    seq.markers = (seq.markers || []).sort((a, b) => a.t - b.t || a.id.localeCompare(b.id, undefined, { numeric: true }));
+    if (seq.marks) {
+      if (seq.marks.in !== undefined) seq.marks.in = toGrid(seq.marks.in, seq.fps);
+      if (seq.marks.out !== undefined) seq.marks.out = toGrid(seq.marks.out, seq.fps);
+      if (seq.marks.in === undefined && seq.marks.out === undefined) delete seq.marks;
     }
   }
   out.nextId = Math.max(out.nextId, maxN + 1);

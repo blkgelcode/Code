@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 import { spawn } from "node:child_process";
+import { flatten } from "../shared/flatten";
 import { clipLength, sequenceDuration, isText, type Timeline, type Sequence, type MediaClip, type TextClip } from "../shared/model";
 import { fontFileFor, type FontInfo } from "./fonts";
 import { hdrToSdr, type Caps } from "./media/caps";
@@ -31,7 +32,8 @@ export interface ExportOpts { fonts: Map<string, FontInfo>; workDir: string; out
 /** Bitrate for a hardware encode that looks as good as x264 CRF 18 (≈20 Mb/s for 1080×1920@30). */
 export const hwBitrate = (w: number, h: number, fps: number) => Math.min(100, Math.max(8, Math.round((w * h * fps * 0.32) / 1e6)));
 
-export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, outFile, caps }: ExportOpts) {
+export function buildExportArgs(tl: Timeline, seqIn: Sequence, { fonts, workDir, outFile, caps }: ExportOpts) {
+  const seq = flatten(tl, seqIn.id); // nested sequences expanded; linked pictures leave their sound to the audio clip
   const { width: W, height: H, fps } = seq;
   const total = Math.max(sequenceDuration(seq), 0.04);
   const bg = colorOf(seq.background);
@@ -54,8 +56,11 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
       const wantsAudio = trackAudible && c.volume > 0 && (m.type === "audio" || (m.type === "video" && !!m.hasAudio));
       if (!wantsVideo && !wantsAudio) continue;
       // Always the ORIGINAL file at full quality; decoded on the GPU when the Mac can.
+      // Each input reads only the streams it's used for: an unused audio stream on a picture-only input
+      // (e.g. a picture whose sound is on a linked audio clip) can otherwise stall ffmpeg's filter graph.
+      const only = m.type === "video" ? (!wantsAudio ? ["-an"] : !wantsVideo ? ["-vn"] : []) : [];
       if (m.type === "image") args.push("-loop", "1", "-framerate", String(fps), "-t", f3(dur), "-i", m.path);
-      else args.push(...(m.type === "video" && caps?.hwDecode ? ["-hwaccel", "videotoolbox"] : []), "-ss", f3(c.in), "-t", f3(dur), "-i", m.path);
+      else args.push(...(m.type === "video" && caps?.hwDecode && wantsVideo ? ["-hwaccel", "videotoolbox"] : []), ...only, "-ss", f3(c.in), "-t", f3(dur), "-i", m.path);
       const idx = nIn++;
       if (wantsVideo) {
         const fit = c.fit === "contain"
@@ -115,7 +120,7 @@ export function buildExportArgs(tl: Timeline, seq: Sequence, { fonts, workDir, o
   }
   filters.push(`[${cur}]format=yuv420p[vout]`);
   filters.push(audio.length
-    ? `${audio.map((l) => `[${l}]`).join("")}amix=inputs=${audio.length}:normalize=0:duration=longest,apad[aout]`
+    ? `${audio.map((l) => `[${l}]`).join("")}amix=inputs=${audio.length}:normalize=0:duration=longest,apad=whole_dur=${f3(total)},atrim=0:${f3(total)}[aout]`
     : "anullsrc=r=48000:cl=stereo[aout]");
 
   args.push("-filter_complex", filters.join(";\n"), "-map", "[vout]", "-map", "[aout]",

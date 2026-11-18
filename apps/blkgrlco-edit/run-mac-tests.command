@@ -28,7 +28,9 @@ say "3. Mac app (opens windows for ~2 min: don't click in them)"
 node test/electron.cjs 2>&1 | grep -E "^[✓✗]" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
 say "4. Playback engine: frame-exact playback, J/K/L, Full quality on 4K 10-bit HEVC, meters, export queue"
 node test/playback.cjs 2>&1 | grep -E "^[✓✗]" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
-cat "$REPORT" | tail -24
+say "5. Pro editing: insert/overwrite, extract, ripple delete, J cut, markers, palette, blade, nest, shortcuts, export"
+node test/editing.cjs 2>&1 | grep -E "^[✓✗]" | sed 's/^/   /' | tee -a "$REPORT" >/dev/null
+cat "$REPORT" | tail -52
 
 say ""
 say "Report saved to $REPORT — copy everything above and paste it to Claude."

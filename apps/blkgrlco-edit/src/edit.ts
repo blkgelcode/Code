@@ -1,11 +1,11 @@
 // Editing operations used by the UI. Each takes a timeline and returns a NEW one; the app
 // then diffs old → new into ops and sends those to the server. All work on the active sequence.
 import {
-  activeSeq, acceptsMedia, clipEnd, clipLength, isText, r6,
+  activeSeq, acceptsMedia, clipEnd, clipLength, isText, isNested, isMediaClip, r6,
   type Timeline, type Clip, type MediaClip, type TextClip, type Track, type TrackKind, type Sequence, type TextStyle,
 } from "../shared/model";
 
-export { clipEnd, clipLength, isText, r6, activeSeq };
+export { clipEnd, clipLength, isText, isNested, isMediaClip, r6, activeSeq };
 export const MIN_LEN = 0.1;
 
 const clone = (tl: Timeline) => structuredClone(tl);
@@ -44,7 +44,7 @@ export function addTextClip(tl: Timeline, start: number, text = "Text", style: P
   const seq = seqOf(out);
   let track = seq.tracks.find((t) => t.kind === "text" && !t.locked);
   if (!track) {
-    track = { id: uniqueTrackId(seq, "text"), kind: "text", name: "Text", muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] };
+    track = { id: uniqueTrackId(seq, "text"), kind: "text", name: "Text", muted: false, hidden: false, locked: false, solo: false, volume: 1, syncLock: true, targeted: false, clips: [] };
     seq.tracks.push(track);
   }
   const clip: TextClip = {
@@ -68,7 +68,7 @@ export function addTrack(tl: Timeline, kind: TrackKind) {
   const seq = seqOf(out);
   const id = uniqueTrackId(seq, kind);
   const label = { video: "Video", audio: "Audio", text: "Text" }[kind];
-  seq.tracks.push({ id, kind, name: `${label} ${id.slice(1)}`, muted: false, hidden: false, locked: false, solo: false, volume: 1, clips: [] });
+  seq.tracks.push({ id, kind, name: `${label} ${id.slice(1)}`, muted: false, hidden: false, locked: false, solo: false, volume: 1, syncLock: true, targeted: false, clips: [] });
   return out;
 }
 
@@ -111,8 +111,8 @@ export function moveClip(tl: Timeline, clipId: string, start: number, trackId?: 
   f.clip.start = r6(Math.max(0, start));
   if (trackId && trackId !== f.track.id) {
     const dest = f.seq.tracks.find((t) => t.id === trackId);
-    const m = !isText(f.clip) ? mediaById(out, f.clip.media) : undefined;
-    const ok = dest && !dest.locked && (isText(f.clip) ? dest.kind === "text" : acceptsMedia(dest.kind, m?.type));
+    const m = isMediaClip(f.clip) ? mediaById(out, f.clip.media) : undefined;
+    const ok = dest && !dest.locked && (isText(f.clip) ? dest.kind === "text" : isNested(f.clip) ? dest.kind === "video" : acceptsMedia(dest.kind, m?.type));
     if (ok) {
       f.track.clips = f.track.clips.filter((c) => c.id !== clipId);
       dest!.clips.push(f.clip);
@@ -135,8 +135,8 @@ export function trimClip(tl: Timeline, clipId: string, edge: "start" | "end", ti
     else c.duration = r6(Math.max(MIN_LEN, time - c.start));
     return out;
   }
-  const m = mediaById(out, c.media);
-  const maxOut = m && m.duration != null ? m.duration : Infinity;
+  const m = isMediaClip(c) ? mediaById(out, c.media) : undefined;
+  const maxOut = isNested(c) ? Infinity : m && m.duration != null ? m.duration : Infinity;
   if (edge === "start") {
     const s = Math.min(Math.max(time, c.start - c.in, 0), end - MIN_LEN);
     c.in = r6(c.in + (s - c.start));

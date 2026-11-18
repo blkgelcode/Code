@@ -22,6 +22,28 @@ change in History as **Claude's** — so she can see it and either of you can un
 | `npx tsx scripts/bge.ts restore <rev>` | make the timeline look like it did at `<rev>` (recorded as a new, undoable change) |
 | `npx tsx scripts/bge.ts status "trimming c3"` | show "Claude is trimming c3…" in her app (3 min, or `status` with no text clears it) |
 | `npx tsx scripts/bge.ts import <path…>` | add files/folders to the media list **by path** (never copied) |
+| `npx tsx scripts/bge.ts notes` | the notes she left **for you** (markers of type `claude`); `bge marker-done <k…>` when handled |
+| `npx tsx scripts/bge.ts markers` / `chapters` | every marker with timecode / YouTube chapters from chapter markers |
+
+**Pro edits — use these instead of hand-editing when the edit ripples** (they run the exact same engine as
+her tools, read the file fresh, validate, and write atomically; times can be `1:05`, `65.5`, `00:01:05:15`, `90f`;
+`--seq s2` for another sequence; `--one-side` to touch only that clip, not its linked partner):
+
+| Command | What it does |
+|---|---|
+| `bge insert <m3\|name> [--in t] [--out t] --at t` | insert: later clips on **sync-locked** tracks move right; picture + sound go on the **targeted** tracks, linked |
+| `bge overwrite … --at t` / `bge append …` | overwrite in place / add at the end |
+| `bge replace <clip> <media> [--in t]` | swap a clip's source, same place and length |
+| `bge lift <a> <b>` / `bge extract <a> <b>` | remove a range (lift leaves a gap; extract closes it on sync-locked tracks) |
+| `bge ripple-delete <clip…>` | delete clips (+ linked sound) and close up |
+| `bge close-gap <track> <t>` / `bge close-gaps <track>` | close one gap / every gap on a track |
+| `bge blade <t> [track…]` | cut at t on every unlocked track (or the given ones) |
+| `bge ripple-trim <clip> start\|end <±s>` | trim and shift everything after (sync-locked tracks too) |
+| `bge roll <leftClip> <±s>` · `slip <clip> <±s>` · `slide <clip> <±s>` · `nudge <clip…> <±frames>` | the classic trims |
+| `bge link <clip…>` / `bge unlink <clip…>` | link picture + sound (they then select/move/trim together) |
+| `bge nest <clip…> [--name X]` | move clips into a new sequence, leave one nested clip in their place |
+| `bge version [--name X]` | duplicate the active sequence as "Main v2" (her view stays where it is) |
+| `bge marker <t> "name" [--type comment\|chapter\|todo\|claude] [--note …] [--clip c3]` / `marker-rm <k…>` | markers |
 
 ## Every edit, in this order
 
@@ -67,11 +89,19 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
   "sequences": [                     // a project can hold several cuts, e.g. the master and the Short
     { "id": "s1", "name": "Main",
       "width": 1080, "height": 1920, "fps": 30, "background": "#000000",
+      "markers": [                   // sequence markers (timeline seconds); ids "k<N>" share nextId with clips
+        { "id": "k7", "t": 12.5, "duration": 0,        // duration > 0 = a range marker
+          "name": "Market", "color": "berry",          // olive | blush | berry | tan | sage | cream
+          "type": "chapter",                           // comment | chapter (→ YouTube chapters) | todo | claude (a note for YOU)
+          "note": "optional longer text", "done": false } ],
+      "marks": { "in": 10, "out": 15 },  // optional: her timeline In/Out (for lift/extract/three-point)
       "tracks": [                    // array order = layer order: FIRST track is the BOTTOM layer
         { "id": "v1", "kind": "video", "name": "Video 1",            // kind: video | audio | text
           "muted": false, "hidden": false, "locked": false,          // locked = she doesn't want it touched
           "solo": false,               // if ANY track is soloed, only soloed tracks are heard
           "volume": 1,                 // track fader 0–2 (1 = 0 dB, 0.5 ≈ −6 dB, 2 = +6 dB); clip volume × track volume
+          "syncLock": true,            // ripple edits (insert, extract, ripple delete/trim) shift this track too
+          "targeted": true,            // insert/overwrite put the source's picture (video) / sound (audio) here
           "clips": [
             { "id": "c1", "media": "m1",
               "start": 0,              // position on the timeline
@@ -79,7 +109,12 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
               "volume": 1,             // 0–4
               "fit": "cover",          // video tracks: cover (fill + crop) | contain (whole frame, bars)
               "fadeIn": 0, "fadeOut": 0,
-              "label": "the confession" }  // optional note shown on the clip
+              "label": "the confession",   // optional note shown on the clip
+              "link": "L1",                // optional: clips sharing a link (picture + its sound) move/trim together.
+                                           // A video clip linked to an audio clip of the SAME media is silent; the audio clip carries the sound.
+              "markers": [ { "id": "k8", "t": 4.2, "name": "laugh" } ] },  // optional clip markers: t in SOURCE seconds
+            { "id": "c9", "seq": "s2",     // a NESTED sequence (compound clip): plays s2's picture AND sound, video tracks only
+              "start": 7.5, "in": 0, "out": 6, "volume": 1, "fit": "cover", "fadeIn": 0, "fadeOut": 0 }
           ] },
         { "id": "t1", "kind": "text", "name": "Titles", "muted": false, "hidden": false, "locked": false, "solo": false, "volume": 1,
           "clips": [
@@ -90,7 +125,7 @@ grid (1/30 s at 30 fps → `5.033333`). Timecodes she says: `0:05` → `5`, `1:0
       ] }
   ],
   "activeSequence": "s1",            // the sequence shown in her timeline
-  "nextId": 4                        // number for the next new clip id
+  "nextId": 4                        // number for the next new clip (c<N>) or marker (k<N>) id
 }
 ```
 
@@ -105,6 +140,8 @@ Every object is **strict**: an unknown or misspelled field (`"strat"`) is reject
 - Text clips go on text tracks, media clips on video/audio tracks.
 - Track ids are unique within a sequence; sequence ids are unique; `activeSequence` must exist.
 - Overlaps on one track are allowed but warned about. Avoid them unless asked.
+- A nested clip's `seq` must exist and a sequence can't contain itself (directly or through others).
+- Marker ids are `k<N>` and use the same `nextId` counter as clips.
 - **Don't edit clips on a `locked` track** — tell her it's locked.
 
 ## What she says → what to change
@@ -131,6 +168,14 @@ say which id you picked. Work in the **active sequence** unless she names anothe
 | "add IMG_4555.MOV after c5" | Find it in `media` (if missing: `bge import <path>`); new clip `{ id: c<nextId>, media, start: end of c5, in: 0, out: duration, volume: 1, fit: "cover" }`. |
 | "make a Shorts version" | Copy the sequence: new `id` (`s2`), `name: "Shorts"`, every clip gets a new `c<nextId>` id; set `activeSequence` to it. |
 | "switch to the Short" | `activeSequence = "<its id>"`. |
+| "insert IMG_4555 0:02–0:05 at 1:10" | `bge insert IMG_4555.MOV --in 2 --out 5 --at 1:10` (pushes what follows) |
+| "cut 0:10 to 0:15 out" / "take that bit out" | `bge extract 10 15` (closes the gap; music on a sync-locked track loses the same 5 s) |
+| "delete c6 and close the gap" | `bge ripple-delete c6` (its linked sound goes too) |
+| "make the sound of c8 start half a second early" (J cut) | `bge roll <clip before c8's sound> -0.5 --one-side` on the **audio** clip |
+| "add a chapter 'Market' at 2:30" / "chapters for YouTube" | `bge marker 2:30 "Market" --type chapter` / `bge chapters` |
+| "check my notes" / "what did I leave you?" | `bge notes`, do each, then `bge marker-done <k…>` and say what you did per note |
+| "nest the intro" / "make this a compound clip" | `bge nest c1 c2 c3 --name "Intro"` |
+| "make a v2 before you change it" | `bge version` (edit the new one with `--seq <its id>`) |
 | "undo that" | Yours: `bge undo`. Hers: she presses ⌘Z. Specific: `bge history` → `bge revert <rev>`. |
 | "go back to how it was this morning" | `bge history 100`, find the rev, confirm with her, `bge restore <rev>`. |
 
@@ -194,4 +239,8 @@ offline), `src/` (React UI; `src/edit.ts` = editing operations, `src/media.ts` =
 clock, `compositor.ts` WebGL2, `audio.ts` WebAudio mixer), `electron/` (Mac shell).
 `npm test` (unit + full server/ffmpeg round trip), `npm run test:electron` (Mac app smoke test),
 `npm run test:playback` (frame-exact playback, J/K/L, meters, export queue inside the Mac app),
+`npm run test:editing` (Phase 4 pro editing driven by keys/tools inside the Mac app). Phase 4 code:
+`shared/editing.ts` (insert/overwrite/ripple/roll/slip/slide/nest/markers/clipboard — used by the UI AND bge),
+`shared/flatten.ts` (nested sequences + linked sound → plain clips for playback and export), `shared/timecode.ts`,
+`src/keymap.ts` (presets + her shortcut overrides), `src/components/Commands.tsx` (palette, shortcut editor), `Markers.tsx`.
 `npm run typecheck`, `npm run dev` (hot reload), `npm run app` (build + open the Mac app).

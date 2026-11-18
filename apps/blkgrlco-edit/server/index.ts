@@ -16,6 +16,7 @@ import { walk } from "./media/probe";
 import { capabilities, hdrToSdr } from "./media/caps";
 import { loadFonts } from "./fonts";
 import { runExport } from "./export";
+import { flatten } from "../shared/flatten";
 import { activeSeq, type Media, type Timeline } from "../shared/model";
 import type { Op } from "../shared/ops";
 
@@ -358,7 +359,7 @@ app.post("/api/export", (req, res) => {
   const seq = req.body?.sequence ? store.tl.sequences.find((x) => x.id === req.body.sequence) : activeSeq(store.tl);
   if (!seq) return res.status(404).json({ error: "no such sequence" });
   if (!seq.tracks.some((t) => t.clips.length)) return res.status(400).json({ error: `${seq.name} is empty.` });
-  const usedIds = new Set(seq.tracks.flatMap((t) => t.clips.map((c) => ("media" in c ? c.media : ""))).filter(Boolean));
+  const usedIds = new Set(flatten(store.tl, seq.id).tracks.flatMap((t) => t.clips.map((c) => ("media" in c ? c.media : ""))).filter(Boolean));
   const offline = store.tl.media.filter((m) => usedIds.has(m.id) && !engine.isOnline(m.id));
   if (offline.length) return res.status(409).json({ error: `Export needs the original files, and ${offline.length === 1 ? `${offline[0].name} is` : `${offline.length} files are`} offline (${offline.slice(0, 3).map((m) => m.name).join(", ")}). Plug the drive back in.` });
   const base = `${store.tl.project.name}-${seq.name}`.replace(/[^\w\- ]+/g, "").trim().replace(/\s+/g, "-") || "export";

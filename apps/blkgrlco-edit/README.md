@@ -4,7 +4,7 @@ A Mac video editor where the whole edit is one file, `timeline.json`, and Omnia 
 edit it at the same time. Roadmap and architecture: [`PLAN.md`](PLAN.md). How Claude edits
 (schema + commands): [`CLAUDE.md`](CLAUDE.md).
 
-**Status: Phases 1–3 built** (Foundation · Import & media engine · Playback engine). Phase 4 (pro editing tools) is next.
+**Status: Phases 1–4 built** (Foundation · Import & media engine · Playback engine · Pro editing). Phase 5 is next.
 
 ## Start it
 
@@ -61,6 +61,25 @@ Keys: Space play/pause · S split · ⌫ delete · ← → frame (⇧: 1 s) · H
 
 Keys: Space play/pause · J K L · ← → one frame (⇧: one second) · I / O in the source monitor ·
 Home / End · S split · ⌫ delete · ⌘Z undo · ⌘E export.
+
+## What Phase 4 gives you (pro editing)
+
+| | |
+|---|---|
+| Tools | A tool bar above the timeline: **Selection V · Track select forward A · Ripple B · Roll N · Blade C · Slip Y · Slide U · Hand H · Zoom Z**. Drags show the change as a timecode (+00:12) |
+| Three-point editing | Click a clip in Media, mark **I**/**O** in the Source monitor, then **,** Insert (pushes what follows) · **.** Overwrite · **⇧E** Append · **⇧R** Replace the selected clip. Mark **I**/**O** on the timeline too (click the Program monitor first), then **;** Lift (leaves a gap) or **'** Extract (closes it). **X** marks the clip under the playhead |
+| Deleting | **⌫** leaves a gap · **⇧⌫** ripple delete (closes it) · **⌥⌫** closes the gap at the playhead |
+| Linked picture + sound | Insert/Overwrite put the shot's picture **and** its sound (on its own audio track) in, linked ⛓: they select, move and trim together. **⌥-click / ⌥-drag** grabs one side. **J/L cuts**: Roll tool + ⌥ on the sound's cut. If they drift out of sync, a red **+N** frames badge appears. **⌘L** links/unlinks |
+| Tracks | Each track has **target** (V1/A1 buttons: where Insert/Overwrite go), **sync lock ⛓** (ripple edits move this track too; turn it off on music to protect it), Mute, Hide, Lock. Solo is in the Mixer |
+| Moving around | **↑ ↓** previous/next cut · **⌥← ⌥→** nudge a frame (⇧ for 5) · **Q / W** ripple-trim the start/end to the playhead · **⇧S** snapping on/off · **⌘⇧L** linked selection on/off |
+| Markers | **M** marker · **⇧C** a note **for Claude** · **⇧H** chapter · **⇧M / ⌘⇧M** previous/next · **⌥M** marker on the selected clip. The **Markers** tab: names, notes, colors, ranges, to-do ticks, and **Copy chapters** gives you YouTube chapters (with warnings if YouTube would reject them). Ask Claude "check my notes" and it works through your notes |
+| Sequences | Tabs under the monitors: **+ New**, **Duplicate as version** (Main → Main v2), double-click to rename, × to delete. **⌥G** nests the selected clips into their own sequence (one clip in the timeline, picture and sound); double-click it to open |
+| Clipboard | **⌘C ⌘X ⌘V** (pastes at the playhead), **⌘⇧V** paste-insert, **⌥⌘V** paste attributes (volume, fades, fit, text style). **F** match frame: opens the source at this exact frame · **⇧F** shows the clip in Media |
+| Timecode | Everything is HH:MM:SS:FF. Click the timecode, or just type numbers on the timeline (`1015` = 00:00:10:15, `1:05`, `+2s`, `-15f`), then ⏎ |
+| Keyboard | **⌘P** command palette: type what you want ("split all", "chapter", "Shorts"). **⌨ Shortcuts**: pick a preset (BLKGRLCO, Premiere Pro, Final Cut Pro) and click any command to give it your own key |
+
+The default preset is Premiere's, except **S splits** (as before) and **⇧S** toggles snapping. In the
+Premiere preset ⌘K splits and S toggles snapping; in the FCP preset ⌘B splits, W/D/E insert/overwrite/append.
 
 ## Checking it on your Mac
 

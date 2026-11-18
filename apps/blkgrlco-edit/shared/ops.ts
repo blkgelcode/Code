@@ -1,8 +1,8 @@
 // Operations: the unit of change. Every edit — a drag in the UI, Claude rewriting
 // timeline.json, an undo — becomes a list of ops addressed by id (never by array index),
 // so edits from two people merge, and every op carries what it replaced so it can be undone.
-import type { Timeline, Clip, Media, Sequence, Track } from "./model";
-import { isText, mediaName, r6 } from "./model";
+import type { Timeline, Clip, Media, Sequence, Track, Marker } from "./model";
+import { isText, isNested, mediaName, r6 } from "./model";
 
 export type Target =
   | { kind: "timeline" }
@@ -258,6 +258,28 @@ export const fmtTime = (s: number) => {
 /** 1 → "0 dB", 0.5 → "−6.0 dB", 0 → "−∞ dB" */
 export const dbText = (v: number | undefined) => (v === undefined || v === 1 ? "0 dB" : v <= 0 ? "−∞ dB" : `${(20 * Math.log10(v)).toFixed(1).replace("-", "−")} dB`);
 
+/** "added marker k3 "tighten" at 0:04.50", "moved marker k2 0:01 → 0:03", … */
+function markerText(prev: Marker[], next: Marker[]): string {
+  const a = new Map(prev.map((k) => [k.id, k])), b = new Map(next.map((k) => [k.id, k]));
+  const parts: string[] = [];
+  const nm = (k: Marker) => `${k.type === "claude" ? "note for Claude" : k.type === "chapter" ? "chapter" : k.type === "todo" ? "to-do" : "marker"} ${k.id}${k.name ? ` "${k.name.slice(0, 30)}"` : ""}`;
+  for (const [id, k] of b) {
+    const o = a.get(id);
+    if (!o) { parts.push(`added ${nm(k)} at ${fmtTime(k.t)}${k.note ? `: ${k.note.slice(0, 60)}` : ""}`); continue; }
+    const ch: string[] = [];
+    if (o.t !== k.t) ch.push(`moved ${fmtTime(o.t)} → ${fmtTime(k.t)}`);
+    if (o.name !== k.name) ch.push(`renamed "${k.name}"`);
+    if ((o.note || "") !== (k.note || "")) ch.push(k.note ? `note: ${k.note.slice(0, 60)}` : "note cleared");
+    if (o.type !== k.type) ch.push(`now a ${k.type}`);
+    if (!!o.done !== !!k.done) ch.push(k.done ? "done ✓" : "reopened");
+    if (o.color !== k.color) ch.push(`color ${k.color}`);
+    if ((o.duration || 0) !== (k.duration || 0)) ch.push(`length ${k.duration || 0}s`);
+    if (ch.length) parts.push(`${nm(k)} ${ch.join(", ")}`);
+  }
+  for (const [id, k] of a) if (!b.has(id)) parts.push(`deleted ${nm(k)}`);
+  return parts.join("; ") || "markers updated";
+}
+
 export interface Change { text: string; clipId?: string; trackId?: string; seq?: string }
 
 /** Plain-words summary of ops, for the Activity panel. `tl` is the timeline AFTER the ops. */
@@ -266,7 +288,7 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
   const mediaById = new Map([...before.media, ...after.media].map((m) => [m.id, m]));
   const trackName = (seq: string, id: string) =>
     (after.sequences.find((s) => s.id === seq) || before.sequences.find((s) => s.id === seq))?.tracks.find((t) => t.id === id)?.name || id;
-  const clipWhat = (c: Clip) => (isText(c) ? `"${c.text.slice(0, 30)}"` : mediaById.get(c.media) ? mediaName(mediaById.get(c.media)!) : c.media);
+  const clipWhat = (c: Clip) => (isText(c) ? `"${c.text.slice(0, 30)}"` : isNested(c) ? `nested ${c.seq}` : mediaById.get(c.media) ? mediaName(mediaById.get(c.media)!) : c.media);
   const setsByClip = new Map<string, Record<string, { value: any; prev: any }>>();
   for (const op of ops) {
     if (op.t === "set" && op.target.kind === "clip") {
@@ -302,6 +324,8 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
           else if (op.key === "locked") out.push({ text: `${name} ${op.value ? "locked" : "unlocked"}`, trackId: tg.id, seq: tg.seq });
           else if (op.key === "solo") out.push({ text: `${name} ${op.value ? "soloed" : "unsoloed"}`, trackId: tg.id, seq: tg.seq });
           else if (op.key === "volume") out.push({ text: `${name} fader ${dbText(op.prev as number)} → ${dbText(op.value as number)}`, trackId: tg.id, seq: tg.seq });
+          else if (op.key === "syncLock") out.push({ text: `${name} sync lock ${op.value === false ? "off" : "on"}`, trackId: tg.id, seq: tg.seq });
+          else if (op.key === "targeted") out.push({ text: `${name} ${op.value ? "targeted" : "untargeted"}`, trackId: tg.id, seq: tg.seq });
           else out.push({ text: `${name}: ${op.key} → ${JSON.stringify(op.value)}`, trackId: tg.id, seq: tg.seq });
         } else if (tg.kind === "timeline" && op.key === "activeSequence") out.push({ text: `switched to sequence ${op.value}` });
         else if (tg.kind === "media" && op.key === "path") {
@@ -310,6 +334,12 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
           out.push({ text: `reconnected ${tg.id} (${name}) at …/${where}` });
         }
         else if (tg.kind === "media") out.push({ text: `${tg.id}: ${op.key} updated` });
+        else if (tg.kind === "sequence" && op.key === "markers") out.push({ text: markerText((op.prev as Marker[]) || [], (op.value as Marker[]) || []), seq: tg.id });
+        else if (tg.kind === "sequence" && op.key === "marks") {
+          const m = op.value as { in?: number; out?: number } | undefined;
+          out.push({ text: m ? `timeline In/Out ${m.in !== undefined ? fmtTime(m.in) : "–"} → ${m.out !== undefined ? fmtTime(m.out) : "–"}` : "cleared timeline In/Out", seq: tg.id });
+        }
+        else if (tg.kind === "sequence" && op.key === "name") out.push({ text: `renamed sequence "${op.prev}" → "${op.value}"`, seq: tg.id });
         else out.push({ text: `${tg.kind === "sequence" ? `sequence ${tg.id}` : tg.kind}: ${op.key} → ${JSON.stringify(op.value)}` });
       }
     }
@@ -330,9 +360,11 @@ export function describe(ops: Op[], before: Timeline, after: Timeline): Change[]
     if (v("fadeIn") || v("fadeOut")) parts.push(`fades ${[v("fadeIn") && `in ${v("fadeIn").value}s`, v("fadeOut") && `out ${v("fadeOut").value}s`].filter(Boolean).join(", ")}`);
     if (v("fit")) parts.push(`fit → ${v("fit").value}`);
     if (v("label")) parts.push(`label → "${v("label").value ?? ""}"`);
+    if (v("link")) parts.push(v("link").value ? `linked (${v("link").value})` : "unlinked");
+    if (v("markers")) parts.push(markerText(v("markers").prev || [], v("markers").value || []).replace(/^markers?: /, "clip markers: "));
     const style = Object.keys(k).filter((x) => x.startsWith("style.")).map((x) => x.slice(6));
     if (style.length) parts.push(`style: ${style.join(", ")}`);
-    const other = Object.keys(k).filter((x) => !["start", "in", "out", "duration", "text", "volume", "fadeIn", "fadeOut", "fit", "label"].includes(x) && !x.startsWith("style."));
+    const other = Object.keys(k).filter((x) => !["start", "in", "out", "duration", "text", "volume", "fadeIn", "fadeOut", "fit", "label", "link", "markers"].includes(x) && !x.startsWith("style."));
     if (other.length) parts.push(other.join(", ") + " changed");
     if (parts.length) out.push({ text: `${cid} ${parts.join("; ")}`, clipId: cid });
   }
