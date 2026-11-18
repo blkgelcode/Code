@@ -54,6 +54,23 @@ silently merged into one strategy.
 - Locked opener style: declarative present-tense ("I'm hot... so I need to
   beautymaxx") — echo where it fits naturally, don't force into every line.
 
+### Road to 26.2 (next challenge, added 2026-11-18)
+- @blkgrlco's **next challenge series**, starting after the 90-Day HHH Run
+  ends (Day 1 posted 2026-09-08, so around early December 2026).
+- A marathon-training run toward 26.2 miles. Fits the HEALTHY lane, and
+  uses the Challenge → Exploration → Result → Realization → Empower
+  Audience structure, with the race as the finale.
+- `[NEEDS INPUT]`: which marathon and its race date, the start date, the
+  day-count format (e.g. "Day N" or "Week N"), its CTA, and whether it
+  keeps the HOT/HEALTHY/HAPPY rotation or takes over the HEALTHY days.
+
+### 2027 vision board (her planning, not content)
+- Her personal 2027 vision board, which her challenges come from. Not a
+  series or video unless she says so.
+- **"Vision board" is fine to use for 2027** (her call, 2026-11-18). The
+  "NOT A VISION BOARD" line was specific to the 90-Day HHH Run's framing,
+  and that run's CTA stays "make your own Pin Board".
+
 ### "Who Is She?"
 - Four pillars: Mental, Physical, Spiritual, Emotional.
 - Device: dream-state future-self framing.

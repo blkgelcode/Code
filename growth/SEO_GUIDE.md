@@ -42,7 +42,8 @@ template.
 - Don't duplicate the exact same phrase across title and thumbnail — split
   the information so each asset earns its own real estate (e.g. thumbnail:
   "NOT A VISION BOARD" → title: "Hot. Healthy. Happy. My Actual 90-Day
-  Plan").
+  Plan"). That line is specific to the 90-Day HHH Run; "vision board" is
+  fine for 2027 content.
 
 ## Descriptions
 

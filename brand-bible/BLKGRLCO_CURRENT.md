@@ -1,7 +1,7 @@
 # @blkgrlco — Current Rules (compiled)
 
 Everything currently locked for **@blkgrlco**, in one place. Compiled
-2026-11-18 from `brands/blkgrlco.md`, `STYLE_GUIDE.md`,
+2026-11-18 (Road to 26.2 added the same day) from `brands/blkgrlco.md`, `STYLE_GUIDE.md`,
 `SCRIPTWRITING_GUIDE.md`, `FONT_LIBRARY.md`, `SOUND_LIBRARY.md`,
 `CREATIVE_MEMORY.md`, `../growth/SEO_GUIDE.md`,
 `../growth/CONTENT_STRATEGY.md` and `../agents/EDITOR_AGENT_PROMPT.md`.
@@ -48,6 +48,10 @@ upload, reflect, plan.
   will be in 90 days."* Reference cut: "Day1of90"; later days match its
   cut and pacing. **Locked CTA: "make your own Pin Board."** "Day N of 90"
   numbers have drifted before: check the video's dashboard record first.
+- **Road to 26.2.** The **next challenge series**, after the 90-Day HHH
+  Run ends (around early December 2026): marathon training toward 26.2
+  miles, HEALTHY lane, race as the finale. Race, dates, day-count format
+  and CTA not given yet.
 - **"Who Is She?"** Four pillars: Mental, Physical, Spiritual, Emotional.
   Device: dream-state future-self framing.
 - **Weekly Vlogs.** HOT / HEALTHY / HAPPY segments rotate weekly.
@@ -55,6 +59,10 @@ upload, reflect, plan.
 **Before filming:** decide one central topic, list the shots for the video
 *and* the thumbnail, and pick the music. Music is chosen before shooting,
 not added in post.
+
+Her **2027 vision board** is her own planning, where the challenges come
+from, not content. "Vision board" is fine to say for 2027; "NOT A VISION
+BOARD" belonged to the 90-Day HHH Run only.
 
 ## 3. Voice and scripts
 
@@ -245,6 +253,9 @@ Henry (diary narration over ordinary footage, no tutorial tone; HEALTHY) ·
 Eni (humor and honesty in small moments; HAPPY).
 
 ## Not locked — ask, don't assume
+
+- Road to 26.2: which marathon, race date, start date, day-count format,
+  CTA, and how it fits the daily lane rotation.
 
 - "Aurelia Gray" / "Rachel McDermott" as references: real handles not
   given.
