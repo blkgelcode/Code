@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { clipLength, clipEnd, isTextClip, mediaById } from "../lib/model.js";
+import { mediaState } from "../lib/format.js";
 
 const PRELOAD = 2; // seconds: mount clips a little before they start so they're ready
 
@@ -12,7 +13,7 @@ function fadeFactor(clip, t) {
   return Math.max(0, Math.min(1, a));
 }
 
-export default function Preview({ timeline, time, playing, proxies }) {
+export default function Preview({ timeline, time, playing, mediaStatus = {}, quality = "proxy" }) {
   const stage = useRef(null);
   const [scale, setScale] = useState(0.3);
 
@@ -38,7 +39,7 @@ export default function Preview({ timeline, time, playing, proxies }) {
         if (active && !track.hidden) layers.push(<TextLayer key={clip.id} clip={clip} z={z} scale={scale} alpha={fadeFactor(clip, time)} />);
       } else {
         const m = mediaById(timeline, clip.media);
-        if (m) layers.push(<MediaLayer key={clip.id} clip={clip} track={track} media={m} z={z} time={time} playing={playing} active={active} proxyReady={proxies?.[m.id]?.ready} />);
+        if (m) layers.push(<MediaLayer key={`${clip.id}:${quality}`} clip={clip} track={track} media={m} z={z} time={time} playing={playing} active={active} status={mediaStatus[m.id]} quality={quality} />);
       }
     }
   });
@@ -50,17 +51,25 @@ export default function Preview({ timeline, time, playing, proxies }) {
           {layers}
         </div>
       </div>
-      <div className="preview-foot muted">{W}×{H} · {timeline.settings.fps}fps · preview uses 720p proxies; export uses your originals</div>
+      <div className="preview-foot muted">
+        {W}×{H} · {timeline.settings.fps}fps · previewing {quality === "proxy" ? "960×540 proxies" : "original files"} · export always uses the originals at full quality
+      </div>
     </section>
   );
 }
 
-function MediaLayer({ clip, track, media, z, time, playing, active, proxyReady }) {
+function MediaLayer({ clip, track, media, z, time, playing, active, status, quality }) {
   const el = useRef(null);
   const [failed, setFailed] = useState(false);
   const isImage = media.kind === "image";
   const showPicture = track.kind === "video" && media.kind !== "audio" && !track.hidden && active;
-  const src = `/preview/${media.id}${proxyReady ? "?proxy=1" : ""}`;
+  const st = mediaState(status);
+  const proxyOk = status?.ready;
+  const offline = status?.online === false;
+  // proxy mode needs the proxy (it plays even while the drive is unplugged);
+  // full mode needs the original file to be online
+  const playable = quality === "full" ? !offline : proxyOk || isImage || (media.kind === "audio" && !offline);
+  const src = `/preview/${media.id}?q=${quality}&k=${status?.key || ""}`;
 
   useEffect(() => setFailed(false), [src]);
 
@@ -94,16 +103,21 @@ function MediaLayer({ clip, track, media, z, time, playing, active, proxyReady }
     opacity: showPicture ? fadeFactor(clip, time) : 0,
     objectFit: clip.fit === "contain" ? "contain" : "cover",
   };
+  const name = media.file.split("/").pop();
+  const message = (text) => showPicture && <div className="layer layer-msg" style={{ zIndex: z }}>{text}</div>;
+
+  if (!playable) {
+    if (offline) return message(`${name} is offline. Reconnect its drive.`);
+    return message(st.error ? `${name}: ${st.label}` : `${name}: preparing preview (${st.label.toLowerCase()})`);
+  }
   if (isImage) return <img className="layer" src={src} style={style} alt="" />;
-  if (media.kind === "audio") return <audio ref={el} src={src} preload="auto" />;
+  if (media.kind === "audio") return <audio ref={el} src={src} preload="auto" onError={() => setFailed(true)} />;
   return (
     <>
       <video ref={el} className="layer" src={src} style={style} preload="auto" playsInline onError={() => setFailed(true)} />
-      {failed && showPicture && (
-        <div className="layer layer-msg" style={{ zIndex: z }}>
-          {media.file}: the browser can't play this file yet. Its preview proxy is still being made.
-        </div>
-      )}
+      {failed && message(quality === "full"
+        ? `The browser can't play the original ${name} (common for HEVC 10-bit). Switch to Proxy.`
+        : `${name}: the preview couldn't load.`)}
     </>
   );
 }

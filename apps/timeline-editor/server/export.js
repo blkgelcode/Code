@@ -4,10 +4,15 @@
 // list to the top, so a track higher in the list ends up on top. Video and image
 // clips are overlaid (fades are alpha fades); text clips are drawtext.
 // Sound: every audible clip is delayed to its start, then all are mixed.
+//
+// Always from the original files at full resolution, never the proxies. With
+// VideoToolbox available, video is decoded and encoded in hardware.
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
-import { APP_DIR, MEDIA_DIR, EXPORT_DIR, CACHE_DIR } from "./store.js";
+import { APP_DIR, EXPORT_DIR, CACHE_DIR } from "./store.js";
+import { resolvePath } from "./media.js";
+import { decodeArgs, encodeArgs, detectHardware } from "./hw.js";
 import { clipLength, mediaById, totalDuration, round } from "../src/lib/model.js";
 
 const f = (n) => String(round(n));
@@ -16,7 +21,7 @@ const q = (s) => `'${s}'`;
 export const TEXT_DIR = path.join(CACHE_DIR, "text");
 
 /** Build the ffmpeg arguments for a timeline. Exported for tests. */
-export function buildFfmpegArgs(tl, outFile) {
+export function buildFfmpegArgs(tl, outFile, hw = { encoder: "libx264", decode: null }) {
   const { width: W, height: H, fps, background } = tl.settings;
   const total = totalDuration(tl);
   if (total <= 0) throw new Error("The timeline is empty: nothing to export.");
@@ -32,8 +37,9 @@ export function buildFfmpegArgs(tl, outFile) {
 
   const addInput = (m, clip) => {
     const len = clipLength(clip);
-    const file = path.join(MEDIA_DIR, m.file);
+    const file = resolvePath(m);
     if (m.kind === "image") inputs.push("-loop", "1", "-framerate", String(fps), "-t", f(len), "-i", file);
+    else if (m.kind === "video") inputs.push(...decodeArgs(hw), "-ss", f(clip.in), "-t", f(len), "-i", file);
     else inputs.push("-ss", f(clip.in), "-t", f(len), "-i", file);
     return inputs.filter((x) => x === "-i").length - 1;
   };
@@ -111,38 +117,48 @@ export function buildFfmpegArgs(tl, outFile) {
     "-filter_complex", filters.join(";\n"),
     "-map", "[vout]", "-map", "[aout]",
     "-t", f(total), "-r", String(fps),
-    "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
+    ...encodeArgs(hw, { quality: "master", width: W, height: H, fps }),
     "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart",
     outFile,
   ];
 }
 
 /** Export the timeline. Resolves with the output path. */
-export function exportTimeline(tl, { onProgress = () => {}, outFile } = {}) {
+export async function exportTimeline(tl, { onProgress = () => {}, outFile, hw } = {}) {
+  hw ??= await detectHardware();
   fs.mkdirSync(EXPORT_DIR, { recursive: true });
   const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
   const out = outFile || path.join(EXPORT_DIR, `export-${stamp}.mp4`);
-  const tmp = out.replace(/\.mp4$/, ".part.mp4");
-  const args = buildFfmpegArgs(tl, tmp);
-  const total = totalDuration(tl);
+  const tmp = out.replace(/\.mp4$/i, "") + ".part.mp4";
+  const missing = tl.media.filter((m) => tl.tracks.some((t) => t.clips.some((c) => c.media === m.id)) && !fs.existsSync(resolvePath(m)));
+  if (missing.length) throw new Error(`Offline: ${missing.map((m) => `${m.id} (${path.basename(m.file)})`).join(", ")}. Reconnect the drive to export.`);
+  try {
+    await runExport(buildFfmpegArgs(tl, tmp, hw), totalDuration(tl), onProgress);
+  } catch (e) {
+    if (hw.encoder === "libx264" && !hw.decode) throw e;
+    // hardware path failed on this footage: try once more in software
+    await runExport(buildFfmpegArgs(tl, tmp, { encoder: "libx264", decode: null }), totalDuration(tl), onProgress);
+  }
+  fs.renameSync(tmp, out);
+  onProgress(1);
+  return out;
+}
+
+function runExport(args, total, onProgress) {
+  const tmp = args[args.length - 1];
   return new Promise((resolve, reject) => {
     const p = spawn("ffmpeg", args, { cwd: TEXT_DIR });
     p.stdout.on("data", (buf) => {
       const m = /out_time_us=(\d+)/.exec(buf.toString());
-      if (m) onProgress(Math.min(1, Number(m[1]) / 1e6 / total));
+      if (m) onProgress(Math.min(0.99, Number(m[1]) / 1e6 / total));
     });
     let err = "";
-    p.stderr.on("data", (b) => (err += b));
+    p.stderr.on("data", (b) => (err = (err + b).slice(-4000)));
     p.on("error", reject);
     p.on("close", (code) => {
-      if (code === 0) {
-        fs.renameSync(tmp, out);
-        onProgress(1);
-        resolve(out);
-      } else {
-        fs.rmSync(tmp, { force: true });
-        reject(new Error(`ffmpeg failed: ${err.trim().split("\n").slice(-3).join(" / ")}`));
-      }
+      if (code === 0) return resolve();
+      fs.rmSync(tmp, { force: true });
+      reject(new Error(`ffmpeg failed: ${err.trim().split("\n").slice(-3).join(" / ")}`));
     });
   });
 }

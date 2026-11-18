@@ -12,7 +12,7 @@ export function useTimelineSync() {
     timeline: null,
     errors: [],
     warnings: [],
-    proxies: {},
+    media: {}, // mediaId -> { online, ready, jobs, progress, errors } from the server
     activity: [],
     exportStatus: null,
     notice: null,
@@ -50,7 +50,7 @@ export function useTimelineSync() {
           rev.current = msg.rev;
           const fromUs = msg.author === "user" && (inflight.current || dirty.current);
           setState((s) => {
-            const next = { ...s, errors: msg.errors || [], warnings: msg.warnings || [], proxies: msg.proxies || s.proxies };
+            const next = { ...s, errors: msg.errors || [], warnings: msg.warnings || [] };
             if (msg.activity) next.activity = msg.activity;
             if (msg.entry) next.activity = [...s.activity, msg.entry].slice(-300);
             if (!fromUs) {
@@ -76,8 +76,16 @@ export function useTimelineSync() {
             errors: msg.errors,
             activity: [...s.activity, { ts: new Date().toISOString(), author: "claude", invalid: true, changes: msg.errors.map((text) => ({ text, clipIds: [] })) }],
           }));
-        } else if (msg.type === "proxy") {
-          setState((s) => ({ ...s, proxies: { ...s.proxies, [msg.mediaId]: { ready: msg.ready, progress: msg.progress, error: msg.error } } }));
+        } else if (msg.type === "media") {
+          setState((s) => {
+            if (msg.status) return { ...s, media: msg.status };
+            const media = { ...s.media };
+            for (const [id, st] of Object.entries(msg.update || {})) {
+              if (st) media[id] = st;
+              else delete media[id];
+            }
+            return { ...s, media };
+          });
         } else if (msg.type === "export") {
           setState((s) => ({ ...s, exportStatus: msg }));
         }

@@ -9,6 +9,8 @@ import Preview from "./components/Preview.jsx";
 import Timeline from "./components/Timeline.jsx";
 import Inspector from "./components/Inspector.jsx";
 import Activity from "./components/Activity.jsx";
+import ImportDialog from "./components/ImportDialog.jsx";
+import { describeDrop, importDescribed } from "./lib/importer.js";
 
 export default function App() {
   const sync = useTimelineSync();
@@ -17,6 +19,48 @@ export default function App() {
   const [time, setTime] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [zoom, setZoom] = useState(60); // pixels per second
+  const [quality, setQuality] = useState(() => {
+    try {
+      return localStorage.getItem("previewQuality") || "proxy";
+    } catch {
+      return "proxy";
+    }
+  });
+  const [showImport, setShowImport] = useState(false);
+  const [dropping, setDropping] = useState(false);
+  const [importing, setImporting] = useState(false);
+
+  const setPreviewQuality = (q) => {
+    setQuality(q);
+    try {
+      localStorage.setItem("previewQuality", q);
+    } catch {
+      // private window: fine, it just won't be remembered
+    }
+  };
+
+  // drag files or folders in from Finder: only names and sizes are read
+  const onDragOver = (e) => {
+    if (![...e.dataTransfer.types].includes("Files")) return;
+    e.preventDefault();
+    setDropping(true);
+  };
+  const onDrop = async (e) => {
+    if (![...e.dataTransfer.types].includes("Files")) return;
+    e.preventDefault();
+    setDropping(false);
+    if (!timeline || errors.length) return;
+    setImporting(true);
+    try {
+      const described = await describeDrop(e.dataTransfer);
+      sync.setNotice(`Looking for ${described.length} file${described.length === 1 ? "" : "s"} on disk…`);
+      sync.setNotice(await importDescribed(described));
+    } catch (err) {
+      sync.setNotice(err.message);
+    } finally {
+      setImporting(false);
+    }
+  };
   const timeRef = useRef(0);
   const duration = timeline ? totalDuration(timeline) : 0;
   const readOnly = !timeline || errors.length > 0;
@@ -123,7 +167,9 @@ export default function App() {
   }, [ex]);
 
   return (
-    <div className="app">
+    <div className="app" onDragOver={onDragOver} onDragLeave={(e) => e.relatedTarget === null && setDropping(false)} onDrop={onDrop}>
+      {dropping && <div className="drop-overlay">Drop to import. Files are read where they are; nothing is uploaded.</div>}
+      {showImport && <ImportDialog onClose={() => setShowImport(false)} setNotice={sync.setNotice} />}
       <header className="topbar">
         <div className="brand">Timeline Editor</div>
         <div className={`conn ${sync.connected ? "on" : "off"}`}>{sync.connected ? "Live" : "Reconnecting…"}</div>
@@ -137,6 +183,11 @@ export default function App() {
         <button onClick={addTitle} disabled={readOnly} title="Add a title at the playhead (T)">+ Title</button>
         <div className="spacer" />
         <button className="primary" onClick={startExport} disabled={readOnly || !duration || (ex && !ex.done && !ex.error)}>{exportLabel}</button>
+        <div className="seg" title="Preview from the small proxies (smooth) or from the original files (sharp, may not play for HEVC 10-bit)">
+          <button className={quality === "proxy" ? "on" : ""} onClick={() => setPreviewQuality("proxy")}>Proxy</button>
+          <button className={quality === "full" ? "on" : ""} onClick={() => setPreviewQuality("full")}>Full quality</button>
+        </div>
+        {importing && <span className="muted">Importing…</span>}
         {ex?.done && <a className="exportlink" href={`/exports/${ex.file}`} target="_blank" rel="noreferrer">Open {ex.file}</a>}
       </header>
 
@@ -152,8 +203,8 @@ export default function App() {
       )}
 
       <main className="workspace">
-        <MediaBin timeline={timeline} proxies={sync.proxies} readOnly={readOnly} commit={commit} setNotice={sync.setNotice} />
-        <Preview timeline={timeline} time={time} playing={playing} proxies={sync.proxies} />
+        <MediaBin timeline={timeline} mediaStatus={sync.media} readOnly={readOnly} commit={commit} setNotice={sync.setNotice} openImport={() => setShowImport(true)} />
+        <Preview timeline={timeline} time={time} playing={playing} mediaStatus={sync.media} quality={quality} />
         <aside className="side">
           <Inspector timeline={timeline} selected={selected} readOnly={readOnly} commit={commit} />
           <Activity activity={sync.activity} onPick={(id) => {
@@ -178,6 +229,7 @@ export default function App() {
           readOnly={readOnly}
           commit={commit}
           lastChange={sync.lastChange}
+          mediaStatus={sync.media}
           setNotice={sync.setNotice}
         />
       )}

@@ -337,6 +337,11 @@ export function addTextClip(tl, start, text = "Title", duration = 3) {
 // ---- diff: what changed, in words ------------------------------------------------------------
 
 const fmt = (n) => `${round(n)}s`;
+/** "/Volumes/T7/footage/day 2/a.mp4" -> "…/footage/day 2/a.mp4" */
+export const shortPath = (p) => {
+  const parts = String(p).split("/");
+  return parts.length > 4 ? `…/${parts.slice(-3).join("/")}` : p;
+};
 
 function clipIndex(tl) {
   const map = new Map();
@@ -349,9 +354,13 @@ export function diffTimelines(prev, next) {
   const out = [];
   if (!prev) return [{ text: "Opened timeline", clipIds: [] }];
   const pm = new Map(prev.media.map((m) => [m.id, m]));
-  for (const m of next.media) if (!pm.has(m.id)) out.push({ text: `Imported ${m.file} as ${m.id}`, clipIds: [] });
+  for (const m of next.media) if (!pm.has(m.id)) out.push({ text: `Imported ${shortPath(m.file)} as ${m.id}`, clipIds: [] });
   const nm = new Map(next.media.map((m) => [m.id, m]));
-  for (const m of prev.media) if (!nm.has(m.id)) out.push({ text: `Removed media ${m.id} (${m.file})`, clipIds: [] });
+  for (const m of prev.media) if (!nm.has(m.id)) out.push({ text: `Removed media ${m.id} (${shortPath(m.file)})`, clipIds: [] });
+  for (const m of next.media) {
+    const old = pm.get(m.id);
+    if (old && old.file !== m.file) out.push({ text: `Relinked ${m.id} to ${m.file}`, clipIds: [] });
+  }
 
   const pt = new Map(prev.tracks.map((t) => [t.id, t]));
   const nt = new Map(next.tracks.map((t) => [t.id, t]));

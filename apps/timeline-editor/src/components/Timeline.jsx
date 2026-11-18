@@ -3,7 +3,8 @@ import {
   clipLength, clipEnd, isTextClip, mediaById, moveClip, trimClip, totalDuration,
   addMediaClip, addTrack, deleteTrack, updateTrack,
 } from "../lib/model.js";
-import { fmtTime, AUTHOR } from "../lib/format.js";
+import { fmtTime, AUTHOR, mediaState } from "../lib/format.js";
+import Waveform from "./Waveform.jsx";
 
 const HEADER_W = 168;
 const ROW_H = { video: 58, audio: 46, text: 40 };
@@ -15,7 +16,7 @@ function tickStep(zoom) {
   return 600;
 }
 
-export default function Timeline({ timeline, time, seek, zoom, setZoom, selected, setSelected, readOnly, commit, lastChange, setNotice }) {
+export default function Timeline({ timeline, time, seek, zoom, setZoom, selected, setSelected, readOnly, commit, lastChange, setNotice, mediaStatus = {} }) {
   const [draft, setDraft] = useState(null); // timeline shown while dragging
   const drag = useRef(null);
   const scroller = useRef(null);
@@ -132,7 +133,11 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
     const m = mediaById(timeline, mediaId);
     const wantKind = m?.kind === "audio" ? "audio" : "video";
     if (track.kind !== wantKind) {
-      setNotice(`${m?.file} goes on ${wantKind === "audio" ? "an audio" : "a video"} track.`);
+      setNotice(`${m?.file.split("/").pop()} goes on ${wantKind === "audio" ? "an audio" : "a video"} track.`);
+      return;
+    }
+    if (!mediaState(mediaStatus[mediaId]).ready) {
+      setNotice(`${m?.file.split("/").pop()} isn't ready yet: you can use it once its proxy is made.`);
       return;
     }
     const r = addMediaClip(timeline, mediaId, track.id, xToTime(e.clientX));
@@ -201,6 +206,8 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
                     timeline={tl}
                     zoom={zoom}
                     selected={selected === clip.id}
+                    status={clip.media ? mediaStatus[clip.media] : null}
+                    height={ROW_H[track.kind] - 8}
                     flash={flashIds.has(clip.id) ? lastChange : null}
                     onPointerDown={(e) => onClipDown(e, clip, track)}
                   />
@@ -229,17 +236,32 @@ export default function Timeline({ timeline, time, seek, zoom, setZoom, selected
   );
 }
 
-const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, selected, flash, ...handlers }) {
+const ClipBlock = React.memo(function ClipBlock({ clip, track, timeline, zoom, selected, flash, status, height, ...handlers }) {
   const len = clipLength(clip);
   const m = isTextClip(clip) ? null : mediaById(timeline, clip.media);
   const name = isTextClip(clip) ? `“${clip.text}”` : m?.file.split("/").pop();
+  const st = m ? mediaState(status) : null;
+  const showWave = m && status?.jobs?.wave === "done" && (track.kind === "audio" || m.hasAudio);
   const style = { left: clip.start * zoom, width: Math.max(4, len * zoom) };
   if (m && m.kind !== "audio" && track.kind === "video") style.backgroundImage = `url(/thumb/${m.id})`;
   const fadeIn = Math.min(clip.fadeIn || 0, len) * zoom;
   const fadeOut = Math.min(clip.fadeOut || 0, len) * zoom;
   return (
-    <div className={`clip clip-${track.kind} ${selected ? "selected" : ""}`} style={style} {...handlers}
+    <div className={`clip clip-${track.kind} ${selected ? "selected" : ""} ${st?.offline ? "is-offline" : ""}`} style={style} {...handlers}
       title={`${clip.id} · ${name}\nstart ${clip.start}s · length ${Math.round(len * 1000) / 1000}s${m ? ` · source ${clip.in}–${clip.out}s` : ""}`}>
+      {showWave && (
+        <div className={`clip-wave ${track.kind === "video" ? "under" : ""}`}>
+          <Waveform mediaId={m.id} cacheKey={status.key} from={clip.in} to={clip.out} width={len * zoom}
+            height={track.kind === "video" ? Math.round(height * 0.35) : height - 14} />
+        </div>
+      )}
+      {st && !st.ready && !st.offline && (
+        <div className={`clip-status ${st.error ? "error" : ""}`}>
+          {st.busy && <div className="bar"><div style={{ width: `${Math.round((st.progress || 0) * 100)}%` }} /></div>}
+          <span>{st.label}</span>
+        </div>
+      )}
+      {st?.offline && <div className="clip-offline">OFFLINE</div>}
       {fadeIn > 0 && <div className="fade fade-in" style={{ width: fadeIn }} />}
       {fadeOut > 0 && <div className="fade fade-out" style={{ width: fadeOut }} />}
       <div className="clip-label"><b>{clip.id}</b> {name}</div>

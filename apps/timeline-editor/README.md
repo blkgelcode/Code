@@ -15,22 +15,42 @@ npm install          # first time only
 npm run dev          # then open http://localhost:5173
 ```
 
-1. Put clips (video, audio, images) in `apps/timeline-editor/media/`.
-2. Press **Import**. Each file gets a thumbnail, a duration and a 720p preview
-   copy (the preview copies take a little while for long 4K clips).
-3. Drag files from the Media panel onto a track, or double-click to add them at
-   the end.
+1. **Bring in footage, from anywhere, without copying it:**
+   - **Import…** opens a window that browses your Mac and your drives
+     (**⏏ T7** under `/Volumes`). Tick files, or press **Import whole folder**.
+     You can also paste a path (in Finder, **⌥⌘C** copies one).
+   - **Drag files or folders** from Finder onto the app. The browser only tells
+     the app each file's name and size; the app finds it on disk and reads it
+     there. If it can't find one, it says so: use Import… for that one.
+2. Clips show up in the bin at once with their resolution, frame rate, codec
+   and length. A background queue (2 jobs at a time, so the Mac stays
+   responsive) then makes a thumbnail, an audio waveform and a 960×540 proxy
+   for each one, with a progress bar per clip. On a Mac it uses hardware
+   (VideoToolbox), so 4K HEVC 10-bit footage converts quickly.
+3. As soon as a clip says **Ready**, drag it onto a track or double-click it.
 4. Edit:
    - **Drag** a clip to move it, including onto another track of the same kind.
    - **Drag its edges** to trim.
    - **S** splits at the playhead, **Delete** removes the selected clip, **T** adds a title.
    - **Space** plays; **←/→** step a frame (**⇧** for a second); **⌘/Ctrl + scroll** zooms.
-5. **Export MP4** renders from your original files into `project/exports/`.
+5. **Export MP4** renders from your original 4K files at full quality into
+   `project/exports/`, with hardware encoding on a Mac.
 
-To work straight from the T7 without copying files:
+**Proxy / Full quality** (top right) switches the preview between the small
+proxies (smooth) and the original files (sharp; HEVC 10-bit originals often
+won't play in a browser, which is what the proxies are for). Video is streamed
+to the player in small ranges, never loaded whole.
+
+**Drives:** unplug the T7 and its clips turn grey with **OFFLINE**. You can
+keep editing them with their proxies; export waits until the drive is back.
+Plug it in and they reconnect by themselves, even if macOS mounts it as
+"T7 1". Proxies are cached in `project/.cache/`, so nothing is ever converted
+twice.
+
+To keep a project's timeline and cache somewhere else (e.g. one per video):
 
 ```bash
-MEDIA_DIR="/Volumes/T7/project hhh/my-video" PROJECT_DIR="/Volumes/T7/project hhh/my-video/_edit" npm run dev
+PROJECT_DIR="$HOME/Movies/edits/my-video" npm run dev
 ```
 
 ## Editing with Claude Code
@@ -47,8 +67,10 @@ what you did.
 
 - The browser preview stacks the clips live and is close to, not identical
   with, the export. Export is the source of truth.
+- HDR (iPhone HLG) and D-Log M footage look flat in proxies and exports: no
+  tone mapping or LUTs yet.
+- Drag-and-drop finds files by name and size. On a huge drive that Spotlight
+  doesn't index, the search can time out; Import… always works.
 - No undo yet: the activity log shows every change, and Claude can reverse one
   if you ask.
-- D-Log M footage previews and exports flat: the conversion LUT and The
-  Everyday LUT aren't applied in this app yet.
 - No speed changes, keyframes or transitions other than fades.

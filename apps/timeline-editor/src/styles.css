@@ -195,3 +195,63 @@ h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin:
 .timeline-foot { display: flex; align-items: center; gap: 12px; padding: 4px 12px; border-top: 1px solid var(--line); font-size: 11px; }
 .zoom { display: flex; align-items: center; gap: 6px; color: var(--muted); }
 .inspector h2 { text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--text); }
+
+/* ---- import, status, offline ---- */
+:root { --warn: #f2b84b; }
+.warn { color: var(--warn); }
+button.link { background: none; border: none; padding: 0 4px; color: var(--accent); text-decoration: underline; }
+.seg { display: inline-flex; }
+.seg button { border-radius: 0; }
+.seg button:first-child { border-radius: 6px 0 0 6px; }
+.seg button:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+.seg button.on { background: #3a3f4a; color: #fff; }
+
+.media-list li.not-ready { cursor: default; }
+.media-list li.offline .thumb { filter: grayscale(1) brightness(0.5); }
+.media-list li.failed .media-name { color: #ffb3b3; }
+.thumb { position: relative; }
+.badge { position: absolute; left: 2px; bottom: 2px; font-size: 8px; font-weight: 800; padding: 0 3px; border-radius: 2px; }
+.offline-badge { background: var(--err); color: #fff; }
+.media-state { display: flex; align-items: center; gap: 6px; font-size: 11px; margin-top: 2px; }
+.bar { width: 70px; height: 4px; background: #333844; border-radius: 2px; overflow: hidden; flex: none; }
+.bar > div { height: 100%; background: var(--accent); transition: width 0.2s; }
+
+.clip-wave { position: absolute; left: 0; right: 0; top: 2px; bottom: 12px; pointer-events: none; }
+.clip-wave.under { top: auto; bottom: 14px; height: 35%; opacity: 0.8; }
+.wave { display: block; }
+.clip-status {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 3px;
+  padding: 0 6px; font-size: 10px; pointer-events: none;
+  background: repeating-linear-gradient(45deg, rgba(0,0,0,0.55) 0 8px, rgba(0,0,0,0.4) 8px 16px);
+}
+.clip-status .bar { width: 100%; max-width: 160px; }
+.clip-status.error { background: rgba(120, 20, 20, 0.7); }
+.clip.is-offline { filter: grayscale(1); border-color: var(--err); }
+.clip-offline {
+  position: absolute; top: 2px; left: 4px; font-size: 9px; font-weight: 800;
+  background: var(--err); color: #fff; padding: 0 4px; border-radius: 3px;
+}
+
+.drop-overlay {
+  position: fixed; inset: 10px; z-index: 100; pointer-events: none;
+  border: 3px dashed var(--accent); border-radius: 14px; background: rgba(91, 140, 255, 0.12);
+  display: grid; place-items: center; font-size: 18px; font-weight: 600;
+}
+.modal-back { position: fixed; inset: 0; z-index: 90; background: rgba(0,0,0,0.55); display: grid; place-items: center; }
+.modal { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; width: min(920px, 94vw); height: min(620px, 88vh); display: flex; flex-direction: column; }
+.modal .panel-head { gap: 12px; }
+.modal .panel-head .muted { flex: 1; }
+.import-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 190px 1fr; }
+.places { border-right: 1px solid var(--line); padding: 8px; display: flex; flex-direction: column; gap: 3px; overflow: auto; }
+.places button { text-align: left; background: none; border-color: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.places button.on, .places button:hover { background: var(--panel-2); }
+.places hr { border: none; border-top: 1px solid var(--line); margin: 6px 0; width: 100%; }
+.browser { display: flex; flex-direction: column; min-height: 0; }
+.pathbar { display: flex; gap: 6px; padding: 8px; border-bottom: 1px solid var(--line); }
+.pathbar input { flex: 1; }
+.listing { list-style: none; margin: 0; padding: 4px 8px; overflow: auto; flex: 1; }
+.listing li { display: flex; gap: 8px; align-items: center; padding: 4px 6px; border-radius: 5px; cursor: pointer; }
+.listing li:hover { background: var(--panel-2); }
+.listing li .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.listing li .icon { width: 16px; text-align: center; }
+.modal-foot { display: flex; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); align-items: center; }

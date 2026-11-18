@@ -17,7 +17,8 @@ Claude edit that same file:
 - After editing, run **`npm run validate`** (from this folder). If the file is
   invalid, the app shows her the errors and pauses editing until it's fixed,
   so fix it right away.
-- Never modify the files in `media/`. Export always renders from them.
+- Never modify, move or copy her media files (in `media/` or on her drives).
+  Export always renders from the originals.
 
 Any change to the file that didn't come from the browser is labeled "Claude",
 including a hand-edit in a text editor.
@@ -35,9 +36,13 @@ including a hand-edit in a text editor.
     "fps": 30,
     "background": "#000000"          // shown where no clip covers the frame
   },
-  "media": [                          // written by import; don't invent entries
-    { "id": "m1", "file": "DJI_0001.MP4", "kind": "video",   // video | audio | image
-      "duration": 12.48, "width": 1080, "height": 1920, "fps": 29.97, "hasAudio": true }
+  "media": [                          // written by import (npm run import); don't invent entries
+    { "id": "m1", "file": "/Volumes/T7/footage/DJI_0001.MP4",   // absolute, or relative to media/
+      "kind": "video",                                         // video | audio | image
+      "duration": 12.48, "width": 3840, "height": 2160, "fps": 59.94,
+      "codec": "hevc", "bitDepth": 10, "hdr": "HLG",           // hdr only when present
+      "rotation": 90,                                          // only when the file is rotated (iPhone)
+      "hasAudio": true, "audioCodec": "aac", "size": 1203948576 }
   ],
   "tracks": [                         // display order, top to bottom
     { "id": "t1", "kind": "text", "name": "Text 1", "hidden": false,
@@ -74,6 +79,8 @@ including a hand-edit in a text editor.
 | any clip | `fadeIn`, `fadeOut` | Seconds. Video and images fade to transparent (to the track below, or the background); audio fades in volume; text fades in opacity |
 | track | `hidden` | Picture off (video, text). Audio from a hidden video track still plays unless `muted` |
 | track | `muted`, `volume` | Sound off; or a multiplier for every clip on the track |
+| media | `file` | Where the original is. Absolute for files outside `media/` (e.g. on the T7), relative inside it. The app may rewrite it when a drive comes back under a new name ("T7" → "T7 1"); that shows in Activity as "Auto-relink" |
+| media | `width`, `height` | Already corrected for rotation: an iPhone portrait clip reads 1080×1920 |
 
 ### Rules (the validator enforces them)
 
@@ -114,7 +121,8 @@ Read `project/timeline.json` first every time; then make the change.
 | Music quieter / duck it | Lower the audio clip's `volume` (e.g. 0.3) |
 | Mute the camera sound | Set the video track's `muted: true`, or the clip's `volume: 0` |
 | Make it vertical | `settings.width = 1080`, `settings.height = 1920` |
-| Add a new clip from media | `npm run import` if it isn't in `media` yet; then add `{ "id": next, "media": "mN", "start": …, "in": 0, "out": <duration or less> }` to a video or audio track |
+| Import footage | `npm run import -- "/Volumes/T7/project hhh/my-video"` (files or whole folders; quote paths with spaces). Only ffprobe runs; the app makes thumbnails, waveforms and proxies in the background |
+| Add a new clip from media | Import it first if it isn't in `media`; then add `{ "id": next, "media": "mN", "start": …, "in": 0, "out": <duration or less> }` to a video or audio track |
 | Render it | `npm run export` → `project/exports/export-<time>.mp4`, or `npm run export -- path/out.mp4` |
 
 After any edit: `npm run validate`, then tell her in one line what changed (the
@@ -126,7 +134,7 @@ clip ids and times), so she can find it in the Activity panel.
 |---|---|
 | `npm run dev` | Starts the app: http://localhost:5173 (server on 5175) |
 | `npm start` | Builds, then serves everything on http://localhost:5175 |
-| `npm run import` | Adds new files in `media/` to `media[]` (ffprobe for duration/size). Works with or without the app running |
+| `npm run import [-- paths…]` | Adds files or folders (default: `media/`) to `media[]` by path, with ffprobe metadata. Nothing is copied. Works with or without the app running |
 | `npm run validate` | Checks the file; lists every problem |
 | `npm run export [-- out.mp4]` | Renders the timeline with ffmpeg from the original files |
 | `npm test` | Model and exporter tests |
@@ -146,9 +154,23 @@ look at this folder's `media/` and `project/`.
 - `server/index.js`: Express + WebSocket. Browser edits arrive as
   `{type:"update", baseRev, timeline}`; a write based on an old revision is
   refused, so a browser edit never overwrites a newer change from Claude.
-- `server/media.js`: import, thumbnails, 720p H.264 preview proxies (the
-  browser can't play 10-bit HEVC from the Pocket 3).
-- `server/export.js`: one ffmpeg filter graph. Canvas, then tracks from the
+- `server/media.js`: ffprobe metadata, import by path, and the cache files:
+  thumbnail, waveform (peaks JSON) and a 960×540 H.264 proxy with a keyframe
+  every second (browsers can't play 10-bit HEVC from the Pocket 3 or iPhone).
+  Cache key = file name + size + modified time, in `project/.cache/`.
+- `server/library.js`: per-file live status (online, jobs, progress, errors),
+  the background queue (at most 2 jobs: thumbnail, waveform, proxy), checks
+  every 3s for unplugged drives, and auto-relink. Status lives in memory and
+  goes to the browser; it is never written to `timeline.json`.
+- `server/hw.js`: detects VideoToolbox (Mac hardware decode and
+  `h264_videotoolbox`); falls back to libx264. `TIMELINE_SOFTWARE=1` forces
+  software, `TIMELINE_JOBS=n` changes the 2-job limit.
+- `server/browse.js`: the Import window's folder listing, and `locate()`, which
+  finds dragged-in files on disk by name and size (browsers never reveal a
+  dropped file's path, and nothing is uploaded).
+- `server/export.js`: one ffmpeg filter graph, from the originals (never the
+  proxies), hardware decode/encode when available, software retry if that
+  fails; refuses to start while a used file is offline. Canvas, then tracks from the
   bottom of the list up (overlay for video and images, drawtext for text),
   plus every audible clip delayed and mixed.
 - Not in v1: speed changes, color grading or LUTs, keyframed motion, clip

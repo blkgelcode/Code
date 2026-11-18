@@ -1,16 +1,16 @@
 // Command-line helpers, mainly for Claude Code. They work with or without the
 // server running; when it is running, it sees the file change and updates the UI.
 //
-//   npm run import            add new files from media/ to timeline.json
+//   npm run import [-- paths…]  add files/folders (default: media/) to timeline.json
 //   npm run validate          check timeline.json and list problems
 //   npm run export [out.mp4]  render timeline.json to an MP4
 import fs from "node:fs";
-import { ensureProject, readTimelineFile, serialize, TIMELINE_FILE } from "./store.js";
-import { importNew } from "./media.js";
+import { ensureProject, readTimelineFile, serialize, TIMELINE_FILE, MEDIA_DIR } from "./store.js";
+import { importPaths } from "./media.js";
 import { exportTimeline } from "./export.js";
 import { totalDuration } from "../src/lib/model.js";
 
-const [cmd, arg] = process.argv.slice(2);
+const [cmd, arg, ...more] = process.argv.slice(2);
 ensureProject();
 const r = readTimelineFile();
 
@@ -31,15 +31,19 @@ if (cmd === "validate") {
 } else if (cmd === "import") {
   requireValid();
   // keep the file exactly as written apart from the new media entries
-  const { added, failed } = await importNew(r.timeline);
+  const paths = arg ? [arg, ...more] : [MEDIA_DIR];
+  const { timeline, added, failed, skipped } = await importPaths(r.timeline, paths);
   if (added.length) {
     const raw = r.raw;
     raw.media = [...(raw.media || []), ...added];
+    if (JSON.stringify(timeline.settings) !== JSON.stringify(r.timeline.settings)) raw.settings = timeline.settings;
     fs.writeFileSync(TIMELINE_FILE, serialize(raw));
   }
-  for (const m of added) console.log(`added ${m.id}: ${m.file} (${m.kind}${m.duration ? `, ${m.duration}s` : ""}${m.width ? `, ${m.width}×${m.height}` : ""})`);
+  for (const m of added) console.log(`added ${m.id}: ${m.file} (${m.kind}${m.duration ? `, ${m.duration}s` : ""}${m.width ? `, ${m.width}×${m.height}` : ""}${m.fps ? ` @ ${m.fps}fps` : ""}${m.codec ? `, ${m.codec} ${m.bitDepth}-bit` : ""})`);
   for (const x of failed) console.log(`failed ${x.file}: ${x.error}`);
-  if (!added.length && !failed.length) console.log("nothing new in media/");
+  if (skipped) console.log(`${skipped} already imported`);
+  if (!added.length && !failed.length && !skipped) console.log("nothing to import");
+  if (added.length) console.log("Thumbnails, waveforms and proxies are made by the app's background queue (npm run dev).");
 } else if (cmd === "export") {
   requireValid();
   let last = -1;
